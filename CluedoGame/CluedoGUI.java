@@ -1,8 +1,7 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -11,27 +10,37 @@ public class CluedoGUI extends JFrame {
 
     private JPanel InfoPanel;
     private JPanel GameControlPanel;
+    private Panel BoardPanel;
     private JLabel DiceOne;
     private JLabel DiceTwo;
-    private JLabel HandCardI;
-    private JLabel HandCardII;
-    private JLabel HandCardIII;
-    private JLabel HandCardIV;
-    private JLabel HandCardV;
-    // JLabel's For all the Dice Images
+
+    // JButtons for the GameControlPanel
+    public JButton EndTurn;
+    public JButton OpenNotes;
+    public JButton RollDice;
+    public JButton MakeAccusation;
+    public JButton MakeSuggestion;
+
+    // BufferedImage's For all the Dice Images
     private BufferedImage FaceOne;
     private BufferedImage FaceTwo;
     private BufferedImage FaceThree;
     private BufferedImage FaceFour;
     private BufferedImage FaceFive;
     private BufferedImage FaceSix;
-    // JLabel's For all the Dice Images
+    // BufferedImage's For all the Dice Images
     private BufferedImage CandlestickImage;
     private BufferedImage DaggerImage;
     private BufferedImage LeadPipeImage;
     private BufferedImage RevolverImage;
     private BufferedImage RopeImage;
     private BufferedImage SpannerImage;
+    // Labels for each Card in a Players Hand
+    private JLabel HandCardI;
+    private JLabel HandCardII;
+    private JLabel HandCardIII;
+    private JLabel HandCardIV;
+    private JLabel HandCardV;
     // Strings which are the File Locations for all the Dice Images.
     private String DiceFaceOne = "DiceFace/DiceFaceOne.png";
     private String DiceFaceTwo = "DiceFace/DiceFaceTwo.png";
@@ -52,13 +61,14 @@ public class CluedoGUI extends JFrame {
         // Set GUI to terminate the program when exited.
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // Set the JMenuBar to the return value of the GenerateMenu method.
-        this.setJMenuBar(GenerateMenu("My Menu", "Option One", "Option Two"));
+        this.setJMenuBar(GenerateMenu("Game Menu", "Exit Game", "Restart Game"));
         // Set the layout of the GUI to GridLayout, this way BoardPanel and InfoPanel can be easily separated.
         this.setLayout(new BorderLayout(2, 1));
         // Add the GameControlPanel to the JFrame
         this.add(GenerateGameControlPanel(), BorderLayout.NORTH);
         // Add the BoardPanel to the JFrame.
-        this.add((new MyPanel()));
+        //this.add(GenerateBoardPanel());
+        this.add(GenerateBoardPanel(), BorderLayout.CENTER);
         // Add the InfoPanel to the JFrame.
         this.add(GenerateInfoPanel(), BorderLayout.SOUTH);
         // Pack the JFrame so that all its contents are at or above their preferred sizes
@@ -78,7 +88,7 @@ public class CluedoGUI extends JFrame {
         ExitOption.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.print("Hello ");
+                System.exit(1);
             }
         });
         RestartGame.addActionListener(new ActionListener() {
@@ -96,10 +106,10 @@ public class CluedoGUI extends JFrame {
         return mainMenu;
     }
 
-
-    class MyPanel extends JPanel {
-        public void paint(Graphics g) {
-        }
+    //TODO GET TILES AND CHARACTERS DRAWING
+    private Panel GenerateBoardPanel(){
+        BoardPanel = new Panel();
+        return BoardPanel;
     }
 
     private JPanel GenerateInfoPanel() {
@@ -109,6 +119,8 @@ public class CluedoGUI extends JFrame {
         InfoPanel.setBackground(Color.blue);
         // TODO COMMENT
         InfoPanel.setLayout(new BorderLayout(10, 10));
+        // Call the LoadImages method to ensure that all the Dice and Weapon Images have been loaded.
+        LoadImages();
         // Set the InfoPanelLeft to be a new JPanel.
         JPanel InfoPanelLeft = new JPanel();
         // Set the background of the InfoPanelLeft to white.
@@ -121,8 +133,6 @@ public class CluedoGUI extends JFrame {
         InfoPanelRight.setBackground(Color.blue);
         // TODO COMMENT
         InfoPanelRight.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 10));
-        // Call the LoadDiceImages method to ensure that all the Dice Images have been loaded.
-        LoadDiceImages();
         // Set the Dice One label to the FaceOne Scaled Image.
         DiceOne = new JLabel(new ImageIcon(FaceOne.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
         // Set the Dice One label to the FaceOne Scaled Image.
@@ -130,8 +140,6 @@ public class CluedoGUI extends JFrame {
         // Add the Dice Labels to the JPanel
         InfoPanelLeft.add(DiceOne);
         InfoPanelLeft.add(DiceTwo);
-        // Call the LoadWeaponImages method to ensure that all the Weapon Images have been loaded.
-        LoadWeaponImages();
         // Set the HandCardI label to the CandlestickImage Scaled Image.
         HandCardI = new JLabel(new ImageIcon(CandlestickImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
         HandCardI.setToolTipText("Candlestick Card");
@@ -160,7 +168,7 @@ public class CluedoGUI extends JFrame {
         return InfoPanel;
     }
 
-    private void LoadDiceImages() {
+    private void LoadImages() {
         // Try to load the
         try {
             FaceOne = ImageIO.read(new File(DiceFaceOne));
@@ -169,14 +177,6 @@ public class CluedoGUI extends JFrame {
             FaceFour = ImageIO.read(new File(DiceFaceFour));
             FaceFive = ImageIO.read(new File(DiceFaceFive));
             FaceSix = ImageIO.read(new File(DiceFaceSix));
-        } catch (IOException ex) {
-            System.out.println("INVALID FILE NAME");
-        }
-    }
-
-    private void LoadWeaponImages() {
-        // Try to load the
-        try {
             CandlestickImage = ImageIO.read(new File(Candlestick));
             DaggerImage = ImageIO.read(new File(Dagger));
             LeadPipeImage = ImageIO.read(new File(LeadPipe));
@@ -190,7 +190,6 @@ public class CluedoGUI extends JFrame {
 
     private void GenerateRandomDice() {
 
-        for(int runThrough = 0; runThrough < 15; runThrough++) {
             int firstDieRoll = (int) (Math.random() * (6)) + 1;
             int secondDieRoll = (int) (Math.random() * (6)) + 1;
             switch (firstDieRoll) {
@@ -213,7 +212,6 @@ public class CluedoGUI extends JFrame {
                     DiceOne.setIcon(((new ImageIcon(FaceSix.getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
                     break;
             }
-
             switch (secondDieRoll) {
                 case 1:
                     DiceTwo.setIcon(((new ImageIcon(FaceOne.getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
@@ -237,28 +235,57 @@ public class CluedoGUI extends JFrame {
 
         }
 
-    }
+
 
     private JPanel GenerateGameControlPanel() {
         // Set the GameControlPanel to be a new JPanel.
         GameControlPanel = new JPanel();
+        // Set the GameControlPanel to be focusable, allowing for our KeyListener to work.
+        GameControlPanel.setFocusable(true);
+        // Set the GameControlPanel to be able to request the program focus on this JPanel.
+        GameControlPanel.requestFocusInWindow();
         // Set the background of the GameControlPanel to white.
         GameControlPanel.setBackground(Color.WHITE);
         // Set the Layout of the Background to a GridLayout, with rows, and column. Format : ButtonA, ButtonB, ButtonC, ButtonD
-        GameControlPanel.setLayout(new GridLayout(1, 3));
+        GameControlPanel.setLayout(new GridLayout(1, 5));
         // Create the JButtons for the GameControlPanel
-        JButton EndTurn = new JButton("End Turn");
-        JButton OpenNotes = new JButton("Open Notes");
-        JButton RollDice = new JButton("Roll Dice");
-        JButton MakeSuggestion = new JButton("Suggest");
-        JButton MakeAccusation = new JButton("Accusation");
+        EndTurn = new JButton("End Turn");
+        OpenNotes = new JButton("Open Notes");
+        RollDice = new JButton("Roll Dice");
+        MakeSuggestion = new JButton("Suggest");
+        MakeAccusation = new JButton("Accusation");
         // Add buttonListener to the GameControlPanel's JButtons.
         // TODO : ADD PROPER FUNCTIONALITY
         EndTurn.addActionListener(e -> System.out.println("End Turn"));
         OpenNotes.addActionListener(e -> System.out.println("Open Notes"));
-        RollDice.addActionListener(e -> GenerateRandomDice());
+        RollDice.addActionListener(e -> { for (int i = 0; i < 10; i++) { GenerateRandomDice(); } });
         MakeSuggestion.addActionListener(e -> System.out.println("Make Suggestion"));
         MakeAccusation.addActionListener(e -> System.out.println("Make Accusation"));
+        // Add A KeyListener to the GameControlPanel
+        GameControlPanel.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if(e.getKeyChar() == '1'){
+                    EndTurn.doClick();
+                }
+                if(e.getKeyChar() == '2'){
+                    OpenNotes.doClick();
+                }
+                if(e.getKeyChar() == '3'){
+                    RollDice.doClick();
+                }
+                if(e.getKeyChar() == '4'){
+                    MakeAccusation.doClick();
+                }
+                if(e.getKeyChar() == '5'){
+                    MakeSuggestion.doClick();
+                }
+            }
+            @Override
+            public void keyPressed(KeyEvent e) {         }
+            @Override
+            public void keyReleased(KeyEvent e) {           }
+        });
         // Add the JButtons to the GameControlPanel.
         GameControlPanel.add(EndTurn);
         GameControlPanel.add(OpenNotes);
