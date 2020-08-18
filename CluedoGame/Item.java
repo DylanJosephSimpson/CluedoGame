@@ -17,7 +17,7 @@ public interface Item {
 
     /**
      * Erases the item from the board.
-     * This method uses the x and y arguments to locate where to erase the item.
+     * This method uses the x and y arguments from the draw method to locate where to erase the item.
      * @param g Graphics object
      */
     public void erase(Graphics g);
