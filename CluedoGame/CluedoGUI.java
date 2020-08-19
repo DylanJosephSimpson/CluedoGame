@@ -5,12 +5,16 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.awt.geom.Line2D;
 
 public class CluedoGUI extends JFrame {
+    
+    public static final int GRID_SIZE = 30;
+    public static final int GRID_WIDTH = 24;
 
     private JPanel InfoPanel;
     private JPanel GameControlPanel;
-    private Panel BoardPanel;
+    private JPanel BoardPanel;
     private JLabel DiceOne;
     private JLabel DiceTwo;
 
@@ -107,7 +111,6 @@ public class CluedoGUI extends JFrame {
     }
 
     //TODO GET TILES AND CHARACTERS DRAWING
-    //TODO GET TILES AND CHARACTERS DRAWING
     private JPanel GenerateBoardPanel(){
         BoardPanel = new JPanel();
         BoardPanel.setBackground(Color.WHITE);
@@ -127,12 +130,12 @@ public class CluedoGUI extends JFrame {
             g2d.setStroke(new BasicStroke(1));
 
             for (int i = 0; i <= GRID_WIDTH; i++) {
-                Line2D hline = new Line2D.Double(0, i * GRID_SIZE, 600, i * GRID_SIZE);
-                Line2D vline = new Line2D.Double(i * GRID_SIZE, 0, i * GRID_SIZE, 625);
+                Line2D hline = new Line2D.Double(0, i * GRID_SIZE, GRID_WIDTH * GRID_SIZE, i * GRID_SIZE);
+                Line2D vline = new Line2D.Double(i * GRID_SIZE, 0, i * GRID_SIZE, GRID_WIDTH * GRID_SIZE+GRID_SIZE);
                 g2d.draw(hline);
                 g2d.draw(vline);
             }
-            Line2D hline = new Line2D.Double(0, 25 * GRID_SIZE, 600, 25 * GRID_SIZE);
+            Line2D hline = new Line2D.Double(0, 25 * GRID_SIZE, GRID_WIDTH * GRID_SIZE, 25 * GRID_SIZE);
             g2d.draw(hline);
         }
     }
