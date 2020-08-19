@@ -9,9 +9,19 @@ import java.awt.geom.Line2D;
 
 public class CluedoGUI extends JFrame {
     
+    //variables be grid board
     public static final int GRID_SIZE = 30;
     public static final int GRID_WIDTH = 24;
 
+    //initialisation of characters
+    private Character Scarlett = new Character("Miss. Scarlett");
+    private Character Mustard = new Character("Col. Mustard");
+    private Character White = new Character("Mrs. White");
+    private Character Green = new Character("Mr. Green");
+    private Character Peacock = new Character("Mrs. Peacock");
+    private Character Plum = new Character("Prof. Plum");
+
+    // JPanels and JLabels
     private JPanel InfoPanel;
     private JPanel GameControlPanel;
     private JPanel BoardPanel;
@@ -118,7 +128,6 @@ public class CluedoGUI extends JFrame {
      */
     private JPanel GenerateBoardPanel()  {
         BoardPanel = new JPanel();
-        BoardPanel.setBackground(Color.WHITE);
         //calls drawPane and this draws the main section of the board
         BoardPanel = new DrawPane();
 
@@ -129,11 +138,13 @@ public class CluedoGUI extends JFrame {
     /**
      * draws the board grid and the starting positions of the characters
      */
-    static class DrawPane extends JPanel {
+    class DrawPane extends JPanel {
         public void paintComponent(Graphics graphics) {
             Graphics2D g2d = (Graphics2D) graphics;
 
             //draws the 24x25 grid, hline = horizontal line, vline = vertial line
+            g2d.setColor(Color.WHITE);
+            g2d.fillRect(0,0,720,885);
             g2d.setColor(Color.BLACK);
             g2d.setStroke(new BasicStroke(1));
             for (int i = 0; i <= GRID_WIDTH; i++) {
@@ -146,24 +157,12 @@ public class CluedoGUI extends JFrame {
             g2d.draw(hline);
 
             //initialise characters in their starting positions
-
-            Character s = new Character("Miss. Scarlett");
-            s.draw(g2d,210,720);
-
-            Character m = new Character("Col. Mustard");
-            m.draw(g2d,0,480);
-
-            Character w = new Character("Mrs. White");
-            w.draw(g2d,270,0);
-
-            Character g = new Character("Mr. Green");
-            g.draw(g2d,420,0);
-
-            Character c = new Character("Mrs. Peacock");
-            c.draw(g2d,690,180);
-
-            Character p = new Character("Prof. Plum");
-            p.draw(g2d,690,540);
+            Scarlett.draw(g2d,210,720);
+            Mustard.draw(g2d,0,480);
+            White.draw(g2d,270,0);
+            Green.draw(g2d,420,0);
+            Peacock.draw(g2d,690,180);
+            Plum.draw(g2d,690,540);
 
         }
     }

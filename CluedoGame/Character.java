@@ -42,7 +42,8 @@ public class Character implements Item {
      *
      * @param dir
      */
-    public void move(String dir){
+    public void move(Graphics g, String dir){
+        erase(g);
         if(dir.equals("NORTH")){
             y-=30;
         }else if(dir.equals("EAST")){
@@ -52,7 +53,7 @@ public class Character implements Item {
         } else if(dir.equals("WEST")){
             x-=30;
         }
-
+        draw(g,x,y);
         //todo (Caleb) - once a player has moved redraw the board
     }
 
@@ -67,8 +68,8 @@ public class Character implements Item {
         String path = "CharacterPieces/" + characterName + ".png";
         try {
             BufferedImage image = ImageIO.read(new File(path));
-            Image scaledImage = image.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-            g2d.drawImage(scaledImage,x,y,null);
+            Image scaledImage = image.getScaledInstance(28, 28, Image.SCALE_SMOOTH);
+            g2d.drawImage(scaledImage,x+1,y+1,null);
         } catch (IOException e) {
             System.out.println("Error: Image drawing for " + characterName + " failed.");
         }
@@ -76,7 +77,9 @@ public class Character implements Item {
 
     @Override
     public void erase(Graphics g) {
-        //todo - Caleb - erase this properly - will do this in next commit
+        g.setColor(Color.WHITE);
+        g.fillRect(x+1,y+1,28,28);
+        //todo - Caleb - erase this properly
     }
 
     @Override
