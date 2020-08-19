@@ -107,9 +107,34 @@ public class CluedoGUI extends JFrame {
     }
 
     //TODO GET TILES AND CHARACTERS DRAWING
-    private Panel GenerateBoardPanel(){
-        BoardPanel = new Panel();
+    //TODO GET TILES AND CHARACTERS DRAWING
+    private JPanel GenerateBoardPanel(){
+        BoardPanel = new JPanel();
+        BoardPanel.setBackground(Color.WHITE);
+        BoardPanel = new DrawPane();
+
         return BoardPanel;
+    }
+
+    static class DrawPane extends JPanel {
+        public void paintComponent(Graphics g) {
+            Graphics2D g2d = (Graphics2D) g;
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+            g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+
+            g2d.setColor(Color.BLACK);
+            g2d.setStroke(new BasicStroke(1));
+
+            for (int i = 0; i <= GRID_WIDTH; i++) {
+                Line2D hline = new Line2D.Double(0, i * GRID_SIZE, 600, i * GRID_SIZE);
+                Line2D vline = new Line2D.Double(i * GRID_SIZE, 0, i * GRID_SIZE, 625);
+                g2d.draw(hline);
+                g2d.draw(vline);
+            }
+            Line2D hline = new Line2D.Double(0, 25 * GRID_SIZE, 600, 25 * GRID_SIZE);
+            g2d.draw(hline);
+        }
     }
 
     private JPanel GenerateInfoPanel() {
