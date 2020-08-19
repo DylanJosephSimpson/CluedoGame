@@ -45,6 +45,7 @@ public class CluedoGUI extends JFrame {
     private JLabel HandCardIII;
     private JLabel HandCardIV;
     private JLabel HandCardV;
+    private JLabel HandCardVI;
     // Strings which are the File Locations for all the Dice Images.
     private String DiceFaceOne = "DiceFace/DiceFaceOne.png";
     private String DiceFaceTwo = "DiceFace/DiceFaceTwo.png";
@@ -110,25 +111,31 @@ public class CluedoGUI extends JFrame {
         return mainMenu;
     }
 
-    //TODO GET TILES AND CHARACTERS DRAWING
-    private JPanel GenerateBoardPanel(){
+    /**
+     * Draws the board of the game
+     *
+     * @return
+     */
+    private JPanel GenerateBoardPanel()  {
         BoardPanel = new JPanel();
         BoardPanel.setBackground(Color.WHITE);
+        //calls drawPane and this draws the main section of the board
         BoardPanel = new DrawPane();
+
 
         return BoardPanel;
     }
 
+    /**
+     * draws the board grid and the starting positions of the characters
+     */
     static class DrawPane extends JPanel {
-        public void paintComponent(Graphics g) {
-            Graphics2D g2d = (Graphics2D) g;
-            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-            g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+        public void paintComponent(Graphics graphics) {
+            Graphics2D g2d = (Graphics2D) graphics;
 
+            //draws the 24x25 grid, hline = horizontal line, vline = vertial line
             g2d.setColor(Color.BLACK);
             g2d.setStroke(new BasicStroke(1));
-
             for (int i = 0; i <= GRID_WIDTH; i++) {
                 Line2D hline = new Line2D.Double(0, i * GRID_SIZE, GRID_WIDTH * GRID_SIZE, i * GRID_SIZE);
                 Line2D vline = new Line2D.Double(i * GRID_SIZE, 0, i * GRID_SIZE, GRID_WIDTH * GRID_SIZE+GRID_SIZE);
@@ -137,6 +144,27 @@ public class CluedoGUI extends JFrame {
             }
             Line2D hline = new Line2D.Double(0, 25 * GRID_SIZE, GRID_WIDTH * GRID_SIZE, 25 * GRID_SIZE);
             g2d.draw(hline);
+
+            //initialise characters in their starting positions
+
+            Character s = new Character("Miss. Scarlett");
+            s.draw(g2d,210,720);
+
+            Character m = new Character("Col. Mustard");
+            m.draw(g2d,0,480);
+
+            Character w = new Character("Mrs. White");
+            w.draw(g2d,270,0);
+
+            Character g = new Character("Mr. Green");
+            g.draw(g2d,420,0);
+
+            Character c = new Character("Mrs. Peacock");
+            c.draw(g2d,690,180);
+
+            Character p = new Character("Prof. Plum");
+            p.draw(g2d,690,540);
+
         }
     }
 
@@ -183,12 +211,16 @@ public class CluedoGUI extends JFrame {
         // Set the HandCardV label to the RopeImage Scaled Image.
         HandCardV = new JLabel(new ImageIcon(RopeImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
         HandCardV.setToolTipText("Rope Card");
+        // Set the HandCardV label to the SpannerImage Scaled Image.
+        HandCardVI = new JLabel(new ImageIcon(SpannerImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+        HandCardVI.setToolTipText("Spanner Card");
         // Add the Hand of Cards to the JPanel
         InfoPanelRight.add(HandCardI);
         InfoPanelRight.add(HandCardII);
         InfoPanelRight.add(HandCardIII);
         InfoPanelRight.add(HandCardIV);
         InfoPanelRight.add(HandCardV);
+        InfoPanelRight.add(HandCardVI);
         // Add the InfoPanelRight and InfoPanelLeft to the
         InfoPanel.add(InfoPanelLeft, BorderLayout.LINE_START);
         InfoPanel.add(InfoPanelRight, BorderLayout.LINE_END);

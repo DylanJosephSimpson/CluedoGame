@@ -1,5 +1,7 @@
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Arc2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -15,6 +17,7 @@ public class Character implements Item {
      */
     private String characterName;
 
+
     /**
      * x-coordinate of where to draw on the board
      */
@@ -27,21 +30,45 @@ public class Character implements Item {
 
     /**
      * Constructor for character
+     *
      * @param characterName Name of the weapon
      */
     public Character(String characterName) {
         this.characterName = characterName;
     }
 
+    /**
+     * When a player moves in a certain direction the x or y position changes for their character and then board is redrawn
+     *
+     * @param dir
+     */
+    public void move(String dir){
+        if(dir.equals("NORTH")){
+            y-=30;
+        }else if(dir.equals("EAST")){
+            x+=30;
+        } else if(dir.equals("SOUTH")){
+            y+=30;
+        } else if(dir.equals("WEST")){
+            x-=30;
+        }
+
+        //todo (Caleb) - once a player has moved redraw the board
+    }
+
+
     @Override
     public void draw(Graphics g, int x, int y) {
+
+        Graphics2D g2d = (Graphics2D) g;
         this.x = x;
         this.y = y;
 
-        //todo - Caleb - draw this properly - will do this in next commit
         String path = "CharacterPieces/" + characterName + ".png";
         try {
             BufferedImage image = ImageIO.read(new File(path));
+            Image scaledImage = image.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+            g2d.drawImage(scaledImage,x,y,null);
         } catch (IOException e) {
             System.out.println("Error: Image drawing for " + characterName + " failed.");
         }
@@ -55,6 +82,42 @@ public class Character implements Item {
     @Override
     public String toString() {
         return characterName;
+    }
+
+    /**
+     * Getter for x position
+     *
+     * @return
+     */
+    public int getX() {
+        return x;
+    }
+
+    /**
+     * Getter for y position
+     *
+     * @return
+     */
+    public int getY() {
+        return y;
+    }
+
+    /**
+     * Setter for x position
+     *
+     * @param x
+     */
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    /**
+     * Setter for y position
+     *
+     * @param y
+     */
+    public void setY(int y) {
+        this.y = y;
     }
 }
 
