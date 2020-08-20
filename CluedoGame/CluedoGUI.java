@@ -6,7 +6,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.awt.geom.Line2D;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class CluedoGUI extends JFrame {
     
@@ -73,10 +75,11 @@ public class CluedoGUI extends JFrame {
     private String Spanner = "WeaponIcon/Spanner.png";
 
     private Tile[][] board = new Tile[25][30];
-    public static HashMap<String,String> roomCharacterToRoomName = new HashMap<>();
+    //Utility collections used for setup and quick checks
+    private static HashMap<String,String> roomCharacterToRoomName = new HashMap<>();
+    static HashSet<String> roomNames = new HashSet<>();
 
-
-
+    //
     private String[][] boardLayoutArray = new String[][]
 
             {{      "-", "-", "-", "-", "-", "-", "-", "-", "-", "G", "-", "-", "-", "-", "W", "-", "-", "-", "-", "-", "-", "-", "-", "-"},
@@ -152,6 +155,40 @@ public class CluedoGUI extends JFrame {
         this.add(GenerateInfoPanel(), BorderLayout.SOUTH);
         // Pack the JFrame so that all its contents are at or above their preferred sizes
         this.pack();
+        //Implementing a setup method which initialises required variables
+        setup();
+
+    }
+
+    public void setup(){
+        //Adding all of mappings to a Hashmap
+        roomCharacterToRoomName.put("k","Kitchen");
+        roomCharacterToRoomName.put("b","Ballroom");
+        roomCharacterToRoomName.put("c","Conservatory");
+        roomCharacterToRoomName.put("d","Dining Room");
+        roomCharacterToRoomName.put("l","Lounge");
+        roomCharacterToRoomName.put("h","Hall");
+        roomCharacterToRoomName.put("s","Study");
+        roomCharacterToRoomName.put("i","Billiard Room");
+        roomCharacterToRoomName.put("y","Library");
+        roomCharacterToRoomName.put("-","WALL");
+        roomCharacterToRoomName.put("@","SYMBOL");
+        roomCharacterToRoomName.put(" ","SPACE");
+        roomCharacterToRoomName.put("e","Cellar");
+        //Room names being added to arraylist
+        roomNames.add("Kitchen");
+        roomNames.add("Ballroom");
+        roomNames.add("Conservatory");
+        roomNames.add("Dining Room");
+        roomNames.add("Lounge");
+        roomNames.add("Hall");
+        roomNames.add("Study");
+        roomNames.add("Billiard Room");
+        roomNames.add("Library");
+        roomNames.add("Cellar");
+
+
+
     }
 
     private JMenuBar GenerateMenu(String menuName, String optName, String optNameTwo) {
@@ -232,24 +269,11 @@ public class CluedoGUI extends JFrame {
     /**
      *
      * Method which iterates through the board array and
-     * @return a String which represents the state of the board
+     *
      */
 
     public void drawBoard(Graphics graphics) {
 
-        roomCharacterToRoomName.put("k","Kitchen");
-        roomCharacterToRoomName.put("b","Ballroom");
-        roomCharacterToRoomName.put("c","Conservatory");
-        roomCharacterToRoomName.put("d","Dining Room");
-        roomCharacterToRoomName.put("l","Lounge");
-        roomCharacterToRoomName.put("h","Hall");
-        roomCharacterToRoomName.put("s","Study");
-        roomCharacterToRoomName.put("i","Billard Room");
-        roomCharacterToRoomName.put("y","Library");
-        roomCharacterToRoomName.put("-","WALL");
-        roomCharacterToRoomName.put("@","SYMBOL");
-        roomCharacterToRoomName.put(" ","SPACE");
-        roomCharacterToRoomName.put("e","Cellar");
 
         for(int row = 0; row < 25; ++row) {
             for(int col = 0; col < 24; ++col) {
