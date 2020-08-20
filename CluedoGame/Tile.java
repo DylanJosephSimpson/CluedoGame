@@ -6,8 +6,9 @@ import java.awt.*;
  * on the tiles from the given txt file.
  */
 public class Tile implements Item {
-
+    
     private String tileType;
+    private final int TILE_SIZE = 30;
     int x;
     int y;
 
@@ -25,19 +26,19 @@ public class Tile implements Item {
         System.out.println(tileType);
         //Tidy up conditional
         if (CluedoGUI.roomNames.contains(tileType)) {
-            g2.setColor(new Color(255,229,180));
+            g2.setColor(new Color(255,229,180)); 
         }
         //It is not a Room tile therefore it can be blank
         else {
             g.setColor(Color.WHITE);
         }
         //Draw the tile Rectangle
-        g2.fillRect(x, y, 30, 30);
+        g2.fillRect(x, y, TILE_SIZE, TILE_SIZE);
         
         //Draw a black border around the rect
         ((Graphics2D) g).setStroke(new BasicStroke(2));
         g2.setColor(Color.BLACK);
-        g2.drawRect(x, y, 30, 30);
+        g2.drawRect(x, y, TILE_SIZE, TILE_SIZE);
 
     }
 
