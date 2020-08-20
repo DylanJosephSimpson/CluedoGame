@@ -12,7 +12,7 @@ public class Main {
         int GAME_WIDTH = 720;
         int GAME_HEIGHT = 885;
 
-        boolean setupIsDone = false;
+        boolean setupIsDone = true; //FIXME: set this false once player selection is finished
 
         JFrame setupFrame = new JFrame("Cluedo: How many players?");
         setupFrame.setSize(GAME_WIDTH, GAME_HEIGHT/2);
