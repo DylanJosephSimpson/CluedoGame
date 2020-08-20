@@ -1,9 +1,4 @@
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.geom.Line2D;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 /**
  * The tile class is responsible for keeping track of the individual
@@ -12,20 +7,14 @@ import java.io.IOException;
  */
 public class Tile implements Item {
 
-    String roomName;
+    private String tileType;
     int x;
     int y;
 
-    public Tile(String roomName, int x, int y) {
-        this.roomName = roomName;
+    Tile(String tileType, int x, int y) {
+        this.tileType = tileType;
         this.x = x;
         this.y = y;
-    }
-
-    public void drawLInes(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.setColor(Color.BLACK);
-
     }
 
 
@@ -33,28 +22,51 @@ public class Tile implements Item {
     public void draw(Graphics g, int x, int y) {
 
         Graphics2D g2 = (Graphics2D) g;
-        System.out.println(roomName);
+        System.out.println(tileType);
         //Tidy up conditional
-        if(roomName.equals("Kitchen") || roomName.equals("Dining Room") ||roomName.equals("Conservatory") || roomName.equals("Ballroom") ||roomName.equals("Lounge")
-            ||roomName.equals("Hall") || roomName.equals("Study") || roomName.equals("Billard Room") || roomName.equals("Cellar")) {
-            g2.setColor(Color.cyan);
+        if (CluedoGUI.roomNames.contains(tileType)) {
+            g2.setColor(new Color(255,229,180));
         }
-        //It is not a Room tile therefore it can be white
+        //It is not a Room tile therefore it can be blank
         else {
             g.setColor(Color.WHITE);
         }
-        //Draw the tile Rect
-        g2.fillRect(x, y, 60, 60);
-
-        //Draw a border around the rect
+        //Draw the tile Rectangle
+        g2.fillRect(x, y, 30, 30);
+        
+        //Draw a black border around the rect
         ((Graphics2D) g).setStroke(new BasicStroke(2));
         g2.setColor(Color.BLACK);
-        g2.drawRect(x,y,60,60);
+        g2.drawRect(x, y, 30, 30);
 
     }
 
     @Override
     public void erase(Graphics g) {
 
+    }
+
+    public String getTileType() {
+        return tileType;
+    }
+
+    public void setTileType(String tileType) {
+        this.tileType = tileType;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 }
