@@ -22,7 +22,7 @@ public class Main {
 
 
         // 6 character options
-        JRadioButton optOne = new JRadioButton("Miss Scarlett");
+        JRadioButton optOne = new JRadioButton("Miss Scarlett"); //TODO: add listeners to each button
         JRadioButton optTwo = new JRadioButton("Colonel Mustard");
         JRadioButton optThree = new JRadioButton("Mrs. White");
         JRadioButton optFour = new JRadioButton("Mr. Green");
