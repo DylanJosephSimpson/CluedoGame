@@ -25,16 +25,20 @@ public class Tile implements Item {
         Graphics2D g2 = (Graphics2D) g;
         //System.out.println(tileType);
         //Tidy up conditional
+//        System.out.println(tileType);
+
+        //Setting Roomtiles to pink
         if (CluedoGUI.roomNames.contains(tileType)) {
             g2.setColor(new Color(255,192,203));
         }
+        //Setting door tiles to light tealish colour
         else if(tileType.equals("Door")){
             g2.setColor(new Color(100,229,180));
         }
+        //It is a wall so set it to purple!
         else if(tileType.equals("Wall")){
             g2.setColor(new Color(100,2,180));
         }
-        //It is not a Room tile therefore it can be blank
         else {
             g.setColor(Color.WHITE);
         }
