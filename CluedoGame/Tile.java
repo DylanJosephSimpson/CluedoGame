@@ -8,7 +8,6 @@ import java.awt.*;
 public class Tile implements Item {
     
     private String tileType;
-    private final int TILE_SIZE = 30;
     int x;
     int y;
 
@@ -43,6 +42,7 @@ public class Tile implements Item {
             g.setColor(Color.WHITE);
         }
         //Draw the tile Rectangle
+        int TILE_SIZE = 30;
         g2.fillRect(x, y, TILE_SIZE, TILE_SIZE);
         
         //Draw a black border around the rect
