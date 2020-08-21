@@ -502,7 +502,14 @@ public class CluedoGUI extends JFrame {
             }
             @Override
             public void keyPressed(KeyEvent e) {
+                int tileX = Scarlett.getX()/30;
+                int tileY = Scarlett.getY()/30;
+
+                //System.out.println(board[tileX][tileY].getTileType());
+
+                System.out.println(tileX+" "+tileY);
                 if(e.getKeyCode() == KeyEvent.VK_UP){
+                    //if(Scarlett.getY()>0 && !board[tileX][tileY-1].getTileType().equals("WALL")) {
                     if(Scarlett.getY()>0) {
                         Scarlett.move("NORTH");
                         movesLeft-=1;
@@ -511,6 +518,7 @@ public class CluedoGUI extends JFrame {
                     }
                 }
                 if(e.getKeyCode() == KeyEvent.VK_DOWN){
+                    //if(Scarlett.getY()<720 && !board[tileX][tileY+1].getTileType().equals("WALL")) {
                     if(Scarlett.getY()<720) {
                         Scarlett.move("SOUTH");
                         movesLeft-=1;
@@ -519,6 +527,7 @@ public class CluedoGUI extends JFrame {
                     }
                 }
                 if(e.getKeyCode() == KeyEvent.VK_LEFT){
+                    //if(Scarlett.getX()>0 && !board[tileX][tileY-1].getTileType().equals("WALL")) {
                     if(Scarlett.getX()>0) {
                         Scarlett.move("WEST");
                         movesLeft-=1;
@@ -527,6 +536,7 @@ public class CluedoGUI extends JFrame {
                     }
                 }
                 if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+                    //if(Scarlett.getX()<690 && !board[tileX][tileY+1].getTileType().equals("WALL")) {
                     if(Scarlett.getX()<690) {
                         Scarlett.move("EAST");
                         movesLeft-=1;
