@@ -176,8 +176,8 @@ public class CluedoGUI extends JFrame {
         roomCharacterToRoomName.put("s","Study");
         roomCharacterToRoomName.put("i","Billiard Room");
         roomCharacterToRoomName.put("y","Library");
-        roomCharacterToRoomName.put("-","WALL");
-        roomCharacterToRoomName.put("@","SYMBOL");
+        roomCharacterToRoomName.put("-","Wall");
+        roomCharacterToRoomName.put("@","Door");
         roomCharacterToRoomName.put(" ","SPACE");
         roomCharacterToRoomName.put("e","Cellar");
         //Room names being added to arraylist
