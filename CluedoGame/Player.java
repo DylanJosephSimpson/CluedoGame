@@ -19,4 +19,9 @@ public class Player {
         this.assignedCharacter = assignedCharacter;
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "Player: " + name + " Character: " + assignedCharacter.toString();
+    }
 }
