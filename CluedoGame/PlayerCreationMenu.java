@@ -1,19 +1,67 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class PlayerCreationMenu extends JFrame {
+
+    private String playerName;
+    private Character assignedCharacter;
+    private List<Player> players = new ArrayList<>();
 
     public PlayerCreationMenu(String title) {
         int count = 1; // Player number
         JPanel playerSelection = new JPanel();
 
         // 6 character options
-        JRadioButton optOne = new JRadioButton("Miss Scarlett"); //TODO: add listeners to each button
-        JRadioButton optTwo = new JRadioButton("Colonel Mustard");
-        JRadioButton optThree = new JRadioButton("Mrs. White");
-        JRadioButton optFour = new JRadioButton("Mr. Green");
-        JRadioButton optFive = new JRadioButton("Mrs. Peacock");
-        JRadioButton optSix = new JRadioButton("Professor Plum");
+        String charOne = "Miss Scarlett";
+        String charTwo = "Colonel Mustard";
+        String charThree = "Mrs. White";
+        String charFour = "Mr. Green";
+        String charFive = "Mrs. Peacock";
+        String charSix = "Professor Plum";
+        JRadioButton optOne = new JRadioButton(charOne); //TODO: add listeners to each button
+        JRadioButton optTwo = new JRadioButton(charTwo);
+        JRadioButton optThree = new JRadioButton(charThree);
+        JRadioButton optFour = new JRadioButton(charFour);
+        JRadioButton optFive = new JRadioButton(charFive);
+        JRadioButton optSix = new JRadioButton(charSix);
+        optOne.addActionListener(e -> {
+            if (optOne.isSelected()){
+                assignedCharacter = new Character(charOne);
+            }
+        });
+        optTwo.addActionListener(e -> {
+            if (optTwo.isSelected()){
+                assignedCharacter = new Character(charTwo);
+            }
+        });
+        optThree.addActionListener(e -> {
+            if (optThree.isSelected()){
+                assignedCharacter = new Character(charThree);
+            }
+        });
+        optFour.addActionListener(e -> {
+            if (optFour.isSelected()){
+                assignedCharacter = new Character(charFour);
+            }
+        });
+        optFive.addActionListener(e -> {
+            if (optFive.isSelected()){
+                assignedCharacter = new Character(charFive);
+            }
+        });
+        optSix.addActionListener(e -> {
+            if (optSix.isSelected()){
+                assignedCharacter = new Character(charSix);
+            }
+        });
+
 
         // Making sure only 1 is selectable
         ButtonGroup buttonGroup = new ButtonGroup();
@@ -30,7 +78,24 @@ public class PlayerCreationMenu extends JFrame {
         playerNoText.setText("PLAYER " + count); //TODO: increase count after each player is done
         playerSelection.add(playerNoText);
 
-        JTextField enterPlayerName = new JTextField(); //TODO: Add listener here - Iqbal
+
+        JTextField enterPlayerName = new JTextField();
+        enterPlayerName.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               playerName = enterPlayerName.getText();
+            }
+        });
+        // this forces an action event to fire on every key press, so the
+        // user doesn't need to hit enter for results.
+        enterPlayerName.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent e) {
+                // don't fire an event on backspace or delete
+                if (e.getKeyCode() == 8 || e.getKeyCode() == 127)
+                    return;
+                enterPlayerName.postActionEvent();
+            }
+        });
         playerSelection.add(enterPlayerName);
 
         playerSelection.add(optOne);
@@ -47,6 +112,12 @@ public class PlayerCreationMenu extends JFrame {
 
         GridBagConstraints buttonPos = new GridBagConstraints();
         JButton nextPlayerButton = new JButton("Next");
+        nextPlayerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                players.add(new Player(playerName, assignedCharacter));
+            }
+        });
         buttonPos.gridx = 0;
         buttonPos.gridy = 0;
         buttonPos.fill = GridBagConstraints.BOTH;
