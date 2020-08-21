@@ -35,15 +35,14 @@ public class Character implements Item {
      */
     public Character(String characterName) {
         this.characterName = characterName;
-    }
+    } //todo add prams for starting pos
 
     /**
      * When a player moves in a certain direction the x or y position changes for their character and then board is redrawn
      *
      * @param dir
      */
-    public void move(Graphics g, String dir){
-        erase(g);
+    public void move(String dir){
         if(dir.equals("NORTH")){
             y-=30;
         }else if(dir.equals("EAST")){
@@ -53,8 +52,6 @@ public class Character implements Item {
         } else if(dir.equals("WEST")){
             x-=30;
         }
-        draw(g,x,y);
-        //todo (Caleb) - once a player has moved redraw the board
     }
 
 

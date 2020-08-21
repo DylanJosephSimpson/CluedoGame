@@ -23,7 +23,7 @@ public class Tile implements Item {
     public void draw(Graphics g, int x, int y) {
 
         Graphics2D g2 = (Graphics2D) g;
-        System.out.println(tileType);
+        //System.out.println(tileType);
         //Tidy up conditional
         if (CluedoGUI.roomNames.contains(tileType)) {
             g2.setColor(new Color(255,229,180)); 

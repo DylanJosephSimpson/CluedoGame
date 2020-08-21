@@ -6,15 +6,16 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.awt.geom.Line2D;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
 public class CluedoGUI extends JFrame {
-    
+
     //variables be grid board
     public static final int GRID_SIZE = 30;
-    public static final int GRID_WIDTH = 24;
+
 
     //initialisation of characters
     private Character Scarlett = new Character("Miss. Scarlett");
@@ -74,6 +75,10 @@ public class CluedoGUI extends JFrame {
     private String Rope = "WeaponIcon/Rope.png";
     private String Spanner = "WeaponIcon/Spanner.png";
 
+    private int movesLeft;
+    private Character currentCharacter;
+    private ArrayList<Character> allCharacters;
+
     private Tile[][] board = new Tile[25][30];
     //Utility collections used for setup and quick checks
     private static HashMap<String,String> roomCharacterToRoomName = new HashMap<>();
@@ -110,32 +115,32 @@ public class CluedoGUI extends JFrame {
 
             };
     private String[][] originalBoardLayoutArray = new String[][]{
-                    {"-", "-", "-", "-", "-", "-", "-", "-", "-", " ", "-", "-", "-", "-", " ", "-", "-", "-", "-", "-", "-", "-", "-", "-"},
-                    {"-", "-", "-", "-", "-", "-", "-", " ", " ", " ", "-", "-", "-", "-", " ", " ", " ", "-", "-", "-", "-", "-", "-", "-"},
-                    {"-", "k", "k", "k", "k", "-", " ", " ", "-", "-", "-", "b", "b", "-", "-", "-", " ", " ", "-", "c", "c", "c", "c", "-"},
-                    {"-", "k", "k", "k", "k", "-", " ", " ", "-", "b", "b", "b", "b", "b", "b", "-", " ", " ", "-", "c", "c", "c", "c", "-"},
-                    {"-", "k", "k", "k", "k", "-", " ", " ", "-", "b", "b", "b", "b", "b", "b", "-", " ", " ", "@", "c", "c", "c", "c", "-"},
-                    {"-", "k", "k", "k", "k", "-", " ", " ", "@", "b", "b", "b", "b", "b", "b", "@", " ", " ", "-", "-", "-", "-", "-", "-"},
-                    {"-", "-", "-", "-", "@", "-", " ", " ", "-", "b", "b", "b", "b", "b", "b", "-", " ", " ", " ", " ", " ", " ", " ", " "},
-                    {"-", " ", " ", " ", " ", " ", " ", " ", "-", "@", "-", "-", "-", "-", "@", "-", " ", " ", " ", " ", " ", " ", " ", "-"},
-                    {"-", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "-", "-", "-", "-", "-", "-"},
-                    {"-", "-", "-", "-", "-", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "@", "i", "i", "i", "i", "-"},
-                    {"-", "d", "d", "d", "-", "-", "-", "-", " ", " ", "-", "-", "-", "-", "-", " ", " ", " ", "-", "i", "i", "i", "i", "-"},
-                    {"-", "d", "d", "d", "d", "d", "d", "-", " ", " ", "-", "e", "e", "e", "-", " ", " ", " ", "-", "i", "i", "i", "i", "-"},
-                    {"-", "d", "d", "d", "d", "d", "d", "@", " ", " ", "-", "e", "e", "e", "-", " ", " ", " ", "-", "-", "-", "-", "@", "-"},
-                    {"-", "d", "d", "d", "d", "d", "d", "-", " ", " ", "-", "e", "e", "e", "-", " ", " ", " ", " ", " ", " ", " ", " ", "-"},
-                    {"-", "d", "d", "d", "d", "d", "d", "-", " ", " ", "-", "e", "e", "e", "-", " ", " ", " ", "-", "-", "@", "-", "-", "-"},
-                    {"-", "-", "-", "-", "-", "-", "@", "-", " ", " ", "-", "e", "e", "e", "-", " ", " ", "-", "-", "y", "y", "y", "y", "-"},
-                    {"-", " ", " ", " ", " ", " ", " ", " ", " ", " ", "-", "-", "-", "-", "-", " ", " ", "@", "y", "y", "y", "y", "y", "-"},
-                    {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "-", "-", "y", "y", "y", "y", "-"},
-                    {"-", " ", " ", " ", " ", " ", " ", " ", " ", "-", "-", "@", "@", "-", "-", " ", " ", " ", "-", "-", "-", "-", "-", "-"},
-                    {"-", "-", "-", "-", "-", "@", "-", " ", " ", "-", "h", "h", "h", "h", "-", " ", " ", " ", " ", " ", " ", " ", " ", " "},
-                    {"-", "l", "l", "l", "l", "l", "-", " ", " ", "-", "h", "h", "h", "h", "@", " ", " ", " ", " ", " ", " ", " ", " ", "-"},
-                    {"-", "l", "l", "l", "l", "l", "-", " ", " ", "-", "h", "h", "h", "h", "-", " ", " ", "-", "@", "-", "-", "-", "-", "-"},
-                    {"-", "l", "l", "l", "l", "l", "-", " ", " ", "-", "h", "h", "h", "h", "-", " ", " ", "-", "s", "s", "s", "s", "s", "-"},
-                    {"-", "l", "l", "l", "l", "l", "-", " ", " ", "-", "h", "h", "h", "h", "-", " ", " ", "-", "s", "s", "s", "s", "s", "-"},
-                    {"-", "-", "-", "-", "-", "-", "-", " ", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"},
-            };
+            {"-", "-", "-", "-", "-", "-", "-", "-", "-", " ", "-", "-", "-", "-", " ", "-", "-", "-", "-", "-", "-", "-", "-", "-"},
+            {"-", "-", "-", "-", "-", "-", "-", " ", " ", " ", "-", "-", "-", "-", " ", " ", " ", "-", "-", "-", "-", "-", "-", "-"},
+            {"-", "k", "k", "k", "k", "-", " ", " ", "-", "-", "-", "b", "b", "-", "-", "-", " ", " ", "-", "c", "c", "c", "c", "-"},
+            {"-", "k", "k", "k", "k", "-", " ", " ", "-", "b", "b", "b", "b", "b", "b", "-", " ", " ", "-", "c", "c", "c", "c", "-"},
+            {"-", "k", "k", "k", "k", "-", " ", " ", "-", "b", "b", "b", "b", "b", "b", "-", " ", " ", "@", "c", "c", "c", "c", "-"},
+            {"-", "k", "k", "k", "k", "-", " ", " ", "@", "b", "b", "b", "b", "b", "b", "@", " ", " ", "-", "-", "-", "-", "-", "-"},
+            {"-", "-", "-", "-", "@", "-", " ", " ", "-", "b", "b", "b", "b", "b", "b", "-", " ", " ", " ", " ", " ", " ", " ", " "},
+            {"-", " ", " ", " ", " ", " ", " ", " ", "-", "@", "-", "-", "-", "-", "@", "-", " ", " ", " ", " ", " ", " ", " ", "-"},
+            {"-", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "-", "-", "-", "-", "-", "-"},
+            {"-", "-", "-", "-", "-", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "@", "i", "i", "i", "i", "-"},
+            {"-", "d", "d", "d", "-", "-", "-", "-", " ", " ", "-", "-", "-", "-", "-", " ", " ", " ", "-", "i", "i", "i", "i", "-"},
+            {"-", "d", "d", "d", "d", "d", "d", "-", " ", " ", "-", "e", "e", "e", "-", " ", " ", " ", "-", "i", "i", "i", "i", "-"},
+            {"-", "d", "d", "d", "d", "d", "d", "@", " ", " ", "-", "e", "e", "e", "-", " ", " ", " ", "-", "-", "-", "-", "@", "-"},
+            {"-", "d", "d", "d", "d", "d", "d", "-", " ", " ", "-", "e", "e", "e", "-", " ", " ", " ", " ", " ", " ", " ", " ", "-"},
+            {"-", "d", "d", "d", "d", "d", "d", "-", " ", " ", "-", "e", "e", "e", "-", " ", " ", " ", "-", "-", "@", "-", "-", "-"},
+            {"-", "-", "-", "-", "-", "-", "@", "-", " ", " ", "-", "e", "e", "e", "-", " ", " ", "-", "-", "y", "y", "y", "y", "-"},
+            {"-", " ", " ", " ", " ", " ", " ", " ", " ", " ", "-", "-", "-", "-", "-", " ", " ", "@", "y", "y", "y", "y", "y", "-"},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "-", "-", "y", "y", "y", "y", "-"},
+            {"-", " ", " ", " ", " ", " ", " ", " ", " ", "-", "-", "@", "@", "-", "-", " ", " ", " ", "-", "-", "-", "-", "-", "-"},
+            {"-", "-", "-", "-", "-", "@", "-", " ", " ", "-", "h", "h", "h", "h", "-", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+            {"-", "l", "l", "l", "l", "l", "-", " ", " ", "-", "h", "h", "h", "h", "@", " ", " ", " ", " ", " ", " ", " ", " ", "-"},
+            {"-", "l", "l", "l", "l", "l", "-", " ", " ", "-", "h", "h", "h", "h", "-", " ", " ", "-", "@", "-", "-", "-", "-", "-"},
+            {"-", "l", "l", "l", "l", "l", "-", " ", " ", "-", "h", "h", "h", "h", "-", " ", " ", "-", "s", "s", "s", "s", "s", "-"},
+            {"-", "l", "l", "l", "l", "l", "-", " ", " ", "-", "h", "h", "h", "h", "-", " ", " ", "-", "s", "s", "s", "s", "s", "-"},
+            {"-", "-", "-", "-", "-", "-", "-", " ", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"},
+    };
 
     public CluedoGUI(String title) {
 
@@ -186,6 +191,34 @@ public class CluedoGUI extends JFrame {
         roomNames.add("Billiard Room");
         roomNames.add("Library");
         roomNames.add("Cellar");
+
+        //initialise starting pos of characters
+
+//        allCharacters.add(Scarlett);
+//        allCharacters.add(Mustard);
+//        allCharacters.add(White);
+//        allCharacters.add(Green);
+//        allCharacters.add(Peacock);
+//        allCharacters.add(Plum);
+
+        Scarlett.setX(210);
+        Scarlett.setY(720);
+
+        Mustard.setX(0);
+        Mustard.setY(480);
+
+        White.setX(270);
+        White.setY(0);
+
+        Green.setX(420);
+        Green.setY(0);
+
+        Peacock.setX(690);
+        Peacock.setY(180);
+
+        Plum.setX(690);
+        Plum.setY(540);
+
 
 
 
@@ -251,14 +284,15 @@ public class CluedoGUI extends JFrame {
             drawBoard(graphics);
 
 
-            //initialise characters in their starting positions
 
-            Scarlett.draw(g2d,210,720);
-            Mustard.draw(g2d,0,480);
-            White.draw(g2d,270,0);
-            Green.draw(g2d,420,0);
-            Peacock.draw(g2d,690,180);
-            Plum.draw(g2d,690,540);
+            Scarlett.draw(g2d,Scarlett.getX(),Scarlett.getY());
+            Mustard.draw(g2d,Mustard.getX(),Mustard.getY());
+            Green.draw(g2d,Green.getX(),Green.getY());
+            White.draw(g2d,White.getX(),White.getY());
+            Plum.draw(g2d,Plum.getX(),Plum.getY());
+            Peacock.draw(g2d,Peacock.getX(),Peacock.getY());
+
+
 
 
         }
@@ -277,7 +311,7 @@ public class CluedoGUI extends JFrame {
 
         for(int row = 0; row < 25; ++row) {
             for(int col = 0; col < 24; ++col) {
-                System.out.println(roomCharacterToRoomName.get(originalBoardLayoutArray[row][col]));
+                //System.out.println(roomCharacterToRoomName.get(originalBoardLayoutArray[row][col]));
                 board[row][col] = new Tile(roomCharacterToRoomName.get(originalBoardLayoutArray[row][col]),col*GRID_SIZE,row*GRID_SIZE);
                 board[row][col].draw(graphics,board[row][col].x,board[row][col].y);
             }
@@ -367,50 +401,52 @@ public class CluedoGUI extends JFrame {
 
     private void GenerateRandomDice() {
 
-            int firstDieRoll = (int) (Math.random() * (6)) + 1;
-            int secondDieRoll = (int) (Math.random() * (6)) + 1;
-            switch (firstDieRoll) {
-                case 1:
-                    DiceOne.setIcon(((new ImageIcon(FaceOne.getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
-                    break;
-                case 2:
-                    DiceOne.setIcon(((new ImageIcon(FaceTwo.getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
-                    break;
-                case 3:
-                    DiceOne.setIcon(((new ImageIcon(FaceThree.getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
-                    break;
-                case 4:
-                    DiceOne.setIcon(((new ImageIcon(FaceFour.getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
-                    break;
-                case 5:
-                    DiceOne.setIcon(((new ImageIcon(FaceFive.getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
-                    break;
-                case 6:
-                    DiceOne.setIcon(((new ImageIcon(FaceSix.getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
-                    break;
-            }
-            switch (secondDieRoll) {
-                case 1:
-                    DiceTwo.setIcon(((new ImageIcon(FaceOne.getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
-                    break;
-                case 2:
-                    DiceTwo.setIcon(((new ImageIcon(FaceTwo.getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
-                    break;
-                case 3:
-                    DiceTwo.setIcon(((new ImageIcon(FaceThree.getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
-                    break;
-                case 4:
-                    DiceTwo.setIcon(((new ImageIcon(FaceFour.getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
-                    break;
-                case 5:
-                    DiceTwo.setIcon(((new ImageIcon(FaceFive.getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
-                    break;
-                case 6:
-                    DiceTwo.setIcon(((new ImageIcon(FaceSix.getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
-                    break;
-            }
 
+        int firstDieRoll = (int) (Math.random() * (6)) + 1;
+        int secondDieRoll = (int) (Math.random() * (6)) + 1;
+        movesLeft = firstDieRoll + secondDieRoll;
+        switch (firstDieRoll) {
+            case 1:
+                DiceOne.setIcon(((new ImageIcon(FaceOne.getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
+                break;
+            case 2:
+                DiceOne.setIcon(((new ImageIcon(FaceTwo.getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
+                break;
+            case 3:
+                DiceOne.setIcon(((new ImageIcon(FaceThree.getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
+                break;
+            case 4:
+                DiceOne.setIcon(((new ImageIcon(FaceFour.getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
+                break;
+            case 5:
+                DiceOne.setIcon(((new ImageIcon(FaceFive.getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
+                break;
+            case 6:
+                DiceOne.setIcon(((new ImageIcon(FaceSix.getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
+                break;
         }
+        switch (secondDieRoll) {
+            case 1:
+                DiceTwo.setIcon(((new ImageIcon(FaceOne.getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
+                break;
+            case 2:
+                DiceTwo.setIcon(((new ImageIcon(FaceTwo.getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
+                break;
+            case 3:
+                DiceTwo.setIcon(((new ImageIcon(FaceThree.getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
+                break;
+            case 4:
+                DiceTwo.setIcon(((new ImageIcon(FaceFour.getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
+                break;
+            case 5:
+                DiceTwo.setIcon(((new ImageIcon(FaceFive.getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
+                break;
+            case 6:
+                DiceTwo.setIcon(((new ImageIcon(FaceSix.getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
+                break;
+        }
+
+    }
 
 
 
@@ -435,7 +471,7 @@ public class CluedoGUI extends JFrame {
         // TODO : ADD PROPER FUNCTIONALITY
         EndTurn.addActionListener(e -> System.out.println("End Turn"));
         OpenNotes.addActionListener(e -> System.out.println("Open Notes"));
-        RollDice.addActionListener(e -> { for (int i = 0; i < 10; i++) { GenerateRandomDice(); } });
+        RollDice.addActionListener(e -> { GenerateRandomDice(); });
         MakeSuggestion.addActionListener(e -> System.out.println("Make Suggestion"));
         MakeAccusation.addActionListener(e -> System.out.println("Make Accusation"));
         // Add A KeyListener to the GameControlPanel
@@ -457,9 +493,52 @@ public class CluedoGUI extends JFrame {
                 if(e.getKeyChar() == '5'){
                     MakeSuggestion.doClick();
                 }
+
+                if(e.getKeyCode() == KeyEvent.VK_UP){
+                    RollDice.doClick();
+                }
+
+
             }
             @Override
-            public void keyPressed(KeyEvent e) {         }
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_UP){
+                    if(Scarlett.getY()>0) {
+                        Scarlett.move("NORTH");
+                        movesLeft-=1;
+                    } else{
+                        System.out.println("INVALID MOVE");
+                    }
+                }
+                if(e.getKeyCode() == KeyEvent.VK_DOWN){
+                    if(Scarlett.getY()<720) {
+                        Scarlett.move("SOUTH");
+                        movesLeft-=1;
+                    } else{
+                        System.out.println("INVALID MOVE");
+                    }
+                }
+                if(e.getKeyCode() == KeyEvent.VK_LEFT){
+                    if(Scarlett.getX()>0) {
+                        Scarlett.move("WEST");
+                        movesLeft-=1;
+                    } else{
+                        System.out.println("INVALID MOVE");
+                    }
+                }
+                if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+                    if(Scarlett.getX()<690) {
+                        Scarlett.move("EAST");
+                        movesLeft-=1;
+                    } else{
+                        System.out.println("INVALID MOVE");
+                    }
+                }
+                repaint();
+                if(movesLeft==0){
+                    System.out.println("NEXT PLAYER");
+                }
+            }
             @Override
             public void keyReleased(KeyEvent e) {           }
         });
