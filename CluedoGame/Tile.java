@@ -26,7 +26,13 @@ public class Tile implements Item {
         //System.out.println(tileType);
         //Tidy up conditional
         if (CluedoGUI.roomNames.contains(tileType)) {
-            g2.setColor(new Color(255,229,180)); 
+            g2.setColor(new Color(255,192,203));
+        }
+        else if(tileType.equals("Door")){
+            g2.setColor(new Color(100,229,180));
+        }
+        else if(tileType.equals("Wall")){
+            g2.setColor(new Color(100,2,180));
         }
         //It is not a Room tile therefore it can be blank
         else {
