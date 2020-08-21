@@ -459,51 +459,45 @@ public class CluedoGUI extends JFrame {
             @Override
             public void keyPressed(KeyEvent e) {
                 int tileX = Scarlett.getX()/30;
-                int tileY = Scarlett.getY()/30;
+                int tileY =Scarlett.getY()/30;
 
-                //System.out.println(board[tileX][tileY].getTileType());
 
-                System.out.println(tileX+" "+tileY);
+                Pattern pattern = Pattern.compile("(Scarlett|Mustard|Green|White|Plum|Peacock|Wall)",Pattern.CASE_INSENSITIVE);
+
                 if(e.getKeyCode() == KeyEvent.VK_UP){
-                    //if(Scarlett.getY()>0 && !board[tileX][tileY-1].getTileType().equals("WALL")) {
-                    if(Scarlett.getY()>0) {
+                    Matcher matcher = pattern.matcher(board[tileY-1][tileX].getTileType());
+                    if(Scarlett.getY()>0 && !matcher.find()) {
                         Scarlett.move("NORTH");
                         movesLeft-=1;
-                    } else{
-                        System.out.println("INVALID MOVE");
                     }
                 }
                 if(e.getKeyCode() == KeyEvent.VK_DOWN){
-                    //if(Scarlett.getY()<720 && !board[tileX][tileY+1].getTileType().equals("WALL")) {
-                    if(Scarlett.getY()<720) {
+                    Matcher matcher = pattern.matcher(board[tileY+1][tileX].getTileType());
+                    if(Scarlett.getY()<720 && !matcher.find()) {
                         Scarlett.move("SOUTH");
                         movesLeft-=1;
-                    } else{
-                        System.out.println("INVALID MOVE");
+
                     }
                 }
                 if(e.getKeyCode() == KeyEvent.VK_LEFT){
-                    //if(Scarlett.getX()>0 && !board[tileX][tileY-1].getTileType().equals("WALL")) {
-                    if(Scarlett.getX()>0) {
+                    Matcher matcher = pattern.matcher(board[tileY][tileX-1].getTileType());
+                    if(Scarlett.getX()>0 && !matcher.find()) {
                         Scarlett.move("WEST");
                         movesLeft-=1;
-                    } else{
-                        System.out.println("INVALID MOVE");
                     }
                 }
                 if(e.getKeyCode() == KeyEvent.VK_RIGHT){
-                    //if(Scarlett.getX()<690 && !board[tileX][tileY+1].getTileType().equals("WALL")) {
-                    if(Scarlett.getX()<690) {
+                    Matcher matcher = pattern.matcher(board[tileY][tileX+1].getTileType());
+                    if(Scarlett.getX()<690 && !matcher.find()) {
                         Scarlett.move("EAST");
                         movesLeft-=1;
-                    } else{
-                        System.out.println("INVALID MOVE");
                     }
                 }
                 repaint();
                 if(movesLeft==0){
                     System.out.println("NEXT PLAYER");
                 }
+
             }
             @Override
             public void keyReleased(KeyEvent e) {           }
