@@ -5,8 +5,6 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.awt.geom.Line2D;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -81,7 +79,7 @@ public class CluedoGUI extends JFrame {
 
     private Tile[][] board = new Tile[25][30];
     //Utility collections used for setup and quick checks
-    private static HashMap<String,String> roomCharacterToRoomName = new HashMap<>();
+    private static HashMap<String,String> tileTypeToNameMap = new HashMap<>();
     static HashSet<String> roomNames = new HashSet<>();
 
     //
@@ -114,33 +112,33 @@ public class CluedoGUI extends JFrame {
                     {"-", "-", "-", "-", "-", "-", "-", "S", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"},
 
             };
-    private String[][] originalBoardLayoutArray = new String[][]{
-            {"-", "-", "-", "-", "-", "-", "-", "-", "-", " ", "-", "-", "-", "-", " ", "-", "-", "-", "-", "-", "-", "-", "-", "-"},
-            {"-", "-", "-", "-", "-", "-", "-", " ", " ", " ", "-", "-", "-", "-", " ", " ", " ", "-", "-", "-", "-", "-", "-", "-"},
-            {"-", "k", "k", "k", "k", "-", " ", " ", "-", "-", "-", "b", "b", "-", "-", "-", " ", " ", "-", "c", "c", "c", "c", "-"},
-            {"-", "k", "k", "k", "k", "-", " ", " ", "-", "b", "b", "b", "b", "b", "b", "-", " ", " ", "-", "c", "c", "c", "c", "-"},
-            {"-", "k", "k", "k", "k", "-", " ", " ", "-", "b", "b", "b", "b", "b", "b", "-", " ", " ", "@", "c", "c", "c", "c", "-"},
-            {"-", "k", "k", "k", "k", "-", " ", " ", "@", "b", "b", "b", "b", "b", "b", "@", " ", " ", "-", "-", "-", "-", "-", "-"},
-            {"-", "-", "-", "-", "@", "-", " ", " ", "-", "b", "b", "b", "b", "b", "b", "-", " ", " ", " ", " ", " ", " ", " ", " "},
-            {"-", " ", " ", " ", " ", " ", " ", " ", "-", "@", "-", "-", "-", "-", "@", "-", " ", " ", " ", " ", " ", " ", " ", "-"},
-            {"-", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "-", "-", "-", "-", "-", "-"},
-            {"-", "-", "-", "-", "-", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "@", "i", "i", "i", "i", "-"},
-            {"-", "d", "d", "d", "-", "-", "-", "-", " ", " ", "-", "-", "-", "-", "-", " ", " ", " ", "-", "i", "i", "i", "i", "-"},
-            {"-", "d", "d", "d", "d", "d", "d", "-", " ", " ", "-", "e", "e", "e", "-", " ", " ", " ", "-", "i", "i", "i", "i", "-"},
-            {"-", "d", "d", "d", "d", "d", "d", "@", " ", " ", "-", "e", "e", "e", "-", " ", " ", " ", "-", "-", "-", "-", "@", "-"},
-            {"-", "d", "d", "d", "d", "d", "d", "-", " ", " ", "-", "e", "e", "e", "-", " ", " ", " ", " ", " ", " ", " ", " ", "-"},
-            {"-", "d", "d", "d", "d", "d", "d", "-", " ", " ", "-", "e", "e", "e", "-", " ", " ", " ", "-", "-", "@", "-", "-", "-"},
-            {"-", "-", "-", "-", "-", "-", "@", "-", " ", " ", "-", "e", "e", "e", "-", " ", " ", "-", "-", "y", "y", "y", "y", "-"},
-            {"-", " ", " ", " ", " ", " ", " ", " ", " ", " ", "-", "-", "-", "-", "-", " ", " ", "@", "y", "y", "y", "y", "y", "-"},
-            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "-", "-", "y", "y", "y", "y", "-"},
-            {"-", " ", " ", " ", " ", " ", " ", " ", " ", "-", "-", "@", "@", "-", "-", " ", " ", " ", "-", "-", "-", "-", "-", "-"},
-            {"-", "-", "-", "-", "-", "@", "-", " ", " ", "-", "h", "h", "h", "h", "-", " ", " ", " ", " ", " ", " ", " ", " ", " "},
-            {"-", "l", "l", "l", "l", "l", "-", " ", " ", "-", "h", "h", "h", "h", "@", " ", " ", " ", " ", " ", " ", " ", " ", "-"},
-            {"-", "l", "l", "l", "l", "l", "-", " ", " ", "-", "h", "h", "h", "h", "-", " ", " ", "-", "@", "-", "-", "-", "-", "-"},
-            {"-", "l", "l", "l", "l", "l", "-", " ", " ", "-", "h", "h", "h", "h", "-", " ", " ", "-", "s", "s", "s", "s", "s", "-"},
-            {"-", "l", "l", "l", "l", "l", "-", " ", " ", "-", "h", "h", "h", "h", "-", " ", " ", "-", "s", "s", "s", "s", "s", "-"},
-            {"-", "-", "-", "-", "-", "-", "-", " ", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"},
-    };
+//    private String[][] originalBoardLayoutArray = new String[][]{
+//            {"-", "-", "-", "-", "-", "-", "-", "-", "-", " ", "-", "-", "-", "-", " ", "-", "-", "-", "-", "-", "-", "-", "-", "-"},
+//            {"-", "-", "-", "-", "-", "-", "-", " ", " ", " ", "-", "-", "-", "-", " ", " ", " ", "-", "-", "-", "-", "-", "-", "-"},
+//            {"-", "k", "k", "k", "k", "-", " ", " ", "-", "-", "-", "b", "b", "-", "-", "-", " ", " ", "-", "c", "c", "c", "c", "-"},
+//            {"-", "k", "k", "k", "k", "-", " ", " ", "-", "b", "b", "b", "b", "b", "b", "-", " ", " ", "-", "c", "c", "c", "c", "-"},
+//            {"-", "k", "k", "k", "k", "-", " ", " ", "-", "b", "b", "b", "b", "b", "b", "-", " ", " ", "@", "c", "c", "c", "c", "-"},
+//            {"-", "k", "k", "k", "k", "-", " ", " ", "@", "b", "b", "b", "b", "b", "b", "@", " ", " ", "-", "-", "-", "-", "-", "-"},
+//            {"-", "-", "-", "-", "@", "-", " ", " ", "-", "b", "b", "b", "b", "b", "b", "-", " ", " ", " ", " ", " ", " ", " ", " "},
+//            {"-", " ", " ", " ", " ", " ", " ", " ", "-", "@", "-", "-", "-", "-", "@", "-", " ", " ", " ", " ", " ", " ", " ", "-"},
+//            {"-", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "-", "-", "-", "-", "-", "-"},
+//            {"-", "-", "-", "-", "-", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "@", "i", "i", "i", "i", "-"},
+//            {"-", "d", "d", "d", "-", "-", "-", "-", " ", " ", "-", "-", "-", "-", "-", " ", " ", " ", "-", "i", "i", "i", "i", "-"},
+//            {"-", "d", "d", "d", "d", "d", "d", "-", " ", " ", "-", "e", "e", "e", "-", " ", " ", " ", "-", "i", "i", "i", "i", "-"},
+//            {"-", "d", "d", "d", "d", "d", "d", "@", " ", " ", "-", "e", "e", "e", "-", " ", " ", " ", "-", "-", "-", "-", "@", "-"},
+//            {"-", "d", "d", "d", "d", "d", "d", "-", " ", " ", "-", "e", "e", "e", "-", " ", " ", " ", " ", " ", " ", " ", " ", "-"},
+//            {"-", "d", "d", "d", "d", "d", "d", "-", " ", " ", "-", "e", "e", "e", "-", " ", " ", " ", "-", "-", "@", "-", "-", "-"},
+//            {"-", "-", "-", "-", "-", "-", "@", "-", " ", " ", "-", "e", "e", "e", "-", " ", " ", "-", "-", "y", "y", "y", "y", "-"},
+//            {"-", " ", " ", " ", " ", " ", " ", " ", " ", " ", "-", "-", "-", "-", "-", " ", " ", "@", "y", "y", "y", "y", "y", "-"},
+//            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "-", "-", "y", "y", "y", "y", "-"},
+//            {"-", " ", " ", " ", " ", " ", " ", " ", " ", "-", "-", "@", "@", "-", "-", " ", " ", " ", "-", "-", "-", "-", "-", "-"},
+//            {"-", "-", "-", "-", "-", "@", "-", " ", " ", "-", "h", "h", "h", "h", "-", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+//            {"-", "l", "l", "l", "l", "l", "-", " ", " ", "-", "h", "h", "h", "h", "@", " ", " ", " ", " ", " ", " ", " ", " ", "-"},
+//            {"-", "l", "l", "l", "l", "l", "-", " ", " ", "-", "h", "h", "h", "h", "-", " ", " ", "-", "@", "-", "-", "-", "-", "-"},
+//            {"-", "l", "l", "l", "l", "l", "-", " ", " ", "-", "h", "h", "h", "h", "-", " ", " ", "-", "s", "s", "s", "s", "s", "-"},
+//            {"-", "l", "l", "l", "l", "l", "-", " ", " ", "-", "h", "h", "h", "h", "-", " ", " ", "-", "s", "s", "s", "s", "s", "-"},
+//            {"-", "-", "-", "-", "-", "-", "-", " ", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"},
+//    };
 
     public CluedoGUI(String title) {
 
@@ -167,19 +165,29 @@ public class CluedoGUI extends JFrame {
 
     public void setup(){
         //Adding all of mappings to a Hashmap
-        roomCharacterToRoomName.put("k","Kitchen");
-        roomCharacterToRoomName.put("b","Ballroom");
-        roomCharacterToRoomName.put("c","Conservatory");
-        roomCharacterToRoomName.put("d","Dining Room");
-        roomCharacterToRoomName.put("l","Lounge");
-        roomCharacterToRoomName.put("h","Hall");
-        roomCharacterToRoomName.put("s","Study");
-        roomCharacterToRoomName.put("i","Billiard Room");
-        roomCharacterToRoomName.put("y","Library");
-        roomCharacterToRoomName.put("-","Wall");
-        roomCharacterToRoomName.put("@","Door");
-        roomCharacterToRoomName.put(" ","SPACE");
-        roomCharacterToRoomName.put("e","Cellar");
+        tileTypeToNameMap.put("k","Kitchen");
+        tileTypeToNameMap.put("b","Ballroom");
+        tileTypeToNameMap.put("c","Conservatory");
+        tileTypeToNameMap.put("d","Dining Room");
+        tileTypeToNameMap.put("l","Lounge");
+        tileTypeToNameMap.put("h","Hall");
+        tileTypeToNameMap.put("s","Study");
+        tileTypeToNameMap.put("i","Billiard Room");
+        tileTypeToNameMap.put("y","Library");
+        tileTypeToNameMap.put("-","Wall");
+        tileTypeToNameMap.put("@","Door");
+        tileTypeToNameMap.put(" ","SPACE");
+        tileTypeToNameMap.put("G","Green");
+        tileTypeToNameMap.put("W","White");
+        tileTypeToNameMap.put("P","Plum");
+        tileTypeToNameMap.put("C","Peacock");
+        tileTypeToNameMap.put("S","Scarlett");
+        tileTypeToNameMap.put("M","Mustard");
+        tileTypeToNameMap.put("e","Cellar");
+
+
+
+
         //Room names being added to arraylist
         roomNames.add("Kitchen");
         roomNames.add("Ballroom");
@@ -201,11 +209,12 @@ public class CluedoGUI extends JFrame {
 //        allCharacters.add(Peacock);
 //        allCharacters.add(Plum);
 
+        //look into setting these as coordinates see if it's requried or not --> todo
         Scarlett.setX(210);
         Scarlett.setY(720);
 
         Mustard.setX(0);
-        Mustard.setY(480);
+        Mustard.setY(510);
 
         White.setX(270);
         White.setY(0);
@@ -217,7 +226,7 @@ public class CluedoGUI extends JFrame {
         Peacock.setY(180);
 
         Plum.setX(690);
-        Plum.setY(540);
+        Plum.setY(570);
 
 
 
@@ -312,7 +321,7 @@ public class CluedoGUI extends JFrame {
         for(int row = 0; row < 25; ++row) {
             for(int col = 0; col < 24; ++col) {
                 //System.out.println(roomCharacterToRoomName.get(originalBoardLayoutArray[row][col]));
-                board[row][col] = new Tile(roomCharacterToRoomName.get(originalBoardLayoutArray[row][col]),col*GRID_SIZE,row*GRID_SIZE);
+                board[row][col] = new Tile(tileTypeToNameMap.get(boardLayoutArray[row][col]),col*GRID_SIZE,row*GRID_SIZE);
                 board[row][col].draw(graphics,board[row][col].x,board[row][col].y);
             }
         }
