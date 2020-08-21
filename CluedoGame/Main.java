@@ -20,7 +20,8 @@ public class Main {
 
         if (setupIsDone) {
             // Create the Frame by making a new CluedoGui
-            JFrame frame = new CluedoGUI("Cluedo Game");
+            Board b = new Board();
+            JFrame frame = new CluedoGUI("Cluedo Game",b);
             frame.setSize(GAME_WIDTH, GAME_HEIGHT);
             frame.setVisible(true);
         }
