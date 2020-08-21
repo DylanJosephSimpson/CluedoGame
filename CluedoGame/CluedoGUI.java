@@ -18,12 +18,12 @@ public class CluedoGUI extends JFrame {
 
 
     //initialisation of characters
-    private Character Scarlett = new Character("Miss. Scarlett");
-    private Character Mustard = new Character("Col. Mustard");
-    private Character White = new Character("Mrs. White");
-    private Character Green = new Character("Mr. Green");
-    private Character Peacock = new Character("Mrs. Peacock");
-    private Character Plum = new Character("Prof. Plum");
+        private Character Scarlett = new Character("Miss. Scarlett");
+        private Character Mustard = new Character("Col. Mustard");
+        private Character White = new Character("Mrs. White");
+        private Character Green = new Character("Mr. Green");
+        private Character Peacock = new Character("Mrs. Peacock");
+        private Character Plum = new Character("Prof. Plum");
 
     // JPanels and JLabels
     private JPanel InfoPanel;
@@ -75,9 +75,13 @@ public class CluedoGUI extends JFrame {
     private String Rope = "WeaponIcon/Rope.png";
     private String Spanner = "WeaponIcon/Spanner.png";
 
+
+    //todo calebs jank variables lmao
     private int movesLeft;
     private Character currentCharacter;
-    private ArrayList<Character> allCharacters;
+    private int currentCharacterPos = 0;
+    private boolean hasRolled = false;
+    private ArrayList<Character> allCharacters = new ArrayList<>();
 
     private Tile[][] board = new Tile[25][30];
     private Board b;
@@ -151,12 +155,15 @@ public class CluedoGUI extends JFrame {
 
         //initialise starting pos of characters
 
-//        allCharacters.add(Scarlett);
-//        allCharacters.add(Mustard);
-//        allCharacters.add(White);
-//        allCharacters.add(Green);
-//        allCharacters.add(Peacock);
-//        allCharacters.add(Plum);
+
+        allCharacters.add(Scarlett);
+        allCharacters.add(Mustard);
+        allCharacters.add(White);
+        allCharacters.add(Green);
+        allCharacters.add(Peacock);
+        allCharacters.add(Plum);
+
+        currentCharacter = Scarlett;
 
         //look into setting these as coordinates see if it's requried or not --> todo
         Scarlett.setX(210);
@@ -358,8 +365,7 @@ public class CluedoGUI extends JFrame {
     }
 
     private void GenerateRandomDice() {
-
-
+        hasRolled = true;
         int firstDieRoll = (int) (Math.random() * (6)) + 1;
         int secondDieRoll = (int) (Math.random() * (6)) + 1;
         movesLeft = firstDieRoll + secondDieRoll;
@@ -435,7 +441,10 @@ public class CluedoGUI extends JFrame {
         // Add A KeyListener to the GameControlPanel
         GameControlPanel.addKeyListener(new KeyListener() {
             @Override
-            public void keyTyped(KeyEvent e) {
+            public void keyTyped(KeyEvent e) { }
+            @Override
+            public void keyPressed(KeyEvent e) {
+                //function keys
                 if(e.getKeyChar() == '1'){
                     EndTurn.doClick();
                 }
@@ -451,53 +460,73 @@ public class CluedoGUI extends JFrame {
                 if(e.getKeyChar() == '5'){
                     MakeSuggestion.doClick();
                 }
-
-                if(e.getKeyCode() == KeyEvent.VK_UP){
-                    RollDice.doClick();
-                }
-
-
-            }
-            @Override
-            public void keyPressed(KeyEvent e) {
-                int tileX = Scarlett.getX()/30;
-                int tileY =Scarlett.getY()/30;
-
-
-                Pattern pattern = Pattern.compile("(Scarlett|Mustard|Green|White|Plum|Peacock|Wall)",Pattern.CASE_INSENSITIVE);
-
-                if(e.getKeyCode() == KeyEvent.VK_UP){
-                    Matcher matcher = pattern.matcher(board[tileY-1][tileX].getTileType());
-                    if(Scarlett.getY()>0 && !matcher.find()) {
-                        Scarlett.move("NORTH");
-                        movesLeft-=1;
+                //if the player has rolled then they can move
+                if(hasRolled) {
+                    //if the current player has no moves left, prompt the player that their turn has ended and return the settings to their defult
+                    if (movesLeft == 0) {
+                        hasRolled = false;
+                        currentCharacterPos++;
+                        if (currentCharacterPos == 6) {
+                            currentCharacterPos = 0;
+                        }
+                        currentCharacter = allCharacters.get(currentCharacterPos);
+                        JFrame frame = new JFrame();
+                        JOptionPane.showMessageDialog(frame, "You have run out of moves", "End your turn", JOptionPane.PLAIN_MESSAGE);
+                        return;
                     }
-                }
-                if(e.getKeyCode() == KeyEvent.VK_DOWN){
-                    Matcher matcher = pattern.matcher(board[tileY+1][tileX].getTileType());
-                    if(Scarlett.getY()<720 && !matcher.find()) {
-                        Scarlett.move("SOUTH");
-                        movesLeft-=1;
 
+
+                    //convert pixel pos to tile pos
+                    int tileX = currentCharacter.getX() / 30;
+                    int tileY = currentCharacter.getY() / 30;
+
+
+                    //Pattern pattern = Pattern.compile("(Scarlett|Mustard|Green|White|Plum|Peacock|Wall)",Pattern.CASE_INSENSITIVE);
+                    Pattern pattern = Pattern.compile("(Wall)", Pattern.CASE_INSENSITIVE);
+                    //ensures the player can move into the position that they want to, if they are not able to then do not decrese their moves left
+                    if (e.getKeyCode() == KeyEvent.VK_UP) {
+                        if (currentCharacter.getY() > 0) {
+                            Matcher matcher = pattern.matcher(board[tileY - 1][tileX].getTileType());
+                            if (!matcher.find()) {
+                                currentCharacter.move("NORTH");
+                                movesLeft -= 1;
+                            }
+                        }
                     }
-                }
-                if(e.getKeyCode() == KeyEvent.VK_LEFT){
-                    Matcher matcher = pattern.matcher(board[tileY][tileX-1].getTileType());
-                    if(Scarlett.getX()>0 && !matcher.find()) {
-                        Scarlett.move("WEST");
-                        movesLeft-=1;
+                    if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+
+                        if (currentCharacter.getY() < 720) {
+                            Matcher matcher = pattern.matcher(board[tileY + 1][tileX].getTileType());
+                            if (!matcher.find()) {
+                                currentCharacter.move("SOUTH");
+                                movesLeft -= 1;
+                            }
+                        }
                     }
-                }
-                if(e.getKeyCode() == KeyEvent.VK_RIGHT){
-                    Matcher matcher = pattern.matcher(board[tileY][tileX+1].getTileType());
-                    if(Scarlett.getX()<690 && !matcher.find()) {
-                        Scarlett.move("EAST");
-                        movesLeft-=1;
+                    if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+                        if (currentCharacter.getX() > 0) {
+                            Matcher matcher = pattern.matcher(board[tileY][tileX - 1].getTileType());
+                            if (!matcher.find()) {
+                                currentCharacter.move("WEST");
+                                movesLeft -= 1;
+                            }
+                        }
                     }
-                }
-                repaint();
-                if(movesLeft==0){
-                    System.out.println("NEXT PLAYER");
+                    if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                        if (currentCharacter.getX() < 690) {
+                            Matcher matcher = pattern.matcher(board[tileY][tileX + 1].getTileType());
+                            if (!matcher.find()) {
+                                currentCharacter.move("EAST");
+                                movesLeft -= 1;
+                            }
+                        }
+                    }
+                    //redraw the frame
+                    repaint();
+                } else{
+                    //prompts the player to roll if they have not already
+                    JFrame frame = new JFrame();
+                    JOptionPane.showMessageDialog(frame, "You need to roll the dice before you can move", "You have not rolled", JOptionPane.WARNING_MESSAGE);
                 }
 
             }
