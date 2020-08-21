@@ -6,18 +6,18 @@
 public class Player {
 
     /**
-     * Corresponds to one of the 6 playable characters in the game
-     */
-    private Character assignedCharacter;
-
-    /**
      * Name of the player
      */
     private String name;
 
-    public Player(Character assignedCharacter, String name) {
-        this.assignedCharacter = assignedCharacter;
+    /**
+     * Corresponds to one of the 6 playable characters in the game
+     */
+    private Character assignedCharacter;
+
+    public Player(String name, Character assignedCharacter) {
         this.name = name;
+        this.assignedCharacter = assignedCharacter;
     }
 
     @Override
