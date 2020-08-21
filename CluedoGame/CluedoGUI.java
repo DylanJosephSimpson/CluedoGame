@@ -452,7 +452,9 @@ public class CluedoGUI extends JFrame {
                     OpenNotes.doClick();
                 }
                 if(e.getKeyChar() == '3'){
-                    RollDice.doClick();
+                    if(!hasRolled) {
+                        RollDice.doClick();
+                    }
                 }
                 if(e.getKeyChar() == '4'){
                     MakeAccusation.doClick();
@@ -481,7 +483,7 @@ public class CluedoGUI extends JFrame {
                     int tileY = currentCharacter.getY() / 30;
 
 
-                    //Pattern pattern = Pattern.compile("(Scarlett|Mustard|Green|White|Plum|Peacock|Wall)",Pattern.CASE_INSENSITIVE);
+                    //Pattern pattern = Pattern.compile("(Scarlett|Mustard|Green|White|Plum|Peacock|Wall)",Pattern.CASE_INSENSITIVE); //todo update board each time player is moved and then uncomment this(Caleb)
                     Pattern pattern = Pattern.compile("(Wall)", Pattern.CASE_INSENSITIVE);
                     //ensures the player can move into the position that they want to, if they are not able to then do not decrese their moves left
                     if (e.getKeyCode() == KeyEvent.VK_UP) {
