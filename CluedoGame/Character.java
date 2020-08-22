@@ -33,8 +33,10 @@ public class Character implements Item {
      *
      * @param characterName Name of the weapon
      */
-    public Character(String characterName) {
+    public Character(String characterName , int x, int y) {
         this.characterName = characterName;
+        this.x = x ;
+        this.y = y;
     } //todo add prams for starting pos
 
     /**

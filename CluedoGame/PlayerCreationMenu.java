@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class PlayerCreationMenu extends JFrame {
 
     private String playerName;
-    private Character assignedCharacter;
+    private String assignedCharacter;
     private List<Player> players = new ArrayList<>();
 
     public PlayerCreationMenu(String title) {
@@ -31,34 +31,35 @@ public class PlayerCreationMenu extends JFrame {
         JRadioButton optFour = new JRadioButton(charFour);
         JRadioButton optFive = new JRadioButton(charFive);
         JRadioButton optSix = new JRadioButton(charSix);
+        //todo the following will need to be assigning to characters rather than strings. I have changed this because characters were being initialised when they already have been. The initialisation of character can not happen here because not all characters are being used by players.
         optOne.addActionListener(e -> {
             if (optOne.isSelected()){
-                assignedCharacter = new Character(charOne);
+                assignedCharacter = charOne;
             }
         });
         optTwo.addActionListener(e -> {
             if (optTwo.isSelected()){
-                assignedCharacter = new Character(charTwo);
+                assignedCharacter = charTwo;
             }
         });
         optThree.addActionListener(e -> {
             if (optThree.isSelected()){
-                assignedCharacter = new Character(charThree);
+                assignedCharacter = charThree;
             }
         });
         optFour.addActionListener(e -> {
             if (optFour.isSelected()){
-                assignedCharacter = new Character(charFour);
+                assignedCharacter = charFour;
             }
         });
         optFive.addActionListener(e -> {
             if (optFive.isSelected()){
-                assignedCharacter = new Character(charFive);
+                assignedCharacter = charFive;
             }
         });
         optSix.addActionListener(e -> {
             if (optSix.isSelected()){
-                assignedCharacter = new Character(charSix);
+                assignedCharacter = charSix;
             }
         });
 

@@ -13,9 +13,9 @@ public class Player {
     /**
      * Corresponds to one of the 6 playable characters in the game
      */
-    private Character assignedCharacter;
+    private String assignedCharacter;
 
-    public Player(String name, Character assignedCharacter) {
+    public Player(String name, String assignedCharacter) {
         this.name = name;
         this.assignedCharacter = assignedCharacter;
     }

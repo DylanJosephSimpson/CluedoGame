@@ -19,12 +19,13 @@ public class CluedoGUI extends JFrame {
 
 
     //initialisation of characters
-        private Character Scarlett = new Character("Miss. Scarlett");
-        private Character Mustard = new Character("Col. Mustard");
-        private Character White = new Character("Mrs. White");
-        private Character Green = new Character("Mr. Green");
-        private Character Peacock = new Character("Mrs. Peacock");
-        private Character Plum = new Character("Prof. Plum");
+
+    private Character Scarlett = new Character("Miss. Scarlett",210,720);
+    private Character Mustard = new Character("Col. Mustard",0,510);
+    private Character White = new Character("Mrs. White",270,0);
+    private Character Green = new Character("Mr. Green",420,0);
+    private Character Peacock = new Character("Mrs. Peacock",690,180);
+    private Character Plum = new Character("Prof. Plum",690,570);
 
     // JPanels and JLabels
     private JPanel InfoPanel;
@@ -139,9 +140,6 @@ public class CluedoGUI extends JFrame {
         tileTypeToNameMap.put("M","Mustard");
         tileTypeToNameMap.put("e","Cellar");
 
-
-
-
         //Room names being added to arraylist
         roomNames.add("Kitchen");
         roomNames.add("Ballroom");
@@ -154,9 +152,7 @@ public class CluedoGUI extends JFrame {
         roomNames.add("Library");
         roomNames.add("Cellar");
 
-        //initialise starting pos of characters
-
-
+        //todo these will need to be changed to players rather than characters
         allCharacters.add(Scarlett);
         allCharacters.add(Mustard);
         allCharacters.add(White);
@@ -165,28 +161,6 @@ public class CluedoGUI extends JFrame {
         allCharacters.add(Plum);
 
         currentCharacter = Scarlett;
-
-        //look into setting these as coordinates see if it's requried or not --> todo
-        Scarlett.setX(210);
-        Scarlett.setY(720);
-
-        Mustard.setX(0);
-        Mustard.setY(510);
-
-        White.setX(270);
-        White.setY(0);
-
-        Green.setX(420);
-        Green.setY(0);
-
-        Peacock.setX(690);
-        Peacock.setY(180);
-
-        Plum.setX(690);
-        Plum.setY(570);
-
-
-
 
     }
 
@@ -249,23 +223,16 @@ public class CluedoGUI extends JFrame {
             g2d.setStroke(new BasicStroke(1));
             drawBoard(graphics);
 
-
-
             Scarlett.draw(g2d,Scarlett.getX(),Scarlett.getY());
             Mustard.draw(g2d,Mustard.getX(),Mustard.getY());
             Green.draw(g2d,Green.getX(),Green.getY());
             White.draw(g2d,White.getX(),White.getY());
             Plum.draw(g2d,Plum.getX(),Plum.getY());
             Peacock.draw(g2d,Peacock.getX(),Peacock.getY());
-
-
-
-
         }
     }
 
-
-
+    
     /**
      *
      * Method which iterates through the board array and
@@ -277,7 +244,6 @@ public class CluedoGUI extends JFrame {
 
         for(int row = 0; row < 25; ++row) {
             for(int col = 0; col < 24; ++col) {
-                //System.out.println(roomCharacterToRoomName.get(originalBoardLayoutArray[row][col]));
                 board[row][col] = new Tile(tileTypeToNameMap.get(b.getBoardLayoutArray()[row][col]),col*GRID_SIZE,row*GRID_SIZE);
                 board[row][col].draw(graphics,board[row][col].x,board[row][col].y);
             }
@@ -414,7 +380,7 @@ public class CluedoGUI extends JFrame {
     }
 
     private boolean visitedTile(Tile tileInFrontOfPlayer) {
-
+        //checks if the next tile has been visited by checking the list of tiles that the character has visited in their turn
         for (int[] previousTile : previouslyTraversedTiles) {
             if (previousTile[0] == tileInFrontOfPlayer.getX()/30 && previousTile[1] == tileInFrontOfPlayer.getY()/30) {
                 JFrame frame = new JFrame();
@@ -424,8 +390,6 @@ public class CluedoGUI extends JFrame {
         }
         return true;
     }
-
-
 
     private JPanel GenerateGameControlPanel() {
         // Set the GameControlPanel to be a new JPanel.
@@ -498,9 +462,6 @@ public class CluedoGUI extends JFrame {
 
                     previouslyTraversedTiles.add(new int[]{tileX, tileY});
 
-                    System.out.println(previouslyTraversedTiles.size());
-
-
                     //Pattern pattern = Pattern.compile("(Scarlett|Mustard|Green|White|Plum|Peacock|Wall)",Pattern.CASE_INSENSITIVE); //todo update board each time player is moved and then uncomment this(Caleb)
                     Pattern pattern = Pattern.compile("(Wall)", Pattern.CASE_INSENSITIVE);
                     //ensures the player can move into the position that they want to, if they are not able to then do not decrese their moves left
@@ -528,7 +489,7 @@ public class CluedoGUI extends JFrame {
                         if (currentCharacter.getX() > 0 && visitedTile(board[tileY][tileX - 1])) {
                             Matcher matcher = pattern.matcher(board[tileY][tileX - 1].getTileType());
                             if (!matcher.find()) {
-                               // previouslyTraversedTiles.add(new int[]{tileX, tileY});
+                                // previouslyTraversedTiles.add(new int[]{tileX, tileY});
                                 currentCharacter.move("WEST");
                                 movesLeft -= 1;
                             }
