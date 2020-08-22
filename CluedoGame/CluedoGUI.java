@@ -5,6 +5,7 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -76,12 +77,12 @@ public class CluedoGUI extends JFrame {
     private String Spanner = "WeaponIcon/Spanner.png";
 
 
-    //todo calebs jank variables lmao
     private int movesLeft;
     private Character currentCharacter;
     private int currentCharacterPos = 0;
     private boolean hasRolled = false;
     private ArrayList<Character> allCharacters = new ArrayList<>();
+    private ArrayList<int[]> previouslyTraversedTiles = new ArrayList<>();
 
     private Tile[][] board = new Tile[25][30];
     private Board b;
@@ -412,6 +413,18 @@ public class CluedoGUI extends JFrame {
 
     }
 
+    private boolean visitedTile(Tile tileInFrontOfPlayer) {
+
+        for (int[] previousTile : previouslyTraversedTiles) {
+            if (previousTile[0] == tileInFrontOfPlayer.getX()/30 && previousTile[1] == tileInFrontOfPlayer.getY()/30) {
+                JFrame frame = new JFrame();
+                JOptionPane.showMessageDialog(frame, "You can not visit a space that you have already been in your turn.", "Keep Moving Forward", JOptionPane.WARNING_MESSAGE);
+                return false;
+            }
+        }
+        return true;
+    }
+
 
 
     private JPanel GenerateGameControlPanel() {
@@ -467,6 +480,7 @@ public class CluedoGUI extends JFrame {
                     //if the current player has no moves left, prompt the player that their turn has ended and return the settings to their defult
                     if (movesLeft == 0) {
                         hasRolled = false;
+                        previouslyTraversedTiles.clear();
                         currentCharacterPos++;
                         if (currentCharacterPos == 6) {
                             currentCharacterPos = 0;
@@ -482,42 +496,49 @@ public class CluedoGUI extends JFrame {
                     int tileX = currentCharacter.getX() / 30;
                     int tileY = currentCharacter.getY() / 30;
 
+                    previouslyTraversedTiles.add(new int[]{tileX, tileY});
+
+                    System.out.println(previouslyTraversedTiles.size());
+
 
                     //Pattern pattern = Pattern.compile("(Scarlett|Mustard|Green|White|Plum|Peacock|Wall)",Pattern.CASE_INSENSITIVE); //todo update board each time player is moved and then uncomment this(Caleb)
                     Pattern pattern = Pattern.compile("(Wall)", Pattern.CASE_INSENSITIVE);
                     //ensures the player can move into the position that they want to, if they are not able to then do not decrese their moves left
                     if (e.getKeyCode() == KeyEvent.VK_UP) {
-                        if (currentCharacter.getY() > 0) {
+                        if (currentCharacter.getY() > 0 && visitedTile(board[tileY - 1][tileX])) {
                             Matcher matcher = pattern.matcher(board[tileY - 1][tileX].getTileType());
                             if (!matcher.find()) {
                                 currentCharacter.move("NORTH");
                                 movesLeft -= 1;
+                                //previouslyTraversedTiles.add(new int[]{tileX, tileY});
                             }
                         }
                     }
                     if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-
-                        if (currentCharacter.getY() < 720) {
+                        if (currentCharacter.getY() < 720 && visitedTile(board[tileY + 1][tileX])) {
                             Matcher matcher = pattern.matcher(board[tileY + 1][tileX].getTileType());
                             if (!matcher.find()) {
+                                //previouslyTraversedTiles.add(new int[]{tileX, tileY});
                                 currentCharacter.move("SOUTH");
                                 movesLeft -= 1;
                             }
                         }
                     }
                     if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                        if (currentCharacter.getX() > 0) {
+                        if (currentCharacter.getX() > 0 && visitedTile(board[tileY][tileX - 1])) {
                             Matcher matcher = pattern.matcher(board[tileY][tileX - 1].getTileType());
                             if (!matcher.find()) {
+                               // previouslyTraversedTiles.add(new int[]{tileX, tileY});
                                 currentCharacter.move("WEST");
                                 movesLeft -= 1;
                             }
                         }
                     }
                     if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                        if (currentCharacter.getX() < 690) {
+                        if (currentCharacter.getX() < 690 && visitedTile(board[tileY][tileX + 1])) {
                             Matcher matcher = pattern.matcher(board[tileY][tileX + 1].getTileType());
                             if (!matcher.find()) {
+                                //previouslyTraversedTiles.add(new int[]{tileX, tileY});
                                 currentCharacter.move("EAST");
                                 movesLeft -= 1;
                             }
@@ -544,7 +565,5 @@ public class CluedoGUI extends JFrame {
         // Return the GameControlPanel which should now be fully configured.
         return GameControlPanel;
     }
-
-
 
 }
