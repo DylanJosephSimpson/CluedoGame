@@ -5,7 +5,6 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -18,14 +17,21 @@ public class CluedoGUI extends JFrame {
     public static final int GRID_SIZE = 30;
 
 
-    //initialisation of characters
-
+    // Initialization of characters
     private Character Scarlett = new Character("Miss. Scarlett",210,720);
     private Character Mustard = new Character("Col. Mustard",0,510);
     private Character White = new Character("Mrs. White",270,0);
     private Character Green = new Character("Mr. Green",420,0);
     private Character Peacock = new Character("Mrs. Peacock",690,180);
     private Character Plum = new Character("Prof. Plum",690,570);
+
+    // Initialization of weapons
+    private Weapon Candlestick = new Weapon("Candlestick");
+    private Weapon Dagger = new Weapon("Dagger");
+    private Weapon LeadPipe = new Weapon("LeadPipe");
+    private Weapon Revolver = new Weapon("Revolver");
+    private Weapon Rope = new Weapon("Rope");
+    private Weapon Spanner = new Weapon("Spanner");
 
     // JPanels and JLabels
     private JPanel InfoPanel;
@@ -70,19 +76,19 @@ public class CluedoGUI extends JFrame {
     private String DiceFaceFive = "DiceFace/DiceFaceFive.png";
     private String DiceFaceSix = "DiceFace/DiceFaceSix.png";
     // Strings which are the File Locations for all the Weapon Images.
-    private String Candlestick = "WeaponIcon/Candlestick.png";
-    private String Dagger = "WeaponIcon/Dagger.png";
-    private String LeadPipe = "WeaponIcon/LeadPipe.png";
-    private String Revolver = "WeaponIcon/Revolver.png";
-    private String Rope = "WeaponIcon/Rope.png";
-    private String Spanner = "WeaponIcon/Spanner.png";
+    private String CandlestickPath = "WeaponIcon/Candlestick.png";
+    private String DaggerPath = "WeaponIcon/Dagger.png";
+    private String LeadPipePath = "WeaponIcon/LeadPipe.png";
+    private String RevolverPath = "WeaponIcon/Revolver.png";
+    private String RopePath = "WeaponIcon/Rope.png";
+    private String SpannerPath = "WeaponIcon/Spanner.png";
 
 
     private int movesLeft;
     private Character currentCharacter;
     private int currentCharacterPos = 0;
     private boolean hasRolled = false;
-    private ArrayList<Character> allCharacters = new ArrayList<>();
+    public static ArrayList<Character> allCharacters = new ArrayList<>();
     private ArrayList<int[]> previouslyTraversedTiles = new ArrayList<>();
 
     private Tile[][] board = new Tile[25][30];
@@ -153,6 +159,7 @@ public class CluedoGUI extends JFrame {
         roomNames.add("Cellar");
 
         //todo these will need to be changed to players rather than characters
+        //FIXME: I've used allCharacters in the SuggestionWindow class in order to create a new Suggestion - Iqbal
         allCharacters.add(Scarlett);
         allCharacters.add(Mustard);
         allCharacters.add(White);
@@ -320,12 +327,12 @@ public class CluedoGUI extends JFrame {
             FaceFour = ImageIO.read(new File(DiceFaceFour));
             FaceFive = ImageIO.read(new File(DiceFaceFive));
             FaceSix = ImageIO.read(new File(DiceFaceSix));
-            CandlestickImage = ImageIO.read(new File(Candlestick));
-            DaggerImage = ImageIO.read(new File(Dagger));
-            LeadPipeImage = ImageIO.read(new File(LeadPipe));
-            RevolverImage = ImageIO.read(new File(Revolver));
-            RopeImage = ImageIO.read(new File(Rope));
-            SpannerImage = ImageIO.read(new File(Spanner));
+            CandlestickImage = ImageIO.read(new File(CandlestickPath));
+            DaggerImage = ImageIO.read(new File(DaggerPath));
+            LeadPipeImage = ImageIO.read(new File(LeadPipePath));
+            RevolverImage = ImageIO.read(new File(RevolverPath));
+            RopeImage = ImageIO.read(new File(RopePath));
+            SpannerImage = ImageIO.read(new File(SpannerPath));
         } catch (IOException ex) {
             System.out.println("INVALID FILE NAME");
         }
