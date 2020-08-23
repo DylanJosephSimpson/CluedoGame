@@ -29,6 +29,11 @@ public class Character implements Item {
     private int y;
 
     /**
+     * Room that the player is currently in. By default it is null as it does not spawn in one.
+     */
+    private Room currentRoom = null;
+
+    /**
      * Constructor for character
      *
      * @param characterName Name of the weapon
@@ -56,7 +61,6 @@ public class Character implements Item {
         }
     }
 
-
     @Override
     public void draw(Graphics g, int x, int y) {
 
@@ -79,6 +83,30 @@ public class Character implements Item {
         g.setColor(Color.WHITE);
         g.fillRect(x+1,y+1,28,28);
         //todo - Caleb - erase this properly
+    }
+
+    /**
+     * When a suggestion is made this character moves to the designated room
+     * @param room Room the character is moving to
+     */
+    public void moveToRoom(Room room){
+        //TODO: Write this method once the Room class is implemented (Iqbal)
+    }
+
+    /**
+     * Getter for currentRoom
+     * @return
+     */
+    public Room getCurrentRoom() {
+        return currentRoom;
+    }
+
+    /**
+     * Setter for currentRoom
+     * @param currentRoom
+     */
+    public void setCurrentRoom(Room currentRoom) {
+        this.currentRoom = currentRoom;
     }
 
     @Override

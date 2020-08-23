@@ -29,6 +29,11 @@ public class Weapon implements Item {
     private int y;
 
     /**
+     * Room that the weapon is currently in
+     */
+    private Room currentRoom;
+
+    /**
      * Constructor for weapon
      * @param weaponName Name of the weapon
      */
@@ -42,7 +47,7 @@ public class Weapon implements Item {
         this.y = y;
         //TODO: will finish this - Iqbal
         //iterate through the tile array (will be known as the board)
-        //and draw the image of the corresponding weapon onto the tile
+        //and draw the image of the corresponding weapon onto the room tile
 
         String path = "WeaponIcon/" + weaponName + ".png";
         try {
@@ -55,6 +60,31 @@ public class Weapon implements Item {
     @Override
     public void erase(Graphics g) {
         //do something with x and y to erase it
+    }
+
+    /**
+     * --- Suggestion Method ---
+     * Erases the weapon from its current room and redraws it in the designated room
+     * @param room
+     */
+    public void redrawInNewRoom(Room room){
+        //TODO: Write this method (Iqbal)
+    }
+
+    /**
+     * Getter for currentRoom
+     * @return currentRoom
+     */
+    public Room getCurrentRoom() {
+        return currentRoom;
+    }
+
+    /**
+     * Setter for currentRoom
+     * @param room
+     */
+    public void setCurrentRoom(Room room){
+        this.currentRoom = room;
     }
 
     @Override
