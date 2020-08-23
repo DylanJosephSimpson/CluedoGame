@@ -45,6 +45,7 @@ public class Weapon implements Item {
     public void draw(Graphics g, int x, int y) {
         this.x = x;
         this.y = y;
+        Graphics2D g2d = (Graphics2D) g;
         //TODO: will finish this - Iqbal
         //iterate through the tile array (will be known as the board)
         //and draw the image of the corresponding weapon onto the room tile
@@ -52,6 +53,8 @@ public class Weapon implements Item {
         String path = "WeaponIcon/" + weaponName + ".png";
         try {
             BufferedImage image = ImageIO.read(new File(path));
+            Image scaledImage = image.getScaledInstance(28, 28, Image.SCALE_SMOOTH);
+            g2d.drawImage(scaledImage,x+1,y+1,null);
         } catch (IOException e) {
             System.out.println("Error: Image drawing for " + weaponName + " failed.");
         }
