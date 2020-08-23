@@ -29,7 +29,7 @@ public class SuggestionWindow extends JDialog {
         addFirstPanel(container);
         addSecondPanel(container);
 
-        this.setTitle("You have entered a room, make a suggestion!");
+        this.setTitle("You have entered a room, make a suggestion?");
         this.add(container);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -49,7 +49,7 @@ public class SuggestionWindow extends JDialog {
 
         Room currentRoom = new Room("Lounge"); //FIXME: Praveen link this to the actual room the suggestion was made in. Currently a dummy room.
         // --------- Suggesting a suspect ---------
-        JLabel suspectLabel = new JLabel("I suggest the crime was committed in the " + currentRoom.toString() + " by...", SwingConstants.LEFT);
+        JLabel suspectLabel = new JLabel("I suggest the crime was committed in the " + currentRoom.toString() + " by...");
 
         String[] listOfSuspects = {"Miss. Scarlett", "Col. Mustard", "Mrs. White", "Mr. Green", "Mrs. Peacock", "Prof. Plum"};
         JComboBox<String> suspectsComboBox = new JComboBox<>(listOfSuspects);
@@ -70,7 +70,7 @@ public class SuggestionWindow extends JDialog {
         suspectPanel.add(suspectsComboBox);
 
         // --------- Suggesting a weapon ---------
-        JLabel weaponLabel = new JLabel("With the use of a...", SwingConstants.LEFT);
+        JLabel weaponLabel = new JLabel("With the use of a...");
 
         String[] listOfWeapons = {"Candlestick", "Dagger", "LeadPipe", "Revolver", "Rope", "Spanner"};
         JComboBox<String> weaponsComboBox = new JComboBox<>(listOfWeapons);
@@ -98,7 +98,7 @@ public class SuggestionWindow extends JDialog {
                 dispose(); //close the window
             }
         });
-        JButton nextButton = new JButton("Submit suggestion");
+        JButton nextButton = new JButton("Submit Suggestion");
         nextButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -112,15 +112,15 @@ public class SuggestionWindow extends JDialog {
         // Add the buttons to their own panel to separate the line up
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
-        //buttonPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonPanel.add(cancelButton);
-        //buttonPanel.add(Box.createRigidArea(new Dimension(WINDOW_WIDTH/2, 20)));
+        buttonPanel.add(Box.createRigidArea(new Dimension(WINDOW_WIDTH/2, 20)));
         buttonPanel.add(nextButton);
 
         // Add all mini panels to the main panel
-        mainPanel.add(Box.createRigidArea(new Dimension(0, WINDOW_HEIGHT/10))); // Adds vertical spacing before displaying the label
+        mainPanel.add(Box.createRigidArea(new Dimension(0, WINDOW_HEIGHT/4))); // Adds vertical spacing before displaying the label
         mainPanel.add(suspectPanel);
         mainPanel.add(weaponPanel);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, WINDOW_HEIGHT/3))); // Adds vertical spacing before displaying the buttons
         mainPanel.add(buttonPanel);
 
         container.add(mainPanel, "1");
