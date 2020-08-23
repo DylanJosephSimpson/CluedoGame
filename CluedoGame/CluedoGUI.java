@@ -83,21 +83,24 @@ public class CluedoGUI extends JFrame {
     private String RopePath = "WeaponIcon/Rope.png";
     private String SpannerPath = "WeaponIcon/Spanner.png";
 
+    // Collection of key game objects
+    public static ArrayList<Character> allCharacters = new ArrayList<>();
+    public static ArrayList<Weapon> allWeapons = new ArrayList<>();
+    public static ArrayList<Room> allRooms = new ArrayList<>();
 
     private int movesLeft;
     private Character currentCharacter;
     private int currentCharacterPos = 0;
     private boolean hasRolled = false;
-    public static ArrayList<Character> allCharacters = new ArrayList<>();
     private ArrayList<int[]> previouslyTraversedTiles = new ArrayList<>();
 
     private Tile[][] board = new Tile[25][30];
     private Board b;
+
     //Utility collections used for setup and quick checks
     private static HashMap<String,String> tileTypeToNameMap = new HashMap<>();
-    static HashSet<String> roomNames = new HashSet<>();
+    public static HashSet<String> roomNames = new HashSet<>();
 
-    //
 
 
     public CluedoGUI(String title, Board b) {
@@ -166,6 +169,24 @@ public class CluedoGUI extends JFrame {
         allCharacters.add(Green);
         allCharacters.add(Peacock);
         allCharacters.add(Plum);
+
+        allWeapons.add(Candlestick);
+        allWeapons.add(Dagger);
+        allWeapons.add(LeadPipe);
+        allWeapons.add(Revolver);
+        allWeapons.add(Rope);
+        allWeapons.add(Spanner);
+
+        allRooms.add(new Room("Kitchen"));
+        allRooms.add(new Room("Ballroom"));
+        allRooms.add(new Room("Conservatory"));
+        allRooms.add(new Room("Dining Room"));
+        allRooms.add(new Room("Lounge"));
+        allRooms.add(new Room("Hall"));
+        allRooms.add(new Room("Study"));
+        allRooms.add(new Room("Billiard Room"));
+        allRooms.add(new Room("Library"));
+        allRooms.add(new Room("Cellar"));
 
         currentCharacter = Scarlett;
 
