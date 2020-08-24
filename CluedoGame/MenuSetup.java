@@ -97,6 +97,7 @@ public class MenuSetup {
     }
 
     public void ChangeScreen(String title){
+        Board.setup();
         new GameSetup(title);
         MenuWindow.dispose();
     }
