@@ -264,8 +264,8 @@ public class CluedoGUI extends JFrame {
     }
 
     private void generateMurderer() {
-        int index = new Random().nextInt(allCharacters.size());
-        Iterator<Character> iter = allCharacters.iterator();
+        int index = new Random().nextInt(Board.getCharacterArrayList().size());
+        Iterator<Character> iter = Board.getCharacterArrayList().iterator();
         for (int i = 0; i < index; i++) {
             iter.next().setInvolvedInMurder(true);
         }
@@ -751,4 +751,6 @@ public class CluedoGUI extends JFrame {
             }
         }
     }
+
+
 }
