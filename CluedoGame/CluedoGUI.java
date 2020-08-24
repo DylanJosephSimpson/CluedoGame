@@ -269,7 +269,6 @@ public class CluedoGUI extends JFrame {
 
     public void drawBoard(Graphics graphics) {
 
-
         for(int row = 0; row < 25; ++row) {
             for(int col = 0; col < 24; ++col) {
                 board[row][col] = new Tile(tileTypeToNameMap.get(b.getBoardLayoutArray()[row][col]),col*GRID_SIZE,row*GRID_SIZE);
@@ -451,7 +450,13 @@ public class CluedoGUI extends JFrame {
         // TODO : ADD PROPER FUNCTIONALITY
         EndTurn.addActionListener(e -> System.out.println("End Turn"));
         OpenNotes.addActionListener(e -> System.out.println("Open Notes"));
-        RollDice.addActionListener(e -> { GenerateRandomDice(); });
+        RollDice.addActionListener(e -> {
+            GameControlPanel.setFocusable(true);
+            GameControlPanel.requestFocusInWindow();
+            if(!hasRolled) {
+
+                GenerateRandomDice();
+            } });
         MakeSuggestion.addActionListener(e -> System.out.println("Make Suggestion"));
         MakeAccusation.addActionListener(e -> System.out.println("Make Accusation"));
         // Add A KeyListener to the GameControlPanel
@@ -468,9 +473,7 @@ public class CluedoGUI extends JFrame {
                     OpenNotes.doClick();
                 }
                 if(e.getKeyChar() == '3'){
-                    if(!hasRolled) {
                         RollDice.doClick();
-                    }
                 }
                 if(e.getKeyChar() == '4'){
                     MakeAccusation.doClick();
