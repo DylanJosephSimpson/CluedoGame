@@ -16,6 +16,8 @@
         //variables be grid board
         public static final int GRID_SIZE = 30;
 
+        private ArrayList<JLabel> allCards = new ArrayList<>();
+
         private final JFrame CluedoGame;
 
         public static Character getScarlett() {
@@ -279,59 +281,73 @@
             currentCharacter = Scarlett;
                
               generateCards();
-        generateMurderer();
-        generateMurderRoom();
-        generateMurderWeapon();
+//        generateMurderer();
+//        generateMurderRoom();
+//        generateMurderWeapon();
         }
 
 
         private void generateCards(){
             // Generate character cards
-            for (Character c : allCharacters){
-                characterCards.add(new CharacterCard(c.toString()));
-            }
+
+            characterCards.add(new CharacterCard("Scarlett", ScarlettCard));
+            characterCards.add(new CharacterCard("Mustard", MustardCard));
+            characterCards.add(new CharacterCard("White", WhiteCard));
+            characterCards.add(new CharacterCard("Green", GreenCard));
+            characterCards.add(new CharacterCard("Peacock", PeacockCard));
+            characterCards.add(new CharacterCard("Plum", PlumCard));
 
             // Generate weapon cards
-            for (Weapon w : allWeapons){
-                weaponCards.add(new WeaponCard(w.toString()));
-            }
+            weaponCards.add(new WeaponCard("Candlestick", CandlestickCard));
+            weaponCards.add(new WeaponCard("Rope", RopeCard));
+            weaponCards.add(new WeaponCard("Revolver", RevolverCard));
+            weaponCards.add(new WeaponCard("LeadPipe", LeadPipeCard));
+            weaponCards.add(new WeaponCard("Dagger", DaggerCard));
+            weaponCards.add(new WeaponCard("Spanner", SpannerCard));
 
             // Generate room cards
-            for (Room r : allRooms){
-                roomCards.add(new RoomCard(r.toString()));
-            }
+            roomCards.add(new RoomCard("Library", LibraryCard));
+            roomCards.add(new RoomCard("Conservatory", ConservatoryCard));
+            roomCards.add(new RoomCard("Kitchen", KitchenCard));
+            roomCards.add(new RoomCard("Study", StudyCard));
+            roomCards.add(new RoomCard("Hall", HallCard));
+            roomCards.add(new RoomCard("BallRoom",BallRoomCard));
+            roomCards.add(new RoomCard("DiningRoom", DiningRoomCard));
+            roomCards.add(new RoomCard("Lounge", LoungeCard));
+            roomCards.add(new RoomCard("Billard Room", BillardRoomCard));
+
 
             Board.deckOfCards.addAll(characterCards);
             Board.deckOfCards.addAll(weaponCards);
             Board.deckOfCards.addAll(roomCards);
         }
 
-        private void generateMurderer(){
-            int index = new Random().nextInt(allCharacters.size());
-            Iterator<Character> iter = allCharacters.iterator();
-            for (int i = 0; i < index; i++) {
-                iter.next().setInvolvedInMurder(true);
-            }
-            throw new RuntimeException("Error: generating murderer unsuccessful");
-        }
-
-        private void generateMurderWeapon(){
-            int index = new Random().nextInt(allWeapons.size());
-            Iterator<Weapon> iter = allWeapons.iterator();
-            for (int i = 0; i < index; i++) {
-                iter.next().setInvolvedInMurder(true);
-            }
-            throw new RuntimeException("Error: generating murder weapon unsuccessful");
-        }
-
-        private void generateMurderRoom(){
-            int index = new Random().nextInt(allRooms.size());
-            Iterator<Room> iter = allRooms.iterator();
-            for (int i = 0; i < index; i++) {
-                iter.next().setInvolvedInMurder(true);
-            }
-            throw new RuntimeException("Error: generating murder room unsuccessful");
-        }
+//        private void generateMurderer(){
+//            int index = new Random().nextInt(allCharacters.size());
+//            Iterator<Character> iter = allCharacters.iterator();
+//            for (int i = 0; i < index; i++) {
+//                iter.next().setInvolvedInMurder(true);
+//            }
+//            throw new RuntimeException("Error: generating murderer unsuccessful");
+//        }
+//
+//        private void generateMurderWeapon(){
+//            int index = new Random().nextInt(allWeapons.size());
+//            Iterator<Weapon> iter = allWeapons.iterator();
+//            for (int i = 0; i < index; i++) {
+//                iter.next().setInvolvedInMurder(true);
+//            }
+//            throw new RuntimeException("Error: generating murder weapon unsuccessful");
+//        }
+//
+//        private void generateMurderRoom(){
+//            int index = new Random().nextInt(allRooms.size());
+//            Iterator<Room> iter = allRooms.iterator();
+//            for (int i = 0; i < index; i++) {
+//                iter.next().setInvolvedInMurder(true);
+//            }
+//            throw new RuntimeException("Error: generating murder room unsuccessful");
+//        }
 
         private JMenuBar GenerateMenu(String menuName, String optName, String optNameTwo) {
 
@@ -452,74 +468,92 @@
             // Set the HandCardI label to the CandlestickImage Scaled Image.
             CandlestickCard = new JLabel(new ImageIcon(CandlestickImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
             CandlestickCard.setToolTipText("Candlestick Card");
+            allCards.add(CandlestickCard);
             // Set the HandCardII label to the DaggerImage Scaled Image.
             DaggerCard = new JLabel(new ImageIcon(DaggerImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
             DaggerCard.setToolTipText("Dagger Card");
+            allCards.add(DaggerCard);
             // Set the HandCardIII label to the LeadPipeImage Scaled Image.
             LeadPipeCard = new JLabel(new ImageIcon(LeadPipeImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
             LeadPipeCard.setToolTipText("LeadPipe Card");
+            allCards.add(LeadPipeCard);
             // Set the HandCardIV label to the RevolverImage Scaled Image.
             RevolverCard = new JLabel(new ImageIcon(RevolverImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
             RevolverCard.setToolTipText("Revolver Card");
+            allCards.add(RevolverCard);
             // Set the HandCardV label to the RopeImage Scaled Image.
             RopeCard = new JLabel(new ImageIcon(RopeImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
             RopeCard.setToolTipText("Rope Card");
+            allCards.add(RopeCard);
             // Set the HandCardV label to the SpannerImage Scaled Image.
             SpannerCard = new JLabel(new ImageIcon(SpannerImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
             SpannerCard.setToolTipText("Spanner Card");
+            allCards.add(SpannerCard);
             // Add the Hand of Cards to the JPanel
 
 
             ScarlettCard = new JLabel(new ImageIcon(ScarlettImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
             ScarlettCard.setToolTipText("Candlestick Card");
+            allCards.add(ScarlettCard);
             // Set the HandCardII label to the DaggerImage Scaled Image.
             MustardCard = new JLabel(new ImageIcon(MustardImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
             MustardCard.setToolTipText("Dagger Card");
+            allCards.add(MustardCard);
             // Set the HandCardIII label to the LeadPipeImage Scaled Image.
             GreenCard = new JLabel(new ImageIcon(GreenImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
             GreenCard.setToolTipText("LeadPipe Card");
+            allCards.add(GreenCard);
             // Set the HandCardIV label to the RevolverImage Scaled Image.
             WhiteCard = new JLabel(new ImageIcon(WhiteImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
             WhiteCard.setToolTipText("Revolver Card");
+            allCards.add(WhiteCard);
             // Set the HandCardV label to the RopeImage Scaled Image.
             PlumCard = new JLabel(new ImageIcon(PlumImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
             PlumCard.setToolTipText("Rope Card");
+            allCards.add(PlumCard);
             // Set the HandCardV label to the SpannerImage Scaled Image.
             PeacockCard = new JLabel(new ImageIcon(PeacockImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
             PeacockCard.setToolTipText("Spanner Card");
+            allCards.add(PeacockCard);
             // Add the Hand of Cards to the JPanel
-
-
 
 
             LibraryCard = new JLabel(new ImageIcon(LibraryImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
             LibraryCard.setToolTipText("Library Card");
+            allCards.add(LibraryCard);
             // Set the HandCardII label to the DaggerImage Scaled Image.
             BallRoomCard = new JLabel(new ImageIcon(BallRoomImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
             BallRoomCard.setToolTipText("Ball Room Card");
+            allCards.add(BallRoomCard);
             // Set the HandCardIII label to the LeadPipeImage Scaled Image.
             KitchenCard = new JLabel(new ImageIcon(KitchenImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
             KitchenCard.setToolTipText("Kitchen Card");
+            allCards.add(KitchenCard);
             // Set the HandCardIV label to the RevolverImage Scaled Image.
             DiningRoomCard = new JLabel(new ImageIcon(DiningRoomImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
             DiningRoomCard.setToolTipText("Dining Room Card");
+            allCards.add(DiningRoomCard);
             // Set the HandCardV label to the RopeImage Scaled Image.
             LoungeCard = new JLabel(new ImageIcon(LoungeImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
             LoungeCard.setToolTipText("Lounge Card");
+            allCards.add(LoungeCard);
             // Set the HandCardV label to the SpannerImage Scaled Image.
             HallCard = new JLabel(new ImageIcon(HallImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
             HallCard.setToolTipText("Hall Card");
+            allCards.add(HallCard);
             // Add the Hand of Cards to the JPanel
             StudyCard = new JLabel(new ImageIcon(StudyImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
             StudyCard.setToolTipText("Study Card");
+            allCards.add(StudyCard);
             // Set the HandCardII label to the DaggerImage Scaled Image.
             BillardRoomCard = new JLabel(new ImageIcon(BillardRoomImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
             BillardRoomCard.setToolTipText("Billard Room Card");
+            allCards.add(BillardRoomCard);
             // Set the HandCardIII label to the LeadPipeImage Scaled Image.
             ConservatoryCard = new JLabel(new ImageIcon(ConservatoryImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
             ConservatoryCard.setToolTipText("Conservatory Card");
+            allCards.add(ConservatoryCard);
             // Set the HandCardIV label to the RevolverImage Scaled Image.
-
 
 
 
@@ -659,7 +693,10 @@
             // TODO : ADD PROPER FUNCTIONALITY
             EndTurn.addActionListener(e -> System.out.println("End Turn"));
             OpenNotes.addActionListener(e -> System.out.println("Open Notes"));
-            RollDice.addActionListener(e -> { GenerateRandomDice(); });
+            RollDice.addActionListener(e -> {
+                GameControlPanel.requestFocusInWindow();
+                GenerateRandomDice();
+            });
             MakeSuggestion.addActionListener(e -> System.out.println("Make Suggestion"));
             MakeAccusation.addActionListener(e -> System.out.println("Make Accusation"));
             // Add A KeyListener to the GameControlPanel

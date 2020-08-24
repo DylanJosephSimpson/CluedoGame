@@ -1,3 +1,5 @@
+import javax.swing.*;
+
 /**
  * Class which is necessary for interactions. Describes the character *in question.
  * CharacterCard subclass:
@@ -9,12 +11,15 @@
 public class CharacterCard extends Card {
 
     private String characterName;
+    private JLabel cardIcon;
 
     /**Constructor for a single CharacterCard
      * @param aCharacterName - the name of the card. For CharacterCards this is the character names.
      */
-    CharacterCard(String aCharacterName) {
+    CharacterCard(String aCharacterName, JLabel cardIcon) {
+
         characterName = aCharacterName;
+        this.cardIcon = cardIcon;
     }
     /**
      * getCharacterName method :
