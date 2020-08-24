@@ -29,6 +29,12 @@ public class Weapon implements Item {
     private int y;
 
     /**
+     * Was the murder committed using this weapon? (false by default)
+     */
+    private boolean isInvolvedInMurder;
+
+
+    /**
      * Room that the weapon is currently in
      */
     private Room currentRoom;
@@ -88,6 +94,14 @@ public class Weapon implements Item {
      */
     public void setCurrentRoom(Room room){
         this.currentRoom = room;
+    }
+
+    public boolean isInvolvedInMurder() {
+        return isInvolvedInMurder;
+    }
+
+    public void setInvolvedInMurder(boolean involvedInMurder) {
+        isInvolvedInMurder = involvedInMurder;
     }
 
     @Override

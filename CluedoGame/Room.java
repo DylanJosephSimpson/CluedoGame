@@ -13,6 +13,12 @@ public class Room {
     private String roomName;
 
     /**
+     * Was the murder committed in this room? (false by default)
+     */
+    private boolean isInvolvedInMurder;
+
+
+    /**
      * Originally allocated weapons and weapons that are suggested go into this room
      */
     private HashSet<Weapon> weaponsInRoom = new HashSet<>();
@@ -67,6 +73,14 @@ public class Room {
      */
     public void removeCharacterFromRoom(Character character){
         charactersInRoom.remove(character);
+    }
+
+    public boolean isInvolvedInMurder() {
+        return isInvolvedInMurder;
+    }
+
+    public void setInvolvedInMurder(boolean involvedInMurder) {
+        isInvolvedInMurder = involvedInMurder;
     }
 
     @Override
