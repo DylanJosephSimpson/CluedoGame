@@ -281,9 +281,9 @@
             currentCharacter = Scarlett;
                
               generateCards();
-//        generateMurderer();
-//        generateMurderRoom();
-//        generateMurderWeapon();
+        generateMurderer();
+        generateMurderRoom();
+        generateMurderWeapon();
         }
 
 
@@ -322,32 +322,29 @@
             Board.deckOfCards.addAll(roomCards);
         }
 
-//        private void generateMurderer(){
-//            int index = new Random().nextInt(allCharacters.size());
-//            Iterator<Character> iter = allCharacters.iterator();
-//            for (int i = 0; i < index; i++) {
-//                iter.next().setInvolvedInMurder(true);
-//            }
-//            throw new RuntimeException("Error: generating murderer unsuccessful");
-//        }
-//
-//        private void generateMurderWeapon(){
-//            int index = new Random().nextInt(allWeapons.size());
-//            Iterator<Weapon> iter = allWeapons.iterator();
-//            for (int i = 0; i < index; i++) {
-//                iter.next().setInvolvedInMurder(true);
-//            }
-//            throw new RuntimeException("Error: generating murder weapon unsuccessful");
-//        }
-//
-//        private void generateMurderRoom(){
-//            int index = new Random().nextInt(allRooms.size());
-//            Iterator<Room> iter = allRooms.iterator();
-//            for (int i = 0; i < index; i++) {
-//                iter.next().setInvolvedInMurder(true);
-//            }
-//            throw new RuntimeException("Error: generating murder room unsuccessful");
-//        }
+        private void generateMurderer(){
+            int index = new Random().nextInt(allCharacters.size());
+            Iterator<Character> iter = allCharacters.iterator();
+            for (int i = 0; i < index; i++) {
+                iter.next().setInvolvedInMurder(true);
+            }
+        }
+
+        private void generateMurderWeapon(){
+            int index = new Random().nextInt(allWeapons.size());
+            Iterator<Weapon> iter = allWeapons.iterator();
+            for (int i = 0; i < index; i++) {
+                iter.next().setInvolvedInMurder(true);
+            }
+        }
+
+        private void generateMurderRoom(){
+            int index = new Random().nextInt(allRooms.size());
+            Iterator<Room> iter = allRooms.iterator();
+            for (int i = 0; i < index; i++) {
+                iter.next().setInvolvedInMurder(true);
+            }
+        }
 
         private JMenuBar GenerateMenu(String menuName, String optName, String optNameTwo) {
 
