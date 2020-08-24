@@ -1,12 +1,12 @@
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * The player class is responsible for allowing a user to interact with
  * the board and game.
  */
 public class Player {
-
-    ArrayList<Card> handOfCards = new ArrayList<>();
 
     public static ArrayList<Player> playerList = new ArrayList<>();
 
@@ -57,6 +57,16 @@ public class Player {
     public void setCurrentTile(Tile currentTile) {
         this.currentTile = currentTile;
     }
+
+    public int getRemainingMoves() {
+        return RemainingMoves;
+    }
+
+    public void setRemainingMoves(int remainingMoves) {
+        RemainingMoves = remainingMoves;
+    }
+
+    public int RemainingMoves;
 
     /**
      * Name of the player
@@ -111,7 +121,15 @@ public class Player {
      * @return
      */
     private boolean isInARoom() {
-        return true;
+
+        int xTile = this.assignedCharacter.getX()/30;
+        int yTile = this.assignedCharacter.getY()/30;
+
+        String tileType = Board.getOriginalBoardLayoutArray()[yTile][xTile];
+        Pattern pattern = Pattern.compile("[kbcdlhsiy@]");
+        Matcher matcher = pattern.matcher(tileType);
+
+        return matcher.find();
     }
 
     /**
@@ -120,6 +138,9 @@ public class Player {
      * @param dir
      */
     public void move(String dir){
+        System.out.println(this.getRemainingMoves());
+        boolean tempTest = isInARoom();
+
         if(dir.equals("NORTH")){
             assignedCharacter.setY(assignedCharacter.getY()-30);
         }else if(dir.equals("EAST")){
@@ -129,6 +150,12 @@ public class Player {
         } else if(dir.equals("WEST")){
             assignedCharacter.setX(assignedCharacter.getX()-30);
         }
+
+        if (!tempTest && isInARoom() || tempTest && !isInARoom()){
+            this.setRemainingMoves(0);
+
+        }
+
     }
 
     @Override
