@@ -277,7 +277,11 @@
             allRooms.add(new Room("Cellar"));
 
             currentCharacter = Scarlett;
-
+               
+              generateCards();
+        generateMurderer();
+        generateMurderRoom();
+        generateMurderWeapon();
         }
 
 
