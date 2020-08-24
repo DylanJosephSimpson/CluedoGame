@@ -21,5 +21,4 @@ public interface Item {
      * @param g Graphics object
      */
     public void erase(Graphics g);
-
 }
