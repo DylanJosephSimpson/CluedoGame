@@ -216,5 +216,4 @@ public class GameSetup {
 
         new CluedoGUI("Cluedo Game",b);
     }
-
 }
