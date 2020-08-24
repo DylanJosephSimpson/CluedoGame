@@ -95,4 +95,3 @@ public class Weapon implements Item {
         return weaponName;
     }
 }
-
