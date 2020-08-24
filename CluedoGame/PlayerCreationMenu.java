@@ -116,7 +116,7 @@ public class PlayerCreationMenu extends JFrame {
         nextPlayerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                players.add(new Player(playerName, assignedCharacter));
+                //players.add(new Player(playerName, assignedCharacter));
             }
         });
         buttonPos.gridx = 0;
