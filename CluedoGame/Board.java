@@ -1,8 +1,14 @@
+import java.util.ArrayList;
+import java.util.HashSet;
+
 /**
  *  The board class is responsible for drawing and keeping track of
  *  the components that make up the board.
  */
 public class Board {
+    static HashSet<Card> deckOfCards = new HashSet<>();
+    static HashSet<Card> envelope = new HashSet<>();
+
     private  String[][] boardLayoutArray = new String[][]
 
             {{
