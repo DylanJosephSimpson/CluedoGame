@@ -635,16 +635,18 @@ public class CluedoGUI extends JFrame {
                 if (e.getKeyChar() == '5') {
                     MakeSuggestion.doClick();
                 }
-                currentPlayer = Player.getPlayerList().get(0);
+                currentPlayer = Player.getPlayerList().get(currentPlayerPos);
                 //if the player has rolled then they can move
                 if (hasRolled) {
+                    currentPlayer = Player.getPlayerList().get(currentPlayerPos);
+                    System.out.println("The current Player is " + currentPlayer);
                     //if the current player has no moves left, prompt the player that their turn has ended and return the settings to their defult
                     if (movesLeft == 0) {
                         hasRolled = false;
                         previouslyTraversedTiles.clear();
 
                         currentPlayerPos++;
-                        if (currentPlayerPos == Player.playerList.size() - 1) {
+                        if (currentPlayerPos == Player.playerList.size()) {
                             currentPlayerPos = 0;
                         }
                         currentPlayer = Player.playerList.get(currentPlayerPos);
@@ -715,6 +717,7 @@ public class CluedoGUI extends JFrame {
                     JFrame frame = new JFrame();
                     JOptionPane.showMessageDialog(frame, "You need to roll the dice before you can move", "You have not rolled", JOptionPane.WARNING_MESSAGE);
                 }
+
 
             }
 
