@@ -1,9 +1,5 @@
-
 public class RoomCard extends Card
 {
-
-
-
     private String roomName;
 
     RoomCard(String aRoomName)
