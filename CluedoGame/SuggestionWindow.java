@@ -22,7 +22,6 @@ public class SuggestionWindow extends JDialog {
     private Character suggestedCharacter = CluedoGUI.allCharacters.get(0); // Default is Miss Scarlett
     private Weapon suggestedWeapon = CluedoGUI.allWeapons.get(0); // Default is Candlestick
 
-
     public SuggestionWindow(CluedoGUI mainClient){
         container.setLayout(cl);
 
@@ -35,8 +34,7 @@ public class SuggestionWindow extends JDialog {
         this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         this.setVisible(true);
 
-
-        this.setLocationRelativeTo(mainClient); //centres the dialog to the middle of CluedoGUI
+        //this.setLocationRelativeTo(mainClient); //centres the dialog to the middle of CluedoGUI
     }
 
     /**
@@ -141,5 +139,4 @@ public class SuggestionWindow extends JDialog {
     public static void main(String[] args) {
         SuggestionWindow test = new SuggestionWindow(new CluedoGUI("TEST", null));
     }
-
 }
