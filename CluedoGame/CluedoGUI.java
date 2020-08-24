@@ -1,7 +1,10 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -12,18 +15,42 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CluedoGUI extends JFrame {
-
     //variables be grid board
     public static final int GRID_SIZE = 30;
 
+    private final JFrame CluedoGame;
+
+    public static String getScarlett() {
+        return Scarlett.toString();
+    }
+
+    public static String getMustard() {
+        return Mustard.toString();
+    }
+
+    public static String getWhite() {
+        return White.toString();
+    }
+
+    public static String getGreen() {
+        return Green.toString();
+    }
+
+    public static String getPeacock() {
+        return Peacock.toString();
+    }
+
+    public static String getPlum() {
+        return Plum.toString();
+    }
 
     // Initialization of characters
-    private Character Scarlett = new Character("Miss. Scarlett",210,720);
-    private Character Mustard = new Character("Col. Mustard",0,510);
-    private Character White = new Character("Mrs. White",270,0);
-    private Character Green = new Character("Mr. Green",420,0);
-    private Character Peacock = new Character("Mrs. Peacock",690,180);
-    private Character Plum = new Character("Prof. Plum",690,570);
+    private static Character Scarlett = new Character("Miss. Scarlett",210,720);
+    private static Character Mustard = new Character("Col. Mustard",0,510);
+    private static Character White = new Character("Mrs. White",270,0);
+    private static Character Green = new Character("Mr. Green",420,0);
+    private static Character Peacock = new Character("Mrs. Peacock",690,180);
+    private static Character Plum = new Character("Prof. Plum",690,570);
 
     // Initialization of weapons
     private Weapon Candlestick = new Weapon("Candlestick");
@@ -101,29 +128,29 @@ public class CluedoGUI extends JFrame {
     private static HashMap<String,String> tileTypeToNameMap = new HashMap<>();
     public static HashSet<String> roomNames = new HashSet<>();
 
-
-
     public CluedoGUI(String title, Board b) {
 
-        super(title);
+        CluedoGame = new JFrame(title);
+        this.b  =b;
         // Set GUI to terminate the program when exited.
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        CluedoGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // Set the JMenuBar to the return value of the GenerateMenu method.
-        this.setJMenuBar(GenerateMenu("Game Menu", "Exit Game", "Restart Game"));
+        CluedoGame.setJMenuBar(GenerateMenu("Game Menu", "Exit Game", "Restart Game"));
         // Set the layout of the GUI to GridLayout, this way BoardPanel and InfoPanel can be easily separated.
-        this.setLayout(new BorderLayout(2, 1));
+        CluedoGame.setLayout(new BorderLayout(2, 1));
         // Add the GameControlPanel to the JFrame
-        this.add(GenerateGameControlPanel(), BorderLayout.NORTH);
+        CluedoGame.add(GenerateGameControlPanel(), BorderLayout.NORTH);
         // Add the BoardPanel to the JFrame.
         //this.add(GenerateBoardPanel());
-        this.add(GenerateBoardPanel(), BorderLayout.CENTER);
+        CluedoGame.add(GenerateBoardPanel(), BorderLayout.CENTER);
         // Add the InfoPanel to the JFrame.
-        this.add(GenerateInfoPanel(), BorderLayout.SOUTH);
+        CluedoGame.add(GenerateInfoPanel(), BorderLayout.SOUTH);
         // Pack the JFrame so that all its contents are at or above their preferred sizes
-        this.pack();
+        CluedoGame.pack();
+        //
+        CluedoGame.setVisible(true);
         //Implementing a setup method which initialises required variables
         setup();
-        this.b  =b;
 
     }
 
@@ -260,7 +287,7 @@ public class CluedoGUI extends JFrame {
         }
     }
 
-    
+
     /**
      *
      * Method which iterates through the board array and
@@ -268,6 +295,7 @@ public class CluedoGUI extends JFrame {
      */
 
     public void drawBoard(Graphics graphics) {
+
 
         for(int row = 0; row < 25; ++row) {
             for(int col = 0; col < 24; ++col) {
@@ -347,6 +375,7 @@ public class CluedoGUI extends JFrame {
             FaceFour = ImageIO.read(new File(DiceFaceFour));
             FaceFive = ImageIO.read(new File(DiceFaceFive));
             FaceSix = ImageIO.read(new File(DiceFaceSix));
+            //
             CandlestickImage = ImageIO.read(new File(CandlestickPath));
             DaggerImage = ImageIO.read(new File(DaggerPath));
             LeadPipeImage = ImageIO.read(new File(LeadPipePath));
@@ -406,17 +435,7 @@ public class CluedoGUI extends JFrame {
 
     }
 
-    private boolean validMove(Tile tileInFrontOfPlayer) {
-
-        //checks if the next tile is a character or not
-        for(Character c : allCharacters){
-            if(c != currentCharacter){
-                if(c.getX()==tileInFrontOfPlayer.getX() && c.getY()==tileInFrontOfPlayer.getY()){
-                    return false;
-                }
-            }
-        }
-
+    private boolean visitedTile(Tile tileInFrontOfPlayer) {
         //checks if the next tile has been visited by checking the list of tiles that the character has visited in their turn
         for (int[] previousTile : previouslyTraversedTiles) {
             if (previousTile[0] == tileInFrontOfPlayer.getX()/30 && previousTile[1] == tileInFrontOfPlayer.getY()/30) {
@@ -427,7 +446,6 @@ public class CluedoGUI extends JFrame {
         }
         return true;
     }
-
 
     private JPanel GenerateGameControlPanel() {
         // Set the GameControlPanel to be a new JPanel.
@@ -450,13 +468,7 @@ public class CluedoGUI extends JFrame {
         // TODO : ADD PROPER FUNCTIONALITY
         EndTurn.addActionListener(e -> System.out.println("End Turn"));
         OpenNotes.addActionListener(e -> System.out.println("Open Notes"));
-        RollDice.addActionListener(e -> {
-            GameControlPanel.setFocusable(true);
-            GameControlPanel.requestFocusInWindow();
-            if(!hasRolled) {
-
-                GenerateRandomDice();
-            } });
+        RollDice.addActionListener(e -> { GenerateRandomDice(); });
         MakeSuggestion.addActionListener(e -> System.out.println("Make Suggestion"));
         MakeAccusation.addActionListener(e -> System.out.println("Make Accusation"));
         // Add A KeyListener to the GameControlPanel
@@ -473,7 +485,9 @@ public class CluedoGUI extends JFrame {
                     OpenNotes.doClick();
                 }
                 if(e.getKeyChar() == '3'){
+                    if(!hasRolled) {
                         RollDice.doClick();
+                    }
                 }
                 if(e.getKeyChar() == '4'){
                     MakeAccusation.doClick();
@@ -497,6 +511,7 @@ public class CluedoGUI extends JFrame {
                         return;
                     }
 
+
                     //convert pixel pos to tile pos
                     int tileX = currentCharacter.getX() / 30;
                     int tileY = currentCharacter.getY() / 30;
@@ -507,42 +522,46 @@ public class CluedoGUI extends JFrame {
                     Pattern pattern = Pattern.compile("(Wall)", Pattern.CASE_INSENSITIVE);
                     //ensures the player can move into the position that they want to, if they are not able to then do not decrese their moves left
                     if (e.getKeyCode() == KeyEvent.VK_UP) {
-                        if (currentCharacter.getY() > 0 && validMove(board[tileY - 1][tileX])) {
+                        if (currentCharacter.getY() > 0 && visitedTile(board[tileY - 1][tileX])) {
                             Matcher matcher = pattern.matcher(board[tileY - 1][tileX].getTileType());
                             if (!matcher.find()) {
                                 currentCharacter.move("NORTH");
                                 movesLeft -= 1;
+                                repaint();
                                 //previouslyTraversedTiles.add(new int[]{tileX, tileY});
                             }
                         }
                     }
                     if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                        if (currentCharacter.getY() < 720 && validMove(board[tileY + 1][tileX])) {
+                        if (currentCharacter.getY() < 720 && visitedTile(board[tileY + 1][tileX])) {
                             Matcher matcher = pattern.matcher(board[tileY + 1][tileX].getTileType());
                             if (!matcher.find()) {
                                 //previouslyTraversedTiles.add(new int[]{tileX, tileY});
                                 currentCharacter.move("SOUTH");
                                 movesLeft -= 1;
+                                repaint();
                             }
                         }
                     }
                     if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                        if (currentCharacter.getX() > 0 && validMove(board[tileY][tileX - 1])) {
+                        if (currentCharacter.getX() > 0 && visitedTile(board[tileY][tileX - 1])) {
                             Matcher matcher = pattern.matcher(board[tileY][tileX - 1].getTileType());
                             if (!matcher.find()) {
                                 // previouslyTraversedTiles.add(new int[]{tileX, tileY});
                                 currentCharacter.move("WEST");
                                 movesLeft -= 1;
+                                repaint();
                             }
                         }
                     }
                     if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                        if (currentCharacter.getX() < 690 && validMove(board[tileY][tileX + 1])) {
+                        if (currentCharacter.getX() < 690 && visitedTile(board[tileY][tileX + 1])) {
                             Matcher matcher = pattern.matcher(board[tileY][tileX + 1].getTileType());
                             if (!matcher.find()) {
                                 //previouslyTraversedTiles.add(new int[]{tileX, tileY});
                                 currentCharacter.move("EAST");
                                 movesLeft -= 1;
+                                repaint();
                             }
                         }
                     }
@@ -558,6 +577,7 @@ public class CluedoGUI extends JFrame {
             @Override
             public void keyReleased(KeyEvent e) {           }
         });
+
         // Add the JButtons to the GameControlPanel.
         GameControlPanel.add(EndTurn);
         GameControlPanel.add(OpenNotes);
