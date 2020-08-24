@@ -141,7 +141,7 @@ public class CluedoGUI extends JFrame {
     private Tile[][] board = new Tile[25][30];
     private Board b;
     private Player currentPlayer;
-    private int currentPlayerPos;
+    private int currentPlayerPos = 0;
 
     public CluedoGUI(String title, Board board) {
         CluedoGame = new JFrame(title);
@@ -638,7 +638,7 @@ public class CluedoGUI extends JFrame {
                 currentPlayer = Player.getPlayerList().get(currentPlayerPos);
                 //if the player has rolled then they can move
                 if (hasRolled) {
-                    currentPlayer = Player.getPlayerList().get(currentPlayerPos);
+//                    currentPlayer = Player.getPlayerList().get(currentPlayerPos);
                     System.out.println("The current Player is " + currentPlayer);
                     //if the current player has no moves left, prompt the player that their turn has ended and return the settings to their defult
                     if (movesLeft == 0) {
