@@ -687,87 +687,81 @@
                         MakeSuggestion.doClick();
                     }
                     //if the player has rolled then they can move
-                    if(hasRolled) {
-                        //if the current player has no moves left, prompt the player that their turn has ended and return the settings to their defult
-                        if (movesLeft == 0) {
-                            hasRolled = false;
-                            previouslyTraversedTiles.clear();
-                            currentCharacterPos++;
-                            if (currentCharacterPos == 6) {
-                                currentCharacterPos = 0;
-                            }
-                            currentCharacter = allCharacters.get(currentCharacterPos);
-                            JFrame frame = new JFrame();
-                            JOptionPane.showMessageDialog(frame, "You have run out of moves", "End your turn", JOptionPane.PLAIN_MESSAGE);
-                            return;
+                                    if(hasRolled) {
+                    //if the current player has no moves left, prompt the player that their turn has ended and return the settings to their defult
+                    if (movesLeft == 0) {
+                        hasRolled = false;
+                        previouslyTraversedTiles.clear();
+                        currentCharacterPos++;
+                        if (currentCharacterPos == 6) {
+                            currentCharacterPos = 0;
                         }
-
-
-                        //convert pixel pos to tile pos
-                        int tileX = currentCharacter.getX() / 30;
-                        int tileY = currentCharacter.getY() / 30;
-
-                        previouslyTraversedTiles.add(new int[]{tileX, tileY});
-
-                        //Pattern pattern = Pattern.compile("(Scarlett|Mustard|Green|White|Plum|Peacock|Wall)",Pattern.CASE_INSENSITIVE); //todo update board each time player is moved and then uncomment this(Caleb)
-                        Pattern pattern = Pattern.compile("(Wall)", Pattern.CASE_INSENSITIVE);
-                        //ensures the player can move into the position that they want to, if they are not able to then do not decrese their moves left
-                        if (e.getKeyCode() == KeyEvent.VK_UP) {
-                            if (currentCharacter.getY() > 0 && visitedTile(board[tileY - 1][tileX])) {
-                                Matcher matcher = pattern.matcher(board[tileY - 1][tileX].getTileType());
-                                if (!matcher.find()) {
-                                    currentCharacter.move("NORTH");
-                                    movesLeft -= 1;
-                                    repaint();
-                                    //previouslyTraversedTiles.add(new int[]{tileX, tileY});
-                                }
-                            }
-                        }
-                        if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                            if (currentCharacter.getY() < 720 && visitedTile(board[tileY + 1][tileX])) {
-                                Matcher matcher = pattern.matcher(board[tileY + 1][tileX].getTileType());
-                                if (!matcher.find()) {
-                                    //previouslyTraversedTiles.add(new int[]{tileX, tileY});
-                                    currentCharacter.move("SOUTH");
-                                    movesLeft -= 1;
-                                    repaint();
-                                }
-                            }
-                        }
-                        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                            if (currentCharacter.getX() > 0 && visitedTile(board[tileY][tileX - 1])) {
-                                Matcher matcher = pattern.matcher(board[tileY][tileX - 1].getTileType());
-                                if (!matcher.find()) {
-                                    // previouslyTraversedTiles.add(new int[]{tileX, tileY});
-                                    currentCharacter.move("WEST");
-                                    movesLeft -= 1;
-                                    repaint();
-                                }
-                            }
-                        }
-                        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                            if (currentCharacter.getX() < 690 && visitedTile(board[tileY][tileX + 1])) {
-                                Matcher matcher = pattern.matcher(board[tileY][tileX + 1].getTileType());
-                                if (!matcher.find()) {
-                                    //previouslyTraversedTiles.add(new int[]{tileX, tileY});
-                                    currentCharacter.move("EAST");
-                                    movesLeft -= 1;
-                                    repaint();
-                                }
-                            }
-                        }
-                        //redraw the frame
-                        repaint();
-                    } else{
-                        //prompts the player to roll if they have not already
+                        currentCharacter = allCharacters.get(currentCharacterPos);
                         JFrame frame = new JFrame();
-                        JOptionPane.showMessageDialog(frame, "You need to roll the dice before you can move", "You have not rolled", JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.showMessageDialog(frame, "You have run out of moves", "End your turn", JOptionPane.PLAIN_MESSAGE);
+                        return;
                     }
 
+
+                    //convert pixel pos to tile pos
+                    int tileX = currentCharacter.getX() / 30;
+                    int tileY = currentCharacter.getY() / 30;
+
+                    previouslyTraversedTiles.add(new int[]{tileX, tileY});
+
+                    //Pattern pattern = Pattern.compile("(Scarlett|Mustard|Green|White|Plum|Peacock|Wall)",Pattern.CASE_INSENSITIVE); //todo update board each time player is moved and then uncomment this(Caleb)
+                    Pattern pattern = Pattern.compile("(Wall)", Pattern.CASE_INSENSITIVE);
+                    //ensures the player can move into the position that they want to, if they are not able to then do not decrese their moves left
+                    if (e.getKeyCode() == KeyEvent.VK_UP) {
+                        if (currentCharacter.getY() > 0 && visitedTile(board[tileY - 1][tileX])) {
+                            Matcher matcher = pattern.matcher(board[tileY - 1][tileX].getTileType());
+                            if (!matcher.find()) {
+                                currentCharacter.move("NORTH");
+                                movesLeft -= 1;
+                                CluedoGame.repaint();
+                            }
+                        }
+                    }
+                    if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                        if (currentCharacter.getY() < 720 && visitedTile(board[tileY + 1][tileX])) {
+                            Matcher matcher = pattern.matcher(board[tileY + 1][tileX].getTileType());
+                            if (!matcher.find()) {
+                                currentCharacter.move("SOUTH");
+                                movesLeft -= 1;
+                                CluedoGame.repaint();
+                            }
+                        }
+                    }
+                    if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+                        if (currentCharacter.getX() > 0 && visitedTile(board[tileY][tileX - 1])) {
+                            Matcher matcher = pattern.matcher(board[tileY][tileX - 1].getTileType());
+                            if (!matcher.find()) {
+                                currentCharacter.move("WEST");
+                                movesLeft -= 1;
+                                CluedoGame.repaint();
+                            }
+                        }
+                    }
+                    if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                        if (currentCharacter.getX() < 690 && visitedTile(board[tileY][tileX + 1])) {
+                            Matcher matcher = pattern.matcher(board[tileY][tileX + 1].getTileType());
+                            if (!matcher.find()) {
+                                currentCharacter.move("EAST");
+                                movesLeft -= 1;
+                                CluedoGame.repaint();
+                            }
+                        }
+                    }
+                    CluedoGame.repaint();
+                } else{
+                    JFrame frame = new JFrame();
+                    JOptionPane.showMessageDialog(frame, "You need to roll the dice before you can move", "You have not rolled", JOptionPane.WARNING_MESSAGE);
                 }
-                @Override
-                public void keyReleased(KeyEvent e) {           }
-            });
+
+            }
+            @Override
+            public void keyReleased(KeyEvent e) {           }
+        });
 
             // Add the JButtons to the GameControlPanel.
             GameControlPanel.add(EndTurn);
