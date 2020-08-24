@@ -101,6 +101,4 @@ public class MenuSetup {
         new GameSetup(title);
         MenuWindow.dispose();
     }
-
 }
-
