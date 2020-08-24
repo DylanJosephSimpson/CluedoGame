@@ -160,5 +160,4 @@ public class Character implements Item {
     public void setY(int y) {
         this.y = y;
     }
-
 }
