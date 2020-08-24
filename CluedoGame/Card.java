@@ -10,7 +10,6 @@
 
 public class Card
 {
-
     /**
      * ToString Method:
      *
@@ -23,5 +22,5 @@ public class Card
         return super.toString();
     }
 
-
+    
 }
