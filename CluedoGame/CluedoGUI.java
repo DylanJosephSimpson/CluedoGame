@@ -18,18 +18,18 @@ public class CluedoGUI extends JFrame {
     // Collection of key game objects
     public static ArrayList<Character> allCharacters = new ArrayList<>();
 
-
     // Initialization of characters
-    //
     public static ArrayList<Weapon> allWeapons = new ArrayList<>();
     public static ArrayList<Room> allRooms = new ArrayList<>();
     public static Set<RoomCard> roomCards = new HashSet<>();
     public static Set<WeaponCard> weaponCards = new HashSet<>();
     public static Set<CharacterCard> characterCards = new HashSet<>();
     public static HashSet<String> roomNames = new HashSet<>();
+
     //Utility collections used for setup and quick checks
     private static HashMap<String, String> tileTypeToNameMap = new HashMap<>();
     private final JFrame CluedoGame;
+
     // JButtons for the GameControlPanel
     public JButton EndTurn;
     public JButton OpenNotes;
@@ -37,6 +37,7 @@ public class CluedoGUI extends JFrame {
     public JButton MakeAccusation;
     public JButton MakeSuggestion;
     private ArrayList<JLabel> allCards = new ArrayList<>();
+
     // Initialization of weapons
     private Weapon Candlestick = new Weapon("Candlestick");
     private Weapon Dagger = new Weapon("Dagger");
@@ -44,6 +45,7 @@ public class CluedoGUI extends JFrame {
     private Weapon Revolver = new Weapon("Revolver");
     private Weapon Rope = new Weapon("Rope");
     private Weapon Spanner = new Weapon("Spanner");
+
     // JPanels and JLabels
     private JPanel InfoPanel;
     private JPanel GameControlPanel;
@@ -106,12 +108,8 @@ public class CluedoGUI extends JFrame {
     private JLabel BallRoomCard;
     private JLabel DiningRoomCard;
     // Strings which are the File Locations for all the Dice Images.
-    private String DiceFaceOne = "DiceFace/DiceFaceOne.png";
-    private String DiceFaceTwo = "DiceFace/DiceFaceTwo.png";
-    private String DiceFaceThree = "DiceFace/DiceFaceThree.png";
-    private String DiceFaceFour = "DiceFace/DiceFaceFour.png";
-    private String DiceFaceFive = "DiceFace/DiceFaceFive.png";
-    private String DiceFaceSix = "DiceFace/DiceFaceSix.png";
+    private String DiceFaceStart = "DiceFace/DiceFace";
+    private ArrayList<Image> DiceImages = new ArrayList<>();
     // Strings which are the File Locations for all the Weapon Images.
     private String CandlestickPath = "WeaponIcon/Candlestick.png";
     private String DaggerPath = "WeaponIcon/Dagger.png";
@@ -141,7 +139,7 @@ public class CluedoGUI extends JFrame {
     private Tile[][] board = new Tile[25][30];
     private Board b;
     private Player currentPlayer;
-    private int currentPlayerPos = 0;
+    private int currentPlayerPos;
 
     public CluedoGUI(String title, Board board) {
         CluedoGame = new JFrame(title);
@@ -265,26 +263,17 @@ public class CluedoGUI extends JFrame {
 
     private void generateMurderer() {
         int index = new Random().nextInt(Board.getCharacterArrayList().size());
-        Iterator<Character> iter = Board.getCharacterArrayList().iterator();
-        for (int i = 0; i < index; i++) {
-            iter.next().setInvolvedInMurder(true);
-        }
+        Board.getCharacterArrayList().get(index).setInvolvedInMurder(true);
     }
 
-    private void generateMurderWeapon() {
+    private void generateMurderWeapon(){
         int index = new Random().nextInt(allWeapons.size());
-        Iterator<Weapon> iter = allWeapons.iterator();
-        for (int i = 0; i < index; i++) {
-            iter.next().setInvolvedInMurder(true);
-        }
+        allWeapons.get(index).setInvolvedInMurder(true);
     }
 
-    private void generateMurderRoom() {
+    private void generateMurderRoom(){
         int index = new Random().nextInt(allRooms.size());
-        Iterator<Room> iter = allRooms.iterator();
-        for (int i = 0; i < index; i++) {
-            iter.next().setInvolvedInMurder(true);
-        }
+        allRooms.get(index).setInvolvedInMurder(true);
     }
 
     private JMenuBar GenerateMenu(String menuName, String optName, String optNameTwo) {
@@ -327,8 +316,6 @@ public class CluedoGUI extends JFrame {
         BoardPanel = new JPanel();
         //calls drawPane and this draws the main section of the board
         BoardPanel = new DrawPane();
-
-
         return BoardPanel;
     }
 
@@ -337,7 +324,6 @@ public class CluedoGUI extends JFrame {
      */
 
     public void drawBoard(Graphics graphics) {
-
 
         for (int row = 0; row < 25; ++row) {
             for (int col = 0; col < 24; ++col) {
@@ -369,9 +355,9 @@ public class CluedoGUI extends JFrame {
         // TODO COMMENT
         InfoPanelRight.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 10));
         // Set the Dice One label to the FaceOne Scaled Image.
-        DiceOne = new JLabel(new ImageIcon(FaceOne.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+        DiceOne = new JLabel(new ImageIcon(DiceImages.get(0).getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
         // Set the Dice One label to the FaceOne Scaled Image.
-        DiceTwo = new JLabel(new ImageIcon(FaceOne.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+        DiceTwo = new JLabel(new ImageIcon(DiceImages.get(0).getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
         // Add the Dice Labels to the JPanel
         InfoPanelLeft.add(DiceOne);
         InfoPanelLeft.add(DiceTwo);
@@ -485,16 +471,12 @@ public class CluedoGUI extends JFrame {
     }
 
     private void LoadImages() {
-        // Try to load the
 
         try {
-            FaceOne = ImageIO.read(new File(DiceFaceOne));
-            FaceTwo = ImageIO.read(new File(DiceFaceTwo));
-            FaceThree = ImageIO.read(new File(DiceFaceThree));
-            FaceFour = ImageIO.read(new File(DiceFaceFour));
-            FaceFive = ImageIO.read(new File(DiceFaceFive));
-            FaceSix = ImageIO.read(new File(DiceFaceSix));
-            //
+            for (int i = 1 ; i < 7; i++ ) {
+                DiceImages.add(ImageIO.read(new File(DiceFaceStart+i+".png")));
+            }
+
             CandlestickImage = ImageIO.read(new File(CandlestickPath));
             DaggerImage = ImageIO.read(new File(DaggerPath));
             LeadPipeImage = ImageIO.read(new File(LeadPipePath));
@@ -518,56 +500,23 @@ public class CluedoGUI extends JFrame {
             KitchenImage = ImageIO.read(new File(KitchenPath));
             LibraryImage = ImageIO.read(new File(LibraryPath));
             BallRoomImage = ImageIO.read(new File(BallRoomPath));
-        } catch (IOException ex) {
+
+        }
+        catch (IOException ex) {
             System.out.println("INVALID FILE NAME");
         }
     }
 
     private void GenerateRandomDice() {
         hasRolled = true;
+
         int firstDieRoll = (int) (Math.random() * (6)) + 1;
         int secondDieRoll = (int) (Math.random() * (6)) + 1;
+
         movesLeft = firstDieRoll + secondDieRoll;
-        switch (firstDieRoll) {
-            case 1:
-                DiceOne.setIcon(((new ImageIcon(FaceOne.getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
-                break;
-            case 2:
-                DiceOne.setIcon(((new ImageIcon(FaceTwo.getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
-                break;
-            case 3:
-                DiceOne.setIcon(((new ImageIcon(FaceThree.getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
-                break;
-            case 4:
-                DiceOne.setIcon(((new ImageIcon(FaceFour.getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
-                break;
-            case 5:
-                DiceOne.setIcon(((new ImageIcon(FaceFive.getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
-                break;
-            case 6:
-                DiceOne.setIcon(((new ImageIcon(FaceSix.getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
-                break;
-        }
-        switch (secondDieRoll) {
-            case 1:
-                DiceTwo.setIcon(((new ImageIcon(FaceOne.getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
-                break;
-            case 2:
-                DiceTwo.setIcon(((new ImageIcon(FaceTwo.getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
-                break;
-            case 3:
-                DiceTwo.setIcon(((new ImageIcon(FaceThree.getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
-                break;
-            case 4:
-                DiceTwo.setIcon(((new ImageIcon(FaceFour.getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
-                break;
-            case 5:
-                DiceTwo.setIcon(((new ImageIcon(FaceFive.getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
-                break;
-            case 6:
-                DiceTwo.setIcon(((new ImageIcon(FaceSix.getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
-                break;
-        }
+
+        DiceOne.setIcon(((new ImageIcon(DiceImages.get(firstDieRoll-1).getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
+        DiceTwo.setIcon(((new ImageIcon(DiceImages.get(secondDieRoll-1).getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
 
     }
 
@@ -602,13 +551,26 @@ public class CluedoGUI extends JFrame {
         MakeAccusation = new JButton("Accusation");
         // Add buttonListener to the GameControlPanel's JButtons.
         // TODO : ADD PROPER FUNCTIONALITY
-        EndTurn.addActionListener(e -> System.out.println("End Turn"));
-        OpenNotes.addActionListener(e -> System.out.println("Open Notes"));
+        EndTurn.addActionListener(e -> {
+            GenerateRandomDice();
+            GameControlPanel.requestFocus();
+        });
+        OpenNotes.addActionListener(e -> {
+            GenerateRandomDice();
+            GameControlPanel.requestFocus();
+        });
         RollDice.addActionListener(e -> {
             GenerateRandomDice();
+            GameControlPanel.requestFocus();
         });
-        MakeSuggestion.addActionListener(e -> System.out.println("Make Suggestion"));
-        MakeAccusation.addActionListener(e -> System.out.println("Make Accusation"));
+        MakeSuggestion.addActionListener(e -> {
+            GenerateRandomDice();
+            GameControlPanel.requestFocus();
+        });
+        MakeAccusation.addActionListener(e -> {
+            GenerateRandomDice();
+            GameControlPanel.requestFocus();
+        });
         // Add A KeyListener to the GameControlPanel
         GameControlPanel.addKeyListener(new KeyListener() {
             @Override
@@ -620,25 +582,30 @@ public class CluedoGUI extends JFrame {
                 //function keys
                 if (e.getKeyChar() == '1') {
                     EndTurn.doClick();
+                    GameControlPanel.requestFocus();
                 }
                 if (e.getKeyChar() == '2') {
                     OpenNotes.doClick();
+                    GameControlPanel.requestFocus();
                 }
                 if (e.getKeyChar() == '3') {
                     if (!hasRolled) {
                         RollDice.doClick();
+                        GameControlPanel.requestFocus();
                     }
                 }
                 if (e.getKeyChar() == '4') {
                     MakeAccusation.doClick();
+                    GameControlPanel.requestFocus();
                 }
                 if (e.getKeyChar() == '5') {
                     MakeSuggestion.doClick();
+                    GameControlPanel.requestFocus();
                 }
                 currentPlayer = Player.getPlayerList().get(currentPlayerPos);
                 //if the player has rolled then they can move
                 if (hasRolled) {
-//                    currentPlayer = Player.getPlayerList().get(currentPlayerPos);
+                    currentPlayer = Player.getPlayerList().get(currentPlayerPos);
                     System.out.println("The current Player is " + currentPlayer);
                     //if the current player has no moves left, prompt the player that their turn has ended and return the settings to their defult
                     if (movesLeft == 0) {
@@ -717,10 +684,7 @@ public class CluedoGUI extends JFrame {
                     JFrame frame = new JFrame();
                     JOptionPane.showMessageDialog(frame, "You need to roll the dice before you can move", "You have not rolled", JOptionPane.WARNING_MESSAGE);
                 }
-
-
             }
-
             @Override
             public void keyReleased(KeyEvent e) {
             }
