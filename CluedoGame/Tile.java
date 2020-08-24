@@ -17,7 +17,6 @@ public class Tile implements Item {
         this.y = y;
     }
 
-
     @Override
     public void draw(Graphics g, int x, int y) {
 
