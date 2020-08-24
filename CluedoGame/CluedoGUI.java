@@ -26,6 +26,8 @@ public class CluedoGUI extends JFrame {
     public static Set<CharacterCard> characterCards = new HashSet<>();
     public static HashSet<String> roomNames = new HashSet<>();
 
+
+
     //Utility collections used for setup and quick checks
     private static HashMap<String, String> tileTypeToNameMap = new HashMap<>();
     private final JFrame CluedoGame;
@@ -132,7 +134,6 @@ public class CluedoGUI extends JFrame {
     private String StudyPath = "Cards/Study.png";
     private String BillardRoomPath = "Cards/BillardRoom.png";
     private String ConservatoryPath = "Cards/Conservatory.png";
-    private int movesLeft;
     private Character currentCharacter;
     private boolean hasRolled = false;
     private ArrayList<int[]> previouslyTraversedTiles = new ArrayList<>();
@@ -512,8 +513,8 @@ public class CluedoGUI extends JFrame {
 
         int firstDieRoll = (int) (Math.random() * (6)) + 1;
         int secondDieRoll = (int) (Math.random() * (6)) + 1;
-
-        movesLeft = firstDieRoll + secondDieRoll;
+        currentPlayer = Player.getPlayerList().get(currentPlayerPos);
+        currentPlayer.setRemainingMoves(firstDieRoll + secondDieRoll);
 
         DiceOne.setIcon(((new ImageIcon(DiceImages.get(firstDieRoll-1).getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
         DiceTwo.setIcon(((new ImageIcon(DiceImages.get(secondDieRoll-1).getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
@@ -608,7 +609,7 @@ public class CluedoGUI extends JFrame {
                     currentPlayer = Player.getPlayerList().get(currentPlayerPos);
                     System.out.println("The current Player is " + currentPlayer);
                     //if the current player has no moves left, prompt the player that their turn has ended and return the settings to their defult
-                    if (movesLeft == 0) {
+                    if (currentPlayer.getRemainingMoves() <= 0) {
                         hasRolled = false;
                         previouslyTraversedTiles.clear();
 
@@ -638,7 +639,7 @@ public class CluedoGUI extends JFrame {
                             Matcher matcher = pattern.matcher(board[tileY - 1][tileX].getTileType());
                             if (!matcher.find()) {
                                 currentPlayer.move("NORTH");
-                                movesLeft -= 1;
+                                currentPlayer.setRemainingMoves(currentPlayer.getRemainingMoves()-1);
                                 CluedoGame.repaint();
                                 //previouslyTraversedTiles.add(new int[]{tileX, tileY});
                             }
@@ -650,7 +651,7 @@ public class CluedoGUI extends JFrame {
                             if (!matcher.find()) {
                                 //previouslyTraversedTiles.add(new int[]{tileX, tileY});
                                 currentPlayer.move("SOUTH");
-                                movesLeft -= 1;
+                                currentPlayer.setRemainingMoves(currentPlayer.getRemainingMoves()-1);
                                 CluedoGame.repaint();
                             }
                         }
@@ -661,7 +662,7 @@ public class CluedoGUI extends JFrame {
                             if (!matcher.find()) {
                                 // previouslyTraversedTiles.add(new int[]{tileX, tileY});
                                 currentPlayer.move("WEST");
-                                movesLeft -= 1;
+                                currentPlayer.setRemainingMoves(currentPlayer.getRemainingMoves()-1);
                                 CluedoGame.repaint();
                             }
                         }
@@ -672,7 +673,7 @@ public class CluedoGUI extends JFrame {
                             if (!matcher.find()) {
                                 //previouslyTraversedTiles.add(new int[]{tileX, tileY});
                                 currentPlayer.move("EAST");
-                                movesLeft -= 1;
+                                currentPlayer.setRemainingMoves(currentPlayer.getRemainingMoves()-1);
                                 CluedoGame.repaint();
                             }
                         }
