@@ -20,28 +20,28 @@ public class CluedoGUI extends JFrame {
 
     private final JFrame CluedoGame;
 
-    public static String getScarlett() {
-        return Scarlett.toString();
+      public static Character getScarlett() {
+        return Scarlett;
     }
 
-    public static String getMustard() {
-        return Mustard.toString();
+    public static Character getMustard() {
+        return Mustard;
     }
 
-    public static String getWhite() {
-        return White.toString();
+    public static Character getWhite() {
+        return White;
     }
 
-    public static String getGreen() {
-        return Green.toString();
+    public static Character getGreen() {
+        return Green;
     }
 
-    public static String getPeacock() {
-        return Peacock.toString();
+    public static Character getPeacock() {
+        return Peacock;
     }
 
-    public static String getPlum() {
-        return Plum.toString();
+    public static Character getPlum() {
+        return Plum;
     }
     //TODO: Need to fix access so it's not static this means the players do not redraw correctly, but they do move I think
 
