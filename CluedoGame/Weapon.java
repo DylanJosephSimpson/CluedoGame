@@ -1,111 +1,79 @@
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.nio.Buffer;
 
 /**
- * The weapon class is responsible for keeping track of
- * the weapons which are on the board.
- *
- * @author Iqbal
+ * The tile class is responsible for keeping track of the individual
+ * tiles which make up the board, as well as loading the information
+ * on the tiles from the given txt file.
  */
-public class Weapon implements Item {
+public class Tile implements Item {
 
-    /**
-     * Name of the weapon
-     */
-    private String weaponName;
+    private String tileType;
+    int x;
+    int y;
 
-    /**
-     * x-coordinate of where to draw on the board
-     */
-    private int x;
-
-    /**
-     * y-coordinate of where to draw on the board
-     */
-    private int y;
-
-    /**
-     * Was the murder committed using this weapon? (false by default)
-     */
-    private boolean isInvolvedInMurder;
-
-
-    /**
-     * Room that the weapon is currently in
-     */
-    private Room currentRoom;
-
-    /**
-     * Constructor for weapon
-     * @param weaponName Name of the weapon
-     */
-    public Weapon(String weaponName) {
-        this.weaponName = weaponName;
+    Tile(String tileType, int x, int y) {
+        this.tileType = tileType;
+        this.x = x;
+        this.y = y;
     }
+
 
     @Override
     public void draw(Graphics g, int x, int y) {
-        this.x = x;
-        this.y = y;
-        Graphics2D g2d = (Graphics2D) g;
-        //TODO: will finish this - Iqbal
-        //iterate through the tile array (will be known as the board)
-        //and draw the image of the corresponding weapon onto the room tile
 
-        String path = "WeaponIcon/" + weaponName + ".png";
-        try {
-            BufferedImage image = ImageIO.read(new File(path));
-            Image scaledImage = image.getScaledInstance(28, 28, Image.SCALE_SMOOTH);
-            g2d.drawImage(scaledImage,x+1,y+1,null);
-        } catch (IOException e) {
-            System.out.println("Error: Image drawing for " + weaponName + " failed.");
+        Graphics2D g2 = (Graphics2D) g;
+        //Setting Roomtiles to pink
+        if (CluedoGUI.roomNames.contains(tileType)) {
+            g2.setColor(new Color(255,192,203));
         }
+        //Setting door tiles to light tealish colour
+        else if(tileType.equals("Door")){
+            g2.setColor(new Color(100,229,180));
+        }
+        //It is a wall so set it to purple!
+        else if(tileType.equals("Wall")){
+            g2.setColor(new Color(100,2,180));
+        }
+        else {
+            g.setColor(Color.WHITE);
+        }
+        //Draw the tile Rectangle
+        int TILE_SIZE = 30;
+        g2.fillRect(x, y, TILE_SIZE, TILE_SIZE);
+
+        //Draw a black border around the rect
+        ((Graphics2D) g).setStroke(new BasicStroke(2));
+        g2.setColor(Color.BLACK);
+        g2.drawRect(x, y, TILE_SIZE, TILE_SIZE);
+
     }
 
     @Override
     public void erase(Graphics g) {
-        //do something with x and y to erase it
+
     }
 
-    /**
-     * --- Suggestion Method ---
-     * Erases the weapon from its current room and redraws it in the designated room
-     * @param room
-     */
-    public void redrawInNewRoom(Room room){
-        //TODO: Write this method (Iqbal)
+    public String getTileType() {
+        return tileType;
     }
 
-    /**
-     * Getter for currentRoom
-     * @return currentRoom
-     */
-    public Room getCurrentRoom() {
-        return currentRoom;
+    public void setTileType(String tileType) {
+        this.tileType = tileType;
     }
 
-    /**
-     * Setter for currentRoom
-     * @param room
-     */
-    public void setCurrentRoom(Room room){
-        this.currentRoom = room;
+    public int getX() {
+        return x;
     }
 
-    public boolean isInvolvedInMurder() {
-        return isInvolvedInMurder;
+    public void setX(int x) {
+        this.x = x;
     }
 
-    public void setInvolvedInMurder(boolean involvedInMurder) {
-        isInvolvedInMurder = involvedInMurder;
+    public int getY() {
+        return y;
     }
 
-    @Override
-    public String toString() {
-        return weaponName;
+    public void setY(int y) {
+        this.y = y;
     }
 }
