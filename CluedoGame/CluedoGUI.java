@@ -45,6 +45,14 @@ public class CluedoGUI extends JFrame {
     }
     //TODO: Need to fix access so it's not static this means the players do not redraw correctly, but they do move I think
 
+        // Initialization of characters
+    private static Character Scarlett = new Character("Miss. Scarlett",210,720);
+    private static Character Mustard = new Character("Col. Mustard",0,510);
+    private static Character White = new Character("Mrs. White",270,0);
+    private static Character Green = new Character("Mr. Green",420,0);
+    private static Character Peacock = new Character("Mrs. Peacock",690,180);
+    private static Character Plum = new Character("Prof. Plum",690,570);
+    
     // Initialization of weapons
     private Weapon Candlestick = new Weapon("Candlestick");
     private Weapon Dagger = new Weapon("Dagger");
