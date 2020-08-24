@@ -6,7 +6,7 @@ import java.awt.*;
  * on the tiles from the given txt file.
  */
 public class Tile implements Item {
-    
+
     private String tileType;
     int x;
     int y;
@@ -44,7 +44,7 @@ public class Tile implements Item {
         //Draw the tile Rectangle
         int TILE_SIZE = 30;
         g2.fillRect(x, y, TILE_SIZE, TILE_SIZE);
-        
+
         //Draw a black border around the rect
         ((Graphics2D) g).setStroke(new BasicStroke(2));
         g2.setColor(Color.BLACK);
