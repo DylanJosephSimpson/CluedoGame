@@ -407,7 +407,17 @@ public class CluedoGUI extends JFrame {
 
     }
 
-    private boolean visitedTile(Tile tileInFrontOfPlayer) {
+    private boolean validMove(Tile tileInFrontOfPlayer) {
+
+        //checks if the next tile is a character or not
+        for(Character c : allCharacters){
+            if(c != currentCharacter){
+                if(c.getX()==tileInFrontOfPlayer.getX() && c.getY()==tileInFrontOfPlayer.getY()){
+                    return false;
+                }
+            }
+        }
+
         //checks if the next tile has been visited by checking the list of tiles that the character has visited in their turn
         for (int[] previousTile : previouslyTraversedTiles) {
             if (previousTile[0] == tileInFrontOfPlayer.getX()/30 && previousTile[1] == tileInFrontOfPlayer.getY()/30) {
@@ -418,6 +428,7 @@ public class CluedoGUI extends JFrame {
         }
         return true;
     }
+
 
     private JPanel GenerateGameControlPanel() {
         // Set the GameControlPanel to be a new JPanel.
@@ -483,7 +494,6 @@ public class CluedoGUI extends JFrame {
                         return;
                     }
 
-
                     //convert pixel pos to tile pos
                     int tileX = currentCharacter.getX() / 30;
                     int tileY = currentCharacter.getY() / 30;
@@ -494,7 +504,7 @@ public class CluedoGUI extends JFrame {
                     Pattern pattern = Pattern.compile("(Wall)", Pattern.CASE_INSENSITIVE);
                     //ensures the player can move into the position that they want to, if they are not able to then do not decrese their moves left
                     if (e.getKeyCode() == KeyEvent.VK_UP) {
-                        if (currentCharacter.getY() > 0 && visitedTile(board[tileY - 1][tileX])) {
+                        if (currentCharacter.getY() > 0 && validMove(board[tileY - 1][tileX])) {
                             Matcher matcher = pattern.matcher(board[tileY - 1][tileX].getTileType());
                             if (!matcher.find()) {
                                 currentCharacter.move("NORTH");
@@ -504,7 +514,7 @@ public class CluedoGUI extends JFrame {
                         }
                     }
                     if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                        if (currentCharacter.getY() < 720 && visitedTile(board[tileY + 1][tileX])) {
+                        if (currentCharacter.getY() < 720 && validMove(board[tileY + 1][tileX])) {
                             Matcher matcher = pattern.matcher(board[tileY + 1][tileX].getTileType());
                             if (!matcher.find()) {
                                 //previouslyTraversedTiles.add(new int[]{tileX, tileY});
@@ -514,7 +524,7 @@ public class CluedoGUI extends JFrame {
                         }
                     }
                     if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                        if (currentCharacter.getX() > 0 && visitedTile(board[tileY][tileX - 1])) {
+                        if (currentCharacter.getX() > 0 && validMove(board[tileY][tileX - 1])) {
                             Matcher matcher = pattern.matcher(board[tileY][tileX - 1].getTileType());
                             if (!matcher.find()) {
                                 // previouslyTraversedTiles.add(new int[]{tileX, tileY});
@@ -524,7 +534,7 @@ public class CluedoGUI extends JFrame {
                         }
                     }
                     if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                        if (currentCharacter.getX() < 690 && visitedTile(board[tileY][tileX + 1])) {
+                        if (currentCharacter.getX() < 690 && validMove(board[tileY][tileX + 1])) {
                             Matcher matcher = pattern.matcher(board[tileY][tileX + 1].getTileType());
                             if (!matcher.find()) {
                                 //previouslyTraversedTiles.add(new int[]{tileX, tileY});
