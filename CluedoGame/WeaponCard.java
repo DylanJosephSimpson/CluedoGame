@@ -1,5 +1,4 @@
 
-
 /**
  * Class which is necessary for interactions. Describes the weapon in *queston.
  * WeaponCard subclass:
