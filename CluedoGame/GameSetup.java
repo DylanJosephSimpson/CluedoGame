@@ -125,37 +125,38 @@ public class GameSetup {
         if (result == JOptionPane.OK_OPTION) {
             Player tempPlayer;
             if(ScarlettButton.isSelected() && PlayerName.getText().length() > 0){
-                tempPlayer = new Player(PlayerName.getText(), CluedoGUI.getScarlett() );
+                tempPlayer = new Player(PlayerName.getText(), Board.getCharacter(0) );
+
                 Player.addPlayerList(tempPlayer);
                 //Player.removePlayerList(Player.playerList.size()-1);
                 ScarlettButton.setEnabled(false);
             }
             else if(MustardButton.isSelected() && PlayerName.getText().length() > 0){
-                tempPlayer = new Player(PlayerName.getText(), CluedoGUI.getMustard());
+                tempPlayer = new Player(PlayerName.getText(),Board.getCharacter(1));
                 Player.addPlayerList(tempPlayer);
                 //Player.removePlayerList(Player.playerList.size()-1);
                 MustardButton.setEnabled(false);
             }
             else if(WhiteButton.isSelected() && PlayerName.getText().length() > 0){
-                tempPlayer = new Player(PlayerName.getText(), CluedoGUI.getWhite());
+                tempPlayer = new Player(PlayerName.getText(),Board.getCharacter(2));
                 Player.addPlayerList(tempPlayer);
                 //Player.removePlayerList(Player.playerList.size()-1);
                 WhiteButton.setEnabled(false);
             }
             else if(GreenButton.isSelected() && PlayerName.getText().length() > 0){
-                tempPlayer = new Player(PlayerName.getText(), CluedoGUI.getGreen());
+                tempPlayer = new Player(PlayerName.getText(), Board.getCharacter(3));
                 Player.addPlayerList(tempPlayer);
                 //Player.removePlayerList(Player.playerList.size()-1);
                 GreenButton.setEnabled(false);
             }
             else if(PeacockButton.isSelected() && PlayerName.getText().length() > 0){
-                tempPlayer = new Player(PlayerName.getText(), CluedoGUI.getPeacock());
+                tempPlayer = new Player(PlayerName.getText(), Board.getCharacter(4));
                 Player.addPlayerList(tempPlayer);
                 //Player.removePlayerList(Player.playerList.size()-1);
                 PeacockButton.setEnabled(false);
             }
             else if(PlumButton.isSelected() && PlayerName.getText().length() > 0){
-                tempPlayer = new Player(PlayerName.getText(), CluedoGUI.getPlum());
+                tempPlayer = new Player(PlayerName.getText(), Board.getCharacter(5));
                 Player.addPlayerList(tempPlayer);
                 //Player.removePlayerList(Player.playerList.size()-1);
                 PlumButton.setEnabled(false);
@@ -212,6 +213,7 @@ public class GameSetup {
     public void StartGame(){
         GameSetupWindow.dispose();
         Board b = new Board();
+
         new CluedoGUI("Cluedo Game",b);
     }
 
