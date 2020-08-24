@@ -1,8 +1,24 @@
+import java.util.ArrayList;
+
 /**
  * The player class is responsible for allowing a user to interact with
  * the board and game.
  */
 public class Player {
+
+    public static ArrayList<Player> playerList = new ArrayList<>();
+
+    public static ArrayList<Player> getPlayerList() {
+        return playerList;
+    }
+
+    public static void addPlayerList(Player player) {
+        playerList.add(player);
+    }
+
+    public static void removePlayerList(int player) {
+        playerList.remove(player);
+    }
 
     /**
      * Name of the player
@@ -50,7 +66,6 @@ public class Player {
         }
 
     }
-
 
     /**
      * Method that checks if the player is in a room
