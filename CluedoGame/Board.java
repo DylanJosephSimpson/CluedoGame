@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -8,6 +9,37 @@ import java.util.HashSet;
 public class Board {
     static HashSet<Card> deckOfCards = new HashSet<>();
     static HashSet<Card> envelope = new HashSet<>();
+
+    public static ArrayList<Character> getCharacterArrayList() {
+        return characterArrayList;
+    }
+
+    public static Character getCharacter(int index) {
+        return characterArrayList.get(index);
+    }
+
+    static ArrayList<Character> characterArrayList= new ArrayList<Character>();
+
+
+    private static Character Scarlett = new Character("Miss. Scarlett",210,720);
+    private static Character Mustard = new Character("Col. Mustard",0,510);
+    private static Character White = new Character("Mrs. White",270,0);
+    private static Character Green = new Character("Mr. Green",420,0);
+    private static Character Peacock = new Character("Mrs. Peacock",690,180);
+    private static Character Plum = new Character("Prof. Plum",690,570);
+
+    public static void setup(){
+        characterArrayList.add(Scarlett);
+        characterArrayList.add(Mustard);
+        characterArrayList.add(White);
+        characterArrayList.add(Green);
+        characterArrayList.add(Peacock);
+        characterArrayList.add(Plum);
+    }
+
+    public Board() {
+//        setup();
+    }
 
     private  String[][] boardLayoutArray = new String[][]
 
@@ -68,6 +100,8 @@ public class Board {
                     {"-", "-", "-", "-", "-", "-", "-", " ", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"},
             };
 
+
+
     public String[][] getBoardLayoutArray() {
         return boardLayoutArray;
     }
@@ -80,6 +114,5 @@ public class Board {
         return originalBoardLayoutArray;
     }
 
-    
 
 }
