@@ -71,7 +71,7 @@ public class Board {
                     {"-", "-", "-", "-", "-", "-", "-", "S", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"},
 
             };
-    private  String[][] originalBoardLayoutArray = new String[][]
+    private static String[][] originalBoardLayoutArray = new String[][]
             {
                     {"-", "-", "-", "-", "-", "-", "-", "-", "-", " ", "-", "-", "-", "-", " ", "-", "-", "-", "-", "-", "-", "-", "-", "-"},
                     {"-", "-", "-", "-", "-", "-", "-", " ", " ", " ", "-", "-", "-", "-", " ", " ", " ", "-", "-", "-", "-", "-", "-", "-"},
@@ -110,7 +110,7 @@ public class Board {
         this.boardLayoutArray = boardLayoutArray;
     }
 
-    public  String[][] getOriginalBoardLayoutArray() {
+    public static String[][] getOriginalBoardLayoutArray() {
         return originalBoardLayoutArray;
     }
 
