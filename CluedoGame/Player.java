@@ -1,12 +1,4 @@
-import java.util.ArrayList;
-
-/**
- * The player class is responsible for allowing a user to interact with
- * the board and game.
- */
-public class Player {
-
-    public static ArrayList<Player> playerList = new ArrayList<>();
+public static ArrayList<Player> playerList = new ArrayList<>();
 
     public static ArrayList<Player> getPlayerList() {
         return playerList;
@@ -28,7 +20,7 @@ public class Player {
     /**
      * Corresponds to one of the 6 playable characters in the game
      */
-    private String assignedCharacter;
+    private Character assignedCharacter;
 
     /**
      * Boolean which represents if the player is in game
@@ -37,7 +29,7 @@ public class Player {
 
     private Tile currentTile;
 
-    public Player(String name, String assignedCharacter) {
+    public Player(String name, Character assignedCharacter) {
         this.name = name;
         this.assignedCharacter = assignedCharacter;
     }
