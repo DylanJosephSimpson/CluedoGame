@@ -1,4 +1,12 @@
-public static ArrayList<Player> playerList = new ArrayList<>();
+import java.util.ArrayList;
+
+/**
+ * The player class is responsible for allowing a user to interact with
+ * the board and game.
+ */
+public class Player {
+
+    public static ArrayList<Player> playerList = new ArrayList<>();
 
     public static ArrayList<Player> getPlayerList() {
         return playerList;
