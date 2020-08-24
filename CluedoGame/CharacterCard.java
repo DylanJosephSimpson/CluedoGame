@@ -8,7 +8,6 @@
 
 public class CharacterCard extends Card {
 
-
     private String characterName;
 
     /**Constructor for a single CharacterCard
