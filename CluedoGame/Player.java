@@ -6,6 +6,8 @@ import java.util.ArrayList;
  */
 public class Player {
 
+
+
     public static ArrayList<Player> playerList = new ArrayList<>();
 
     public static ArrayList<Player> getPlayerList() {
@@ -18,6 +20,42 @@ public class Player {
 
     public static void removePlayerList(int player) {
         playerList.remove(player);
+    }
+
+    public static void setPlayerList(ArrayList<Player> playerList) {
+        Player.playerList = playerList;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Character getAssignedCharacter() {
+        return assignedCharacter;
+    }
+
+    public void setAssignedCharacter(Character assignedCharacter) {
+        this.assignedCharacter = assignedCharacter;
+    }
+
+    public boolean isActivePlayer() {
+        return activePlayer;
+    }
+
+    public void setActivePlayer(boolean activePlayer) {
+        this.activePlayer = activePlayer;
+    }
+
+    public Tile getCurrentTile() {
+        return currentTile;
+    }
+
+    public void setCurrentTile(Tile currentTile) {
+        this.currentTile = currentTile;
     }
 
     /**
@@ -74,6 +112,23 @@ public class Player {
      */
     private boolean isInARoom() {
         return true;
+    }
+
+    /**
+     * When a player moves in a certain direction the x or y position changes for their character and then board is redrawn
+     *
+     * @param dir
+     */
+    public void move(String dir){
+        if(dir.equals("NORTH")){
+            assignedCharacter.setY(assignedCharacter.getY()-30);
+        }else if(dir.equals("EAST")){
+            assignedCharacter.setX(assignedCharacter.getX()+30);
+        } else if(dir.equals("SOUTH")){
+            assignedCharacter.setY(assignedCharacter.getY()+30);
+        } else if(dir.equals("WEST")){
+            assignedCharacter.setX(assignedCharacter.getX()-30);
+        }
     }
 
     @Override
