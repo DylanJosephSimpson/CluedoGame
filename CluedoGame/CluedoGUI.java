@@ -256,27 +256,27 @@ public class CluedoGUI extends JFrame {
 
 
         ScarlettCard = new JLabel(new ImageIcon(ScarlettImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-        ScarlettCard.setToolTipText("Candlestick Card");
+        ScarlettCard.setToolTipText("Scarlett Card");
         allCards.add(ScarlettCard);
         // Set the HandCardII label to the DaggerImage Scaled Image.
         MustardCard = new JLabel(new ImageIcon(MustardImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-        MustardCard.setToolTipText("Dagger Card");
+        MustardCard.setToolTipText("Mustard Card");
         allCards.add(MustardCard);
         // Set the HandCardIII label to the LeadPipeImage Scaled Image.
         GreenCard = new JLabel(new ImageIcon(GreenImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-        GreenCard.setToolTipText("LeadPipe Card");
+        GreenCard.setToolTipText("Green Card");
         allCards.add(GreenCard);
         // Set the HandCardIV label to the RevolverImage Scaled Image.
         WhiteCard = new JLabel(new ImageIcon(WhiteImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-        WhiteCard.setToolTipText("Revolver Card");
+        WhiteCard.setToolTipText("White Card");
         allCards.add(WhiteCard);
         // Set the HandCardV label to the RopeImage Scaled Image.
         PlumCard = new JLabel(new ImageIcon(PlumImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-        PlumCard.setToolTipText("Rope Card");
+        PlumCard.setToolTipText("Plum Card");
         allCards.add(PlumCard);
         // Set the HandCardV label to the SpannerImage Scaled Image.
         PeacockCard = new JLabel(new ImageIcon(PeacockImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-        PeacockCard.setToolTipText("Spanner Card");
+        PeacockCard.setToolTipText("Peacock Card");
         allCards.add(PeacockCard);
         // Add the Hand of Cards to the JPanel
 
