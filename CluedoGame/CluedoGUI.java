@@ -365,23 +365,26 @@ public class CluedoGUI extends JFrame {
     private void generateMurderer() {
         int index = new Random().nextInt(Board.getCharacterArrayList().size());
         murderer = characterCards.get(index);
+        Board.deckOfCards.remove(murderer);
     }
 
     private void generateMurderWeapon() {
         int index = new Random().nextInt(allWeapons.size());
         murderWeapon = weaponCards.get(index);
+        Board.deckOfCards.remove(murderWeapon);
     }
 
     private void generateMurderRoom() {
         int index = new Random().nextInt(allRooms.size());
         murderRoom = roomCards.get(index);
+        Board.deckOfCards.remove(murderRoom);
     }
 
     private void dealCards() {
         for (int i = 0; i < Board.deckOfCards.size(); i++) {
-            if (!Board.deckOfCards.get(i).equals(murderer) && !Board.deckOfCards.get(i).equals(murderRoom) && !Board.deckOfCards.get(i).equals(murderWeapon)) {
+            //if (!Board.deckOfCards.get(i).equals(murderer) && !Board.deckOfCards.get(i).equals(murderRoom) && !Board.deckOfCards.get(i).equals(murderWeapon)) {
                 Player.playerList.get(i % Player.playerList.size()).addHand(Board.deckOfCards.get(i));
-            }
+            //}
         }
     }
 
