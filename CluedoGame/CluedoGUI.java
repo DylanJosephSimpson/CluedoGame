@@ -61,6 +61,8 @@ public class CluedoGUI extends JFrame {
     private JLabel HandCard5;
     private JLabel HandCard6;
     private JLabel HandCard7;
+    private JLabel CardPlaceholderCard;
+    private BufferedImage CardPlaceholder;
     private BufferedImage CandlestickImage;
     private BufferedImage DaggerImage;
     private BufferedImage LeadPipeImage;
@@ -130,6 +132,7 @@ public class CluedoGUI extends JFrame {
     private String StudyPath = "Cards/Study.png";
     private String BillardRoomPath = "Cards/BillardRoom.png";
     private String ConservatoryPath = "Cards/Conservatory.png";
+    private String CardPlaceholderPath = "Cards/CardPlaceholder.png";
     private Character currentCharacter;
     private boolean hasRolled = false;
     private ArrayList<int[]> previouslyTraversedTiles = new ArrayList<>();
@@ -228,6 +231,9 @@ public class CluedoGUI extends JFrame {
 
     private void generateCards() {
         // Generate character cards
+
+        CardPlaceholderCard = new JLabel(new ImageIcon(CardPlaceholder.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+        CardPlaceholderCard.setToolTipText("Card Place Holder");
 
         // Set the HandCardI label to the CandlestickImage Scaled Image.
         CandlestickCard = new JLabel(new ImageIcon(CandlestickImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
@@ -463,17 +469,34 @@ public class CluedoGUI extends JFrame {
         HandCard1 =  currentPlayer.getHand().get(0).getCardIcon();
         HandCard2 = currentPlayer.getHand().get(1).getCardIcon();
         HandCard3 = currentPlayer.getHand().get(2).getCardIcon();
-        HandCard4 = currentPlayer.getHand().get(3).getCardIcon();
-        HandCard5 = currentPlayer.getHand().get(4).getCardIcon();
-        HandCard6 = currentPlayer.getHand().get(5).getCardIcon();
-        HandCard7 = currentPlayer.getHand().get(6).getCardIcon();
+        if(currentPlayer.getHand().size()>3) {
+            HandCard4 = currentPlayer.getHand().get(3).getCardIcon();
+        }
+        else{
+            HandCard4 = CardPlaceholderCard;
+        }
+        if(currentPlayer.getHand().size()>4) {
+            HandCard5 = currentPlayer.getHand().get(4).getCardIcon();
+        }else{
+            HandCard5 = CardPlaceholderCard;
+        }
+        if(currentPlayer.getHand().size()>5) {
+            HandCard6 = currentPlayer.getHand().get(5).getCardIcon();
+        }else{
+            HandCard6 = CardPlaceholderCard;
+        }
+        if(currentPlayer.getHand().size()>6) {
+            HandCard7 = currentPlayer.getHand().get(6).getCardIcon();
+        }else{
+            HandCard7 = CardPlaceholderCard;
+        }
         InfoPanelRight.add(HandCard1);
         InfoPanelRight.add(HandCard2);
         InfoPanelRight.add(HandCard3);
-        InfoPanelRight.add(HandCard4);
-        InfoPanelRight.add(HandCard5);
-        InfoPanelRight.add(HandCard6);
-        InfoPanelRight.add(HandCard7);
+            InfoPanelRight.add(HandCard4);
+            InfoPanelRight.add(HandCard5);
+            InfoPanelRight.add(HandCard6);
+            InfoPanelRight.add(HandCard7);
 
         // Add the InfoPanelRight and InfoPanelLeft to the
         InfoPanel.add(InfoPanelLeft, BorderLayout.LINE_START);
@@ -488,6 +511,8 @@ public class CluedoGUI extends JFrame {
             for (int i = 1 ; i < 7; i++ ) {
                 DiceImages.add(ImageIO.read(new File(DiceFaceStart+i+".png")));
             }
+
+            CardPlaceholder = ImageIO.read(new File(CardPlaceholderPath));
 
             CandlestickImage = ImageIO.read(new File(CandlestickPath));
             DaggerImage = ImageIO.read(new File(DaggerPath));
@@ -637,11 +662,26 @@ public class CluedoGUI extends JFrame {
                         HandCard1.setIcon(((new ImageIcon(currentPlayer.getHand().get(0).getCardImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
                         HandCard2.setIcon(((new ImageIcon(currentPlayer.getHand().get(1).getCardImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
                         HandCard3.setIcon(((new ImageIcon(currentPlayer.getHand().get(2).getCardImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
-                        HandCard4.setIcon(((new ImageIcon(currentPlayer.getHand().get(3).getCardImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
-                        HandCard5.setIcon(((new ImageIcon(currentPlayer.getHand().get(4).getCardImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
-                        HandCard6.setIcon(((new ImageIcon(currentPlayer.getHand().get(5).getCardImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
-                        HandCard7.setIcon(((new ImageIcon(currentPlayer.getHand().get(6).getCardImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
-
+                       if(currentPlayer.getHand().size()>3) {
+                           HandCard4.setIcon(((new ImageIcon(currentPlayer.getHand().get(3).getCardImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
+                       }else{
+                           HandCard4.setIcon(new ImageIcon(CardPlaceholder.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+                       }
+                        if(currentPlayer.getHand().size()>4) {
+                            HandCard5.setIcon(((new ImageIcon(currentPlayer.getHand().get(4).getCardImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
+                        }else{
+                            HandCard5.setIcon(new ImageIcon(CardPlaceholder.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+                        }
+                        if(currentPlayer.getHand().size()>5) {
+                            HandCard6.setIcon(((new ImageIcon(currentPlayer.getHand().get(5).getCardImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
+                        }else{
+                            HandCard6.setIcon(new ImageIcon(CardPlaceholder.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+                        }
+                        if(currentPlayer.getHand().size()>6) {
+                            HandCard7.setIcon(((new ImageIcon(currentPlayer.getHand().get(6).getCardImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
+                        }else{
+                            HandCard7.setIcon(new ImageIcon(CardPlaceholder.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+                        }
 
 
                         //CluedoGame.repaint();
