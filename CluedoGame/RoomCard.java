@@ -1,14 +1,16 @@
 import javax.swing.*;
+import java.awt.*;
 
 public class RoomCard extends Card
 {
     private String roomName;
 
 
-    RoomCard(String aRoomName, JLabel cardIcon)
+    RoomCard(String aRoomName, JLabel cardIcon, Image cardImage)
     {
         roomName = aRoomName;
         super.cardIcon = cardIcon;
+        super.cardImage = cardImage;
 
     }
 

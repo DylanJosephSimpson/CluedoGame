@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * Class which is necessary for interactions. Describes the weapon in *queston.
@@ -17,9 +18,10 @@ public class WeaponCard extends Card {
      * Constructor for a single WeaponCard
      * @param aWeaponName - the name of the card. For WeaponCard this is the name of the associated weapon.
      */
-    WeaponCard(String aWeaponName, JLabel cardIcon) {
+    WeaponCard(String aWeaponName, JLabel cardIcon, Image cardImage) {
         super.cardIcon = cardIcon;
         weaponName = aWeaponName;
+        super.cardImage = cardImage;
     }
 
     /**

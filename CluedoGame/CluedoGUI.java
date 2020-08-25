@@ -54,12 +54,13 @@ public class CluedoGUI extends JFrame {
     private JPanel BoardPanel;
     private JLabel DiceOne;
     private JLabel DiceTwo;
-    private BufferedImage FaceOne;
-    private BufferedImage FaceTwo;
-    private BufferedImage FaceThree;
-    private BufferedImage FaceFour;
-    private BufferedImage FaceFive;
-    private BufferedImage FaceSix;
+    private JLabel HandCard1;
+    private JLabel HandCard2;
+    private JLabel HandCard3;
+    private JLabel HandCard4;
+    private JLabel HandCard5;
+    private JLabel HandCard6;
+    private JLabel HandCard7;
     private BufferedImage CandlestickImage;
     private BufferedImage DaggerImage;
     private BufferedImage LeadPipeImage;
@@ -141,7 +142,7 @@ public class CluedoGUI extends JFrame {
         CluedoGame = new JFrame(title);
         this.b = board;
         setup();
-        System.out.println(Player.getPlayerList().size());
+
         // Set GUI to terminate the program when exited.
         CluedoGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // Set the JMenuBar to the return value of the GenerateMenu method.
@@ -156,7 +157,7 @@ public class CluedoGUI extends JFrame {
         // Add the InfoPanel to the JFrame.
         CluedoGame.add(GenerateInfoPanel(), BorderLayout.SOUTH);
         // Pack the JFrame so that all its contents are at or above their preferred sizes
-        CluedoGame.pack();
+        CluedoGame.setSize(720,885);
         //
         CluedoGame.setVisible(true);
         //Implementing a setup method which initialises required variables
@@ -317,31 +318,31 @@ public class CluedoGUI extends JFrame {
         ConservatoryCard.setToolTipText("Conservatory Card");
         allCards.add(ConservatoryCard);
 
-        characterCards.add(new CharacterCard("Scarlett", ScarlettCard));
-        characterCards.add(new CharacterCard("Mustard", MustardCard));
-        characterCards.add(new CharacterCard("White", WhiteCard));
-        characterCards.add(new CharacterCard("Green", GreenCard));
-        characterCards.add(new CharacterCard("Peacock", PeacockCard));
-        characterCards.add(new CharacterCard("Plum", PlumCard));
+        characterCards.add(new CharacterCard("Scarlett", ScarlettCard, ScarlettImage));
+        characterCards.add(new CharacterCard("Mustard", MustardCard, MustardImage));
+        characterCards.add(new CharacterCard("White", WhiteCard,WhiteImage));
+        characterCards.add(new CharacterCard("Green", GreenCard,GreenImage));
+        characterCards.add(new CharacterCard("Peacock", PeacockCard,PeacockImage));
+        characterCards.add(new CharacterCard("Plum", PlumCard, PlumImage));
 
         // Generate weapon cards
-        weaponCards.add(new WeaponCard("Candlestick", CandlestickCard));
-        weaponCards.add(new WeaponCard("Rope", RopeCard));
-        weaponCards.add(new WeaponCard("Revolver", RevolverCard));
-        weaponCards.add(new WeaponCard("LeadPipe", LeadPipeCard));
-        weaponCards.add(new WeaponCard("Dagger", DaggerCard));
-        weaponCards.add(new WeaponCard("Spanner", SpannerCard));
+        weaponCards.add(new WeaponCard("Candlestick", CandlestickCard, CandlestickImage));
+        weaponCards.add(new WeaponCard("Rope", RopeCard, RopeImage));
+        weaponCards.add(new WeaponCard("Revolver", RevolverCard, RevolverImage));
+        weaponCards.add(new WeaponCard("LeadPipe", LeadPipeCard, LeadPipeImage));
+        weaponCards.add(new WeaponCard("Dagger", DaggerCard,DaggerImage));
+        weaponCards.add(new WeaponCard("Spanner", SpannerCard,SpannerImage));
 
         // Generate room cards
-        roomCards.add(new RoomCard("Library", LibraryCard));
-        roomCards.add(new RoomCard("Conservatory", ConservatoryCard));
-        roomCards.add(new RoomCard("Kitchen", KitchenCard));
-        roomCards.add(new RoomCard("Study", StudyCard));
-        roomCards.add(new RoomCard("Hall", HallCard));
-        roomCards.add(new RoomCard("BallRoom", BallRoomCard));
-        roomCards.add(new RoomCard("DiningRoom", DiningRoomCard));
-        roomCards.add(new RoomCard("Lounge", LoungeCard));
-        roomCards.add(new RoomCard("Billard Room", BillardRoomCard));
+        roomCards.add(new RoomCard("Library", LibraryCard,LibraryImage));
+        roomCards.add(new RoomCard("Conservatory", ConservatoryCard,ConservatoryImage));
+        roomCards.add(new RoomCard("Kitchen", KitchenCard,KitchenImage));
+        roomCards.add(new RoomCard("Study", StudyCard,StudyImage));
+        roomCards.add(new RoomCard("Hall", HallCard,HallImage));
+        roomCards.add(new RoomCard("BallRoom", BallRoomCard,BallRoomImage));
+        roomCards.add(new RoomCard("DiningRoom", DiningRoomCard,DiningRoomImage));
+        roomCards.add(new RoomCard("Lounge", LoungeCard,LoungeImage));
+        roomCards.add(new RoomCard("Billard Room", BillardRoomCard,BillardRoomImage));
 
 
         Board.deckOfCards.addAll(characterCards);
@@ -458,10 +459,22 @@ public class CluedoGUI extends JFrame {
         // Set the HandCardIV label to the RevolverImage Scaled Image.
 
 
-        System.out.println(currentPlayer.getHand().size());
-        for(int i =0; i< currentPlayer.getHand().size();i++){
-            InfoPanelRight.add(currentPlayer.getHand().get(i).getCardIcon());
-        }
+
+        HandCard1 =  currentPlayer.getHand().get(0).getCardIcon();
+        HandCard2 = currentPlayer.getHand().get(1).getCardIcon();
+        HandCard3 = currentPlayer.getHand().get(2).getCardIcon();
+        HandCard4 = currentPlayer.getHand().get(3).getCardIcon();
+        HandCard5 = currentPlayer.getHand().get(4).getCardIcon();
+        HandCard6 = currentPlayer.getHand().get(5).getCardIcon();
+        HandCard7 = currentPlayer.getHand().get(6).getCardIcon();
+        InfoPanelRight.add(HandCard1);
+        InfoPanelRight.add(HandCard2);
+        InfoPanelRight.add(HandCard3);
+        InfoPanelRight.add(HandCard4);
+        InfoPanelRight.add(HandCard5);
+        InfoPanelRight.add(HandCard6);
+        InfoPanelRight.add(HandCard7);
+
         // Add the InfoPanelRight and InfoPanelLeft to the
         InfoPanel.add(InfoPanelLeft, BorderLayout.LINE_START);
         InfoPanel.add(InfoPanelRight, BorderLayout.LINE_END);
@@ -617,8 +630,21 @@ public class CluedoGUI extends JFrame {
                         }
                         System.out.println("----------------");
                         currentPlayer = Player.playerList.get(currentPlayerPos);
-                        CluedoGame.add(GenerateInfoPanel(), BorderLayout.SOUTH);
-                        CluedoGame.repaint();
+                        //InfoPanel.removeAll();
+
+
+
+                        HandCard1.setIcon(((new ImageIcon(currentPlayer.getHand().get(0).getCardImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
+                        HandCard2.setIcon(((new ImageIcon(currentPlayer.getHand().get(1).getCardImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
+                        HandCard3.setIcon(((new ImageIcon(currentPlayer.getHand().get(2).getCardImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
+                        HandCard4.setIcon(((new ImageIcon(currentPlayer.getHand().get(3).getCardImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
+                        HandCard5.setIcon(((new ImageIcon(currentPlayer.getHand().get(4).getCardImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
+                        HandCard6.setIcon(((new ImageIcon(currentPlayer.getHand().get(5).getCardImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
+                        HandCard7.setIcon(((new ImageIcon(currentPlayer.getHand().get(6).getCardImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
+
+
+
+                        //CluedoGame.repaint();
                         JFrame frame = new JFrame();
                         JOptionPane.showMessageDialog(frame, "You have run out of moves", "End your turn", JOptionPane.PLAIN_MESSAGE);
                         return;

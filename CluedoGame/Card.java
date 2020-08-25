@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * todo look into drawing the cards using a super method
@@ -11,6 +12,7 @@ import javax.swing.*;
 
 public class Card {
     protected JLabel cardIcon;
+    protected Image cardImage;
     /**
      * ToString Method:
      * <p>
@@ -25,6 +27,9 @@ public class Card {
 
     public JLabel getCardIcon() {
         return cardIcon;
+    }
+    public Image getCardImage() {
+        return cardImage;
     }
 
 }
