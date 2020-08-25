@@ -82,12 +82,7 @@ public class CluedoGUI extends JFrame {
     private BufferedImage BallRoomImage;
     private BufferedImage DiningRoomImage;
     // Labels for each Card in a Players Hand
-    private JLabel HandCardI;
-    private JLabel HandCardII;
-    private JLabel HandCardIII;
-    private JLabel HandCardIV;
-    private JLabel HandCardV;
-    private JLabel HandCardVI;
+
     private JLabel CandlestickCard;
     private JLabel DaggerCard;
     private JLabel LeadPipeCard;
@@ -139,12 +134,14 @@ public class CluedoGUI extends JFrame {
     private ArrayList<int[]> previouslyTraversedTiles = new ArrayList<>();
     private Tile[][] board = new Tile[25][30];
     private Board b;
-    private Player currentPlayer;
+    private Player currentPlayer = Player.getPlayerList().get(0);
     private int currentPlayerPos;
 
     public CluedoGUI(String title, Board board) {
         CluedoGame = new JFrame(title);
         this.b = board;
+        setup();
+        System.out.println(Player.getPlayerList().size());
         // Set GUI to terminate the program when exited.
         CluedoGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // Set the JMenuBar to the return value of the GenerateMenu method.
@@ -163,7 +160,7 @@ public class CluedoGUI extends JFrame {
         //
         CluedoGame.setVisible(true);
         //Implementing a setup method which initialises required variables
-        setup();
+
 
     }
 
@@ -219,150 +216,17 @@ public class CluedoGUI extends JFrame {
         allRooms.add(new Room("Billiard Room"));
         allRooms.add(new Room("Library"));
         allRooms.add(new Room("Cellar"));
-
+        LoadImages();
         generateCards();
         generateMurderer();
         generateMurderRoom();
         generateMurderWeapon();
+        dealCards();
 
     }
 
     private void generateCards() {
         // Generate character cards
-
-        characterCards.add(new CharacterCard("Scarlett", ScarlettCard));
-        characterCards.add(new CharacterCard("Mustard", MustardCard));
-        characterCards.add(new CharacterCard("White", WhiteCard));
-        characterCards.add(new CharacterCard("Green", GreenCard));
-        characterCards.add(new CharacterCard("Peacock", PeacockCard));
-        characterCards.add(new CharacterCard("Plum", PlumCard));
-
-        // Generate weapon cards
-        weaponCards.add(new WeaponCard("Candlestick", CandlestickCard));
-        weaponCards.add(new WeaponCard("Rope", RopeCard));
-        weaponCards.add(new WeaponCard("Revolver", RevolverCard));
-        weaponCards.add(new WeaponCard("LeadPipe", LeadPipeCard));
-        weaponCards.add(new WeaponCard("Dagger", DaggerCard));
-        weaponCards.add(new WeaponCard("Spanner", SpannerCard));
-
-        // Generate room cards
-        roomCards.add(new RoomCard("Library", LibraryCard));
-        roomCards.add(new RoomCard("Conservatory", ConservatoryCard));
-        roomCards.add(new RoomCard("Kitchen", KitchenCard));
-        roomCards.add(new RoomCard("Study", StudyCard));
-        roomCards.add(new RoomCard("Hall", HallCard));
-        roomCards.add(new RoomCard("BallRoom", BallRoomCard));
-        roomCards.add(new RoomCard("DiningRoom", DiningRoomCard));
-        roomCards.add(new RoomCard("Lounge", LoungeCard));
-        roomCards.add(new RoomCard("Billard Room", BillardRoomCard));
-
-
-        Board.deckOfCards.addAll(characterCards);
-        Board.deckOfCards.addAll(weaponCards);
-        Board.deckOfCards.addAll(roomCards);
-    }
-
-    private void generateMurderer() {
-        int index = new Random().nextInt(Board.getCharacterArrayList().size());
-        Board.getCharacterArrayList().get(index).setInvolvedInMurder(true);
-    }
-
-    private void generateMurderWeapon(){
-        int index = new Random().nextInt(allWeapons.size());
-        allWeapons.get(index).setInvolvedInMurder(true);
-    }
-
-    private void generateMurderRoom(){
-        int index = new Random().nextInt(allRooms.size());
-        allRooms.get(index).setInvolvedInMurder(true);
-    }
-
-    private JMenuBar GenerateMenu(String menuName, String optName, String optNameTwo) {
-
-        // Create a new JMenuBar
-        JMenuBar mainMenu = new JMenuBar();
-        // Create a new JMenu
-        JMenu MenuImplementation = new JMenu(menuName);
-        // Create the JMenuItems for the JMenu
-        JMenuItem ExitOption = new JMenuItem(optName);
-        JMenuItem RestartGame = new JMenuItem(optNameTwo);
-        // Create the ActionListener for the JMenuItems
-        ExitOption.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(1);
-            }
-        });
-        RestartGame.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.print("World\n");
-            }
-        });
-        // Add the JMenuItems to the JMenu
-        MenuImplementation.add(ExitOption);
-        MenuImplementation.add(RestartGame);
-        // Add the JMenu to the MenuBar
-        mainMenu.add(MenuImplementation);
-
-        return mainMenu;
-    }
-
-    /**
-     * Draws the board of the game
-     *
-     * @return
-     */
-    private JPanel GenerateBoardPanel() {
-        BoardPanel = new JPanel();
-        //calls drawPane and this draws the main section of the board
-        BoardPanel = new DrawPane();
-        return BoardPanel;
-    }
-
-    /**
-     * Method which iterates through the board array and
-     */
-
-    public void drawBoard(Graphics graphics) {
-
-        for (int row = 0; row < 25; ++row) {
-            for (int col = 0; col < 24; ++col) {
-                board[row][col] = new Tile(tileTypeToNameMap.get(b.getBoardLayoutArray()[row][col]), col * GRID_SIZE, row * GRID_SIZE);
-                board[row][col].draw(graphics, board[row][col].x, board[row][col].y);
-            }
-        }
-    }
-
-    private JPanel GenerateInfoPanel() {
-        // Set the GameControlPanel to be a new JPanel.
-        InfoPanel = new JPanel();
-        // Set the background of the InfoPanel to blue.
-        InfoPanel.setBackground(Color.blue);
-        // TODO COMMENT
-        InfoPanel.setLayout(new BorderLayout(10, 10));
-        // Call the LoadImages method to ensure that all the Dice and Weapon Images have been loaded.
-        LoadImages();
-        // Set the InfoPanelLeft to be a new JPanel.
-        JPanel InfoPanelLeft = new JPanel();
-        // Set the background of the InfoPanelLeft to white.
-        InfoPanelLeft.setBackground(Color.blue);
-        // TODO COMMENT
-        InfoPanelLeft.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
-        // Set the InfoPanelRight to be a new JPanel.
-        JPanel InfoPanelRight = new JPanel();
-        // Set the background of the InfoPanelRight to white.
-        InfoPanelRight.setBackground(Color.blue);
-        // TODO COMMENT
-        InfoPanelRight.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 10));
-        // Set the Dice One label to the FaceOne Scaled Image.
-        DiceOne = new JLabel(new ImageIcon(DiceImages.get(0).getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-        // Set the Dice One label to the FaceOne Scaled Image.
-        DiceTwo = new JLabel(new ImageIcon(DiceImages.get(0).getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-        // Add the Dice Labels to the JPanel
-        InfoPanelLeft.add(DiceOne);
-        InfoPanelLeft.add(DiceTwo);
-
 
         // Set the HandCardI label to the CandlestickImage Scaled Image.
         CandlestickCard = new JLabel(new ImageIcon(CandlestickImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
@@ -452,18 +316,152 @@ public class CluedoGUI extends JFrame {
         ConservatoryCard = new JLabel(new ImageIcon(ConservatoryImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
         ConservatoryCard.setToolTipText("Conservatory Card");
         allCards.add(ConservatoryCard);
+
+        characterCards.add(new CharacterCard("Scarlett", ScarlettCard));
+        characterCards.add(new CharacterCard("Mustard", MustardCard));
+        characterCards.add(new CharacterCard("White", WhiteCard));
+        characterCards.add(new CharacterCard("Green", GreenCard));
+        characterCards.add(new CharacterCard("Peacock", PeacockCard));
+        characterCards.add(new CharacterCard("Plum", PlumCard));
+
+        // Generate weapon cards
+        weaponCards.add(new WeaponCard("Candlestick", CandlestickCard));
+        weaponCards.add(new WeaponCard("Rope", RopeCard));
+        weaponCards.add(new WeaponCard("Revolver", RevolverCard));
+        weaponCards.add(new WeaponCard("LeadPipe", LeadPipeCard));
+        weaponCards.add(new WeaponCard("Dagger", DaggerCard));
+        weaponCards.add(new WeaponCard("Spanner", SpannerCard));
+
+        // Generate room cards
+        roomCards.add(new RoomCard("Library", LibraryCard));
+        roomCards.add(new RoomCard("Conservatory", ConservatoryCard));
+        roomCards.add(new RoomCard("Kitchen", KitchenCard));
+        roomCards.add(new RoomCard("Study", StudyCard));
+        roomCards.add(new RoomCard("Hall", HallCard));
+        roomCards.add(new RoomCard("BallRoom", BallRoomCard));
+        roomCards.add(new RoomCard("DiningRoom", DiningRoomCard));
+        roomCards.add(new RoomCard("Lounge", LoungeCard));
+        roomCards.add(new RoomCard("Billard Room", BillardRoomCard));
+
+
+        Board.deckOfCards.addAll(characterCards);
+        Board.deckOfCards.addAll(weaponCards);
+        Board.deckOfCards.addAll(roomCards);
+    }
+
+    private void generateMurderer() {
+        int index = new Random().nextInt(Board.getCharacterArrayList().size());
+        Board.getCharacterArrayList().get(index).setInvolvedInMurder(true);
+    }
+
+    private void generateMurderWeapon(){
+        int index = new Random().nextInt(allWeapons.size());
+        allWeapons.get(index).setInvolvedInMurder(true);
+    }
+
+    private void generateMurderRoom(){
+        int index = new Random().nextInt(allRooms.size());
+        allRooms.get(index).setInvolvedInMurder(true);
+    }
+
+    private void dealCards() {
+        for (int i = 0; i < Board.deckOfCards.size(); i++) {
+            Player.playerList.get(i % Player.playerList.size()).addHand(Board.deckOfCards.get(i));
+        }
+    }
+
+    private JMenuBar GenerateMenu(String menuName, String optName, String optNameTwo) {
+
+        // Create a new JMenuBar
+        JMenuBar mainMenu = new JMenuBar();
+        // Create a new JMenu
+        JMenu MenuImplementation = new JMenu(menuName);
+        // Create the JMenuItems for the JMenu
+        JMenuItem ExitOption = new JMenuItem(optName);
+        JMenuItem RestartGame = new JMenuItem(optNameTwo);
+        // Create the ActionListener for the JMenuItems
+        ExitOption.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(1);
+            }
+        });
+        RestartGame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.print("World\n");
+            }
+        });
+        // Add the JMenuItems to the JMenu
+        MenuImplementation.add(ExitOption);
+        MenuImplementation.add(RestartGame);
+        // Add the JMenu to the MenuBar
+        mainMenu.add(MenuImplementation);
+
+        return mainMenu;
+    }
+
+    /**
+     * Draws the board of the game
+     *
+     * @return
+     */
+    private JPanel GenerateBoardPanel() {
+        BoardPanel = new JPanel();
+        //calls drawPane and this draws the main section of the board
+        BoardPanel = new DrawPane();
+        return BoardPanel;
+    }
+
+    /**
+     * Method which iterates through the board array and
+     */
+
+    public void drawBoard(Graphics graphics) {
+
+        for (int row = 0; row < 25; ++row) {
+            for (int col = 0; col < 24; ++col) {
+                board[row][col] = new Tile(tileTypeToNameMap.get(b.getBoardLayoutArray()[row][col]), col * GRID_SIZE, row * GRID_SIZE);
+                board[row][col].draw(graphics, board[row][col].x, board[row][col].y);
+            }
+        }
+    }
+
+    private JPanel GenerateInfoPanel() {
+        // Set the GameControlPanel to be a new JPanel.
+        InfoPanel = new JPanel();
+        // Set the background of the InfoPanel to blue.
+        InfoPanel.setBackground(Color.blue);
+        // TODO COMMENT
+        InfoPanel.setLayout(new BorderLayout(10, 10));
+        // Call the LoadImages method to ensure that all the Dice and Weapon Images have been loaded.
+
+        // Set the InfoPanelLeft to be a new JPanel.
+        JPanel InfoPanelLeft = new JPanel();
+        // Set the background of the InfoPanelLeft to white.
+        InfoPanelLeft.setBackground(Color.blue);
+        // TODO COMMENT
+        InfoPanelLeft.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
+        // Set the InfoPanelRight to be a new JPanel.
+        JPanel InfoPanelRight = new JPanel();
+        // Set the background of the InfoPanelRight to white.
+        InfoPanelRight.setBackground(Color.blue);
+        // TODO COMMENT
+        InfoPanelRight.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 10));
+        // Set the Dice One label to the FaceOne Scaled Image.
+        DiceOne = new JLabel(new ImageIcon(DiceImages.get(0).getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+        // Set the Dice One label to the FaceOne Scaled Image.
+        DiceTwo = new JLabel(new ImageIcon(DiceImages.get(0).getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+        // Add the Dice Labels to the JPanel
+        InfoPanelLeft.add(DiceOne);
+        InfoPanelLeft.add(DiceTwo);
         // Set the HandCardIV label to the RevolverImage Scaled Image.
 
 
-        InfoPanelRight.add(ConservatoryCard);
-        InfoPanelRight.add(BillardRoomCard);
-        InfoPanelRight.add(StudyCard);
-        InfoPanelRight.add(HallCard);
-        InfoPanelRight.add(LoungeCard);
-        InfoPanelRight.add(KitchenCard);
-        InfoPanelRight.add(BallRoomCard);
-        InfoPanelRight.add(LibraryCard);
-        InfoPanelRight.add(DiningRoomCard);
+        System.out.println(currentPlayer.getHand().size());
+        for(int i =0; i< currentPlayer.getHand().size();i++){
+            InfoPanelRight.add(currentPlayer.getHand().get(i).getCardIcon());
+        }
         // Add the InfoPanelRight and InfoPanelLeft to the
         InfoPanel.add(InfoPanelLeft, BorderLayout.LINE_START);
         InfoPanel.add(InfoPanelRight, BorderLayout.LINE_END);
@@ -617,7 +615,10 @@ public class CluedoGUI extends JFrame {
                         if (currentPlayerPos == Player.playerList.size()) {
                             currentPlayerPos = 0;
                         }
+                        System.out.println("----------------");
                         currentPlayer = Player.playerList.get(currentPlayerPos);
+                        CluedoGame.add(GenerateInfoPanel(), BorderLayout.SOUTH);
+                        CluedoGame.repaint();
                         JFrame frame = new JFrame();
                         JOptionPane.showMessageDialog(frame, "You have run out of moves", "End your turn", JOptionPane.PLAIN_MESSAGE);
                         return;

@@ -11,7 +11,6 @@ import javax.swing.*;
 public class CharacterCard extends Card {
 
     private String characterName;
-    private JLabel cardIcon;
 
     /**Constructor for a single CharacterCard
      * @param aCharacterName - the name of the card. For CharacterCards this is the character names.
@@ -19,7 +18,7 @@ public class CharacterCard extends Card {
     CharacterCard(String aCharacterName, JLabel cardIcon) {
 
         characterName = aCharacterName;
-        this.cardIcon = cardIcon;
+        super.cardIcon = cardIcon;
     }
     /**
      * getCharacterName method :

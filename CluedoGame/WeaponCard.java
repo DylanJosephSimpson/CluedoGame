@@ -12,14 +12,13 @@ import javax.swing.*;
 public class WeaponCard extends Card {
 
     private String weaponName;
-    private JLabel cardIcon;
 
     /**
      * Constructor for a single WeaponCard
      * @param aWeaponName - the name of the card. For WeaponCard this is the name of the associated weapon.
      */
     WeaponCard(String aWeaponName, JLabel cardIcon) {
-        this.cardIcon = cardIcon;
+        super.cardIcon = cardIcon;
         weaponName = aWeaponName;
     }
 

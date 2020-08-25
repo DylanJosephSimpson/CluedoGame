@@ -7,7 +7,7 @@ import java.util.HashSet;
  *  the components that make up the board.
  */
 public class Board {
-    static HashSet<Card> deckOfCards = new HashSet<>();
+    static ArrayList<Card> deckOfCards = new ArrayList<>();
     static HashSet<Card> envelope = new HashSet<>();
 
     public static ArrayList<Character> getCharacterArrayList() {

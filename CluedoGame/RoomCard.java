@@ -3,12 +3,12 @@ import javax.swing.*;
 public class RoomCard extends Card
 {
     private String roomName;
-    private JLabel cardIcon;
+
 
     RoomCard(String aRoomName, JLabel cardIcon)
     {
         roomName = aRoomName;
-        this.cardIcon = cardIcon;
+        super.cardIcon = cardIcon;
 
     }
 
@@ -16,6 +16,7 @@ public class RoomCard extends Card
     {
         return roomName;
     }
+
 
 
     public String toString()

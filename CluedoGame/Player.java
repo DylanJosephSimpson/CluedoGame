@@ -10,6 +10,8 @@ public class Player {
 
     public static ArrayList<Player> playerList = new ArrayList<>();
 
+    private ArrayList<Card> hand = new ArrayList<>();
+
     public static ArrayList<Player> getPlayerList() {
         return playerList;
     }
@@ -156,6 +158,14 @@ public class Player {
 
         }
 
+    }
+
+    public void addHand(Card card) {
+        this.hand.add(card);
+    }
+
+    public ArrayList<Card> getHand() {
+        return hand;
     }
 
     @Override

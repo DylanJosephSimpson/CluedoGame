@@ -1,3 +1,5 @@
+import javax.swing.*;
+
 /**
  * todo look into drawing the cards using a super method
  * Superclass for all Card Classes. Cards are used for interactions *between players.
@@ -8,6 +10,7 @@
  */
 
 public class Card {
+    protected JLabel cardIcon;
     /**
      * ToString Method:
      * <p>
@@ -18,6 +21,10 @@ public class Card {
 
     public String toString() {
         return super.toString();
+    }
+
+    public JLabel getCardIcon() {
+        return cardIcon;
     }
 
 }
