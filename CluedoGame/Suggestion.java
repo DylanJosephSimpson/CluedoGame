@@ -40,6 +40,7 @@ public class Suggestion {
         //add the character to the room where the suggestion occurred in
         room.addCharacterToRoom(character);
         character.setCurrentRoom(room);
+        character.setTransportedIntoRoom(true);
 
         // *** (2) Move the suggested weapon into the new room ***
         //remove the weapon from its current room
