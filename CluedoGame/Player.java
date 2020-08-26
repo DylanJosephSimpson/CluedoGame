@@ -227,9 +227,15 @@ public class Player {
      * @param dir
      */
     public void move(String dir){
-        System.out.println("justExitedRoom=" + justExitedRoom);
-        //First, check if the player is currently in a room, if so, give the player the option to exit
-        if (isInARoom() && !justExitedRoom){
+        //First, let the player make a suggestion if they have just been transported into a room
+        if (assignedCharacter.isTransportedIntoRoom()) {
+            new SuggestionWindow("You have entered a room, make a suggestion?", assignedCharacter.getCurrentRoom());
+
+            //reset this
+            assignedCharacter.setTransportedIntoRoom(false);
+        }
+        //Second, check if the player is currently in a room, if so, give the player the option to exit
+        else if (isInARoom() && !justExitedRoom){
             Object[] options = {"No",
                     "Yes"};
             int optionSelected = JOptionPane.showOptionDialog(new JFrame(),
@@ -318,7 +324,9 @@ public class Player {
                 //player has entered a room. Give the player an option to make a suggestion.
                 new SuggestionWindow("You have entered a room, make a suggestion?", enteredRoom);
             }
-            justExitedRoom = false; //reset this once they have moved out of a room and are traversing normally
+
+            //reset this once they have moved out of a room and are traversing normally
+            justExitedRoom = false;
         }
 
     }
