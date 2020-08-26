@@ -87,13 +87,6 @@ public class Character implements Item {
         //todo - Caleb - erase this properly
     }
 
-    /**
-     * When a suggestion is made this character moves to the designated room
-     * @param room Room the character is moving to
-     */
-    public void moveToRoom(Room room){
-        //TODO: Write this method once the Room class is implemented (Iqbal)
-    }
 
     /**
      * Getter for currentRoom
