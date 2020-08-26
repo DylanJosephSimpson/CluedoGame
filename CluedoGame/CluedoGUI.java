@@ -60,6 +60,7 @@ public class CluedoGUI extends JFrame {
     private JLabel HandCard5;
     private JLabel HandCard6;
     private JLabel HandCard7;
+    private JLabel displayName;
     private JLabel CardPlaceholderCard;
     private BufferedImage CardPlaceholder;
     private BufferedImage CandlestickImage;
@@ -514,6 +515,11 @@ public class CluedoGUI extends JFrame {
         InfoPanelLeft.add(DiceTwo);
         // Set the HandCardIV label to the RevolverImage Scaled Image.
 
+        displayName = new JLabel("\t\t\t\t\t"+currentPlayer.getName()+"'s Turn");
+        displayName.setFont(new Font("Georgia", Font.PLAIN, 30));
+        displayName.setForeground(Color.white);
+        displayName.setHorizontalAlignment( SwingConstants.CENTER );
+        InfoPanelLeft.add(displayName);
 
         HandCard1 = currentPlayer.getHand().get(0).getCardIcon();
         HandCard2 = currentPlayer.getHand().get(1).getCardIcon();
@@ -713,7 +719,7 @@ public class CluedoGUI extends JFrame {
                         }
                         System.out.println("----------------");
                         currentPlayer = Player.playerList.get(currentPlayerPos);
-                        //InfoPanel.removeAll();
+                        displayName.setText("\t\t\t\t\t"+currentPlayer.getName()+"'s Turn");
 
                         for (int i =0; i<currentPlayer.getHand().size();i++){
                             System.out.println(currentPlayer.getHand().get(i).toString());
