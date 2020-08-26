@@ -160,9 +160,12 @@ public class SuggestionWindow extends JDialog {
                 //Now add all the results to the main pile
                 if (cardMatches.size() == 0) {
                     results.add(new JLabel(player.getAssignedCharacter() + " has 0 cards that match your suggestion"));
-                } else {
+                }
+                else if (cardMatches.size() == 1){
+                    results.add(new JLabel(player.getAssignedCharacter() + " rejects your suggestion with the card: \"" + cardMatches.get(0) + "\""));
+                }
+                else {
                     //chooose one card to show them
-                    Card cardToShow;
                     String[] cardsToPick = new String[cardMatches.size()];
                     //populating the options
                     for (int i = 0; i < cardMatches.size(); i++){
