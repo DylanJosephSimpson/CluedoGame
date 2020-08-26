@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A suggestion window is prompted the first time a player enters a room.
@@ -18,7 +20,7 @@ public class SuggestionWindow extends JDialog {
     private JPanel container = new JPanel();
 
     // Game fields
-    private Suggestion createdSuggestion;
+    private Suggestion createdSuggestion; //= new Suggestion(new Character("dummy", 0, 0), new Weapon("dummy"), new Room("dummy"));
     private Character suggestedCharacter;
     private Weapon suggestedWeapon;
     private Room enteredRoom;
@@ -30,21 +32,19 @@ public class SuggestionWindow extends JDialog {
     public SuggestionWindow(String title, Room enteredRoom){
         this.enteredRoom = enteredRoom;
 
-        container.setLayout(cl);
+        this.container.setLayout(cl);
 
         addFirstPanel(container);
-        addSecondPanel(container);
 
         this.setTitle(title);
         this.add(container);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         this.setVisible(true);
-
     }
 
     /**
-     * Adds the suspect panel to the main container
+     * Adds the suspect panel and results of the suggestions panel to the main container
      * @param container
      */
     public void addFirstPanel(JPanel container){
@@ -112,7 +112,7 @@ public class SuggestionWindow extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 createdSuggestion = new Suggestion(suggestedCharacter, suggestedWeapon, enteredRoom);
                 createdSuggestion.moveItems();
-                System.out.println(createdSuggestion.toString()); //TODO: remove this later
+                addSecondPanel(container, createdSuggestion);
                 cl.show(container, "2");
             }
         });
@@ -135,14 +135,70 @@ public class SuggestionWindow extends JDialog {
     }
 
     /**
-     * Adds the weapon panel to the main container
+     * Aftermath of the suggestion
      * @param container
      */
-    public void addSecondPanel(JPanel container){
-        JPanel weaponPanel = new JPanel();
+    public void addSecondPanel(JPanel container, Suggestion suggestion){
+        JPanel resultsPanel = new JPanel();
+        resultsPanel.setLayout(new BoxLayout(resultsPanel, BoxLayout.Y_AXIS));
+        List<JLabel> results = new ArrayList<>();
 
+        Character currentPlayer = enteredRoom.getCharactersInRoom().get(enteredRoom.getCharactersInRoom().size() - 2);
+        for (Player player : Player.playerList) {
+            List<Card> cardMatches = new ArrayList<>(); //list of cards that match the suggestion that was made
+            //cycle through all players except for the player that made the suggestion
+            if (!player.getAssignedCharacter().toString().equals(currentPlayer.toString())) {
+                for (Card card : player.getHand()) {
+                    //Counting how many cards in this player's hand matches the suggestion made
+                    if (card.toString().equals(suggestion.getCharacter().toString()) ||
+                            card.toString().equals(suggestion.getWeapon().toString()) ||
+                            card.toString().equals(suggestion.getRoom().toString())) {
+                        cardMatches.add(card);
+                    }
+                }
 
-        container.add(weaponPanel, "2");
+                //Now add all the results to the main pile
+                if (cardMatches.size() == 0) {
+                    results.add(new JLabel(player.getAssignedCharacter() + " has 0 cards that match your suggestion"));
+                } else {
+                    //chooose one card to show them
+                    Card cardToShow;
+                    String[] cardsToPick = new String[cardMatches.size()];
+                    //populating the options
+                    for (int i = 0; i < cardMatches.size(); i++){
+                        cardsToPick[i] = cardMatches.get(i).toString();
+                    }
+                    Object selected = JOptionPane.showInputDialog(null,
+                            "If you are not " + player.getAssignedCharacter() + " please look away! " + player.getAssignedCharacter() + " choose one of these cards to show to the suggestee:",
+                            "Select a card",
+                            JOptionPane.DEFAULT_OPTION,
+                            null,
+                            cardsToPick,
+                            "0");
+                    if ( selected != null ){//null if the user cancels
+                        String selectedString = selected.toString();
+                        System.out.println("verify ====" + selectedString);
+                        results.add(new JLabel(player.getAssignedCharacter() + " rejects your suggestion with the card: \"" + selectedString + "\""));
+                    }else{
+                        System.out.println("User cancelled");
+                    }
+                }
+            }
+        }
+        //Add all of the results found
+        for (JLabel label : results) {
+            resultsPanel.add(label);
+        }
+        JButton okButton = new JButton("Ok");
+        okButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
+        resultsPanel.add(okButton);
+        resultsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        container.add(resultsPanel, "2");
     }
 
 }
