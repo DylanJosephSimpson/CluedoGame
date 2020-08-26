@@ -52,10 +52,6 @@ public class Weapon implements Item {
         this.x = x;
         this.y = y;
         Graphics2D g2d = (Graphics2D) g;
-        //TODO: will finish this - Iqbal
-        //iterate through the tile array (will be known as the board)
-        //and draw the image of the corresponding weapon onto the room tile
-
         String path = "WeaponIcon/" + weaponName + ".png";
         try {
             BufferedImage image = ImageIO.read(new File(path));
@@ -71,14 +67,6 @@ public class Weapon implements Item {
         //do something with x and y to erase it
     }
 
-    /**
-     * --- Suggestion Method ---
-     * Erases the weapon from its current room and redraws it in the designated room
-     * @param room
-     */
-    public void redrawInNewRoom(Room room){
-        //TODO: Write this method (Iqbal)
-    }
 
     /**
      * Getter for currentRoom
