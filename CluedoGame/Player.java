@@ -140,22 +140,86 @@ public class Player {
      * @param dir
      */
     public void move(String dir){
-        System.out.println(this.getRemainingMoves());
-        boolean tempTest = isInARoom();
+        //First, check if the player is currently in a room, if so, give the player the option to exit
+        if (isInARoom()){
+            Object[] options = {"No",
+                    "Yes"};
+            // optionSelected = 0 (yes), = 1 (no), = 2 (return to menu)
+            int optionSelected = JOptionPane.showOptionDialog(new JFrame(),
+                    assignedCharacter.toString() + " would you like to exit the " + assignedCharacter.getCurrentRoom().toString() + "?",
+                    assignedCharacter.getCurrentRoom().toString(),
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    null);
+            switch (optionSelected){
+                //option "no"
+                case 0:
+                    //player has chosen to stay in the room, they forfeit their turn but are given the option to make another suggestion
+                    new SuggestionWindow("You are still in a room, make a suggestion?", assignedCharacter.getCurrentRoom());
+                    setRemainingMoves(0);
+                    break;
+                //option "yes"
+                case 1:
+                    //let the player choose which doorway to exit to
+                    int exitNo = 1;
 
-        if(dir.equals("NORTH")){
-            assignedCharacter.setY(assignedCharacter.getY()-30);
-        }else if(dir.equals("EAST")){
-            assignedCharacter.setX(assignedCharacter.getX()+30);
-        } else if(dir.equals("SOUTH")){
-            assignedCharacter.setY(assignedCharacter.getY()+30);
-        } else if(dir.equals("WEST")){
-            assignedCharacter.setX(assignedCharacter.getX()-30);
+                    //GUI elements
+                    JPanel exitRoomPanel = new JPanel();
+                    ButtonGroup buttonGroup = new ButtonGroup();
+                    for (Tile doorway : assignedCharacter.getCurrentRoom().getDoorwayTiles()){
+                        JRadioButton exitButton = new JRadioButton("Doorway " + exitNo);
+                        exitButton.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                //add this
+                            }
+                        });
+                        buttonGroup.add(exitButton);
+                        exitRoomPanel.add(exitButton);
+                        exitNo++;
+                    }
+
+                    //Remove them from the room
+                    assignedCharacter.getCurrentRoom().removeCharacterFromRoom(assignedCharacter);
+                    assignedCharacter.setCurrentRoom(null);
+                    break;
+            }
         }
+        //else let them move normally
+        else {
+            System.out.println(this.getRemainingMoves());
+            boolean tempTest = isInARoom();
 
-        if (!tempTest && isInARoom() || tempTest && !isInARoom()){
-            this.setRemainingMoves(0);
+            if (dir.equals("NORTH")) {
+                assignedCharacter.setY(assignedCharacter.getY() - 30);
+            } else if (dir.equals("EAST")) {
+                assignedCharacter.setX(assignedCharacter.getX() + 30);
+            } else if (dir.equals("SOUTH")) {
+                assignedCharacter.setY(assignedCharacter.getY() + 30);
+            } else if (dir.equals("WEST")) {
+                assignedCharacter.setX(assignedCharacter.getX() - 30);
+            }
 
+            if (!tempTest && isInARoom() || tempTest && !isInARoom()) {
+                //current location
+                int xTile = this.assignedCharacter.getX() / 30;
+                int yTile = this.assignedCharacter.getY() / 30;
+
+
+                //find the room the player is stepping into
+                //add the character to the room and set the character's current room to be the room being entered
+                Room enteredRoom = findRoom(xTile, yTile);
+                enteredRoom.addCharacterToRoom(assignedCharacter);
+                assignedCharacter.setCurrentRoom(enteredRoom);
+
+                //they should stop moving after entering a room
+                this.setRemainingMoves(0);
+
+                //player has entered a room. Give the player an option to make a suggestion.
+                new SuggestionWindow("You have entered a room, make a suggestion?", enteredRoom);
+            }
         }
 
     }
