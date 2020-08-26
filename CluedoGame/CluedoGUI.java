@@ -130,7 +130,7 @@ public class CluedoGUI extends JFrame {
     private String LoungePath = "Cards/Lounge.png";
     private String HallPath = "Cards/Hall.png";
     private String StudyPath = "Cards/Study.png";
-    private String BillardRoomPath = "Cards/BillardRoom.png";
+    private String BilliardRoomPath = "Cards/BilliardRoom.png";
     private String ConservatoryPath = "Cards/Conservatory.png";
     private String CardPlaceholderPath = "Cards/CardPlaceholder.png";
     private Character currentCharacter;
@@ -583,7 +583,7 @@ public class CluedoGUI extends JFrame {
             PeacockImage = ImageIO.read(new File(PeacockPath));
 
             ConservatoryImage = ImageIO.read(new File(ConservatoryPath));
-            BilliardRoomImage = ImageIO.read(new File(BillardRoomPath));
+            BilliardRoomImage = ImageIO.read(new File(BilliardRoomPath));
             StudyImage = ImageIO.read(new File(StudyPath));
             HallImage = ImageIO.read(new File(HallPath));
             LoungeImage = ImageIO.read(new File(LoungePath));
@@ -670,6 +670,7 @@ public class CluedoGUI extends JFrame {
         });
         MakeAccusation.addActionListener(e -> {
             GameControlPanel.requestFocus();
+            new AccusationSetup(currentPlayer);
         });
         // Add A KeyListener to the GameControlPanel
         GameControlPanel.addKeyListener(new KeyListener() {
@@ -696,6 +697,7 @@ public class CluedoGUI extends JFrame {
                 }
                 if (e.getKeyChar() == '4') {
                     MakeAccusation.doClick();
+                    new AccusationSetup(currentPlayer);
                     GameControlPanel.requestFocus();
                 }
                 if (e.getKeyChar() == '5') {
