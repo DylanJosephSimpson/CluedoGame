@@ -110,7 +110,7 @@ public class SuggestionWindow extends JDialog {
         nextButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                createdSuggestion = new Suggestion(suggestedCharacter, suggestedWeapon, enteredRoom); //todo include player field to maybe include player field so we can restrict suggestions but allow players to be made
+                createdSuggestion = new Suggestion(suggestedCharacter, suggestedWeapon, enteredRoom);
                 createdSuggestion.moveItems();
                 addSecondPanel(container, createdSuggestion);
                 cl.show(container, "2");
@@ -160,9 +160,12 @@ public class SuggestionWindow extends JDialog {
                 //Now add all the results to the main pile
                 if (cardMatches.size() == 0) {
                     results.add(new JLabel(player.getAssignedCharacter() + " has 0 cards that match your suggestion"));
-                } else {
+                }
+                else if (cardMatches.size() == 1){
+                    results.add(new JLabel(player.getAssignedCharacter() + " rejects your suggestion with the card: \"" + cardMatches.get(0) + "\""));
+                }
+                else {
                     //chooose one card to show them
-                    Card cardToShow;
                     String[] cardsToPick = new String[cardMatches.size()];
                     //populating the options
                     for (int i = 0; i < cardMatches.size(); i++){
