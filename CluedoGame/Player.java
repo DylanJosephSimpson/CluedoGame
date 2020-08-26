@@ -47,12 +47,12 @@ public class Player {
         this.assignedCharacter = assignedCharacter;
     }
 
-    public boolean isActivePlayer() {
-        return activePlayer;
+    public boolean isCanMakeActions() {
+        return canMakeActions;
     }
 
-    public void setActivePlayer(boolean activePlayer) {
-        this.activePlayer = activePlayer;
+    public void setCanMakeActions(boolean canMakeActions) {
+        this.canMakeActions = canMakeActions;
     }
 
     public Tile getCurrentTile() {
@@ -86,7 +86,7 @@ public class Player {
     /**
      * Boolean which represents if the player is in game
      */
-    private boolean activePlayer;
+    private boolean canMakeActions = true;
 
     /**
      * Checks if the player is trying to exit the room
@@ -108,9 +108,9 @@ public class Player {
      **/
 
     public void makeAccusation(CharacterCard characterCard, WeaponCard weaponCard, RoomCard roomCard) {
-        if (!activePlayer || !isInARoom()) {
+        if (!canMakeActions || !isInARoom()) {
             return; //If the player is not active due to making a false accusation or not in a room there is no
-            // point in making an accusation
+            // point in making an accusation, they can still move.
         }
         System.out.println("Accusation is being made");
 
@@ -118,7 +118,8 @@ public class Player {
         //False accusation as the envelope does not contain all three of the cards within the envelope
         if (!Board.envelope.contains(characterCard) || !Board.envelope.contains(weaponCard) || !Board.envelope.contains(roomCard)) {
             System.out.println("This is a false accusation ");
-            activePlayer = false;
+            canMakeActions = false;
+
 
         }
         //A successful accusation has been made and the game has been completed
