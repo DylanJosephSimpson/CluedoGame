@@ -227,12 +227,53 @@ public class CluedoGUI extends JFrame {
         allRooms.add(new Room("Library"));
         allRooms.add(new Room("Cellar"));
         LoadImages();
+        
+        setupRooms();
         generateCards();
         generateMurderer();
         generateMurderRoom();
         generateMurderWeapon();
-        dealCards();
+        allocateWeapons();
+    }
+    
+     /**
+     * Adds the room tiles to their respective rooms. Also adds the room's doorways to the Room objects
+     */
+    private void setupRooms(){
+        for (int row = 0; row < b.getBoardLayoutArray().length; row++) {
+            for (int col = 0; col < b.getBoardLayoutArray()[row].length; col++) {
+                String tileKey = b.getBoardLayoutArray()[row][col];
+                for (Room r : allRooms) {
+                    // Add the room tiles to the room's collection of tiles
+                    if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(tileKey))) {
+                        r.addRoomTile(new Tile("n/a", col * 30, row * 30));
+                    }
+                }
+                //Add the doorway tiles to the Room
+                if (tileKey.equals("@")){
+                    Player.findRoom(col, row).addDoorWay(new Tile("n/a",col * 30, row * 30));
+                }
+            }
+        }
 
+    }
+
+    /**
+     * Chooses 6 rooms to allocate weapons at startup
+     */
+    private void allocateWeapons(){
+        Collections.shuffle(allRooms);
+        int count = 0;
+        while (count < allWeapons.size()) {
+            for (Room r : allRooms) {
+                if (!r.getRoomName().equals("Cellar")) { //no weapons can go into the cellar
+                    r.addWeaponToRoom(allWeapons.get(count));
+                    allWeapons.get(count).setCurrentRoom(r);
+                    count++;
+                    if (count == 6) break;
+                }
+            }
+        }
     }
 
     private void generateCards() {
@@ -808,6 +849,26 @@ public class CluedoGUI extends JFrame {
                 c.draw(g2d, c.getX(), c.getY());
             }
         }
+        // Draw all the weapons and characters in a room if it has any
+            for (Room r : allRooms){
+                for (int i = 0; i < r.getWeaponsInRoom().size(); i++) {
+                    int x = r.getRoomTiles().get(i).getX();
+                    int y = r.getRoomTiles().get(i).getY();
+                    r.getWeaponsInRoom().get(i).draw(g2d, x, y);
+                }
+                int count = r.getRoomTiles().size()-1; //draw from the end of the room tiles
+                for (int i = 0; i < r.getCharactersInRoom().size(); i++) {
+                    int x = r.getRoomTiles().get(count).getX();
+                    int y = r.getRoomTiles().get(count).getY();
+
+                    //move the player into the room
+                    r.getCharactersInRoom().get(i).setX(x);
+                    r.getCharactersInRoom().get(i).setY(y);
+
+                    CluedoGame.repaint();
+                    count--;
+                }
+            }
     }
 
 
