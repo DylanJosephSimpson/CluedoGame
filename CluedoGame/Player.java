@@ -133,6 +133,82 @@ public class Player {
 
         return matcher.find();
     }
+    
+     /**
+     * Locates a room if a room tile is present surrounding it. This should only be used for an @ tile.
+     * @param x x-coordinate of the tile (from the board array)
+     * @param y y-coordinate of the tile (from the board array)
+     * @return
+     */
+    public static Room findRoom(int x, int y){
+       String topLeftDiagonalTile =  Board.getOriginalBoardLayoutArray()[y-1][x-1];
+       String topMiddleTile = Board.getOriginalBoardLayoutArray()[y-1][x];
+       String topRightDiagonalTile = Board.getOriginalBoardLayoutArray()[y-1][x+1];
+       String midLeftTile = Board.getOriginalBoardLayoutArray()[y][x-1];
+       String midRightTile = Board.getOriginalBoardLayoutArray()[y][x+1];
+       String botLeftDiagonalTile = Board.getOriginalBoardLayoutArray()[y+1][x-1];
+       String botMiddleTile = Board.getOriginalBoardLayoutArray()[y+1][x];
+       String botRightDiagonalTile = Board.getOriginalBoardLayoutArray()[y+1][x+1];
+
+       Pattern pattern = Pattern.compile("[kbcdlhsiy]"); //room symbols
+       if (topLeftDiagonalTile.matches(String.valueOf(pattern))){
+           for (Room r : CluedoGUI.allRooms){
+               if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(topLeftDiagonalTile))){
+                   return r;
+               }
+           }
+        }
+       else if (topMiddleTile.matches(String.valueOf(pattern))){
+           for (Room r : CluedoGUI.allRooms){
+               if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(topMiddleTile))){
+                   return r;
+               }
+           }
+       }
+       else if (topRightDiagonalTile.matches(String.valueOf(pattern))){
+           for (Room r : CluedoGUI.allRooms){
+               if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(topRightDiagonalTile))){
+                   return r;
+               }
+           }
+       }
+       else if (midLeftTile.matches(String.valueOf(pattern))){
+           for (Room r : CluedoGUI.allRooms){
+               if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(midLeftTile))){
+                   return r;
+               }
+           }
+       }
+       else if (midRightTile.matches(String.valueOf(pattern))){
+           for (Room r : CluedoGUI.allRooms){
+               if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(midRightTile))){
+                   return r;
+               }
+           }
+       }
+       else if (botLeftDiagonalTile.matches(String.valueOf(pattern))){
+           for (Room r : CluedoGUI.allRooms){
+               if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(botLeftDiagonalTile))){
+                   return r;
+               }
+           }
+       }
+       else if (botMiddleTile.matches(String.valueOf(pattern))){
+           for (Room r : CluedoGUI.allRooms){
+               if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(botMiddleTile))){
+                   return r;
+               }
+           }
+       }
+       else if (botRightDiagonalTile.matches(String.valueOf(pattern))){
+           for (Room r : CluedoGUI.allRooms){
+               if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(botRightDiagonalTile))){
+                   return r;
+               }
+           }
+       }
+       throw new RuntimeException("findRoom: Room tile was not found");
+    }
 
     /**
      * When a player moves in a certain direction the x or y position changes for their character and then board is redrawn
