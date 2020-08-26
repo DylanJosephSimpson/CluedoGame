@@ -225,7 +225,7 @@ public class Player {
                     "Yes"};
             // optionSelected = 0 (yes), = 1 (no), = 2 (return to menu)
             int optionSelected = JOptionPane.showOptionDialog(new JFrame(),
-                    assignedCharacter.toString() + " would you like to exit the " + assignedCharacter.getCurrentRoom().toString() + "?",
+                    assignedCharacter.toString() + " would you like to exit the " + assignedCharacter.getCurrentRoom().toString() + "? You may only remain in this room if the doorways are blocked!",
                     assignedCharacter.getCurrentRoom().toString(),
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE,
@@ -236,7 +236,6 @@ public class Player {
                 //option "no"
                 case 0:
                     //player has chosen to stay in the room, they forfeit their turn but are given the option to make another suggestion
-                    new SuggestionWindow("You are still in a room, make a suggestion?", assignedCharacter.getCurrentRoom());
                     setRemainingMoves(0);
                     break;
                 //option "yes"
