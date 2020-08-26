@@ -370,12 +370,12 @@ public class CluedoGUI extends JFrame {
         ConservatoryCard.setToolTipText("Conservatory Card");
         allCards.add(ConservatoryCard);
 
-        characterCards.add(new CharacterCard("Scarlett", ScarlettCard, ScarlettImage));
-        characterCards.add(new CharacterCard("Mustard", MustardCard, MustardImage));
-        characterCards.add(new CharacterCard("White", WhiteCard, WhiteImage));
-        characterCards.add(new CharacterCard("Green", GreenCard, GreenImage));
-        characterCards.add(new CharacterCard("Peacock", PeacockCard, PeacockImage));
-        characterCards.add(new CharacterCard("Plum", PlumCard, PlumImage));
+        characterCards.add(new CharacterCard("Miss. Scarlett", ScarlettCard, ScarlettImage));
+        characterCards.add(new CharacterCard("Col. Mustard", MustardCard, MustardImage));
+        characterCards.add(new CharacterCard("Mrs. White", WhiteCard, WhiteImage));
+        characterCards.add(new CharacterCard("Mr. Green", GreenCard, GreenImage));
+        characterCards.add(new CharacterCard("Mrs. Peacock", PeacockCard, PeacockImage));
+        characterCards.add(new CharacterCard("Prof. Plum", PlumCard, PlumImage));
 
         // Generate weapon cards
         weaponCards.add(new WeaponCard("Candlestick", CandlestickCard, CandlestickImage));
