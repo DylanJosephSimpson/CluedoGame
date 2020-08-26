@@ -88,6 +88,14 @@ public class Player {
      */
     private boolean activePlayer;
 
+    /**
+     * Checks if the player is trying to exit the room
+     */
+    private boolean justExitedRoom;
+
+    private int newX;
+    private int newY;
+
     private Tile currentTile;
 
     public Player(String name, Character assignedCharacter) {
@@ -219,11 +227,11 @@ public class Player {
      * @param dir
      */
     public void move(String dir){
+        System.out.println("justExitedRoom=" + justExitedRoom);
         //First, check if the player is currently in a room, if so, give the player the option to exit
-        if (isInARoom()){
+        if (isInARoom() && !justExitedRoom){
             Object[] options = {"No",
                     "Yes"};
-            // optionSelected = 0 (yes), = 1 (no), = 2 (return to menu)
             int optionSelected = JOptionPane.showOptionDialog(new JFrame(),
                     assignedCharacter.toString() + " would you like to exit the " + assignedCharacter.getCurrentRoom().toString() + "? You may only remain in this room if the doorways are blocked!",
                     assignedCharacter.getCurrentRoom().toString(),
@@ -235,7 +243,6 @@ public class Player {
             switch (optionSelected){
                 //option "no"
                 case 0:
-                    //player has chosen to stay in the room, they forfeit their turn but are given the option to make another suggestion
                     setRemainingMoves(0);
                     break;
                 //option "yes"
@@ -251,17 +258,30 @@ public class Player {
                         exitButton.addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
-                                //add this
+                                newX = doorway.getX();
+                                newY = doorway.getY();
                             }
                         });
                         buttonGroup.add(exitButton);
                         exitRoomPanel.add(exitButton);
                         exitNo++;
                     }
+                    int result = JOptionPane.showConfirmDialog(null,
+                            exitRoomPanel,
+                            "Choose an exit",
+                            JOptionPane.DEFAULT_OPTION,
+                            JOptionPane.PLAIN_MESSAGE);
+                    //When they press OK:
+                    if (result == 0) {
+                        //Remove them from the room
+                        assignedCharacter.getCurrentRoom().removeCharacterFromRoom(assignedCharacter);
+                        assignedCharacter.setCurrentRoom(null);
+                        justExitedRoom = true;
 
-                    //Remove them from the room
-                    assignedCharacter.getCurrentRoom().removeCharacterFromRoom(assignedCharacter);
-                    assignedCharacter.setCurrentRoom(null);
+                        //Actually move them on the board
+                        assignedCharacter.setX(newX);
+                        assignedCharacter.setY(newY);
+                    }
                     break;
             }
         }
@@ -280,7 +300,7 @@ public class Player {
                 assignedCharacter.setX(assignedCharacter.getX() - 30);
             }
 
-            if (!tempTest && isInARoom() || tempTest && !isInARoom()) {
+            if (!justExitedRoom && (!tempTest && isInARoom() || tempTest && !isInARoom())) {
                 //current location
                 int xTile = this.assignedCharacter.getX() / 30;
                 int yTile = this.assignedCharacter.getY() / 30;
@@ -298,6 +318,7 @@ public class Player {
                 //player has entered a room. Give the player an option to make a suggestion.
                 new SuggestionWindow("You have entered a room, make a suggestion?", enteredRoom);
             }
+            justExitedRoom = false; //reset this once they have moved out of a room and are traversing normally
         }
 
     }
