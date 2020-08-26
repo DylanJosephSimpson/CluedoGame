@@ -28,10 +28,12 @@ public class Tile implements Item {
         //Setting Roomtiles to pink
         if (CluedoGUI.roomNames.contains(tileType)) {
             g2.setColor(new Color(255,192,203));
+
         }
         //Setting door tiles to light tealish colour
         else if(tileType.equals("Door")){
             g2.setColor(new Color(100,229,180));
+
         }
         //It is a wall so set it to purple!
         else if(tileType.equals("Wall")){
@@ -44,12 +46,15 @@ public class Tile implements Item {
         int TILE_SIZE = 30;
         g2.fillRect(x, y, TILE_SIZE, TILE_SIZE);
 
-        //Draw a black border around the rect
-        ((Graphics2D) g).setStroke(new BasicStroke(2));
-        g2.setColor(Color.BLACK);
-        g2.drawRect(x, y, TILE_SIZE, TILE_SIZE);
+        //Draw a black border around the rect unless it is a room tile
+        if (!CluedoGUI.roomNames.contains(tileType)) {
+            ((Graphics2D) g).setStroke(new BasicStroke(2));
+            g2.setColor(Color.BLACK);
+            g2.drawRect(x, y, TILE_SIZE, TILE_SIZE);
+        }
 
     }
+
 
     @Override
     public void erase(Graphics g) {
