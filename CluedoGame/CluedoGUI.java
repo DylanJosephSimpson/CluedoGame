@@ -654,6 +654,7 @@ public class CluedoGUI extends JFrame {
         // TODO : ADD PROPER FUNCTIONALITY
         EndTurn.addActionListener(e -> {
             GameControlPanel.requestFocus();
+            currentPlayer.setRemainingMoves(0);
         });
         OpenNotes.addActionListener(e -> {
             GameControlPanel.requestFocus();
