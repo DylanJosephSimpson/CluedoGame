@@ -32,14 +32,14 @@ public class Suggestion {
      */
     public void moveItems(){
         // *** (1) Move the suggested character into the room ***
-        //remove the character from its current room
-        character.getCurrentRoom().removeCharacterFromRoom(character);
+        //remove the character from its current room if they were in one
+        if (character.getCurrentRoom() != null) {
+            character.getCurrentRoom().removeCharacterFromRoom(character);
+        }
 
         //add the character to the room where the suggestion occurred in
         room.addCharacterToRoom(character);
         character.setCurrentRoom(room);
-        character.moveToRoom(room); //VISUALLY move it
-
 
         // *** (2) Move the suggested weapon into the new room ***
         //remove the weapon from its current room
@@ -48,7 +48,6 @@ public class Suggestion {
         //add the weapon to the room where the suggestion occurred in
         room.addWeaponToRoom(weapon);
         weapon.setCurrentRoom(room);
-        weapon.redrawInNewRoom(room); //VISUALLY move it
     }
 
     @Override
