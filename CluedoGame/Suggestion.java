@@ -1,12 +1,12 @@
 public class Suggestion {
 
     /**
-     * Suspected murderer that is suggested
+     * Suggested character
      */
     private Character character;
 
     /**
-     * Suspected murder weapon that is suggested
+     * suggested murder weapon
      */
     private Weapon weapon;
 
@@ -48,6 +48,30 @@ public class Suggestion {
         //add the weapon to the room where the suggestion occurred in
         room.addWeaponToRoom(weapon);
         weapon.setCurrentRoom(room);
+    }
+
+    /**
+     * Getter for the suggested character
+     * @return suggested character
+     */
+    public Character getCharacter() {
+        return character;
+    }
+
+    /**
+     * Getter for the suggested weapon
+     * @return suggested weapon
+     */
+    public Weapon getWeapon() {
+        return weapon;
+    }
+
+    /**
+     * Getter for the room that the suggestion was made in
+     * @return
+     */
+    public Room getRoom() {
+        return room;
     }
 
     @Override
