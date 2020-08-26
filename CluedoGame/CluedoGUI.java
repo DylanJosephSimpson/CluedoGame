@@ -707,6 +707,53 @@ public class CluedoGUI extends JFrame {
                     currentPlayer = Player.getPlayerList().get(currentPlayerPos);
                     System.out.println("The current Player is " + currentPlayer);
                     //if the current player has no moves left, prompt the player that their turn has ended and return the settings to their defult
+                    if (currentPlayer.getRemainingMoves() <= 0) {
+                        hasRolled = false;
+                        previouslyTraversedTiles.clear();
+
+                        currentPlayerPos++;
+                        if (currentPlayerPos == Player.playerList.size()) {
+                            currentPlayerPos = 0;
+                        }
+                        System.out.println("----------------");
+                        currentPlayer = Player.playerList.get(currentPlayerPos);
+
+                        JFrame frame = new JFrame();
+                        JOptionPane.showMessageDialog(frame, "You have run out of moves, it is now "+currentPlayer.getName()+"'s turn.", "End your turn", JOptionPane.PLAIN_MESSAGE);
+
+                        displayName.setText("\t\t\t\t\t"+currentPlayer.getName()+"'s Turn");
+
+                        for (int i =0; i<currentPlayer.getHand().size();i++){
+                            System.out.println(currentPlayer.getHand().get(i).toString());
+                        }
+
+
+                        HandCard1.setIcon(((new ImageIcon(currentPlayer.getHand().get(0).getCardImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
+                        HandCard2.setIcon(((new ImageIcon(currentPlayer.getHand().get(1).getCardImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
+                        HandCard3.setIcon(((new ImageIcon(currentPlayer.getHand().get(2).getCardImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
+                        if (currentPlayer.getHand().size() > 3) {
+                            HandCard4.setIcon(((new ImageIcon(currentPlayer.getHand().get(3).getCardImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
+                        } else {
+                            HandCard4.setIcon(new ImageIcon(CardPlaceholder.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+                        }
+                        if (currentPlayer.getHand().size() > 4) {
+                            HandCard5.setIcon(((new ImageIcon(currentPlayer.getHand().get(4).getCardImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
+                        } else {
+                            HandCard5.setIcon(new ImageIcon(CardPlaceholder.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+                        }
+                        if (currentPlayer.getHand().size() > 5) {
+                            HandCard6.setIcon(((new ImageIcon(currentPlayer.getHand().get(5).getCardImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
+                        } else {
+                            HandCard6.setIcon(new ImageIcon(CardPlaceholder.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+                        }
+                        if (currentPlayer.getHand().size() > 6) {
+                            HandCard7.setIcon(((new ImageIcon(currentPlayer.getHand().get(6).getCardImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
+                        } else {
+                            HandCard7.setIcon(new ImageIcon(CardPlaceholder.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+                        }
+
+                        return;
+                    }
 
                     System.out.println(currentPlayer);
                     //convert pixel pos to tile pos
@@ -765,54 +812,6 @@ public class CluedoGUI extends JFrame {
                     }
                     //redraw the frame
                     CluedoGame.repaint();
-
-
-                    if (currentPlayer.getRemainingMoves() <= 0) {
-                        hasRolled = false;
-                        previouslyTraversedTiles.clear();
-
-                        currentPlayerPos++;
-                        if (currentPlayerPos == Player.playerList.size()) {
-                            currentPlayerPos = 0;
-                        }
-                        System.out.println("----------------");
-                        currentPlayer = Player.playerList.get(currentPlayerPos);
-
-                        JFrame frame = new JFrame();
-                        JOptionPane.showMessageDialog(frame, "You have run out of moves, it is now "+currentPlayer.getName()+"'s turn.", "End your turn", JOptionPane.PLAIN_MESSAGE);
-
-                        displayName.setText("\t\t\t\t\t"+currentPlayer.getName()+"'s Turn");
-
-                        for (int i =0; i<currentPlayer.getHand().size();i++){
-                            System.out.println(currentPlayer.getHand().get(i).toString());
-                        }
-
-
-                        HandCard1.setIcon(((new ImageIcon(currentPlayer.getHand().get(0).getCardImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
-                        HandCard2.setIcon(((new ImageIcon(currentPlayer.getHand().get(1).getCardImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
-                        HandCard3.setIcon(((new ImageIcon(currentPlayer.getHand().get(2).getCardImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
-                        if (currentPlayer.getHand().size() > 3) {
-                            HandCard4.setIcon(((new ImageIcon(currentPlayer.getHand().get(3).getCardImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
-                        } else {
-                            HandCard4.setIcon(new ImageIcon(CardPlaceholder.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-                        }
-                        if (currentPlayer.getHand().size() > 4) {
-                            HandCard5.setIcon(((new ImageIcon(currentPlayer.getHand().get(4).getCardImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
-                        } else {
-                            HandCard5.setIcon(new ImageIcon(CardPlaceholder.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-                        }
-                        if (currentPlayer.getHand().size() > 5) {
-                            HandCard6.setIcon(((new ImageIcon(currentPlayer.getHand().get(5).getCardImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
-                        } else {
-                            HandCard6.setIcon(new ImageIcon(CardPlaceholder.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-                        }
-                        if (currentPlayer.getHand().size() > 6) {
-                            HandCard7.setIcon(((new ImageIcon(currentPlayer.getHand().get(6).getCardImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
-                        } else {
-                            HandCard7.setIcon(new ImageIcon(CardPlaceholder.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-                        }
-
-                    }
                 } else {
                     //prompts the player to roll if they have not already
                     JFrame frame = new JFrame();
