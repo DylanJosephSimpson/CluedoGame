@@ -47,7 +47,7 @@ public class Player {
         this.assignedCharacter = assignedCharacter;
     }
 
-    public boolean isCanMakeActions() {
+    public boolean canMakeActions() {
         return canMakeActions;
     }
 
@@ -338,6 +338,23 @@ public class Player {
 
     public ArrayList<Card> getHand() {
         return hand;
+    }
+
+    /**
+     * Custom string of all the players who have been created
+     * @return a formatted String for the Menu GUI
+     */
+    public static String customToStringForPlayerList(){
+        if(playerList.size()==0){
+            return "No players have been added to the game yet!";
+        }
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Current Players:");
+        for(Player player : playerList){
+            stringBuilder.append(player.getName()).append(",");
+        }
+        stringBuilder.deleteCharAt(stringBuilder.length()-1);
+       return stringBuilder.toString();
     }
 
     @Override
