@@ -21,9 +21,6 @@ public class Tile implements Item {
     public void draw(Graphics g, int x, int y) {
 
         Graphics2D g2 = (Graphics2D) g;
-        //System.out.println(tileType);
-        //Tidy up conditional
-//        System.out.println(tileType);
 
         //Setting Roomtiles to pink
         if (CluedoGUI.roomNames.contains(tileType)) {
