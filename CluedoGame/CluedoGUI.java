@@ -231,6 +231,7 @@ public class CluedoGUI extends JFrame {
         generateMurderRoom();
         generateMurderWeapon();
         allocateWeapons();
+        dealCards();
     }
     
      /**
