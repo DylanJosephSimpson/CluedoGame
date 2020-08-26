@@ -11,6 +11,7 @@ public class GameSetup {
     private final JRadioButton GreenButton = new JRadioButton("Green");
     private final JRadioButton PeacockButton = new JRadioButton("Peacock");
     private final JRadioButton PlumButton = new JRadioButton("Plum");
+    private  JLabel characterInformation;
 
     public GameSetup(String title){
 
@@ -84,7 +85,8 @@ public class GameSetup {
 
         returnToMenu.addActionListener(e -> ReturnToMainMenu() );
 
-        JLabel characterInformation = new JLabel("Current Characters : ");
+        characterInformation = new JLabel("Current Players : " + Player.customToStringForPlayerList());
+
 
         gameCharacters.add(characterInformation, BorderLayout.PAGE_END);
 
@@ -161,6 +163,10 @@ public class GameSetup {
                 //Player.removePlayerList(Player.playerList.size()-1);
                 PlumButton.setEnabled(false);
             }
+            characterInformation.setText("Current Players : " + Player.customToStringForPlayerList());
+            characterGroup.clearSelection(); //Clears all selected players to avoid error where you can add Professor Plum
+                                            //indefinitely which would balloon the list to over 6 players
+
         }
         for(Player player : Player.getPlayerList()) {
            System.out.println(player);
@@ -176,7 +182,7 @@ public class GameSetup {
                     "Return To Menu"};
             // optionSelected = 0 (yes), = 1 (no), = 2 (return to menu)
             int optionSelected = JOptionPane.showOptionDialog(GameSetupWindow,
-                    "Are you sure you want to start the game? ",
+                    "Are you sure you want to start the game with " + Player.playerList.size() +" players? ",
                     "Confirm",
                     JOptionPane.YES_NO_CANCEL_OPTION,
                     JOptionPane.QUESTION_MESSAGE,
