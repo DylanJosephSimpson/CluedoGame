@@ -1,5 +1,7 @@
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * The room class is responsible for keeping track of
@@ -21,12 +23,22 @@ public class Room {
     /**
      * Originally allocated weapons and weapons that are suggested go into this room
      */
-    private HashSet<Weapon> weaponsInRoom = new HashSet<>();
+    private List<Weapon> weaponsInRoom = new ArrayList<>();
 
     /**
      * Originally allocated characters and characters that are suggested go into this room
      */
-    private HashSet<Character> charactersInRoom = new HashSet<>();
+    private List<Character> charactersInRoom = new ArrayList<>();
+
+    /**
+     * Collection of room tiles
+     */
+    private List<Tile> roomTiles = new ArrayList<>();
+
+    /**
+     * Collection of doorways of this room (if it has any)
+     */
+    private Set<Tile> doorwayTiles = new HashSet<>();
 
     /**
      * Constructor for creating a room
@@ -81,6 +93,38 @@ public class Room {
 
     public void setInvolvedInMurder(boolean involvedInMurder) {
         isInvolvedInMurder = involvedInMurder;
+    }
+
+    public String getRoomName() {
+        return roomName;
+    }
+
+    public List<Tile> getRoomTiles() {
+        return roomTiles;
+    }
+
+    public void addRoomTile(Tile tile){
+        roomTiles.add(tile);
+    }
+
+    public Set<Tile> getDoorwayTiles() {
+        return doorwayTiles;
+    }
+
+    public void setDoorwayTiles(Set<Tile> doorwayTiles) {
+        this.doorwayTiles = doorwayTiles;
+    }
+
+    public void addDoorWay(Tile doorwayTile){
+        doorwayTiles.add(doorwayTile);
+    }
+
+    public List<Weapon> getWeaponsInRoom() {
+        return weaponsInRoom;
+    }
+
+    public List<Character> getCharactersInRoom() {
+        return charactersInRoom;
     }
 
     @Override
