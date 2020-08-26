@@ -79,7 +79,7 @@ public class CluedoGUI extends JFrame {
     private BufferedImage ConservatoryImage;
     private BufferedImage HallImage;
     private BufferedImage LoungeImage;
-    private BufferedImage BillardRoomImage;
+    private BufferedImage BilliardRoomImage;
     private BufferedImage KitchenImage;
     private BufferedImage BallRoomImage;
     private BufferedImage DiningRoomImage;
@@ -102,7 +102,7 @@ public class CluedoGUI extends JFrame {
     private JLabel ConservatoryCard;
     private JLabel HallCard;
     private JLabel LoungeCard;
-    private JLabel BillardRoomCard;
+    private JLabel BilliardRoomCard;
     private JLabel KitchenCard;
     private JLabel BallRoomCard;
     private JLabel DiningRoomCard;
@@ -361,9 +361,9 @@ public class CluedoGUI extends JFrame {
         StudyCard.setToolTipText("Study Card");
         allCards.add(StudyCard);
         // Set the HandCardII label to the DaggerImage Scaled Image.
-        BillardRoomCard = new JLabel(new ImageIcon(BillardRoomImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-        BillardRoomCard.setToolTipText("Billard Room Card");
-        allCards.add(BillardRoomCard);
+        BilliardRoomCard = new JLabel(new ImageIcon(BilliardRoomImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+        BilliardRoomCard.setToolTipText("Billard Room Card");
+        allCards.add(BilliardRoomCard);
         // Set the HandCardIII label to the LeadPipeImage Scaled Image.
         ConservatoryCard = new JLabel(new ImageIcon(ConservatoryImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
         ConservatoryCard.setToolTipText("Conservatory Card");
@@ -393,7 +393,7 @@ public class CluedoGUI extends JFrame {
         roomCards.add(new RoomCard("BallRoom", BallRoomCard, BallRoomImage));
         roomCards.add(new RoomCard("DiningRoom", DiningRoomCard, DiningRoomImage));
         roomCards.add(new RoomCard("Lounge", LoungeCard, LoungeImage));
-        roomCards.add(new RoomCard("Billard Room", BillardRoomCard, BillardRoomImage));
+        roomCards.add(new RoomCard("Billiard Room", BilliardRoomCard, BilliardRoomImage));
 
 
         Board.deckOfCards.addAll(characterCards);
@@ -402,19 +402,19 @@ public class CluedoGUI extends JFrame {
     }
 
     private void generateMurderer() {
-        int index = new Random().nextInt(Board.getCharacterArrayList().size());
+        int index = new Random().nextInt(characterCards.size());
         murderer = characterCards.get(index);
         Board.deckOfCards.remove(murderer);
     }
 
     private void generateMurderWeapon() {
-        int index = new Random().nextInt(allWeapons.size());
+        int index = new Random().nextInt(weaponCards.size());
         murderWeapon = weaponCards.get(index);
         Board.deckOfCards.remove(murderWeapon);
     }
 
     private void generateMurderRoom() {
-        int index = new Random().nextInt(allRooms.size());
+        int index = new Random().nextInt(roomCards.size());
         murderRoom = roomCards.get(index);
         Board.deckOfCards.remove(murderRoom);
     }
@@ -577,7 +577,7 @@ public class CluedoGUI extends JFrame {
             PeacockImage = ImageIO.read(new File(PeacockPath));
 
             ConservatoryImage = ImageIO.read(new File(ConservatoryPath));
-            BillardRoomImage = ImageIO.read(new File(BillardRoomPath));
+            BilliardRoomImage = ImageIO.read(new File(BillardRoomPath));
             StudyImage = ImageIO.read(new File(StudyPath));
             HallImage = ImageIO.read(new File(HallPath));
             LoungeImage = ImageIO.read(new File(LoungePath));
