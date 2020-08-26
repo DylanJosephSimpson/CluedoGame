@@ -653,23 +653,21 @@ public class CluedoGUI extends JFrame {
         // Add buttonListener to the GameControlPanel's JButtons.
         // TODO : ADD PROPER FUNCTIONALITY
         EndTurn.addActionListener(e -> {
-            GenerateRandomDice();
             GameControlPanel.requestFocus();
         });
         OpenNotes.addActionListener(e -> {
-            GenerateRandomDice();
             GameControlPanel.requestFocus();
         });
         RollDice.addActionListener(e -> {
-            GenerateRandomDice();
+            if(!hasRolled) {
+                GenerateRandomDice();
+            }
             GameControlPanel.requestFocus();
         });
         MakeSuggestion.addActionListener(e -> {
-            GenerateRandomDice();
             GameControlPanel.requestFocus();
         });
         MakeAccusation.addActionListener(e -> {
-            GenerateRandomDice();
             GameControlPanel.requestFocus();
         });
         // Add A KeyListener to the GameControlPanel
