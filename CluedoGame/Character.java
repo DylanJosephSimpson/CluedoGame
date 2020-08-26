@@ -36,6 +36,11 @@ public class Character implements Item {
     private Room currentRoom = null;
 
     /**
+     * Checks if the player was previously transported into a room before prior to their turn
+     */
+    private boolean transportedIntoRoom;
+
+    /**
      * Constructor for character
      *
      * @param characterName Name of the weapon
@@ -110,6 +115,18 @@ public class Character implements Item {
 
     public void setInvolvedInMurder(boolean involvedInMurder) {
         isInvolvedInMurder = involvedInMurder;
+    }
+
+    public boolean isTransportedIntoRoom() {
+        return transportedIntoRoom;
+    }
+
+    /**
+     * This is used after a suggestion transports them into a room
+     * @param transportedIntoRoom transported into a room prior to this player's turn?
+     */
+    public void setTransportedIntoRoom(boolean transportedIntoRoom) {
+        this.transportedIntoRoom = transportedIntoRoom;
     }
 
 
