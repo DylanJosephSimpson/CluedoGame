@@ -8,10 +8,7 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Random;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,7 +28,7 @@ public class CluedoGUI extends JFrame {
 
 
     //Utility collections used for setup and quick checks
-    private static HashMap<String, String> tileTypeToNameMap = new HashMap<>();
+    public static HashMap<String, String> tileTypeToNameMap = new HashMap<>();
     private final JFrame CluedoGame;
 
     // JButtons for the GameControlPanel
@@ -848,15 +845,14 @@ public class CluedoGUI extends JFrame {
             for (Character c : Board.getCharacterArrayList()) {
                 c.draw(g2d, c.getX(), c.getY());
             }
-        }
-        // Draw all the weapons and characters in a room if it has any
-            for (Room r : allRooms){
+            // Draw all the weapons and characters in a room if it has any
+            for (Room r : allRooms) {
                 for (int i = 0; i < r.getWeaponsInRoom().size(); i++) {
                     int x = r.getRoomTiles().get(i).getX();
                     int y = r.getRoomTiles().get(i).getY();
                     r.getWeaponsInRoom().get(i).draw(g2d, x, y);
                 }
-                int count = r.getRoomTiles().size()-1; //draw from the end of the room tiles
+                int count = r.getRoomTiles().size() - 1; //draw from the end of the room tiles
                 for (int i = 0; i < r.getCharactersInRoom().size(); i++) {
                     int x = r.getRoomTiles().get(count).getX();
                     int y = r.getRoomTiles().get(count).getY();
@@ -869,6 +865,8 @@ public class CluedoGUI extends JFrame {
                     count--;
                 }
             }
+
+        }
     }
 
 
