@@ -19,22 +19,28 @@ public class SuggestionWindow extends JDialog {
 
     // Game fields
     private Suggestion createdSuggestion;
-    private Character suggestedCharacter = CluedoGUI.allCharacters.get(0); // Default is Miss Scarlett
-    private Weapon suggestedWeapon = CluedoGUI.allWeapons.get(0); // Default is Candlestick
+    private Character suggestedCharacter;
+    private Weapon suggestedWeapon;
+    private Room enteredRoom;
 
-    public SuggestionWindow(CluedoGUI mainClient){
+    /**
+     * @param title Title of the window
+     * @param enteredRoom Room the suggestion was being made in
+     */
+    public SuggestionWindow(String title, Room enteredRoom){
+        this.enteredRoom = enteredRoom;
+
         container.setLayout(cl);
 
         addFirstPanel(container);
         addSecondPanel(container);
 
-        this.setTitle("You have entered a room, make a suggestion?");
+        this.setTitle(title);
         this.add(container);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         this.setVisible(true);
 
-        //this.setLocationRelativeTo(mainClient); //centres the dialog to the middle of CluedoGUI
     }
 
     /**
@@ -42,19 +48,23 @@ public class SuggestionWindow extends JDialog {
      * @param container
      */
     public void addFirstPanel(JPanel container){
+        //Default values
+        suggestedCharacter = Board.characterArrayList.get(0); // Default is Miss Scarlett
+        suggestedWeapon = CluedoGUI.allWeapons.get(0); // Default is Candlestick
+
+
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
-        Room currentRoom = new Room("Lounge"); //FIXME: Praveen link this to the actual room the suggestion was made in. Currently a dummy room.
         // --------- Suggesting a suspect ---------
-        JLabel suspectLabel = new JLabel("I suggest the crime was committed in the " + currentRoom.toString() + " by...");
+        JLabel suspectLabel = new JLabel("I suggest the crime was committed in the " + enteredRoom.toString() + " by...");
 
         String[] listOfSuspects = {"Miss. Scarlett", "Col. Mustard", "Mrs. White", "Mr. Green", "Mrs. Peacock", "Prof. Plum"};
         JComboBox<String> suspectsComboBox = new JComboBox<>(listOfSuspects);
         suspectsComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                for (Character c : CluedoGUI.allCharacters){
+                for (Character c : Board.characterArrayList){
                     if (c.toString().equals(suspectsComboBox.getSelectedItem())){
                         suggestedCharacter = c;
                     }
@@ -100,7 +110,7 @@ public class SuggestionWindow extends JDialog {
         nextButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                createdSuggestion = new Suggestion(suggestedCharacter, suggestedWeapon, currentRoom);
+                createdSuggestion = new Suggestion(suggestedCharacter, suggestedWeapon, enteredRoom);
                 createdSuggestion.moveItems();
                 System.out.println(createdSuggestion.toString()); //TODO: remove this later
                 cl.show(container, "2");
@@ -135,8 +145,4 @@ public class SuggestionWindow extends JDialog {
         container.add(weaponPanel, "2");
     }
 
-
-    public static void main(String[] args) {
-        SuggestionWindow test = new SuggestionWindow(new CluedoGUI("TEST", null));
-    }
 }
