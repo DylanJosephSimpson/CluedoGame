@@ -328,11 +328,13 @@ public class Player {
                 enteredRoom.addCharacterToRoom(assignedCharacter);
                 assignedCharacter.setCurrentRoom(enteredRoom);
 
-                //they should stop moving after entering a room
-                this.setRemainingMoves(0);
+
 
                 //player has entered a room. Give the player an option to make a suggestion.
                 new SuggestionWindow("You have entered a room, make a suggestion?", enteredRoom);
+
+                //they should stop moving after entering a room
+                this.setRemainingMoves(0);
             }
 
             //reset this once they have moved out of a room and are traversing normally

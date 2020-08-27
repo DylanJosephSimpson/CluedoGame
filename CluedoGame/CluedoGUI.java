@@ -622,6 +622,9 @@ public class CluedoGUI extends JFrame {
 
 
     private boolean validMove(Tile tileInFrontOfPlayer) {
+        if(currentPlayer.getRemainingMoves() <= 0){
+            return false;
+        }
 
         //checks if the next tile is a character or not
         for(Character c : Board.getCharacterArrayList()){
@@ -700,10 +703,10 @@ public class CluedoGUI extends JFrame {
         GameControlPanel.setLayout(new GridLayout(1, 5));
         // Create the JButtons for the GameControlPanel
         EndTurn = new JButton("End Turn");
-        OpenNotes = new JButton("Open Notes");
+        //OpenNotes = new JButton("Open Notes");
         RollDice = new JButton("Roll Dice");
-        MakeSuggestion = new JButton("Suggest");
-        MakeAccusation = new JButton("Accusation");
+        //MakeSuggestion = new JButton("Suggest");
+        MakeAccusation = new JButton("Make Accusation");
         // Add buttonListener to the GameControlPanel's JButtons.
         // TODO : ADD PROPER FUNCTIONALITY
         EndTurn.addActionListener(e -> {
@@ -711,18 +714,18 @@ public class CluedoGUI extends JFrame {
             endTurn();
             currentPlayer.setRemainingMoves(0);
         });
-        OpenNotes.addActionListener(e -> {
-            GameControlPanel.requestFocus();
-        });
+//        OpenNotes.addActionListener(e -> {
+//            GameControlPanel.requestFocus();
+//        });
         RollDice.addActionListener(e -> {
             if(!hasRolled) {
                 GenerateRandomDice();
             }
             GameControlPanel.requestFocus();
         });
-        MakeSuggestion.addActionListener(e -> {
-            GameControlPanel.requestFocus();
-        });
+//        MakeSuggestion.addActionListener(e -> {
+//            GameControlPanel.requestFocus();
+//        });
         MakeAccusation.addActionListener(e -> {
             GameControlPanel.requestFocus();
             if(currentPlayer.canMakeActions()) {
@@ -749,25 +752,25 @@ public class CluedoGUI extends JFrame {
                     EndTurn.doClick();
                     GameControlPanel.requestFocus();
                 }
+//                if (e.getKeyChar() == '2') {
+//                    OpenNotes.doClick();
+//                    GameControlPanel.requestFocus();
+//                }
                 if (e.getKeyChar() == '2') {
-                    OpenNotes.doClick();
-                    GameControlPanel.requestFocus();
-                }
-                if (e.getKeyChar() == '3') {
                     if (!hasRolled) {
                         RollDice.doClick();
                         GameControlPanel.requestFocus();
                     }
                 }
-                if (e.getKeyChar() == '4') {
+                if (e.getKeyChar() == '3') {
                     MakeAccusation.doClick();
                     new AccusationSetup(currentPlayer);
                     GameControlPanel.requestFocus();
                 }
-                if (e.getKeyChar() == '5') {
-                    MakeSuggestion.doClick();
-                    GameControlPanel.requestFocus();
-                }
+//                if (e.getKeyChar() == '5') {
+//                    MakeSuggestion.doClick();
+//                    GameControlPanel.requestFocus();
+//                }
                 currentPlayer = Player.getPlayerList().get(currentPlayerPos);
                 //if the player has rolled then they can move
                 if (hasRolled) {
@@ -832,7 +835,9 @@ public class CluedoGUI extends JFrame {
                     //redraw the frame
                     //CluedoGame.repaint();
                     if (currentPlayer.getRemainingMoves() <= 0) {
-                        endTurn();
+                        JFrame frame = new JFrame();
+                        JOptionPane.showMessageDialog(frame, "You now have no more moves", "No more moves", JOptionPane.PLAIN_MESSAGE);
+
                     }
 
                 } else {
@@ -849,10 +854,10 @@ public class CluedoGUI extends JFrame {
 
         // Add the JButtons to the GameControlPanel.
         GameControlPanel.add(EndTurn);
-        GameControlPanel.add(OpenNotes);
+        //GameControlPanel.add(OpenNotes);
         GameControlPanel.add(RollDice);
         GameControlPanel.add(MakeAccusation);
-        GameControlPanel.add(MakeSuggestion);
+        //GameControlPanel.add(MakeSuggestion);
         // Return the GameControlPanel which should now be fully configured.
         return GameControlPanel;
     }
