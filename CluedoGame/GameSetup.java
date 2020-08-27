@@ -212,6 +212,7 @@ public class GameSetup {
     }
 
     public void ReturnToMainMenu(){
+        Player.getPlayerList().removeAll(Player.getPlayerList());
         GameSetupWindow.dispose();
         new MenuSetup("Cluedo");
     }
