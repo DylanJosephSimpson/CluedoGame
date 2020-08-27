@@ -107,7 +107,16 @@ public class Player {
      *Method for making an accusation
      **/
 
-    public void makeAccusation(CharacterCard characterCard, WeaponCard weaponCard, RoomCard roomCard) {
+    public void makeAccusation(Card characterCard, Card weaponCard, Card roomCard) {
+        System.out.println("-----");
+        for(Card s : Board.envelope){
+            System.out.println(s.toString());
+        }
+        System.out.println(characterCard.toString());
+        System.out.println(weaponCard.toString());
+        System.out.println(roomCard.toString());
+        System.out.println("-----");
+
         if (!canMakeActions || !isInARoom()) {
             return; //If the player is not active due to making a false accusation or not in a room there is no
             // point in making an accusation, they can still move.

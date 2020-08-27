@@ -36,8 +36,8 @@ public class AccusationSetup {
                 "Make an Accusation", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION){
             //Making an accusation using the selected Cards from the window
-            player.makeAccusation((CharacterCard) Board.cardHashMap.get(CharacterSelection.getSelectedItem().toString())
-                    ,(WeaponCard) Board.cardHashMap.get(WeaponSelection.getSelectedItem().toString()),(RoomCard) Board.cardHashMap.get(RoomSelection.getSelectedItem().toString()));
+            player.makeAccusation( Board.cardHashMap.get(CharacterSelection.getSelectedItem().toString())
+                    ,Board.cardHashMap.get(WeaponSelection.getSelectedItem().toString()), Board.cardHashMap.get(RoomSelection.getSelectedItem().toString()));
 
 
             
