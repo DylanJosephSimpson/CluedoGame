@@ -178,56 +178,56 @@ public class Player {
 
        Pattern pattern = Pattern.compile("[kbcdlhsiy]"); //room symbols
        if (topLeftDiagonalTile.matches(String.valueOf(pattern))){
-           for (Room r : CluedoGUI.allRooms){
+           for (Room r : Board.getAllRooms()){
                if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(topLeftDiagonalTile))){
                    return r;
                }
            }
         }
        else if (topMiddleTile.matches(String.valueOf(pattern))){
-           for (Room r : CluedoGUI.allRooms){
+           for (Room r : Board.getAllRooms()){
                if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(topMiddleTile))){
                    return r;
                }
            }
        }
        else if (topRightDiagonalTile.matches(String.valueOf(pattern))){
-           for (Room r : CluedoGUI.allRooms){
+           for (Room r : Board.getAllRooms()){
                if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(topRightDiagonalTile))){
                    return r;
                }
            }
        }
        else if (midLeftTile.matches(String.valueOf(pattern))){
-           for (Room r : CluedoGUI.allRooms){
+           for (Room r : Board.getAllRooms()){
                if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(midLeftTile))){
                    return r;
                }
            }
        }
        else if (midRightTile.matches(String.valueOf(pattern))){
-           for (Room r : CluedoGUI.allRooms){
+           for (Room r : Board.getAllRooms()){
                if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(midRightTile))){
                    return r;
                }
            }
        }
        else if (botLeftDiagonalTile.matches(String.valueOf(pattern))){
-           for (Room r : CluedoGUI.allRooms){
+           for (Room r : Board.getAllRooms()){
                if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(botLeftDiagonalTile))){
                    return r;
                }
            }
        }
        else if (botMiddleTile.matches(String.valueOf(pattern))){
-           for (Room r : CluedoGUI.allRooms){
+           for (Room r : Board.getAllRooms()){
                if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(botMiddleTile))){
                    return r;
                }
            }
        }
        else if (botRightDiagonalTile.matches(String.valueOf(pattern))){
-           for (Room r : CluedoGUI.allRooms){
+           for (Room r : Board.getAllRooms()){
                if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(botRightDiagonalTile))){
                    return r;
                }
