@@ -24,11 +24,8 @@ public class AccusationSetup {
     public AccusationSetup(Player player){
 
         MakeAccusationWindow = new JPanel();
-
         GridLayout layout = new GridLayout(3, 2);
-
         MakeAccusationWindow.setLayout(layout);
-
         MakeAccusationWindow.add(WeaponBoxDesc);
         MakeAccusationWindow.add(WeaponSelection);
         MakeAccusationWindow.add(CharacterBoxDesc);
