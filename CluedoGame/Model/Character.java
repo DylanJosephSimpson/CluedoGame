@@ -94,7 +94,6 @@ public class Character implements Item {
         //todo - Caleb - erase this properly
     }
 
-
     /**
      * Getter for currentRoom
      * @return
