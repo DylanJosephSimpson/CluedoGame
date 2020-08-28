@@ -1,3 +1,8 @@
+package View;
+
+import Model.*;
+import Model.Character;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -13,6 +18,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CluedoGUI extends JFrame {
+
     //variables be grid board
     public static final int GRID_SIZE = 30;
     // Collection of key game objects
@@ -25,7 +31,6 @@ public class CluedoGUI extends JFrame {
     public static ArrayList<WeaponCard> weaponCards = new ArrayList<>();
     public static ArrayList<CharacterCard> characterCards = new ArrayList<>();
     public static HashSet<String> roomNames = new HashSet<>();
-
 
     //Utility collections used for setup and quick checks
     public static HashMap<String, String> tileTypeToNameMap = new HashMap<>();
@@ -62,29 +67,8 @@ public class CluedoGUI extends JFrame {
     private JLabel HandCard7;
     private JLabel displayName;
     private JLabel CardPlaceholderCard;
-    private BufferedImage CardPlaceholder;
-    private BufferedImage CandlestickImage;
-    private BufferedImage DaggerImage;
-    private BufferedImage LeadPipeImage;
-    private BufferedImage RevolverImage;
-    private BufferedImage RopeImage;
-    private BufferedImage SpannerImage;
-    private BufferedImage ScarlettImage;
-    private BufferedImage MustardImage;
-    private BufferedImage WhiteImage;
-    private BufferedImage GreenImage;
-    private BufferedImage PeacockImage;
-    private BufferedImage PlumImage;
-    private BufferedImage LibraryImage;
-    private BufferedImage StudyImage;
-    private BufferedImage ConservatoryImage;
-    private BufferedImage HallImage;
-    private BufferedImage LoungeImage;
-    private BufferedImage BilliardRoomImage;
-    private BufferedImage KitchenImage;
-    private BufferedImage BallRoomImage;
-    private BufferedImage DiningRoomImage;
-    // Labels for each Card in a Players Hand
+
+    // Labels for each Model.Card in a Players Hand
 
     private JLabel CandlestickCard;
     private JLabel DaggerCard;
@@ -107,32 +91,10 @@ public class CluedoGUI extends JFrame {
     private JLabel KitchenCard;
     private JLabel BallRoomCard;
     private JLabel DiningRoomCard;
-    // Strings which are the File Locations for all the Dice Images.
-    private String DiceFaceStart = "DiceFace/DiceFace";
-    private ArrayList<Image> DiceImages = new ArrayList<>();
-    // Strings which are the File Locations for all the Weapon Images.
-    private String CandlestickPath = "WeaponIcon/Candlestick.png";
-    private String DaggerPath = "WeaponIcon/Dagger.png";
-    private String LeadPipePath = "WeaponIcon/LeadPipe.png";
-    private String RevolverPath = "WeaponIcon/Revolver.png";
-    private String RopePath = "WeaponIcon/Rope.png";
-    private String SpannerPath = "WeaponIcon/Spanner.png";
-    private String ScarlettPath = "Cards/Scarlett.png";
-    private String MustardPath = "Cards/Mustard.png";
-    private String WhitePath = "Cards/White.png";
-    private String GreenPath = "Cards/Green.png";
-    private String PeacockPath = "Cards/Peacock.png";
-    private String PlumPath = "Cards/Plum.png";
-    private String LibraryPath = "Cards/Library.png";
-    private String BallRoomPath = "Cards/BallRoom.png";
-    private String KitchenPath = "Cards/Kitchen.png";
-    private String DiningRoomPath = "Cards/DiningRoom.png";
-    private String LoungePath = "Cards/Lounge.png";
-    private String HallPath = "Cards/Hall.png";
-    private String StudyPath = "Cards/Study.png";
-    private String BillardRoomPath = "Cards/BillardRoom.png";
-    private String ConservatoryPath = "Cards/Conservatory.png";
-    private String CardPlaceholderPath = "Cards/CardPlaceholder.png";
+
+
+    // Strings which are the File Locations for all the Model.Weapon Images.
+
 
     private boolean hasRolled = false;
     private ArrayList<int[]> previouslyTraversedTiles = new ArrayList<>();
@@ -178,11 +140,11 @@ public class CluedoGUI extends JFrame {
         tileTypeToNameMap.put("k", "Kitchen");
         tileTypeToNameMap.put("b", "Ballroom");
         tileTypeToNameMap.put("c", "Conservatory");
-        tileTypeToNameMap.put("d", "Dining Room");
+        tileTypeToNameMap.put("d", "Dining Model.Room");
         tileTypeToNameMap.put("l", "Lounge");
         tileTypeToNameMap.put("h", "Hall");
         tileTypeToNameMap.put("s", "Study");
-        tileTypeToNameMap.put("i", "Billiard Room");
+        tileTypeToNameMap.put("i", "Billiard Model.Room");
         tileTypeToNameMap.put("y", "Library");
         tileTypeToNameMap.put("-", "Wall");
         tileTypeToNameMap.put("@", "Door");
@@ -195,15 +157,15 @@ public class CluedoGUI extends JFrame {
         tileTypeToNameMap.put("M", "Mustard");
         tileTypeToNameMap.put("e", "Cellar");
 
-        //Room names being added to arraylist
+        //Model.Room names being added to arraylist
         roomNames.add("Kitchen");
         roomNames.add("Ballroom");
         roomNames.add("Conservatory");
-        roomNames.add("Dining Room");
+        roomNames.add("Dining Model.Room");
         roomNames.add("Lounge");
         roomNames.add("Hall");
         roomNames.add("Study");
-        roomNames.add("Billiard Room");
+        roomNames.add("Billiard Model.Room");
         roomNames.add("Library");
         roomNames.add("Cellar");
 
@@ -218,14 +180,14 @@ public class CluedoGUI extends JFrame {
         allRooms.add(new Room("Kitchen"));
         allRooms.add(new Room("Ballroom"));
         allRooms.add(new Room("Conservatory"));
-        allRooms.add(new Room("Dining Room"));
+        allRooms.add(new Room("Dining Model.Room"));
         allRooms.add(new Room("Lounge"));
         allRooms.add(new Room("Hall"));
         allRooms.add(new Room("Study"));
-        allRooms.add(new Room("Billiard Room"));
+        allRooms.add(new Room("Billiard Model.Room"));
         allRooms.add(new Room("Library"));
         allRooms.add(new Room("Cellar"));
-        LoadImages();
+        ImageLoader.LoadImages();
         
         setupRooms();
         generateCards();
@@ -237,7 +199,7 @@ public class CluedoGUI extends JFrame {
     }
     
      /**
-     * Adds the room tiles to their respective rooms. Also adds the room's doorways to the Room objects
+     * Adds the room tiles to their respective rooms. Also adds the room's doorways to the Model.Room objects
      */
     private void setupRooms(){
         for (int row = 0; row < b.getBoardLayoutArray().length; row++) {
@@ -249,7 +211,7 @@ public class CluedoGUI extends JFrame {
                         r.addRoomTile(new Tile("n/a", col * 30, row * 30));
                     }
                 }
-                //Add the doorway tiles to the Room
+                //Add the doorway tiles to the Model.Room
                 if (tileKey.equals("@")){
                     Player.findRoom(col, row).addDoorWay(new Tile("n/a",col * 30, row * 30));
                 }
@@ -279,161 +241,161 @@ public class CluedoGUI extends JFrame {
     private void generateCards() {
         // Generate character cards
 
-        CardPlaceholderCard = new JLabel(new ImageIcon(CardPlaceholder.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-        CardPlaceholderCard.setToolTipText("Card Place Holder");
+        CardPlaceholderCard = new JLabel(new ImageIcon(ImageLoader.GetImage("Placeholder").getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+        CardPlaceholderCard.setToolTipText("Model.Card Place Holder");
 
         // Set the HandCardI label to the CandlestickImage Scaled Image.
-        CandlestickCard = new JLabel(new ImageIcon(CandlestickImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-        CandlestickCard.setToolTipText("Candlestick Card");
+        CandlestickCard = new JLabel(new ImageIcon(ImageLoader.GetImage("Candlestick").getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+        CandlestickCard.setToolTipText("Candlestick Model.Card");
         allCards.add(CandlestickCard);
         // Set the HandCardII label to the DaggerImage Scaled Image.
-        DaggerCard = new JLabel(new ImageIcon(DaggerImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-        DaggerCard.setToolTipText("Dagger Card");
+        DaggerCard = new JLabel(new ImageIcon(ImageLoader.GetImage("Dagger").getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+        DaggerCard.setToolTipText("Dagger Model.Card");
         allCards.add(DaggerCard);
         // Set the HandCardIII label to the LeadPipeImage Scaled Image.
-        LeadPipeCard = new JLabel(new ImageIcon(LeadPipeImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-        LeadPipeCard.setToolTipText("LeadPipe Card");
+        LeadPipeCard = new JLabel(new ImageIcon(ImageLoader.GetImage("LeadPipe").getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+        LeadPipeCard.setToolTipText("LeadPipe Model.Card");
         allCards.add(LeadPipeCard);
         // Set the HandCardIV label to the RevolverImage Scaled Image.
-        RevolverCard = new JLabel(new ImageIcon(RevolverImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-        RevolverCard.setToolTipText("Revolver Card");
+        RevolverCard = new JLabel(new ImageIcon(ImageLoader.GetImage("Revolver").getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+        RevolverCard.setToolTipText("Revolver Model.Card");
         allCards.add(RevolverCard);
         // Set the HandCardV label to the RopeImage Scaled Image.
-        RopeCard = new JLabel(new ImageIcon(RopeImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-        RopeCard.setToolTipText("Rope Card");
+        RopeCard = new JLabel(new ImageIcon(ImageLoader.GetImage("Rope").getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+        RopeCard.setToolTipText("Rope Model.Card");
         allCards.add(RopeCard);
         // Set the HandCardV label to the SpannerImage Scaled Image.
-        SpannerCard = new JLabel(new ImageIcon(SpannerImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-        SpannerCard.setToolTipText("Spanner Card");
+        SpannerCard = new JLabel(new ImageIcon(ImageLoader.GetImage("Spanner").getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+        SpannerCard.setToolTipText("Spanner Model.Card");
         allCards.add(SpannerCard);
         // Add the Hand of Cards to the JPanel
 
 
-        ScarlettCard = new JLabel(new ImageIcon(ScarlettImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-        ScarlettCard.setToolTipText("Scarlett Card");
+        ScarlettCard = new JLabel(new ImageIcon(ImageLoader.GetImage("Scarlett").getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+        ScarlettCard.setToolTipText("Scarlett Model.Card");
         allCards.add(ScarlettCard);
         // Set the HandCardII label to the DaggerImage Scaled Image.
-        MustardCard = new JLabel(new ImageIcon(MustardImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-        MustardCard.setToolTipText("Mustard Card");
+        MustardCard = new JLabel(new ImageIcon(ImageLoader.GetImage("Mustard").getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+        MustardCard.setToolTipText("Mustard Model.Card");
         allCards.add(MustardCard);
         // Set the HandCardIII label to the LeadPipeImage Scaled Image.
-        GreenCard = new JLabel(new ImageIcon(GreenImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-        GreenCard.setToolTipText("Green Card");
+        GreenCard = new JLabel(new ImageIcon(ImageLoader.GetImage("White").getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+        GreenCard.setToolTipText("Green Model.Card");
         allCards.add(GreenCard);
         // Set the HandCardIV label to the RevolverImage Scaled Image.
-        WhiteCard = new JLabel(new ImageIcon(WhiteImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-        WhiteCard.setToolTipText("White Card");
+        WhiteCard = new JLabel(new ImageIcon(ImageLoader.GetImage("Green").getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+        WhiteCard.setToolTipText("White Model.Card");
         allCards.add(WhiteCard);
         // Set the HandCardV label to the RopeImage Scaled Image.
-        PlumCard = new JLabel(new ImageIcon(PlumImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-        PlumCard.setToolTipText("Plum Card");
+        PlumCard = new JLabel(new ImageIcon(ImageLoader.GetImage("Peacock").getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+        PlumCard.setToolTipText("Plum Model.Card");
         allCards.add(PlumCard);
         // Set the HandCardV label to the SpannerImage Scaled Image.
-        PeacockCard = new JLabel(new ImageIcon(PeacockImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-        PeacockCard.setToolTipText("Peacock Card");
+        PeacockCard = new JLabel(new ImageIcon(ImageLoader.GetImage("Plum").getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+        PeacockCard.setToolTipText("Peacock Model.Card");
         allCards.add(PeacockCard);
         // Add the Hand of Cards to the JPanel
 
 
-        LibraryCard = new JLabel(new ImageIcon(LibraryImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-        LibraryCard.setToolTipText("Library Card");
+        LibraryCard = new JLabel(new ImageIcon(ImageLoader.GetImage("Library").getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+        LibraryCard.setToolTipText("Library Model.Card");
         allCards.add(LibraryCard);
         // Set the HandCardII label to the DaggerImage Scaled Image.
-        BallRoomCard = new JLabel(new ImageIcon(BallRoomImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-        BallRoomCard.setToolTipText("Ball Room Card");
+        BallRoomCard = new JLabel(new ImageIcon(ImageLoader.GetImage("Study").getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+        BallRoomCard.setToolTipText("Ball Model.Room Model.Card");
         allCards.add(BallRoomCard);
         // Set the HandCardIII label to the LeadPipeImage Scaled Image.
-        KitchenCard = new JLabel(new ImageIcon(KitchenImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-        KitchenCard.setToolTipText("Kitchen Card");
+        KitchenCard = new JLabel(new ImageIcon(ImageLoader.GetImage("Conservatory").getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+        KitchenCard.setToolTipText("Kitchen Model.Card");
         allCards.add(KitchenCard);
         // Set the HandCardIV label to the RevolverImage Scaled Image.
-        DiningRoomCard = new JLabel(new ImageIcon(DiningRoomImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-        DiningRoomCard.setToolTipText("Dining Room Card");
+        DiningRoomCard = new JLabel(new ImageIcon(ImageLoader.GetImage("Hall").getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+        DiningRoomCard.setToolTipText("Dining Model.Room Model.Card");
         allCards.add(DiningRoomCard);
         // Set the HandCardV label to the RopeImage Scaled Image.
-        LoungeCard = new JLabel(new ImageIcon(LoungeImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-        LoungeCard.setToolTipText("Lounge Card");
+        LoungeCard = new JLabel(new ImageIcon(ImageLoader.GetImage("Lounge").getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+        LoungeCard.setToolTipText("Lounge Model.Card");
         allCards.add(LoungeCard);
         // Set the HandCardV label to the SpannerImage Scaled Image.
-        HallCard = new JLabel(new ImageIcon(HallImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-        HallCard.setToolTipText("Hall Card");
+        HallCard = new JLabel(new ImageIcon(ImageLoader.GetImage("Billiard").getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+        HallCard.setToolTipText("Hall Model.Card");
         allCards.add(HallCard);
         // Add the Hand of Cards to the JPanel
-        StudyCard = new JLabel(new ImageIcon(StudyImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-        StudyCard.setToolTipText("Study Card");
+        StudyCard = new JLabel(new ImageIcon(ImageLoader.GetImage("Kitchen").getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+        StudyCard.setToolTipText("Study Model.Card");
         allCards.add(StudyCard);
         // Set the HandCardII label to the DaggerImage Scaled Image.
-        BilliardRoomCard = new JLabel(new ImageIcon(BilliardRoomImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-        BilliardRoomCard.setToolTipText("Billard Room Card");
+        BilliardRoomCard = new JLabel(new ImageIcon(ImageLoader.GetImage("BallRoom").getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+        BilliardRoomCard.setToolTipText("Billard Model.Room Model.Card");
         allCards.add(BilliardRoomCard);
         // Set the HandCardIII label to the LeadPipeImage Scaled Image.
-        ConservatoryCard = new JLabel(new ImageIcon(ConservatoryImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-        ConservatoryCard.setToolTipText("Conservatory Card");
+        ConservatoryCard = new JLabel(new ImageIcon(ImageLoader.GetImage("DiningRoom").getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+        ConservatoryCard.setToolTipText("Conservatory Model.Card");
         allCards.add(ConservatoryCard);
 
-        characterCards.add(new CharacterCard("Miss. Scarlett", ScarlettCard, ScarlettImage));
-        characterCards.add(new CharacterCard("Col. Mustard", MustardCard, MustardImage));
-        characterCards.add(new CharacterCard("Mrs. White", WhiteCard, WhiteImage));
-        characterCards.add(new CharacterCard("Mr. Green", GreenCard, GreenImage));
-        characterCards.add(new CharacterCard("Mrs. Peacock", PeacockCard, PeacockImage));
-        characterCards.add(new CharacterCard("Prof. Plum", PlumCard, PlumImage));
+        characterCards.add(new CharacterCard("Miss. Scarlett", ScarlettCard, ImageLoader.GetImage("Scarlett")));
+        characterCards.add(new CharacterCard("Col. Mustard", MustardCard, ImageLoader.GetImage("Mustard")));
+        characterCards.add(new CharacterCard("Mrs. White", WhiteCard, ImageLoader.GetImage("White")));
+        characterCards.add(new CharacterCard("Mr. Green", GreenCard, ImageLoader.GetImage("Green")));
+        characterCards.add(new CharacterCard("Mrs. Peacock", PeacockCard, ImageLoader.GetImage("Peacock")));
+        characterCards.add(new CharacterCard("Prof. Plum", PlumCard, ImageLoader.GetImage("Plum")));
 
         // Generate weapon cards
-        weaponCards.add(new WeaponCard("Candlestick", CandlestickCard, CandlestickImage));
-        weaponCards.add(new WeaponCard("Rope", RopeCard, RopeImage));
-        weaponCards.add(new WeaponCard("Revolver", RevolverCard, RevolverImage));
-        weaponCards.add(new WeaponCard("LeadPipe", LeadPipeCard, LeadPipeImage));
-        weaponCards.add(new WeaponCard("Dagger", DaggerCard, DaggerImage));
-        weaponCards.add(new WeaponCard("Spanner", SpannerCard, SpannerImage));
+        weaponCards.add(new WeaponCard("Candlestick", CandlestickCard, ImageLoader.GetImage("Candlestick")));
+        weaponCards.add(new WeaponCard("Rope", RopeCard, ImageLoader.GetImage("Rope")));
+        weaponCards.add(new WeaponCard("Revolver", RevolverCard, ImageLoader.GetImage("Revolver")));
+        weaponCards.add(new WeaponCard("LeadPipe", LeadPipeCard, ImageLoader.GetImage("LeadPipe")));
+        weaponCards.add(new WeaponCard("Dagger", DaggerCard, ImageLoader.GetImage("Dagger")));
+        weaponCards.add(new WeaponCard("Spanner", SpannerCard, ImageLoader.GetImage("Spanner")));
 
         // Generate room cards
-        roomCards.add(new RoomCard("Library", LibraryCard, LibraryImage));
-        roomCards.add(new RoomCard("Conservatory", ConservatoryCard, ConservatoryImage));
-        roomCards.add(new RoomCard("Kitchen", KitchenCard, KitchenImage));
-        roomCards.add(new RoomCard("Study", StudyCard, StudyImage));
-        roomCards.add(new RoomCard("Hall", HallCard, HallImage));
-        roomCards.add(new RoomCard("BallRoom", BallRoomCard, BallRoomImage));
-        roomCards.add(new RoomCard("DiningRoom", DiningRoomCard, DiningRoomImage));
-        roomCards.add(new RoomCard("Lounge", LoungeCard, LoungeImage));
-        roomCards.add(new RoomCard("Billiard Room", BilliardRoomCard, BilliardRoomImage));
+        roomCards.add(new RoomCard("Library", LibraryCard, ImageLoader.GetImage("Library")));
+        roomCards.add(new RoomCard("Conservatory", ConservatoryCard, ImageLoader.GetImage("Conservatory")));
+        roomCards.add(new RoomCard("Kitchen", KitchenCard, ImageLoader.GetImage("Kitchen")));
+        roomCards.add(new RoomCard("Study", StudyCard, ImageLoader.GetImage("Study")));
+        roomCards.add(new RoomCard("Hall", HallCard, ImageLoader.GetImage("Hall")));
+        roomCards.add(new RoomCard("BallRoom", BallRoomCard, ImageLoader.GetImage("BallRoom")));
+        roomCards.add(new RoomCard("DiningRoom", DiningRoomCard, ImageLoader.GetImage("DiningRoom")));
+        roomCards.add(new RoomCard("Lounge", LoungeCard, ImageLoader.GetImage("Lounge")));
+        roomCards.add(new RoomCard("Billiard Model.Room", BilliardRoomCard, ImageLoader.GetImage("Billiard")));
 
 
-        Board.deckOfCards.addAll(characterCards);
-        Board.deckOfCards.addAll(weaponCards);
-        Board.deckOfCards.addAll(roomCards);
+        Board.getDeckOfCards().addAll(characterCards);
+        Board.getDeckOfCards().addAll(weaponCards);
+        Board.getDeckOfCards().addAll(roomCards);
 
     }
 
     private void generateMurderer() {
         int index = new Random().nextInt(characterCards.size());
         murderer = characterCards.get(index);
-        Board.envelope.add(murderer);
-        Board.deckOfCards.remove(murderer);
+        Board.getEnvelope().add(murderer);
+        Board.getDeckOfCards().remove(murderer);
         System.out.println(murderer.toString()+"----");
     }
 
     private void generateMurderWeapon() {
         int index = new Random().nextInt(weaponCards.size());
         murderWeapon = weaponCards.get(index);
-        Board.envelope.add(murderWeapon);
-        Board.deckOfCards.remove(murderWeapon);
+        Board.getEnvelope().add(murderWeapon);
+        Board.getDeckOfCards().remove(murderWeapon);
         System.out.println(murderWeapon.toString()+"----");
     }
 
     private void generateMurderRoom() {
         int index = new Random().nextInt(roomCards.size());
         murderRoom = roomCards.get(index);
-        Board.envelope.add(murderRoom);
-        Board.deckOfCards.remove(murderRoom);
+        Board.getEnvelope().add(murderRoom);
+        Board.getDeckOfCards().remove(murderRoom);
         System.out.println(murderRoom.toString()+"----");
     }
 
     private void dealCards() {
-        ArrayList<Card> dealableCards = Board.deckOfCards;
+        ArrayList<Card> dealableCards = Board.getDeckOfCards();
         dealableCards.remove(murderRoom);
         dealableCards.remove(murderWeapon);
         dealableCards.remove(murderer);
-        for (int i = 0; i < Board.deckOfCards.size(); i++) {
+        for (int i = 0; i < Board.getDeckOfCards().size(); i++) {
             Player.playerList.get(i % Player.playerList.size()).addHand(dealableCards.get(i));
         }
     }
@@ -490,7 +452,7 @@ public class CluedoGUI extends JFrame {
         for (int row = 0; row < 25; ++row) {
             for (int col = 0; col < 24; ++col) {
                 board[row][col] = new Tile(tileTypeToNameMap.get(b.getBoardLayoutArray()[row][col]), col * GRID_SIZE, row * GRID_SIZE);
-                board[row][col].draw(graphics, board[row][col].x, board[row][col].y);
+                board[row][col].draw(graphics, board[row][col].getX(), board[row][col].getY());
             }
         }
     }
@@ -502,7 +464,7 @@ public class CluedoGUI extends JFrame {
         InfoPanel.setBackground(Color.blue);
         // TODO COMMENT
         InfoPanel.setLayout(new BorderLayout(10, 10));
-        // Call the LoadImages method to ensure that all the Dice and Weapon Images have been loaded.
+        // Call the LoadImages method to ensure that all the Dice and Model.Weapon Images have been loaded.
 
         // Set the InfoPanelLeft to be a new JPanel.
         JPanel InfoPanelLeft = new JPanel();
@@ -517,9 +479,9 @@ public class CluedoGUI extends JFrame {
         // TODO COMMENT
         InfoPanelRight.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 10));
         // Set the Dice One label to the FaceOne Scaled Image.
-        DiceOne = new JLabel(new ImageIcon(DiceImages.get(0).getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+        DiceOne = new JLabel(new ImageIcon(ImageLoader.getDiceImages().get(0).getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
         // Set the Dice One label to the FaceOne Scaled Image.
-        DiceTwo = new JLabel(new ImageIcon(DiceImages.get(0).getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+        DiceTwo = new JLabel(new ImageIcon(ImageLoader.getDiceImages().get(0).getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
         // Add the Dice Labels to the JPanel
         InfoPanelLeft.add(DiceOne);
         InfoPanelLeft.add(DiceTwo);
@@ -569,44 +531,6 @@ public class CluedoGUI extends JFrame {
         return InfoPanel;
     }
 
-    private void LoadImages() {
-
-        try {
-            for (int i = 1; i < 7; i++) {
-                DiceImages.add(ImageIO.read(new File(DiceFaceStart + i + ".png")));
-            }
-
-            CardPlaceholder = ImageIO.read(new File(CardPlaceholderPath));
-
-            CandlestickImage = ImageIO.read(new File(CandlestickPath));
-            DaggerImage = ImageIO.read(new File(DaggerPath));
-            LeadPipeImage = ImageIO.read(new File(LeadPipePath));
-            RevolverImage = ImageIO.read(new File(RevolverPath));
-            RopeImage = ImageIO.read(new File(RopePath));
-            SpannerImage = ImageIO.read(new File(SpannerPath));
-
-            ScarlettImage = ImageIO.read(new File(ScarlettPath));
-            MustardImage = ImageIO.read(new File(MustardPath));
-            WhiteImage = ImageIO.read(new File(WhitePath));
-            GreenImage = ImageIO.read(new File(GreenPath));
-            PlumImage = ImageIO.read(new File(PlumPath));
-            PeacockImage = ImageIO.read(new File(PeacockPath));
-
-            ConservatoryImage = ImageIO.read(new File(ConservatoryPath));
-            BilliardRoomImage = ImageIO.read(new File(BillardRoomPath));
-            StudyImage = ImageIO.read(new File(StudyPath));
-            HallImage = ImageIO.read(new File(HallPath));
-            LoungeImage = ImageIO.read(new File(LoungePath));
-            DiningRoomImage = ImageIO.read(new File(DiningRoomPath));
-            KitchenImage = ImageIO.read(new File(KitchenPath));
-            LibraryImage = ImageIO.read(new File(LibraryPath));
-            BallRoomImage = ImageIO.read(new File(BallRoomPath));
-
-        } catch (IOException ex) {
-            System.out.println("INVALID FILE NAME");
-        }
-    }
-
     private void GenerateRandomDice() {
         hasRolled = true;
 
@@ -615,8 +539,8 @@ public class CluedoGUI extends JFrame {
         currentPlayer = Player.getPlayerList().get(currentPlayerPos);
         currentPlayer.setRemainingMoves(firstDieRoll + secondDieRoll);
 
-        DiceOne.setIcon(((new ImageIcon(DiceImages.get(firstDieRoll - 1).getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
-        DiceTwo.setIcon(((new ImageIcon(DiceImages.get(secondDieRoll - 1).getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
+        DiceOne.setIcon(((new ImageIcon(ImageLoader.getDiceImages().get(firstDieRoll - 1).getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
+        DiceTwo.setIcon(((new ImageIcon(ImageLoader.getDiceImages().get(secondDieRoll - 1).getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
 
     }
 
@@ -671,22 +595,22 @@ public class CluedoGUI extends JFrame {
         if (currentPlayer.getHand().size() > 3) {
             HandCard4.setIcon(((new ImageIcon(currentPlayer.getHand().get(3).getCardImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
         } else {
-            HandCard4.setIcon(new ImageIcon(CardPlaceholder.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+            HandCard4.setIcon(new ImageIcon(ImageLoader.GetImage("Placeholder").getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
         }
         if (currentPlayer.getHand().size() > 4) {
             HandCard5.setIcon(((new ImageIcon(currentPlayer.getHand().get(4).getCardImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
         } else {
-            HandCard5.setIcon(new ImageIcon(CardPlaceholder.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+            HandCard5.setIcon(new ImageIcon(ImageLoader.GetImage("Placeholder").getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
         }
         if (currentPlayer.getHand().size() > 5) {
             HandCard6.setIcon(((new ImageIcon(currentPlayer.getHand().get(5).getCardImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
         } else {
-            HandCard6.setIcon(new ImageIcon(CardPlaceholder.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+            HandCard6.setIcon(new ImageIcon(ImageLoader.GetImage("Placeholder").getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
         }
         if (currentPlayer.getHand().size() > 6) {
             HandCard7.setIcon(((new ImageIcon(currentPlayer.getHand().get(6).getCardImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
         } else {
-            HandCard7.setIcon(new ImageIcon(CardPlaceholder.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+            HandCard7.setIcon(new ImageIcon(ImageLoader.GetImage("Placeholder").getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
         }
     }
 
@@ -734,7 +658,7 @@ public class CluedoGUI extends JFrame {
             else{
                 JOptionPane.showMessageDialog(this,
                         "Cannot make an accusation as the player has made a false accusation.",
-                        "Player Error",
+                        "Model.Player Error",
                         JOptionPane.ERROR_MESSAGE);
             }
             endTurn();
@@ -775,7 +699,7 @@ public class CluedoGUI extends JFrame {
                 //if the player has rolled then they can move
                 if (hasRolled) {
                     currentPlayer = Player.getPlayerList().get(currentPlayerPos);
-                    System.out.println("The current Player is " + currentPlayer);
+                    System.out.println("The current Model.Player is " + currentPlayer);
                     //if the current player has no moves left, prompt the player that their turn has ended and return the settings to their defult
                     System.out.println(currentPlayer);
                     //convert pixel pos to tile pos
