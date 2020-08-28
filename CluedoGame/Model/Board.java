@@ -27,6 +27,16 @@ public class Board {
     private static Card murderRoom;
     private static Card murderWeapon;
 
+    public static void setCurrentPlayer(Player currentPlayer) {
+        Board.currentPlayer = currentPlayer;
+    }
+
+    private static Player currentPlayer;
+
+    public static Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
     public static HashMap<String, Card> getCardHashMap() {
         return cardHashMap;
     }
@@ -119,15 +129,14 @@ public class Board {
     private static ImageIcon ConservatoryIcon;
 
     public static void setup() {
-
-
+        System.out.println("Cyote");
         characterCards.add(new CharacterCard("Miss. Scarlett", ScarlettIcon, ImageLoader.GetImage("Miss. Scarlett")));
         characterCards.add(new CharacterCard("Col. Mustard", MustardIcon, ImageLoader.GetImage("Col. Mustard")));
         characterCards.add(new CharacterCard("Mrs. White", WhiteIcon, ImageLoader.GetImage("Mrs. White")));
         characterCards.add(new CharacterCard("Mr. Green", GreenIcon, ImageLoader.GetImage("Mr. Green")));
         characterCards.add(new CharacterCard("Mrs. Peacock", PeacockIcon, ImageLoader.GetImage("Mrs. Peacock")));
         characterCards.add(new CharacterCard("Prof. Plum", PlumIcon, ImageLoader.GetImage("Prof. Plum")));
-
+        System.out.println("Navajo");
         // Generate weapon cards
         weaponCards.add(new WeaponCard("Candlestick", CandlestickIcon, ImageLoader.GetImage("Candlestick")));
         weaponCards.add(new WeaponCard("Rope", RopeIcon, ImageLoader.GetImage("Rope")));
@@ -135,7 +144,7 @@ public class Board {
         weaponCards.add(new WeaponCard("LeadPipe", LeadPipeIcon, ImageLoader.GetImage("LeadPipe")));
         weaponCards.add(new WeaponCard("Dagger", DaggerIcon, ImageLoader.GetImage("Dagger")));
         weaponCards.add(new WeaponCard("Spanner", SpannerIcon, ImageLoader.GetImage("Spanner")));
-
+        System.out.println("Aztec");
         // Generate room cards
         roomCards.add(new RoomCard("Library", LibraryIcon, ImageLoader.GetImage("Library")));
         roomCards.add(new RoomCard("Conservatory", ConservatoryIcon, ImageLoader.GetImage("Conservatory")));
@@ -146,7 +155,7 @@ public class Board {
         roomCards.add(new RoomCard("DiningRoom", DiningRoomIcon, ImageLoader.GetImage("DiningRoom")));
         roomCards.add(new RoomCard("Lounge", LoungeIcon, ImageLoader.GetImage("Lounge")));
         roomCards.add(new RoomCard("Billiard", BilliardRoomIcon, ImageLoader.GetImage("Billiard")));
-
+        System.out.println("AMERICAN BABY");
         characterArrayList.add(Scarlett);
         characterArrayList.add(Mustard);
         characterArrayList.add(White);
@@ -161,7 +170,6 @@ public class Board {
         generateMurderer();
         generateMurderWeapon();
         generateMurderRoom();
-
 
         //Model.Room names being added to arraylist
         roomNames.add("Kitchen");
@@ -239,11 +247,9 @@ public class Board {
         // Set the HandCardIII label to the LeadPipeImage Scaled Image.
         ConservatoryIcon = new ImageIcon(ImageLoader.GetImage("Conservatory").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
 
-
         for (Card card : deckOfCards) {
             cardHashMap.put(card.toString(), card);
         }
-
 
     }
 
@@ -259,7 +265,6 @@ public class Board {
         murderWeapon = Board.getWeaponCards().get(index);
         Board.getEnvelope().add(murderWeapon);
         Board.getDeckOfCards().remove(murderWeapon);
-//        System.out.println(murderWeapon.toString()+"----");
     }
 
     private static void generateMurderRoom() {
@@ -267,7 +272,6 @@ public class Board {
         murderRoom = Board.getRoomCards().get(index);
         Board.getEnvelope().add(murderRoom);
         Board.getDeckOfCards().remove(murderRoom);
-//        System.out.println(murderRoom.toString()+"----");
     }
 
     public static void dealCards() {
@@ -277,7 +281,6 @@ public class Board {
         dealableCards.remove(murderWeapon);
         dealableCards.remove(murderer);
         for (int i = 0; i < Board.getDeckOfCards().size(); i++) {
-
             Player.playerList.get(i % Player.playerList.size()).addHand(dealableCards.get(i));
         }
     }
@@ -405,6 +408,4 @@ public class Board {
     public static String[][] getOriginalBoardLayoutArray() {
         return originalBoardLayoutArray;
     }
-
-
 }
