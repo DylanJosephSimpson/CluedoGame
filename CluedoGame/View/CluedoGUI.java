@@ -31,7 +31,6 @@ public class CluedoGUI extends JFrame {
     public JButton MakeAccusation;
     public JButton MakeSuggestion;
 
-
     // JPanels and JLabels
     private JPanel InfoPanel;
     private JPanel GameControlPanel;
@@ -75,18 +74,23 @@ public class CluedoGUI extends JFrame {
     // Strings which are the File Locations for all the Model.Weapon Images.
 
     private boolean hasRolled = false;
-    private ArrayList<int[]> previouslyTraversedTiles = new ArrayList<>();
+
+    private static ArrayList<int[]> previouslyTraversedTiles = new ArrayList<>();
     private Tile[][] board = new Tile[25][30];
     private Board b;
-    private Player currentPlayer = Player.getPlayerList().get(0);
+
     private int currentPlayerPos;
 
+
+
+    public static ArrayList<int[]> getPreviouslyTraversedTiles() {
+        return previouslyTraversedTiles;
+    }
 
     public CluedoGUI(String title, Board board) {
         CluedoGame = new JFrame(title);
         this.b = board;
         setup();
-
         // Set GUI to terminate the program when exited.
         CluedoGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // Set the JMenuBar to the return value of the GenerateMenu method.
@@ -102,7 +106,6 @@ public class CluedoGUI extends JFrame {
         CluedoGame.add(GenerateInfoPanel(), BorderLayout.SOUTH);
         // Pack the JFrame so that all its contents are at or above their preferred sizes
         CluedoGame.setSize(720, 885);
-        //
         CluedoGame.setVisible(true);
         //Implementing a setup method which initialises required variables
     }
@@ -128,14 +131,9 @@ public class CluedoGUI extends JFrame {
         tileTypeToNameMap.put("S", "Scarlett");
         tileTypeToNameMap.put("M", "Mustard");
         tileTypeToNameMap.put("e", "Cellar");
-
         setupRooms();
         generateCards();
-/*        generateMurderer();
-        generateMurderRoom();
-        generateMurderWeapon();*/
         allocateWeapons();
-//        dealCards();
     }
 
     /**
@@ -181,96 +179,94 @@ public class CluedoGUI extends JFrame {
     private void generateCards() {
         // Generate character cards
         CardPlaceholderCard = new JLabel(Board.GetIcon("Placeholder"));
-        CardPlaceholderCard.setToolTipText("Place Holder Image");
+        CardPlaceholderCard.setToolTipText("No card in this slot");
         // Set the HandCardI label to the CandlestickImage Scaled Image.
         CandlestickCard = new JLabel(Board.GetIcon("Candlestick"));
-        CandlestickCard.setToolTipText("Candlestick Model.Card");
+        CandlestickCard.setToolTipText("Candlestick Card");
         Board.getAllCards().add(CandlestickCard);
         // Set the HandCardII label to the DaggerImage Scaled Image.
         DaggerCard = new JLabel(Board.GetIcon("Dagger"));
-        DaggerCard.setToolTipText("Dagger Model.Card");
+        DaggerCard.setToolTipText("Dagger Card");
         Board.getAllCards().add(DaggerCard);
         // Set the HandCardIII label to the LeadPipeImage Scaled Image.
         LeadPipeCard = new JLabel(Board.GetIcon("LeadPipe"));
-        LeadPipeCard.setToolTipText("LeadPipe Model.Card");
+        LeadPipeCard.setToolTipText("LeadPipe Card");
         Board.getAllCards().add(LeadPipeCard);
         // Set the HandCardIV label to the RevolverImage Scaled Image.
         RevolverCard = new JLabel(Board.GetIcon("Revolver"));
-        RevolverCard.setToolTipText("Revolver Model.Card");
+        RevolverCard.setToolTipText("Revolver Card");
         Board.getAllCards().add(RevolverCard);
         // Set the HandCardV label to the RopeImage Scaled Image.
         RopeCard = new JLabel(Board.GetIcon("Rope"));
-        RopeCard.setToolTipText("Rope Model.Card");
+        RopeCard.setToolTipText("Rope Card");
         Board.getAllCards().add(RopeCard);
         // Set the HandCardV label to the SpannerImage Scaled Image.
         SpannerCard = new JLabel(Board.GetIcon("Spanner"));
-        SpannerCard.setToolTipText("Spanner Model.Card");
+        SpannerCard.setToolTipText("Spanner Card");
         Board.getAllCards().add(SpannerCard);
         // Add the Hand of Cards to the JPanel
         ScarlettCard = new JLabel(Board.GetIcon("Scarlett"));
-        ScarlettCard.setToolTipText("Scarlett Model.Card");
+        ScarlettCard.setToolTipText("Scarlett Card");
         Board.getAllCards().add(ScarlettCard);
         // Set the HandCardII label to the DaggerImage Scaled Image.
         MustardCard = new JLabel(Board.GetIcon("Mustard"));
-        MustardCard.setToolTipText("Mustard Model.Card");
+        MustardCard.setToolTipText("Mustard Card");
         Board.getAllCards().add(MustardCard);
         // Set the HandCardIII label to the LeadPipeImage Scaled Image.
         GreenCard = new JLabel(Board.GetIcon("Green"));
-        GreenCard.setToolTipText("Green Model.Card");
+        GreenCard.setToolTipText("Green Card");
         Board.getAllCards().add(GreenCard);
         // Set the HandCardIV label to the RevolverImage Scaled Image.
         WhiteCard = new JLabel(Board.GetIcon("White"));
-        WhiteCard.setToolTipText("White Model.Card");
+        WhiteCard.setToolTipText("White Card");
         Board.getAllCards().add(WhiteCard);
         // Set the HandCardV label to the RopeImage Scaled Image.
         PlumCard = new JLabel(Board.GetIcon("Plum"));
-        PlumCard.setToolTipText("Plum Model.Card");
+        PlumCard.setToolTipText("Plum Card");
         Board.getAllCards().add(PlumCard);
         // Set the HandCardV label to the SpannerImage Scaled Image.
         PeacockCard = new JLabel(Board.GetIcon("Peacock"));
-        PeacockCard.setToolTipText("Peacock Model.Card");
+        PeacockCard.setToolTipText("Peacock Card");
         Board.getAllCards().add(PeacockCard);
         // Add the Hand of Cards to the JPanel
         LibraryCard = new JLabel(Board.GetIcon("Library"));
-        LibraryCard.setToolTipText("Library Model.Card");
+        LibraryCard.setToolTipText("Library Card");
         Board.getAllCards().add(LibraryCard);
         // Set the HandCardII label to the DaggerImage Scaled Image.
         BallRoomCard = new JLabel(Board.GetIcon("BallRoom"));
-        BallRoomCard.setToolTipText("Ball Model.Room Model.Card");
+        BallRoomCard.setToolTipText("BallRoom Card");
         Board.getAllCards().add(BallRoomCard);
         // Set the HandCardIII label to the LeadPipeImage Scaled Image.
         KitchenCard = new JLabel(Board.GetIcon("Kitchen"));
-        KitchenCard.setToolTipText("Kitchen Model.Card");
+        KitchenCard.setToolTipText("Kitchen Card");
         Board.getAllCards().add(KitchenCard);
         // Set the HandCardIV label to the RevolverImage Scaled Image.
         DiningRoomCard = new JLabel(Board.GetIcon("DiningRoom"));
-        DiningRoomCard.setToolTipText("Dining Model.Room Model.Card");
+        DiningRoomCard.setToolTipText("DiningRoom Card");
         Board.getAllCards().add(DiningRoomCard);
         // Set the HandCardV label to the RopeImage Scaled Image.
         LoungeCard = new JLabel(Board.GetIcon("Lounge"));
-        LoungeCard.setToolTipText("Lounge Model.Card");
+        LoungeCard.setToolTipText("Lounge Card");
         Board.getAllCards().add(LoungeCard);
         // Set the HandCardV label to the SpannerImage Scaled Image.
         HallCard = new JLabel(Board.GetIcon("Hall"));
-        HallCard.setToolTipText("Hall Model.Card");
+        HallCard.setToolTipText("Hall Card");
         Board.getAllCards().add(HallCard);
         // Add the Hand of Cards to the JPanel
         StudyCard = new JLabel(Board.GetIcon("Study"));
-        StudyCard.setToolTipText("Study Model.Card");
+        StudyCard.setToolTipText("Study Card");
         Board.getAllCards().add(StudyCard);
         // Set the HandCardII label to the DaggerImage Scaled Image.
         BilliardRoomCard = new JLabel(Board.GetIcon("BilliardRoom"));
-        BilliardRoomCard.setToolTipText("Billard Model.Room Model.Card");
+        BilliardRoomCard.setToolTipText("BillardRoom Card");
         Board.getAllCards().add(BilliardRoomCard);
         // Set the HandCardIII label to the LeadPipeImage Scaled Image.
         ConservatoryCard = new JLabel(Board.GetIcon("Conservatory"));
-        ConservatoryCard.setToolTipText("Conservatory Model.Card");
+        ConservatoryCard.setToolTipText("Conservatory Card");
         Board.getAllCards().add(ConservatoryCard);
     }
 
-
     private JMenuBar GenerateMenu(String menuName, String optName, String optNameTwo) {
-
         // Create a new JMenuBar
         JMenuBar mainMenu = new JMenuBar();
         // Create a new JMenu
@@ -288,7 +284,7 @@ public class CluedoGUI extends JFrame {
         RestartGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.print("World\n");
+                //TODO Dylan do this later when less sleepy
             }
         });
         // Add the JMenuItems to the JMenu
@@ -296,7 +292,6 @@ public class CluedoGUI extends JFrame {
         MenuImplementation.add(RestartGame);
         // Add the JMenu to the MenuBar
         mainMenu.add(MenuImplementation);
-
         return mainMenu;
     }
 
@@ -306,7 +301,6 @@ public class CluedoGUI extends JFrame {
      * @return
      */
     private JPanel GenerateBoardPanel() {
-        BoardPanel = new JPanel();
         //calls drawPane and this draws the main section of the board
         BoardPanel = new DrawPane();
         return BoardPanel;
@@ -317,7 +311,6 @@ public class CluedoGUI extends JFrame {
      */
 
     public void drawBoard(Graphics graphics) {
-
         for (int row = 0; row < 25; ++row) {
             for (int col = 0; col < 24; ++col) {
                 board[row][col] = new Tile(tileTypeToNameMap.get(b.getBoardLayoutArray()[row][col]), col * GRID_SIZE, row * GRID_SIZE);
@@ -354,9 +347,9 @@ public class CluedoGUI extends JFrame {
         InfoPanelLeft.add(DiceOne);
         InfoPanelLeft.add(DiceTwo);
         // Set the HandCardIV label to the RevolverImage Scaled Image.
-
-        displayName = new JLabel("\t\t\t\t\t" + currentPlayer.getName() + "'s Turn");
-        displayName.setFont(new Font("Georgia", Font.PLAIN, 30));
+        Board.setCurrentPlayer(Player.getPlayerList().get(0));
+        displayName = new JLabel("\t\t\t\t\t" + Board.getCurrentPlayer().getName() + "'s Turn");
+        displayName.setFont(new Font("Times New Roman", Font.PLAIN, 30));
         displayName.setForeground(Color.white);
         displayName.setHorizontalAlignment(SwingConstants.CENTER);
         InfoPanelLeft.add(displayName);
@@ -370,34 +363,31 @@ public class CluedoGUI extends JFrame {
         HandCard5 = new JLabel();
         HandCard6 = new JLabel();
 
-//        HandCard1.setIcon(currentPlayer.getHand().get(0).getCardIcon());
-//        HandCard2.setIcon(currentPlayer.getHand().get(1).getCardIcon());
-//        HandCard3.setIcon(currentPlayer.getHand().get(2).getCardIcon());
-        HandCard1.setIcon(Board.GetIcon(currentPlayer.getHand().get(0).toString()));
-        HandCard2.setIcon(Board.GetIcon(currentPlayer.getHand().get(1).toString()));
-        HandCard3.setIcon(Board.GetIcon(currentPlayer.getHand().get(2).toString()));
+        HandCard1.setIcon(Board.GetIcon(Board.getCurrentPlayer().getHand().get(0).toString()));
+        HandCard2.setIcon(Board.GetIcon(Board.getCurrentPlayer().getHand().get(1).toString()));
+        HandCard3.setIcon(Board.GetIcon(Board.getCurrentPlayer().getHand().get(2).toString()));
 
-
-        if (currentPlayer.getHand().size() > 3) {
-            HandCard4.setIcon(Board.GetIcon(currentPlayer.getHand().get(3).toString()));
+        if (Board.getCurrentPlayer().getHand().size() > 3) {
+            HandCard4.setIcon(Board.GetIcon(Board.getCurrentPlayer().getHand().get(3).toString()));
         } else {
             HandCard4 = CardPlaceholderCard;
         }
-        if (currentPlayer.getHand().size() > 4) {
-            HandCard5.setIcon(Board.GetIcon(currentPlayer.getHand().get(4).toString()));
+        if (Board.getCurrentPlayer().getHand().size() > 4) {
+            HandCard5.setIcon(Board.GetIcon(Board.getCurrentPlayer().getHand().get(4).toString()));
         } else {
             HandCard5 = CardPlaceholderCard;
         }
-        if (currentPlayer.getHand().size() > 5) {
-            HandCard6.setIcon(Board.GetIcon(currentPlayer.getHand().get(5).toString()));
+        if (Board.getCurrentPlayer().getHand().size() > 5) {
+            HandCard6.setIcon(Board.GetIcon(Board.getCurrentPlayer().getHand().get(5).toString()));
         } else {
             HandCard6 = CardPlaceholderCard;
         }
-        if (currentPlayer.getHand().size() > 6) {
-            HandCard7.setIcon(Board.GetIcon(currentPlayer.getHand().get(6).toString()));
+        if (Board.getCurrentPlayer().getHand().size() > 6) {
+            HandCard7.setIcon(Board.GetIcon(Board.getCurrentPlayer().getHand().get(6).toString()));
         } else {
             HandCard7 = CardPlaceholderCard;
         }
+
         InfoPanelRight.add(HandCard1);
         InfoPanelRight.add(HandCard2);
         InfoPanelRight.add(HandCard3);
@@ -418,38 +408,12 @@ public class CluedoGUI extends JFrame {
 
         int firstDieRoll = (int) (Math.random() * (6)) + 1;
         int secondDieRoll = (int) (Math.random() * (6)) + 1;
-        currentPlayer = Player.getPlayerList().get(currentPlayerPos);
-        currentPlayer.setRemainingMoves(firstDieRoll + secondDieRoll);
+        Board.setCurrentPlayer(Player.getPlayerList().get(currentPlayerPos));
+        Board.getCurrentPlayer().setRemainingMoves(firstDieRoll + secondDieRoll);
 
         DiceOne.setIcon(((new ImageIcon(ImageLoader.getDiceImages().get(firstDieRoll - 1).getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
         DiceTwo.setIcon(((new ImageIcon(ImageLoader.getDiceImages().get(secondDieRoll - 1).getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
 
-    }
-
-
-    private boolean validMove(Tile tileInFrontOfPlayer) {
-        if (currentPlayer.getRemainingMoves() <= 0) {
-            return false;
-        }
-
-        //checks if the next tile is a character or not
-        for (Character c : Board.getCharacterArrayList()) {
-            if (c != currentPlayer.getAssignedCharacter()) {
-                if (c.getX() == tileInFrontOfPlayer.getX() && c.getY() == tileInFrontOfPlayer.getY()) {
-                    return false;
-                }
-            }
-        }
-
-        //checks if the next tile has been visited by checking the list of tiles that the character has visited in their turn
-        for (int[] previousTile : previouslyTraversedTiles) {
-            if (previousTile[0] == tileInFrontOfPlayer.getX() / 30 && previousTile[1] == tileInFrontOfPlayer.getY() / 30) {
-                JFrame frame = new JFrame();
-                JOptionPane.showMessageDialog(frame, "You can not visit a space that you have already been in your turn.", "Keep Moving Forward", JOptionPane.WARNING_MESSAGE);
-                return false;
-            }
-        }
-        return true;
     }
 
     private void endTurn() {
@@ -460,36 +424,33 @@ public class CluedoGUI extends JFrame {
         if (currentPlayerPos == Player.playerList.size()) {
             currentPlayerPos = 0;
         }
-        currentPlayer = Player.playerList.get(currentPlayerPos);
+        Board.setCurrentPlayer(Player.getPlayerList().get(currentPlayerPos));
 
         JFrame frame = new JFrame();
-        JOptionPane.showMessageDialog(frame, "Your turn is now over, it is now " + currentPlayer.getName() + "'s turn.", "End your turn", JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(frame, "Your turn is now over, it is now " + Board.getCurrentPlayer().getName() + "'s turn.", "End your turn", JOptionPane.PLAIN_MESSAGE);
 
-        displayName.setText("\t\t\t\t\t" + currentPlayer.getName() + "'s Turn");
+        displayName.setText("\t\t\t\t\t" + Board.getCurrentPlayer().getName() + "'s Turn");
 
-
-        System.out.println("CURRENT PLAYERS IS" + currentPlayer.getName() + " HAND IS " + currentPlayer.getHand());
-
-        HandCard1.setIcon(Board.GetIcon(currentPlayer.getHand().get(0).toString()));
-        HandCard2.setIcon(Board.GetIcon(currentPlayer.getHand().get(1).toString()));
-        HandCard3.setIcon(Board.GetIcon(currentPlayer.getHand().get(2).toString()));
-        if (currentPlayer.getHand().size() > 3) {
-            HandCard4.setIcon(Board.GetIcon(currentPlayer.getHand().get(3).toString()));
+        HandCard1.setIcon(Board.GetIcon(Board.getCurrentPlayer().getHand().get(0).toString()));
+        HandCard2.setIcon(Board.GetIcon(Board.getCurrentPlayer().getHand().get(1).toString()));
+        HandCard3.setIcon(Board.GetIcon(Board.getCurrentPlayer().getHand().get(2).toString()));
+        if (Board.getCurrentPlayer().getHand().size() > 3) {
+            HandCard4.setIcon(Board.GetIcon(Board.getCurrentPlayer().getHand().get(3).toString()));
         } else {
             HandCard4.setIcon(new ImageIcon(ImageLoader.GetImage("Placeholder").getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
         }
-        if (currentPlayer.getHand().size() > 4) {
-            HandCard5.setIcon(Board.GetIcon(currentPlayer.getHand().get(4).toString()));
+        if (Board.getCurrentPlayer().getHand().size() > 4) {
+            HandCard5.setIcon(Board.GetIcon(Board.getCurrentPlayer().getHand().get(4).toString()));
         } else {
             HandCard5.setIcon(new ImageIcon(ImageLoader.GetImage("Placeholder").getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
         }
-        if (currentPlayer.getHand().size() > 5) {
-            HandCard6.setIcon(Board.GetIcon(currentPlayer.getHand().get(5).toString()));
+        if (Board.getCurrentPlayer().getHand().size() > 5) {
+            HandCard6.setIcon(Board.GetIcon(Board.getCurrentPlayer().getHand().get(5).toString()));
         } else {
             HandCard6.setIcon(new ImageIcon(ImageLoader.GetImage("Placeholder").getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
         }
-        if (currentPlayer.getHand().size() > 6) {
-            HandCard7.setIcon(Board.GetIcon(currentPlayer.getHand().get(6).toString()));
+        if (Board.getCurrentPlayer().getHand().size() > 6) {
+            HandCard7.setIcon(Board.GetIcon(Board.getCurrentPlayer().getHand().get(6).toString()));
         } else {
             HandCard7.setIcon(new ImageIcon(ImageLoader.GetImage("Placeholder").getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
         }
@@ -518,7 +479,7 @@ public class CluedoGUI extends JFrame {
         EndTurn.addActionListener(e -> {
             GameControlPanel.requestFocus();
             endTurn();
-            currentPlayer.setRemainingMoves(0);
+            Board.getCurrentPlayer().setRemainingMoves(0);
         });
 //        OpenNotes.addActionListener(e -> {
 //            GameControlPanel.requestFocus();
@@ -534,8 +495,8 @@ public class CluedoGUI extends JFrame {
 //        });
         MakeAccusation.addActionListener(e -> {
             GameControlPanel.requestFocus();
-            if (currentPlayer.canMakeActions()) {
-                new AccusationSetup(currentPlayer);
+            if (Board.getCurrentPlayer().canMakeActions()) {
+                new AccusationSetup(Board.getCurrentPlayer());
             } else {
                 JOptionPane.showMessageDialog(this,
                         "Cannot make an accusation as the player has made a false accusation.",
@@ -569,7 +530,7 @@ public class CluedoGUI extends JFrame {
                 }
                 if (e.getKeyChar() == '3') {
                     MakeAccusation.doClick();
-                    new AccusationSetup(currentPlayer);
+                    new AccusationSetup(Board.getCurrentPlayer());
                     GameControlPanel.requestFocus();
                 }
 //                if (e.getKeyChar() == '5') {
@@ -579,11 +540,11 @@ public class CluedoGUI extends JFrame {
 //                currentPlayer = Player.getPlayerList().get(currentPlayerPos);
                 //if the player has rolled then they can move
                 if (hasRolled) {
-                    currentPlayer = Player.getPlayerList().get(currentPlayerPos);
+                    Board.setCurrentPlayer(Player.getPlayerList().get(currentPlayerPos));
                     //if the current player has no moves left, prompt the player that their turn has ended and return the settings to their defult
                     //convert pixel pos to tile pos
-                    int tileX = currentPlayer.getAssignedCharacter().getX() / 30;
-                    int tileY = currentPlayer.getAssignedCharacter().getY() / 30;
+                    int tileX = Board.getCurrentPlayer().getAssignedCharacter().getX() / 30;
+                    int tileY = Board.getCurrentPlayer().getAssignedCharacter().getY() / 30;
 
                     previouslyTraversedTiles.add(new int[]{tileX, tileY});
 
@@ -591,52 +552,52 @@ public class CluedoGUI extends JFrame {
                     Pattern pattern = Pattern.compile("(Wall)", Pattern.CASE_INSENSITIVE);
                     //ensures the player can move into the position that they want to, if they are not able to then do not decrese their moves left
                     if (e.getKeyCode() == KeyEvent.VK_UP) {
-                        if (currentPlayer.getAssignedCharacter().getY() > 0 && validMove(board[tileY - 1][tileX])) {
+                        if (Board.getCurrentPlayer().getAssignedCharacter().getY() > 0 && Player.validMove(board[tileY - 1][tileX])) {
                             Matcher matcher = pattern.matcher(board[tileY - 1][tileX].getTileType());
                             if (!matcher.find()) {
-                                currentPlayer.move("NORTH");
-                                currentPlayer.setRemainingMoves(currentPlayer.getRemainingMoves() - 1);
+                                Board.getCurrentPlayer().move("NORTH");
+                                Board.getCurrentPlayer().setRemainingMoves(Board.getCurrentPlayer().getRemainingMoves() - 1);
                                 CluedoGame.repaint();
                                 //previouslyTraversedTiles.add(new int[]{tileX, tileY});
                             }
                         }
                     }
                     if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                        if (currentPlayer.getAssignedCharacter().getY() < 720 && validMove(board[tileY + 1][tileX])) {
+                        if (Board.getCurrentPlayer().getAssignedCharacter().getY() < 720 && Player.validMove(board[tileY + 1][tileX])) {
                             Matcher matcher = pattern.matcher(board[tileY + 1][tileX].getTileType());
                             if (!matcher.find()) {
                                 //previouslyTraversedTiles.add(new int[]{tileX, tileY});
-                                currentPlayer.move("SOUTH");
-                                currentPlayer.setRemainingMoves(currentPlayer.getRemainingMoves() - 1);
+                                Board.getCurrentPlayer().move("SOUTH");
+                                Board.getCurrentPlayer().setRemainingMoves(Board.getCurrentPlayer().getRemainingMoves() - 1);
                                 CluedoGame.repaint();
                             }
                         }
                     }
                     if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                        if (currentPlayer.getAssignedCharacter().getX() > 0 && validMove(board[tileY][tileX - 1])) {
+                        if (Board.getCurrentPlayer().getAssignedCharacter().getX() > 0 && Player.validMove(board[tileY][tileX - 1])) {
                             Matcher matcher = pattern.matcher(board[tileY][tileX - 1].getTileType());
                             if (!matcher.find()) {
                                 // previouslyTraversedTiles.add(new int[]{tileX, tileY});
-                                currentPlayer.move("WEST");
-                                currentPlayer.setRemainingMoves(currentPlayer.getRemainingMoves() - 1);
+                                Board.getCurrentPlayer().move("WEST");
+                                Board.getCurrentPlayer().setRemainingMoves(Board.getCurrentPlayer().getRemainingMoves() - 1);
                                 CluedoGame.repaint();
                             }
                         }
                     }
                     if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                        if (currentPlayer.getAssignedCharacter().getX() < 690 && validMove(board[tileY][tileX + 1])) {
+                        if (Board.getCurrentPlayer().getAssignedCharacter().getX() < 690 && Player.validMove(board[tileY][tileX + 1])) {
                             Matcher matcher = pattern.matcher(board[tileY][tileX + 1].getTileType());
                             if (!matcher.find()) {
                                 //previouslyTraversedTiles.add(new int[]{tileX, tileY});
-                                currentPlayer.move("EAST");
-                                currentPlayer.setRemainingMoves(currentPlayer.getRemainingMoves() - 1);
+                                Board.getCurrentPlayer().move("EAST");
+                                Board.getCurrentPlayer().setRemainingMoves(Board.getCurrentPlayer().getRemainingMoves() - 1);
                                 CluedoGame.repaint();
                             }
                         }
                     }
                     //redraw the frame
                     //CluedoGame.repaint();
-                    if (currentPlayer.getRemainingMoves() <= 0) {
+                    if (Board.getCurrentPlayer().getRemainingMoves() <= 0) {
                         JFrame frame = new JFrame();
                         JOptionPane.showMessageDialog(frame, "You now have no more moves", "No more moves", JOptionPane.PLAIN_MESSAGE);
                         endTurn();
@@ -649,7 +610,6 @@ public class CluedoGUI extends JFrame {
                     JOptionPane.showMessageDialog(frame, "You need to roll the dice before you can move", "You have not rolled", JOptionPane.WARNING_MESSAGE);
                 }
             }
-
             @Override
             public void keyReleased(KeyEvent e) {
             }
