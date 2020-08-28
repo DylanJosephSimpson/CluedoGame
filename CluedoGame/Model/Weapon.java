@@ -34,7 +34,6 @@ public class Weapon implements Item {
      */
     private boolean isInvolvedInMurder;
 
-
     /**
      * Model.Room that the weapon is currently in
      */
@@ -67,7 +66,6 @@ public class Weapon implements Item {
     public void erase(Graphics g) {
         //do something with x and y to erase it
     }
-
 
     /**
      * Getter for currentRoom
