@@ -1,7 +1,6 @@
 package View;
 
 import Model.*;
-import View.GameSetup;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -31,6 +30,7 @@ public class MenuSetup {
      * @param title
      */
     public MenuSetup(String title) {
+        Board.setup();
         // Creates a new JFrame with a given title, which is displayed at the top left hand corner of the application.
         MenuWindow = new JFrame(title);
         // Set the MenuWindow to be disposed when exited, this will result in the JFrame closing, if there is any other JFrames still running the program will not stop.
@@ -101,7 +101,7 @@ public class MenuSetup {
     }
 
     public void ChangeScreen(String title){
-        Board.setup();
+
         new GameSetup(title);
         MenuWindow.dispose();
     }
