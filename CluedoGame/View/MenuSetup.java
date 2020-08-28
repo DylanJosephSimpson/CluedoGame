@@ -1,5 +1,9 @@
+package View;
+
+import Model.*;
+import View.GameSetup;
+
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import javax.swing.*;
