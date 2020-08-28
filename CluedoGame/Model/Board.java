@@ -3,9 +3,7 @@ package Model;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 /**
  * The board class is responsible for drawing and keeping track of
@@ -24,6 +22,10 @@ public class Board {
     static ArrayList<Card> deckOfCards = new ArrayList<>();
     static HashSet<Card> envelope = new HashSet<>();
     static HashMap<String, Card> cardHashMap = new HashMap<>();
+
+    private static Card murderer;
+    private static Card murderRoom;
+    private static Card murderWeapon;
 
     public static HashMap<String, Card> getCardHashMap() {
         return cardHashMap;
@@ -118,6 +120,49 @@ public class Board {
 
     public static void setup() {
 
+
+        characterCards.add(new CharacterCard("Miss. Scarlett", ScarlettIcon, ImageLoader.GetImage("Miss. Scarlett")));
+        characterCards.add(new CharacterCard("Col. Mustard", MustardIcon, ImageLoader.GetImage("Col. Mustard")));
+        characterCards.add(new CharacterCard("Mrs. White", WhiteIcon, ImageLoader.GetImage("Mrs. White")));
+        characterCards.add(new CharacterCard("Mr. Green", GreenIcon, ImageLoader.GetImage("Mr. Green")));
+        characterCards.add(new CharacterCard("Mrs. Peacock", PeacockIcon, ImageLoader.GetImage("Mrs. Peacock")));
+        characterCards.add(new CharacterCard("Prof. Plum", PlumIcon, ImageLoader.GetImage("Prof. Plum")));
+
+        // Generate weapon cards
+        weaponCards.add(new WeaponCard("Candlestick", CandlestickIcon, ImageLoader.GetImage("Candlestick")));
+        weaponCards.add(new WeaponCard("Rope", RopeIcon, ImageLoader.GetImage("Rope")));
+        weaponCards.add(new WeaponCard("Revolver", RevolverIcon, ImageLoader.GetImage("Revolver")));
+        weaponCards.add(new WeaponCard("LeadPipe", LeadPipeIcon, ImageLoader.GetImage("LeadPipe")));
+        weaponCards.add(new WeaponCard("Dagger", DaggerIcon, ImageLoader.GetImage("Dagger")));
+        weaponCards.add(new WeaponCard("Spanner", SpannerIcon, ImageLoader.GetImage("Spanner")));
+
+        // Generate room cards
+        roomCards.add(new RoomCard("Library", LibraryIcon, ImageLoader.GetImage("Library")));
+        roomCards.add(new RoomCard("Conservatory", ConservatoryIcon, ImageLoader.GetImage("Conservatory")));
+        roomCards.add(new RoomCard("Kitchen", KitchenIcon, ImageLoader.GetImage("Kitchen")));
+        roomCards.add(new RoomCard("Study", StudyIcon, ImageLoader.GetImage("Study")));
+        roomCards.add(new RoomCard("Hall", HallIcon, ImageLoader.GetImage("Hall")));
+        roomCards.add(new RoomCard("BallRoom", BallRoomIcon, ImageLoader.GetImage("BallRoom")));
+        roomCards.add(new RoomCard("DiningRoom", DiningRoomIcon, ImageLoader.GetImage("DiningRoom")));
+        roomCards.add(new RoomCard("Lounge", LoungeIcon, ImageLoader.GetImage("Lounge")));
+        roomCards.add(new RoomCard("Billiard", BilliardRoomIcon, ImageLoader.GetImage("Billiard")));
+
+        characterArrayList.add(Scarlett);
+        characterArrayList.add(Mustard);
+        characterArrayList.add(White);
+        characterArrayList.add(Green);
+        characterArrayList.add(Peacock);
+        characterArrayList.add(Plum);
+
+        Board.getDeckOfCards().addAll(characterCards);
+        Board.getDeckOfCards().addAll(weaponCards);
+        Board.getDeckOfCards().addAll(roomCards);
+
+        generateMurderer();
+        generateMurderWeapon();
+        generateMurderRoom();
+
+
         //Model.Room names being added to arraylist
         roomNames.add("Kitchen");
         roomNames.add("Ballroom");
@@ -152,7 +197,7 @@ public class Board {
 
         CardPlaceholderIcon = new ImageIcon(ImageLoader.GetImage("Placeholder").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
         // Set the HandCardI label to the CandlestickImage Scaled Image.
-        CandlestickIcon  = new ImageIcon(ImageLoader.GetImage("Candlestick").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
+        CandlestickIcon = new ImageIcon(ImageLoader.GetImage("Candlestick").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
         // Set the HandCardII label to the DaggerImage Scaled Image.
         DaggerIcon = new ImageIcon(ImageLoader.GetImage("Dagger").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
         // Set the HandCardIII label to the LeadPipeImage Scaled Image.
@@ -164,81 +209,81 @@ public class Board {
         // Set the HandCardV label to the SpannerImage Scaled Image.
         SpannerIcon = new ImageIcon(ImageLoader.GetImage("Spanner").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
         // Add the Hand of Cards to the JPanel
-        ScarlettIcon = new ImageIcon(ImageLoader.GetImage("Scarlett").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
+        ScarlettIcon = new ImageIcon(ImageLoader.GetImage("Miss. Scarlett").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
         // Set the HandCardII label to the DaggerImage Scaled Image.
-        MustardIcon = new ImageIcon(ImageLoader.GetImage("Mustard").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
+        MustardIcon = new ImageIcon(ImageLoader.GetImage("Col. Mustard").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
         // Set the HandCardIII label to the LeadPipeImage Scaled Image.
-        GreenIcon = new ImageIcon(ImageLoader.GetImage("White").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
+        GreenIcon = new ImageIcon(ImageLoader.GetImage("Mr. Green").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
         // Set the HandCardIV label to the RevolverImage Scaled Image.
-        WhiteIcon = new ImageIcon(ImageLoader.GetImage("Green").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
+        WhiteIcon = new ImageIcon(ImageLoader.GetImage("Mrs. White").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
         // Set the HandCardV label to the RopeImage Scaled Image.
-        PlumIcon = new ImageIcon(ImageLoader.GetImage("Peacock").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
+        PlumIcon = new ImageIcon(ImageLoader.GetImage("Prof. Plum").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
         // Set the HandCardV label to the SpannerImage Scaled Image.
-        PeacockIcon = new ImageIcon(ImageLoader.GetImage("Plum").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
+        PeacockIcon = new ImageIcon(ImageLoader.GetImage("Mrs. Peacock").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
         // Add the Hand of Cards to the JPanel
         LibraryIcon = new ImageIcon(ImageLoader.GetImage("Library").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
         // Set the HandCardII label to the DaggerImage Scaled Image.
-        BallRoomIcon = new ImageIcon(ImageLoader.GetImage("Study").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
+        BallRoomIcon = new ImageIcon(ImageLoader.GetImage("BallRoom").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
         // Set the HandCardIII label to the LeadPipeImage Scaled Image.
-        KitchenIcon = new ImageIcon(ImageLoader.GetImage("Conservatory").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
+        KitchenIcon = new ImageIcon(ImageLoader.GetImage("Kitchen").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
         // Set the HandCardIV label to the RevolverImage Scaled Image.
-        DiningRoomIcon = new ImageIcon(ImageLoader.GetImage("Hall").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
+        DiningRoomIcon = new ImageIcon(ImageLoader.GetImage("DiningRoom").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
         // Set the HandCardV label to the RopeImage Scaled Image.
         LoungeIcon = new ImageIcon(ImageLoader.GetImage("Lounge").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
         // Set the HandCardV label to the SpannerImage Scaled Image.
-        HallIcon = new ImageIcon(ImageLoader.GetImage("Billiard").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
+        HallIcon = new ImageIcon(ImageLoader.GetImage("Hall").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
         // Add the Hand of Cards to the JPanel
-        StudyIcon = new ImageIcon(ImageLoader.GetImage("Kitchen").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
+        StudyIcon = new ImageIcon(ImageLoader.GetImage("Study").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
         // Set the HandCardII label to the DaggerImage Scaled Image.
-        BilliardRoomIcon = new ImageIcon(ImageLoader.GetImage("BallRoom").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
+        BilliardRoomIcon = new ImageIcon(ImageLoader.GetImage("Billiard").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
         // Set the HandCardIII label to the LeadPipeImage Scaled Image.
-        ConservatoryIcon = new ImageIcon(ImageLoader.GetImage("DiningRoom").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
+        ConservatoryIcon = new ImageIcon(ImageLoader.GetImage("Conservatory").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
 
-        Board.getDeckOfCards().addAll(characterCards);
-        Board.getDeckOfCards().addAll(weaponCards);
-        Board.getDeckOfCards().addAll(roomCards);
-
-        characterCards.add(new CharacterCard("Miss. Scarlett", ScarlettIcon, ImageLoader.GetImage("Scarlett")));
-        characterCards.add(new CharacterCard("Col. Mustard", MustardIcon, ImageLoader.GetImage("Mustard")));
-        characterCards.add(new CharacterCard("Mrs. White", WhiteIcon, ImageLoader.GetImage("White")));
-        characterCards.add(new CharacterCard("Mr. Green", GreenIcon, ImageLoader.GetImage("Green")));
-        characterCards.add(new CharacterCard("Mrs. Peacock", PeacockIcon, ImageLoader.GetImage("Peacock")));
-        characterCards.add(new CharacterCard("Prof. Plum", PlumIcon, ImageLoader.GetImage("Plum")));
-
-        // Generate weapon cards
-        weaponCards.add(new WeaponCard("Candlestick", CandlestickIcon, ImageLoader.GetImage("Candlestick")));
-        weaponCards.add(new WeaponCard("Rope", RopeIcon, ImageLoader.GetImage("Rope")));
-        weaponCards.add(new WeaponCard("Revolver", RevolverIcon, ImageLoader.GetImage("Revolver")));
-        weaponCards.add(new WeaponCard("LeadPipe", LeadPipeIcon, ImageLoader.GetImage("LeadPipe")));
-        weaponCards.add(new WeaponCard("Dagger", DaggerIcon, ImageLoader.GetImage("Dagger")));
-        weaponCards.add(new WeaponCard("Spanner", SpannerIcon, ImageLoader.GetImage("Spanner")));
-
-        // Generate room cards
-        roomCards.add(new RoomCard("Library", LibraryIcon, ImageLoader.GetImage("Library")));
-        roomCards.add(new RoomCard("Conservatory", ConservatoryIcon, ImageLoader.GetImage("Conservatory")));
-        roomCards.add(new RoomCard("Kitchen", KitchenIcon, ImageLoader.GetImage("Kitchen")));
-        roomCards.add(new RoomCard("Study", StudyIcon, ImageLoader.GetImage("Study")));
-        roomCards.add(new RoomCard("Hall", HallIcon, ImageLoader.GetImage("Hall")));
-        roomCards.add(new RoomCard("BallRoom", BallRoomIcon, ImageLoader.GetImage("BallRoom")));
-        roomCards.add(new RoomCard("DiningRoom", DiningRoomIcon, ImageLoader.GetImage("DiningRoom")));
-        roomCards.add(new RoomCard("Lounge", LoungeIcon, ImageLoader.GetImage("Lounge")));
-        roomCards.add(new RoomCard("Billiard Model.Room", BilliardRoomIcon, ImageLoader.GetImage("Billiard")));
-
-        characterArrayList.add(Scarlett);
-        characterArrayList.add(Mustard);
-        characterArrayList.add(White);
-        characterArrayList.add(Green);
-        characterArrayList.add(Peacock);
-        characterArrayList.add(Plum);
 
         for (Card card : deckOfCards) {
             cardHashMap.put(card.toString(), card);
         }
 
+
     }
 
-    public static ImageIcon GetIcon(String imageToGrab){
-        switch (imageToGrab){
+    private static void generateMurderer() {
+        int index = new Random().nextInt(Board.getCharacterCards().size());
+        murderer = Board.getCharacterCards().get(index);
+        Board.getEnvelope().add(murderer);
+        Board.getDeckOfCards().remove(murderer);
+    }
+
+    private static void generateMurderWeapon() {
+        int index = new Random().nextInt(Board.getWeaponCards().size());
+        murderWeapon = Board.getWeaponCards().get(index);
+        Board.getEnvelope().add(murderWeapon);
+        Board.getDeckOfCards().remove(murderWeapon);
+//        System.out.println(murderWeapon.toString()+"----");
+    }
+
+    private static void generateMurderRoom() {
+        int index = new Random().nextInt(Board.getRoomCards().size());
+        murderRoom = Board.getRoomCards().get(index);
+        Board.getEnvelope().add(murderRoom);
+        Board.getDeckOfCards().remove(murderRoom);
+//        System.out.println(murderRoom.toString()+"----");
+    }
+
+    public static void dealCards() {
+        ArrayList<Card> dealableCards = Board.getDeckOfCards();
+        Collections.shuffle(dealableCards);
+        dealableCards.remove(murderRoom);
+        dealableCards.remove(murderWeapon);
+        dealableCards.remove(murderer);
+        for (int i = 0; i < Board.getDeckOfCards().size(); i++) {
+
+            Player.playerList.get(i % Player.playerList.size()).addHand(dealableCards.get(i));
+        }
+    }
+
+    public static ImageIcon GetIcon(String imageToGrab) {
+        switch (imageToGrab) {
             case "Candlestick":
                 return CandlestickIcon;
             case "Dagger":
@@ -251,17 +296,17 @@ public class Board {
                 return RopeIcon;
             case "Spanner":
                 return SpannerIcon;
-            case "Scarlett":
+            case "Miss. Scarlett":
                 return ScarlettIcon;
-            case "Mustard":
+            case "Col. Mustard":
                 return MustardIcon;
-            case "White":
+            case "Mrs. White":
                 return WhiteIcon;
-            case "Green":
+            case "Mr. Green":
                 return GreenIcon;
-            case "Peacock":
+            case "Mrs. Peacock":
                 return PeacockIcon;
-            case "Plum":
+            case "Prof. Plum":
                 return PlumIcon;
             case "Library":
                 return LibraryIcon;
