@@ -3,7 +3,6 @@ package Model;
 import Model.Character;
 
 public class Suggestion {
-
     /**
      * Suggested character
      */
@@ -81,6 +80,6 @@ public class Suggestion {
 
     @Override
     public String toString() {
-        return "Model.Suggestion: " + character.toString() + ", " + weapon.toString() + ", " + room.toString();
+        return "Suggestion: " + character.toString() + ", " + weapon.toString() + ", " + room.toString();
     }
 }
