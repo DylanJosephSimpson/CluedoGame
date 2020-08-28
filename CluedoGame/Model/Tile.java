@@ -1,7 +1,5 @@
 package Model;
 
-import View.CluedoGUI;
-
 import java.awt.*;
 
 /**
