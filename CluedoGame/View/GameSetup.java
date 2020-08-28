@@ -225,7 +225,6 @@ public class GameSetup {
     public void StartGame(){
         GameSetupWindow.dispose();
         Board b = new Board();
-
         new CluedoGUI("Cluedo Game",b);
     }
 }
