@@ -25,6 +25,7 @@ public class Player {
     }
 
     public static void addPlayerList(Player player) {
+        System.out.println(player.toString() + "NEW PLAYER");
         playerList.add(player);
     }
 
@@ -349,10 +350,12 @@ public class Player {
     }
 
     public void addHand(Card card) {
+        System.out.println(hand);
         this.hand.add(card);
     }
 
     public ArrayList<Card> getHand() {
+        System.out.println(hand.size());
         return hand;
     }
 
