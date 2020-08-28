@@ -9,12 +9,12 @@ import java.util.ArrayList;
 
 public class ImageLoader {
 
-    private static final String CandlestickPath = "WeaponIcon/Candlestick.png";
-    private static final String DaggerPath = "WeaponIcon/Dagger.png";
-    private static final String LeadPipePath = "WeaponIcon/LeadPipe.png";
-    private static final String RevolverPath = "WeaponIcon/Revolver.png";
-    private static final String RopePath = "WeaponIcon/Rope.png";
-    private static final String SpannerPath = "WeaponIcon/Spanner.png";
+    private static final String CandlestickPath = "Cards/Candlestick.png";
+    private static final String DaggerPath = "Cards/Dagger.png";
+    private static final String LeadPipePath = "Cards/LeadPipe.png";
+    private static final String RevolverPath = "Cards/Revolver.png";
+    private static final String RopePath = "Cards/Rope.png";
+    private static final String SpannerPath = "Cards/Spanner.png";
     private static final String ScarlettPath = "Cards/Scarlett.png";
     private static final String MustardPath = "Cards/Mustard.png";
     private static final String WhitePath = "Cards/White.png";
