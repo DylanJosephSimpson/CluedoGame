@@ -1,3 +1,7 @@
+package Model;
+
+import View.CluedoGUI;
+
 import java.awt.*;
 
 /**
@@ -7,11 +11,13 @@ import java.awt.*;
  */
 public class Tile implements Item {
 
+
+
     private String tileType;
     int x;
     int y;
 
-    Tile(String tileType, int x, int y) {
+    public Tile(String tileType, int x, int y) {
         this.tileType = tileType;
         this.x = x;
         this.y = y;
