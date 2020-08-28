@@ -1,4 +1,5 @@
-import java.lang.reflect.Array;
+package Model;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -8,10 +9,22 @@ import java.util.HashSet;
  * the components that make up the board.
  */
 public class Board {
+
+    public static ArrayList<Card> getDeckOfCards() {
+        return deckOfCards;
+    }
+
+    public static HashSet<Card> getEnvelope() {
+        return envelope;
+    }
+
     static ArrayList<Card> deckOfCards = new ArrayList<>();
     static HashSet<Card> envelope = new HashSet<>();
     static HashMap<String, Card> cardHashMap = new HashMap<>();
 
+    public static HashMap<String, Card> getCardHashMap() {
+        return cardHashMap;
+    }
 
     public static ArrayList<Character> getCharacterArrayList() {
         return characterArrayList;
