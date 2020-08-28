@@ -115,11 +115,11 @@ public class CluedoGUI extends JFrame {
         tileTypeToNameMap.put("k", "Kitchen");
         tileTypeToNameMap.put("b", "Ballroom");
         tileTypeToNameMap.put("c", "Conservatory");
-        tileTypeToNameMap.put("d", "Dining Model.Room");
+        tileTypeToNameMap.put("d", "Dining Room");
         tileTypeToNameMap.put("l", "Lounge");
         tileTypeToNameMap.put("h", "Hall");
         tileTypeToNameMap.put("s", "Study");
-        tileTypeToNameMap.put("i", "Billiard Model.Room");
+        tileTypeToNameMap.put("i", "Billiard Room");
         tileTypeToNameMap.put("y", "Library");
         tileTypeToNameMap.put("-", "Wall");
         tileTypeToNameMap.put("@", "Door");
@@ -137,7 +137,7 @@ public class CluedoGUI extends JFrame {
     }
 
     /**
-     * Adds the room tiles to their respective rooms. Also adds the room's doorways to the Model.Room objects
+     * Adds the room tiles to their respective rooms. Also adds the room's doorways to the Room objects
      */
     private void setupRooms() {
         for (int row = 0; row < b.getBoardLayoutArray().length; row++) {
@@ -149,7 +149,7 @@ public class CluedoGUI extends JFrame {
                         r.addRoomTile(new Tile("n/a", col * 30, row * 30));
                     }
                 }
-                //Add the doorway tiles to the Model.Room
+                //Add the doorway tiles to the Room
                 if (tileKey.equals("@")) {
                     Player.findRoom(col, row).addDoorWay(new Tile("n/a", col * 30, row * 30));
                 }
