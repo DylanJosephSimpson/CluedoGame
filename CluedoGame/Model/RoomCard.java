@@ -10,7 +10,7 @@ public class RoomCard extends Card
     private String roomName;
 
 
-    public RoomCard(String aRoomName, JLabel cardIcon, Image cardImage)
+    public RoomCard(String aRoomName, ImageIcon cardIcon, Image cardImage)
     {
         roomName = aRoomName;
         super.cardIcon = cardIcon;
