@@ -245,7 +245,7 @@ public class Player {
     public void move(String dir){
         //First, let the player make a suggestion if they have just been transported into a room
         if (assignedCharacter.isTransportedIntoRoom()) {
-            new SuggestionWindow("You have entered a room, make a suggestion?", assignedCharacter.getCurrentRoom());
+            new SuggestionWindow(assignedCharacter + ", you have entered a room, make a suggestion?", assignedCharacter.getCurrentRoom());
 
             //reset this
             assignedCharacter.setTransportedIntoRoom(false);
@@ -334,7 +334,7 @@ public class Player {
                 assignedCharacter.setCurrentRoom(enteredRoom);
 
                 //player has entered a room. Give the player an option to make a suggestion.
-                new SuggestionWindow("You have entered a room, make a suggestion?", enteredRoom);
+                new SuggestionWindow(assignedCharacter + ", you have entered a room, make a suggestion?", enteredRoom);
 
                 //they should stop moving after entering a room
                 this.setRemainingMoves(0);
