@@ -1,6 +1,6 @@
+package Main;
 
-import java.awt.*;
-import javax.swing.*;
+import View.MenuSetup;
 
 public class CluedoMain {
     public static void main(String[] args){
