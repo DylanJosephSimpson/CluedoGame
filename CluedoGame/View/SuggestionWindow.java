@@ -49,6 +49,7 @@ public class SuggestionWindow extends JDialog {
         this.add(container);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+        this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
 
@@ -114,7 +115,7 @@ public class SuggestionWindow extends JDialog {
                 dispose(); //close the window
             }
         });
-        JButton nextButton = new JButton("Submit Model.Suggestion");
+        JButton nextButton = new JButton("Submit Suggestion");
         nextButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -151,7 +152,13 @@ public class SuggestionWindow extends JDialog {
         resultsPanel.setLayout(new BoxLayout(resultsPanel, BoxLayout.Y_AXIS));
         List<JLabel> results = new ArrayList<>();
 
-        Character currentPlayer = enteredRoom.getCharactersInRoom().get(enteredRoom.getCharactersInRoom().size() - 2);
+        Character currentPlayer;
+        if (enteredRoom.getCharactersInRoom().size() == 1){
+            currentPlayer = enteredRoom.getCharactersInRoom().get(enteredRoom.getCharactersInRoom().size() - 1);
+        }
+        else {
+            currentPlayer = enteredRoom.getCharactersInRoom().get(enteredRoom.getCharactersInRoom().size() - 2);
+        }
         for (Player player : Player.playerList) {
             List<Card> cardMatches = new ArrayList<>(); //list of cards that match the suggestion that was made
             //cycle through all players except for the player that made the suggestion
@@ -179,9 +186,9 @@ public class SuggestionWindow extends JDialog {
                         cardsToPick[i] = cardMatches.get(i).toString();
                     }
                     Object selected = JOptionPane.showInputDialog(null,
-                            "If you are not " + player.getAssignedCharacter() + " please look away! " + player.getAssignedCharacter() + " choose one of these cards to show to the suggestee:",
+                            "If you are not " + player.getName() + " please look away! " + player.getName() + " choose one of these cards to show to the suggestee:",
                             "Select a card",
-                            JOptionPane.DEFAULT_OPTION,
+                            JOptionPane.PLAIN_MESSAGE,
                             null,
                             cardsToPick,
                             "0");
