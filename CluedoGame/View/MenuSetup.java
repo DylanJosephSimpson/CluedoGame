@@ -54,7 +54,6 @@ public class MenuSetup {
 
     public void containerSetup(JFrame ParentFrame){
         MenuContainer = ParentFrame.getContentPane();
-
         MenuContainer.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
@@ -91,17 +90,13 @@ public class MenuSetup {
         StartButton.setBorderPainted(true);
         StartButton.setContentAreaFilled(false);
         StartButton.setForeground(new Color(240, 128, 8));
-
         StartButton.setFont(new Font("Times New Roman", Font.PLAIN, (ParentFrame.getSize().width - ParentFrame.getSize().height) / 4));
         StartButton.setBounds(MenuWindow.getSize().width / 4, ParentFrame.getSize().height / 2, ParentFrame.getSize().width / 2, ParentFrame.getSize().height / 8);
-
         StartButton.addActionListener(e-> ChangeScreen("Options") );
-
         return StartButton;
     }
 
     public void ChangeScreen(String title){
-
         new GameSetup(title);
         MenuWindow.dispose();
     }
