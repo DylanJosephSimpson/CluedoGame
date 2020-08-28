@@ -20,8 +20,7 @@ public class CharacterCard extends Card {
     /**Constructor for a single Model.CharacterCard
      * @param aCharacterName - the name of the card. For CharacterCards this is the character names.
      */
-    public CharacterCard(String aCharacterName, JLabel cardIcon, Image cardImage) {
-
+    public CharacterCard(String aCharacterName, ImageIcon cardIcon, Image cardImage) {
         characterName = aCharacterName;
         super.cardIcon = cardIcon;
         super.cardImage = cardImage;
