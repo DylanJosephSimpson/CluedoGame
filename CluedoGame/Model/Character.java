@@ -1,158 +1,50 @@
 package Model;
 
-import javax.imageio.ImageIO;
+import Model.Card;
+
+import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 /**
- * The character class is responsible for keeping track
- * of the player's character as it traverses the board.
+ * Class which is necessary for interactions. Describes the character *in question.
+ * Model.CharacterCard subclass:
+ *
+ * The Model.CharacterCard subclass is a class which extends the Model.Card Superclass. CharacterCards are used to carry out
+ * interaction between players during the suggestions faze of the game.
  */
-public class Character implements Item {
 
-    /**
-     * Name of the character
-     */
+public class CharacterCard extends Card {
+
     private String characterName;
 
-    /**
-     * x-coordinate of where to draw on the board
+    /**Constructor for a single Model.CharacterCard
+     * @param aCharacterName - the name of the card. For CharacterCards this is the character names.
      */
-    private int x;
-
+    public CharacterCard(String aCharacterName, ImageIcon cardIcon, Image cardImage) {
+        characterName = aCharacterName;
+        super.cardIcon = cardIcon;
+        super.cardImage = cardImage;
+    }
     /**
-     * y-coordinate of where to draw on the board
-     */
-    private int y;
-
-    /**
-     * Was the murder committed by this character? (false by default)
-     */
-    private boolean isInvolvedInMurder;
-
-    /**
-     * Model.Room that the player is currently in. By default it is null as it does not spawn in one.
-     */
-    private Room currentRoom = null;
-
-    /**
-     * Checks if the player was previously transported into a room before prior to their turn
-     */
-    private boolean transportedIntoRoom;
-
-    /**
-     * Constructor for character
+     * getCharacterName method :
      *
-     * @param characterName Name of the weapon
+     * getter method used to get the name of the characterCard
+     *
+     * @return - The name of the characterCard as a String
      */
-    public Character(String characterName , int x, int y) {
-        this.characterName = characterName;
-        this.x = x ;
-        this.y = y;
-    } //todo add prams for starting pos
-
-    @Override
-    public void draw(Graphics g, int x, int y) {
-
-        Graphics2D g2d = (Graphics2D) g;
-        this.x = x;
-        this.y = y;
-
-        String path = "CharacterPieces/" + characterName + ".png";
-        try {
-            BufferedImage image = ImageIO.read(new File(path));
-            Image scaledImage = image.getScaledInstance(28, 28, Image.SCALE_SMOOTH);
-            g2d.drawImage(scaledImage,x+1,y+1,null);
-        } catch (IOException e) {
-            System.out.println("Error: Image drawing for " + characterName + " failed.");
-        }
-    }
-
-    @Override
-    public void erase(Graphics g) {
-        g.setColor(Color.WHITE);
-        g.fillRect(x+1,y+1,28,28);
-        //todo - Caleb - erase this properly
-    }
-
-
-    /**
-     * Getter for currentRoom
-     * @return
-     */
-    public Room getCurrentRoom() {
-        return currentRoom;
-    }
-
-    /**
-     * Setter for currentRoom
-     * @param currentRoom
-     */
-    public void setCurrentRoom(Room currentRoom) {
-        this.currentRoom = currentRoom;
-    }
-
-    public boolean isInvolvedInMurder() {
-        return isInvolvedInMurder;
-    }
-
-    public void setInvolvedInMurder(boolean involvedInMurder) {
-        isInvolvedInMurder = involvedInMurder;
-    }
-
-    public boolean isTransportedIntoRoom() {
-        return transportedIntoRoom;
-    }
-
-    /**
-     * This is used after a suggestion transports them into a room
-     * @param transportedIntoRoom transported into a room prior to this player's turn?
-     */
-    public void setTransportedIntoRoom(boolean transportedIntoRoom) {
-        this.transportedIntoRoom = transportedIntoRoom;
-    }
-
-
-    @Override
-    public String toString() {
+    String getCharacterName() {
         return characterName;
     }
 
     /**
-     * Getter for x position
+     * toString method:
      *
-     * @return
+     * basic toString method for a Model.CharacterCard
+     *
+     * @return - returns the name of the character as a String
      */
-    public int getX() {
-        return x;
-    }
 
-    /**
-     * Getter for y position
-     *
-     * @return
-     */
-    public int getY() {
-        return y;
-    }
-
-    /**
-     * Setter for x position
-     *
-     * @param x
-     */
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    /**
-     * Setter for y position
-     *
-     * @param y
-     */
-    public void setY(int y) {
-        this.y = y;
+    public String toString() {
+        return characterName;
     }
 }
