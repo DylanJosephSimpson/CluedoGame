@@ -23,8 +23,6 @@ public class RoomCard extends Card
         return roomName;
     }
 
-
-
     public String toString()
     {
         return roomName;
