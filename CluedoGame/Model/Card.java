@@ -13,7 +13,7 @@ import java.awt.*;
  */
 
 public class Card {
-    protected JLabel cardIcon;
+    protected ImageIcon cardIcon;
     protected Image cardImage;
     /**
      * ToString Method:
@@ -27,7 +27,7 @@ public class Card {
         return super.toString();
     }
 
-    public JLabel getCardIcon() {
+    public ImageIcon getCardIcon() {
         return cardIcon;
     }
     public Image getCardImage() {
