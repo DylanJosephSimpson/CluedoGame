@@ -1,3 +1,7 @@
+package Model;
+
+import Model.Character;
+
 public class Suggestion {
 
     /**
@@ -16,7 +20,7 @@ public class Suggestion {
     private Room room;
 
     /**
-     * Suggestion constructor
+     * Model.Suggestion constructor
      * @param character
      * @param weapon
      * @param room
@@ -77,6 +81,6 @@ public class Suggestion {
 
     @Override
     public String toString() {
-        return "Suggestion: " + character.toString() + ", " + weapon.toString() + ", " + room.toString();
+        return "Model.Suggestion: " + character.toString() + ", " + weapon.toString() + ", " + room.toString();
     }
 }
