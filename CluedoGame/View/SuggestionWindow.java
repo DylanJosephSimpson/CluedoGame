@@ -5,7 +5,6 @@ import Model.Board;
 import Model.Card;
 import Model.Character;
 import Model.Suggestion;
-import View.CluedoGUI;
 
 import javax.swing.*;
 import java.awt.*;
