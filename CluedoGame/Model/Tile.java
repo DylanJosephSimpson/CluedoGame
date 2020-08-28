@@ -1,5 +1,7 @@
 package Model;
 
+import View.CluedoGUI;
+
 import java.awt.*;
 
 /**
@@ -53,6 +55,7 @@ public class Tile implements Item {
         }
 
     }
+
 
     @Override
     public void erase(Graphics g) {
