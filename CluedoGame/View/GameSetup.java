@@ -50,7 +50,7 @@ public class GameSetup {
 
         gameInputArea.setLayout(GameInputAreaLayout);
 
-        JButton addPlayer = new JButton("Add Model.Player");
+        JButton addPlayer = new JButton("Add Player");
 
         addPlayer.addActionListener(e -> RunAddCharacter() );
 
@@ -169,11 +169,11 @@ public class GameSetup {
             }
             characterInformation.setText("Current Players : " + Player.customToStringForPlayerList());
             characterGroup.clearSelection(); //Clears all selected players to avoid error where you can add Professor Plum
-                                            //indefinitely which would balloon the list to over 6 players
+            //indefinitely which would balloon the list to over 6 players
 
         }
         for(Player player : Player.getPlayerList()) {
-           System.out.println(player);
+            System.out.println(player);
         }
         System.out.println("\n\n");
     }
