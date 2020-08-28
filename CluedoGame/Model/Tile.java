@@ -27,7 +27,7 @@ public class Tile implements Item {
         Graphics2D g2 = (Graphics2D) g;
 
         //Setting Roomtiles to pink
-        if (Board.getAllRooms().contains(tileType)) {
+        if (Board.getRoomNames().contains(tileType)) {
             g2.setColor(new Color(255,192,203));
 
         }
@@ -48,7 +48,7 @@ public class Tile implements Item {
         g2.fillRect(x, y, TILE_SIZE, TILE_SIZE);
 
         //Draw a black border around the rect unless it is a room tile
-        if (!Board.getAllRooms().contains(tileType)) {
+        if (!Board.getRoomNames().contains(tileType)) {
             ((Graphics2D) g).setStroke(new BasicStroke(2));
             g2.setColor(Color.BLACK);
             g2.drawRect(x, y, TILE_SIZE, TILE_SIZE);
