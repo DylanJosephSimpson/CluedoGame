@@ -1,3 +1,12 @@
+package View;
+
+import Model.*;
+import Model.Board;
+import Model.Card;
+import Model.Character;
+import Model.Suggestion;
+import View.CluedoGUI;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -20,14 +29,14 @@ public class SuggestionWindow extends JDialog {
     private JPanel container = new JPanel();
 
     // Game fields
-    private Suggestion createdSuggestion; //= new Suggestion(new Character("dummy", 0, 0), new Weapon("dummy"), new Room("dummy"));
+    private Suggestion createdSuggestion; //= new Model.Suggestion(new Model.Character("dummy", 0, 0), new Model.Weapon("dummy"), new Model.Room("dummy"));
     private Character suggestedCharacter;
     private Weapon suggestedWeapon;
     private Room enteredRoom;
 
     /**
      * @param title Title of the window
-     * @param enteredRoom Room the suggestion was being made in
+     * @param enteredRoom Model.Room the suggestion was being made in
      */
     public SuggestionWindow(String title, Room enteredRoom){
         this.enteredRoom = enteredRoom;
@@ -49,7 +58,7 @@ public class SuggestionWindow extends JDialog {
      */
     public void addFirstPanel(JPanel container){
         //Default values
-        suggestedCharacter = Board.characterArrayList.get(0); // Default is Miss Scarlett
+        suggestedCharacter = Board.getCharacterArrayList().get(0); // Default is Miss Scarlett
         suggestedWeapon = CluedoGUI.allWeapons.get(0); // Default is Candlestick
 
 
@@ -64,7 +73,7 @@ public class SuggestionWindow extends JDialog {
         suspectsComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                for (Character c : Board.characterArrayList){
+                for (Character c : Board.getCharacterArrayList()){
                     if (c.toString().equals(suspectsComboBox.getSelectedItem())){
                         suggestedCharacter = c;
                     }
@@ -106,7 +115,7 @@ public class SuggestionWindow extends JDialog {
                 dispose(); //close the window
             }
         });
-        JButton nextButton = new JButton("Submit Suggestion");
+        JButton nextButton = new JButton("Submit Model.Suggestion");
         nextButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
