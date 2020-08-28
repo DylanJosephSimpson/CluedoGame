@@ -1,10 +1,12 @@
+package Model;
+
 import javax.swing.*;
 import java.awt.*;
 
 /**
  * todo look into drawing the cards using a super method
- * Superclass for all Card Classes. Cards are used for interactions *between players.
- * Card Superclass:
+ * Superclass for all Model.Card Classes. Cards are used for interactions *between players.
+ * Model.Card Superclass:
  * <p>
  * The card Superclass is a class extended by all xCard classes. Cards are used to carry out
  * interaction between players during the suggestions faze of the game.
