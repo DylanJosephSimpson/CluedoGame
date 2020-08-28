@@ -1,3 +1,5 @@
+package Model;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -31,7 +33,7 @@ public class Character implements Item {
     private boolean isInvolvedInMurder;
 
     /**
-     * Room that the player is currently in. By default it is null as it does not spawn in one.
+     * Model.Room that the player is currently in. By default it is null as it does not spawn in one.
      */
     private Room currentRoom = null;
 
