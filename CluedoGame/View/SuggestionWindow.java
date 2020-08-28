@@ -5,6 +5,7 @@ import Model.Board;
 import Model.Card;
 import Model.Character;
 import Model.Suggestion;
+import View.CluedoGUI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -163,7 +164,6 @@ public class SuggestionWindow extends JDialog {
                         cardMatches.add(card);
                     }
                 }
-
                 //Now add all the results to the main pile
                 if (cardMatches.size() == 0) {
                     results.add(new JLabel(player.getAssignedCharacter() + " has 0 cards that match your suggestion"));
