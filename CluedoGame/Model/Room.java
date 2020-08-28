@@ -1,3 +1,5 @@
+package Model;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -51,7 +53,7 @@ public class Room {
     //TODO: PRAVEEN make sure when a character/player enters or leaves a room to use the addCharacterToRoom/removeCharacterFromRoom methods
 
     /**
-     *  --- Suggestion Method ---
+     *  --- Model.Suggestion Method ---
      * Add a weapon to this room (if it is not already in it) when a suggestion is made.
      * @param weapon
      */
@@ -60,7 +62,7 @@ public class Room {
     }
 
     /**
-     * --- Suggestion Method ---
+     * --- Model.Suggestion Method ---
      * Remove the weapon from this room when the weapon has to be moved into a different room
      * @param weapon
      */
@@ -69,7 +71,7 @@ public class Room {
     }
 
     /**
-     *  --- Suggestion Method ---
+     *  --- Model.Suggestion Method ---
      * Add a character to this room (if it is not already in it) when a suggestion is made
      * Also remove the character from its previous room.
      * @param character
@@ -79,7 +81,7 @@ public class Room {
     }
 
     /**
-     * --- Suggestion Method ---
+     * --- Model.Suggestion Method ---
      * Remove the weapon from this room when the weapon has to be moved into a different room
      * @param character
      */
