@@ -1,7 +1,6 @@
 package View;
 
 import Model.*;
-import View.CluedoGUI;
 
 import javax.swing.*;
 import java.awt.*;
