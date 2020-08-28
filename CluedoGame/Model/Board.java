@@ -151,10 +151,10 @@ public class Board {
         roomCards.add(new RoomCard("Kitchen", KitchenIcon, ImageLoader.GetImage("Kitchen")));
         roomCards.add(new RoomCard("Study", StudyIcon, ImageLoader.GetImage("Study")));
         roomCards.add(new RoomCard("Hall", HallIcon, ImageLoader.GetImage("Hall")));
-        roomCards.add(new RoomCard("BallRoom", BallRoomIcon, ImageLoader.GetImage("BallRoom")));
-        roomCards.add(new RoomCard("DiningRoom", DiningRoomIcon, ImageLoader.GetImage("DiningRoom")));
+        roomCards.add(new RoomCard("Ballroom", BallRoomIcon, ImageLoader.GetImage("BallRoom")));
+        roomCards.add(new RoomCard("Dining Room", DiningRoomIcon, ImageLoader.GetImage("DiningRoom")));
         roomCards.add(new RoomCard("Lounge", LoungeIcon, ImageLoader.GetImage("Lounge")));
-        roomCards.add(new RoomCard("Billiard", BilliardRoomIcon, ImageLoader.GetImage("Billiard")));
+        roomCards.add(new RoomCard("Billiard Room", BilliardRoomIcon, ImageLoader.GetImage("Billiard")));
         System.out.println("AMERICAN BABY");
         characterArrayList.add(Scarlett);
         characterArrayList.add(Mustard);
@@ -175,11 +175,11 @@ public class Board {
         roomNames.add("Kitchen");
         roomNames.add("Ballroom");
         roomNames.add("Conservatory");
-        roomNames.add("Dining Model.Room");
+        roomNames.add("Dining Room");
         roomNames.add("Lounge");
         roomNames.add("Hall");
         roomNames.add("Study");
-        roomNames.add("Billiard Model.Room");
+        roomNames.add("Billiard Room");
         roomNames.add("Library");
         roomNames.add("Cellar");
 
@@ -193,11 +193,11 @@ public class Board {
         allRooms.add(new Room("Kitchen"));
         allRooms.add(new Room("Ballroom"));
         allRooms.add(new Room("Conservatory"));
-        allRooms.add(new Room("Dining Model.Room"));
+        allRooms.add(new Room("Dining Room"));
         allRooms.add(new Room("Lounge"));
         allRooms.add(new Room("Hall"));
         allRooms.add(new Room("Study"));
-        allRooms.add(new Room("Billiard Model.Room"));
+        allRooms.add(new Room("Billiard Room"));
         allRooms.add(new Room("Library"));
         allRooms.add(new Room("Cellar"));
 

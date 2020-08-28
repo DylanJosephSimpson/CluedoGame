@@ -234,7 +234,7 @@ public class Player {
                 }
             }
         }
-        throw new RuntimeException("findRoom: Model.Room tile was not found");
+        throw new RuntimeException("findRoom: Room tile was not found");
     }
 
     /**
@@ -400,6 +400,6 @@ public class Player {
 
     @Override
     public String toString() {
-        return "Model.Player: " + name + " Model.Character: " + assignedCharacter.toString();
+        return "Player: " + name + " Character: " + assignedCharacter.toString();
     }
 }
