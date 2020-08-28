@@ -42,14 +42,8 @@ public class AccusationSetup {
             //Making an accusation using the selected Cards from the window
             player.makeAccusation( Board.getCardHashMap().get(CharacterSelection.getSelectedItem().toString())
                     ,Board.getCardHashMap().get(WeaponSelection.getSelectedItem().toString()), Board.getCardHashMap().get(RoomSelection.getSelectedItem().toString()));
-
-
-            
             System.out.println(WeaponSelection.getSelectedItem() + "\n" + CharacterSelection.getSelectedItem() + "\n"
             + RoomSelection.getSelectedItem() + "\n");
         }
     }
-
-
-
 }
