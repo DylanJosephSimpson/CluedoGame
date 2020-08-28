@@ -160,81 +160,81 @@ public class Player {
 
         return matcher.find();
     }
-    
-     /**
+
+    /**
      * Locates a room if a room tile is present surrounding it. This should only be used for an @ tile.
      * @param x x-coordinate of the tile (from the board array)
      * @param y y-coordinate of the tile (from the board array)
      * @return
      */
     public static Room findRoom(int x, int y){
-       String topLeftDiagonalTile =  Board.getOriginalBoardLayoutArray()[y-1][x-1];
-       String topMiddleTile = Board.getOriginalBoardLayoutArray()[y-1][x];
-       String topRightDiagonalTile = Board.getOriginalBoardLayoutArray()[y-1][x+1];
-       String midLeftTile = Board.getOriginalBoardLayoutArray()[y][x-1];
-       String midRightTile = Board.getOriginalBoardLayoutArray()[y][x+1];
-       String botLeftDiagonalTile = Board.getOriginalBoardLayoutArray()[y+1][x-1];
-       String botMiddleTile = Board.getOriginalBoardLayoutArray()[y+1][x];
-       String botRightDiagonalTile = Board.getOriginalBoardLayoutArray()[y+1][x+1];
+        String topLeftDiagonalTile =  Board.getOriginalBoardLayoutArray()[y-1][x-1];
+        String topMiddleTile = Board.getOriginalBoardLayoutArray()[y-1][x];
+        String topRightDiagonalTile = Board.getOriginalBoardLayoutArray()[y-1][x+1];
+        String midLeftTile = Board.getOriginalBoardLayoutArray()[y][x-1];
+        String midRightTile = Board.getOriginalBoardLayoutArray()[y][x+1];
+        String botLeftDiagonalTile = Board.getOriginalBoardLayoutArray()[y+1][x-1];
+        String botMiddleTile = Board.getOriginalBoardLayoutArray()[y+1][x];
+        String botRightDiagonalTile = Board.getOriginalBoardLayoutArray()[y+1][x+1];
 
-       Pattern pattern = Pattern.compile("[kbcdlhsiy]"); //room symbols
-       if (topLeftDiagonalTile.matches(String.valueOf(pattern))){
-           for (Room r : Board.getAllRooms()){
-               if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(topLeftDiagonalTile))){
-                   return r;
-               }
-           }
+        Pattern pattern = Pattern.compile("[kbcdlhsiy]"); //room symbols
+        if (topLeftDiagonalTile.matches(String.valueOf(pattern))){
+            for (Room r : Board.getAllRooms()){
+                if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(topLeftDiagonalTile))){
+                    return r;
+                }
+            }
         }
-       else if (topMiddleTile.matches(String.valueOf(pattern))){
-           for (Room r : Board.getAllRooms()){
-               if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(topMiddleTile))){
-                   return r;
-               }
-           }
-       }
-       else if (topRightDiagonalTile.matches(String.valueOf(pattern))){
-           for (Room r : Board.getAllRooms()){
-               if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(topRightDiagonalTile))){
-                   return r;
-               }
-           }
-       }
-       else if (midLeftTile.matches(String.valueOf(pattern))){
-           for (Room r : Board.getAllRooms()){
-               if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(midLeftTile))){
-                   return r;
-               }
-           }
-       }
-       else if (midRightTile.matches(String.valueOf(pattern))){
-           for (Room r : Board.getAllRooms()){
-               if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(midRightTile))){
-                   return r;
-               }
-           }
-       }
-       else if (botLeftDiagonalTile.matches(String.valueOf(pattern))){
-           for (Room r : Board.getAllRooms()){
-               if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(botLeftDiagonalTile))){
-                   return r;
-               }
-           }
-       }
-       else if (botMiddleTile.matches(String.valueOf(pattern))){
-           for (Room r : Board.getAllRooms()){
-               if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(botMiddleTile))){
-                   return r;
-               }
-           }
-       }
-       else if (botRightDiagonalTile.matches(String.valueOf(pattern))){
-           for (Room r : Board.getAllRooms()){
-               if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(botRightDiagonalTile))){
-                   return r;
-               }
-           }
-       }
-       throw new RuntimeException("findRoom: Model.Room tile was not found");
+        else if (topMiddleTile.matches(String.valueOf(pattern))){
+            for (Room r : Board.getAllRooms()){
+                if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(topMiddleTile))){
+                    return r;
+                }
+            }
+        }
+        else if (topRightDiagonalTile.matches(String.valueOf(pattern))){
+            for (Room r : Board.getAllRooms()){
+                if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(topRightDiagonalTile))){
+                    return r;
+                }
+            }
+        }
+        else if (midLeftTile.matches(String.valueOf(pattern))){
+            for (Room r : Board.getAllRooms()){
+                if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(midLeftTile))){
+                    return r;
+                }
+            }
+        }
+        else if (midRightTile.matches(String.valueOf(pattern))){
+            for (Room r : Board.getAllRooms()){
+                if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(midRightTile))){
+                    return r;
+                }
+            }
+        }
+        else if (botLeftDiagonalTile.matches(String.valueOf(pattern))){
+            for (Room r : Board.getAllRooms()){
+                if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(botLeftDiagonalTile))){
+                    return r;
+                }
+            }
+        }
+        else if (botMiddleTile.matches(String.valueOf(pattern))){
+            for (Room r : Board.getAllRooms()){
+                if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(botMiddleTile))){
+                    return r;
+                }
+            }
+        }
+        else if (botRightDiagonalTile.matches(String.valueOf(pattern))){
+            for (Room r : Board.getAllRooms()){
+                if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(botRightDiagonalTile))){
+                    return r;
+                }
+            }
+        }
+        throw new RuntimeException("findRoom: Model.Room tile was not found");
     }
 
     /**
@@ -327,14 +327,11 @@ public class Player {
                 int xTile = this.assignedCharacter.getX() / 30;
                 int yTile = this.assignedCharacter.getY() / 30;
 
-
                 //find the room the player is stepping into
                 //add the character to the room and set the character's current room to be the room being entered
                 Room enteredRoom = findRoom(xTile, yTile);
                 enteredRoom.addCharacterToRoom(assignedCharacter);
                 assignedCharacter.setCurrentRoom(enteredRoom);
-
-
 
                 //player has entered a room. Give the player an option to make a suggestion.
                 new SuggestionWindow("You have entered a room, make a suggestion?", enteredRoom);
@@ -347,6 +344,31 @@ public class Player {
             justExitedRoom = false;
         }
 
+    }
+
+    public static boolean validMove(Tile tileInFrontOfPlayer) {
+        if (Board.getCurrentPlayer().getRemainingMoves() <= 0) {
+            return false;
+        }
+
+        //checks if the next tile is a character or not
+        for (Character c : Board.getCharacterArrayList()) {
+            if (c != Board.getCurrentPlayer().getAssignedCharacter()) {
+                if (c.getX() == tileInFrontOfPlayer.getX() && c.getY() == tileInFrontOfPlayer.getY()) {
+                    return false;
+                }
+            }
+        }
+
+        //checks if the next tile has been visited by checking the list of tiles that the character has visited in their turn
+        for (int[] previousTile : CluedoGUI.getPreviouslyTraversedTiles() ) {
+            if (previousTile[0] == tileInFrontOfPlayer.getX() / 30 && previousTile[1] == tileInFrontOfPlayer.getY() / 30) {
+                JFrame frame = new JFrame();
+                JOptionPane.showMessageDialog(frame, "You can not visit a space that you have already been in your turn.", "Keep Moving Forward", JOptionPane.WARNING_MESSAGE);
+                return false;
+            }
+        }
+        return true;
     }
 
     public void addHand(Card card) {
@@ -373,7 +395,7 @@ public class Player {
             stringBuilder.append(player.getName()).append(",");
         }
         stringBuilder.deleteCharAt(stringBuilder.length()-1);
-       return stringBuilder.toString();
+        return stringBuilder.toString();
     }
 
     @Override
