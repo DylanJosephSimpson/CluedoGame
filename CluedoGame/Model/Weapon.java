@@ -1,3 +1,5 @@
+package Model;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -34,7 +36,7 @@ public class Weapon implements Item {
 
 
     /**
-     * Room that the weapon is currently in
+     * Model.Room that the weapon is currently in
      */
     private Room currentRoom;
 
