@@ -103,6 +103,7 @@ public class ImageLoader {
     }
 
     public static BufferedImage GetImage(String imageToGrab){
+        System.out.println(imageToGrab + "IMAGE BEING GRABBED");
         switch (imageToGrab){
            case "Candlestick":
                 return CandlestickImage;
@@ -114,19 +115,28 @@ public class ImageLoader {
                 return RevolverImage;
             case "Rope":
                 return RopeImage;
+
+//            characterCards.add(new CharacterCard("Miss. Scarlett", ScarlettIcon, ImageLoader.GetImage("Scarlett")));
+//            characterCards.add(new CharacterCard("Col. Mustard", MustardIcon, ImageLoader.GetImage("Mustard")));
+//            characterCards.add(new CharacterCard("Mrs. White", WhiteIcon, ImageLoader.GetImage("White")));
+//            characterCards.add(new CharacterCard("Mr. Green", GreenIcon, ImageLoader.GetImage("Green")));
+//            characterCards.add(new CharacterCard("Mrs. Peacock", PeacockIcon, ImageLoader.GetImage("Peacock")));
+//            characterCards.add(new CharacterCard("Prof. Plum", PlumIcon, ImageLoader.GetImage("Plu
             case "Spanner":
                 return SpannerImage;
-            case "Scarlett":
+            case "Miss. Scarlett":
+                System.out.println("TRIGGERED GET");
                 return ScarlettImage;
-            case "Mustard":
+            case "Col. Mustard":
                 return MustardImage;
-            case "White":
+            case "Mrs. White":
                 return WhiteImage;
-            case "Green":
+            case "Mr. Green":
                 return GreenImage;
-            case "Peacock":
+            case "Mrs. Peacock":
+                System.out.println("TRIGGERED GET");
                 return PeacockImage;
-            case "Plum":
+            case "Prof. Plum":
                 return PlumImage;
             case "Library":
                 return LibraryImage;
