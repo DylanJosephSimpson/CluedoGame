@@ -21,6 +21,7 @@ public class Room {
      */
     private boolean isInvolvedInMurder;
 
+
     /**
      * Originally allocated weapons and weapons that are suggested go into this room
      */
@@ -48,8 +49,6 @@ public class Room {
     public Room(String roomName){
         this.roomName = roomName;
     }
-
-    //TODO: PRAVEEN make sure when a character/player enters or leaves a room to use the addCharacterToRoom/removeCharacterFromRoom methods
 
     /**
      *  --- Model.Suggestion Method ---
