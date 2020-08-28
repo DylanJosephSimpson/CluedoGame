@@ -21,7 +21,6 @@ public class Room {
      */
     private boolean isInvolvedInMurder;
 
-
     /**
      * Originally allocated weapons and weapons that are suggested go into this room
      */
