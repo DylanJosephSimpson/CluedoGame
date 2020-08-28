@@ -59,8 +59,7 @@ public class SuggestionWindow extends JDialog {
     public void addFirstPanel(JPanel container){
         //Default values
         suggestedCharacter = Board.getCharacterArrayList().get(0); // Default is Miss Scarlett
-        suggestedWeapon = CluedoGUI.allWeapons.get(0); // Default is Candlestick
-
+        suggestedWeapon = Board.getAllWeapons().get(0); // Default is Candlestick
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
@@ -94,7 +93,7 @@ public class SuggestionWindow extends JDialog {
         weaponsComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                for (Weapon w : CluedoGUI.allWeapons){
+                for (Weapon w : Board.getAllWeapons()){
                     if (w.toString().equals(weaponsComboBox.getSelectedItem())){
                         suggestedWeapon = w;
                     }
@@ -212,5 +211,4 @@ public class SuggestionWindow extends JDialog {
         resultsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         container.add(resultsPanel, "2");
     }
-
 }
