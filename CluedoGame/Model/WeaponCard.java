@@ -1,11 +1,15 @@
+package Model;
+
+import Model.Card;
+
 import javax.swing.*;
 import java.awt.*;
 
 /**
  * Class which is necessary for interactions. Describes the weapon in *queston.
- * WeaponCard subclass:
+ * Model.WeaponCard subclass:
  *
- * The Weapon subclass is a class which extends the Card Superclass. WeaponCards are used to carry out
+ * The Model.Weapon subclass is a class which extends the Model.Card Superclass. WeaponCards are used to carry out
  * interaction between players during the suggestions faze of the game.
  *
  */
@@ -15,10 +19,10 @@ public class WeaponCard extends Card {
     private String weaponName;
 
     /**
-     * Constructor for a single WeaponCard
-     * @param aWeaponName - the name of the card. For WeaponCard this is the name of the associated weapon.
+     * Constructor for a single Model.WeaponCard
+     * @param aWeaponName - the name of the card. For Model.WeaponCard this is the name of the associated weapon.
      */
-    WeaponCard(String aWeaponName, JLabel cardIcon, Image cardImage) {
+    public WeaponCard(String aWeaponName, JLabel cardIcon, Image cardImage) {
         super.cardIcon = cardIcon;
         weaponName = aWeaponName;
         super.cardImage = cardImage;
@@ -27,7 +31,7 @@ public class WeaponCard extends Card {
     /**
      * getWeaponName method:
      *
-     * getter method for a WeaponCard
+     * getter method for a Model.WeaponCard
      *
      * @return - returns the name of the weapon as a String
      */
@@ -39,7 +43,7 @@ public class WeaponCard extends Card {
     /**
      * * toString method:
      *
-     * basic toString method for a WeaponCard
+     * basic toString method for a Model.WeaponCard
      *
      * @return - returns the name of the weapon as a String
      */
