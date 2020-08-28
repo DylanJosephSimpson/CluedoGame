@@ -285,6 +285,7 @@ public class Board {
         }
     }
 
+
     public static ImageIcon GetIcon(String imageToGrab) {
         switch (imageToGrab) {
             case "Candlestick":
@@ -321,13 +322,13 @@ public class Board {
                 return HallIcon;
             case "Lounge":
                 return LoungeIcon;
-            case "Billiard":
+            case "Billiard Room":
                 return BilliardRoomIcon;
             case "Kitchen":
                 return KitchenIcon;
-            case "BallRoom":
+            case "Ballroom":
                 return BallRoomIcon;
-            case "DiningRoom":
+            case "Dining Room":
                 return DiningRoomIcon;
             default:
                 return CardPlaceholderIcon;
