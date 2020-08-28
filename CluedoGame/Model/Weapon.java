@@ -1,99 +1,52 @@
 package Model;
 
-import javax.imageio.ImageIO;
+import Model.Card;
+
+import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 /**
- * The weapon class is responsible for keeping track of
- * the weapons which are on the board.
+ * Class which is necessary for interactions. Describes the weapon in *queston.
+ * Model.WeaponCard subclass:
  *
- * @author Iqbal
+ * The Model.Weapon subclass is a class which extends the Model.Card Superclass. WeaponCards are used to carry out
+ * interaction between players during the suggestions faze of the game.
+ *
  */
-public class Weapon implements Item {
 
-    /**
-     * Name of the weapon
-     */
+public class WeaponCard extends Card {
+
     private String weaponName;
 
     /**
-     * x-coordinate of where to draw on the board
+     * Constructor for a single Model.WeaponCard
+     * @param aWeaponName - the name of the card. For Model.WeaponCard this is the name of the associated weapon.
      */
-    private int x;
-
-    /**
-     * y-coordinate of where to draw on the board
-     */
-    private int y;
-
-    /**
-     * Was the murder committed using this weapon? (false by default)
-     */
-    private boolean isInvolvedInMurder;
-
-
-    /**
-     * Model.Room that the weapon is currently in
-     */
-    private Room currentRoom;
-
-    /**
-     * Constructor for weapon
-     * @param weaponName Name of the weapon
-     */
-    public Weapon(String weaponName) {
-        this.weaponName = weaponName;
-    }
-
-    @Override
-    public void draw(Graphics g, int x, int y) {
-        this.x = x;
-        this.y = y;
-        Graphics2D g2d = (Graphics2D) g;
-        String path = "WeaponIcon/" + weaponName + ".png";
-        try {
-            BufferedImage image = ImageIO.read(new File(path));
-            Image scaledImage = image.getScaledInstance(28, 28, Image.SCALE_SMOOTH);
-            g2d.drawImage(scaledImage,x+1,y+1,null);
-        } catch (IOException e) {
-            System.out.println("Error: Image drawing for " + weaponName + " failed.");
-        }
-    }
-
-    @Override
-    public void erase(Graphics g) {
-        //do something with x and y to erase it
-    }
-
-
-    /**
-     * Getter for currentRoom
-     * @return currentRoom
-     */
-    public Room getCurrentRoom() {
-        return currentRoom;
+    public WeaponCard(String aWeaponName, ImageIcon cardIcon, Image cardImage) {
+        super.cardIcon = cardIcon;
+        weaponName = aWeaponName;
+        super.cardImage = cardImage;
     }
 
     /**
-     * Setter for currentRoom
-     * @param room
+     * getWeaponName method:
+     *
+     * getter method for a Model.WeaponCard
+     *
+     * @return - returns the name of the weapon as a String
      */
-    public void setCurrentRoom(Room room){
-        this.currentRoom = room;
+
+    String getWeaponName() {
+        return weaponName;
     }
 
-    public boolean isInvolvedInMurder() {
-        return isInvolvedInMurder;
-    }
-
-    public void setInvolvedInMurder(boolean involvedInMurder) {
-        isInvolvedInMurder = involvedInMurder;
-    }
-
-    @Override
+    /**
+     * * toString method:
+     *
+     * basic toString method for a Model.WeaponCard
+     *
+     * @return - returns the name of the weapon as a String
+     */
     public String toString() {
         return weaponName;
     }
