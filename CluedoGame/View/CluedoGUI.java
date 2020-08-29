@@ -64,6 +64,20 @@ public class CluedoGUI extends JFrame {
     private JLabel BallRoomCard;
     private JLabel DiningRoomCard;
 
+    public static JMenuItem ExitOption;
+    public static JMenuItem RestartGame;
+
+    public static Tile[][] getBoard() {
+        return board;
+    }
+
+    private static Tile[][] board = new Tile[25][30];
+    private Board b;
+
+    private static boolean hasRolled = false;
+
+    private static int currentPlayerPos;
+
     public static JMenuItem getExitOption() {
         return ExitOption;
     }
@@ -72,9 +86,7 @@ public class CluedoGUI extends JFrame {
         return RestartGame;
     }
 
-    public static JButton getEndTurn() {
-        return EndTurn;
-    }
+    public static JButton getEndTurn() { return EndTurn; }
 
     public static JButton getOpenNotes() {
         return OpenNotes;
@@ -100,29 +112,15 @@ public class CluedoGUI extends JFrame {
         return CluedoGame;
     }
 
-    public static JMenuItem ExitOption;
-    public static JMenuItem RestartGame;
-
     public static boolean isHasRolled() {
         return hasRolled;
     }
 
-    private static boolean hasRolled = false;
-
     private static ArrayList<int[]> previouslyTraversedTiles = new ArrayList<>();
-
-    public static Tile[][] getBoard() {
-        return board;
-    }
-
-    private static Tile[][] board = new Tile[25][30];
-    private Board b;
 
     public static int getCurrentPlayerPos() {
         return currentPlayerPos;
     }
-
-    private static int currentPlayerPos;
 
     public static ArrayList<int[]> getPreviouslyTraversedTiles() {
         return previouslyTraversedTiles;
@@ -497,6 +495,7 @@ public class CluedoGUI extends JFrame {
         RollDice = new JButton("Roll Dice");
         //MakeSuggestion = new JButton("Suggest");
         MakeAccusation = new JButton("Make Accusation");
+        MakeSuggestion = new JButton("Make Accusation");
         // Add buttonListener to the GameControlPanel's JButtons.
         // TODO : ADD PROPER FUNCTIONALITY
         // Add the JButtons to the GameControlPanel.
@@ -504,7 +503,7 @@ public class CluedoGUI extends JFrame {
         //GameControlPanel.add(OpenNotes);
         GameControlPanel.add(RollDice);
         GameControlPanel.add(MakeAccusation);
-        //GameControlPanel.add(MakeSuggestion);
+        GameControlPanel.add(MakeSuggestion);
         // Return the GameControlPanel which should now be fully configured.
         return GameControlPanel;
     }
