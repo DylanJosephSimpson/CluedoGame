@@ -1,1 +1,40 @@
+package Controller;
 
+import Model.Board;
+import Model.Character;
+import Model.Weapon;
+import View.CluedoGUI;
+import View.SuggestionWindow;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class SuggestionWindowController {
+
+    public SuggestionWindowController(){
+
+        SuggestionWindow.getSuspectsComboBox().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (Character character : Board.getCharacterArrayList()){
+                    if (character.toString().equals(SuggestionWindow.getSuspectsComboBox().getSelectedItem())){
+                        SuggestionWindow.setSuggestedCharacter(character);
+                    }
+                }
+            }
+        });
+
+        SuggestionWindow.getWeaponsComboBox().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (Weapon weapon : Board.getAllWeapons()){
+                    if (weapon.toString().equals(SuggestionWindow.getWeaponsComboBox().getSelectedItem())){
+                        SuggestionWindow.setSuggestedWeapon(weapon);
+                    }
+                }
+            }
+        });
+
+    }
+
+}
