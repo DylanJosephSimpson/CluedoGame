@@ -13,12 +13,12 @@ public class AccusationSetup {
     private JLabel WeaponBoxDesc = new JLabel("Weapon Choice");
     private JComboBox<String> WeaponSelection = new JComboBox<>(Weapon);
 
-    String[] Character =  new String[]{"Miss Scarlett", "Colonel Mustard", "Mr. Green", "Ms. White", "Mrs. Peacock", "Professor Plum"};
+    String[] Character =  new String[]{"Miss. Scarlett", "Col. Mustard", "Mr. Green", "Mrs. White", "Mrs. Peacock", "Prof. Plum"};
     private JLabel CharacterBoxDesc = new JLabel("Character Choice");
     private JComboBox<String> CharacterSelection  = new JComboBox<>(Character);
 
     String[] Room = new String[]{"Kitchen", "Ballroom", "Conservatory", "Billiard Room", "Library", "Study", "Hall", "Lounge", "Dining Room"};
-    private JLabel RoomBoxDesc = new JLabel("Weapon Choice");
+    private JLabel RoomBoxDesc = new JLabel("Room Choice");
     private JComboBox<String> RoomSelection  = new JComboBox<>(Room);
 
     public AccusationSetup(Player player){
