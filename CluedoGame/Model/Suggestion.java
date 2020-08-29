@@ -3,6 +3,7 @@ package Model;
 import Model.Character;
 
 public class Suggestion {
+
     /**
      * Suggested character
      */
@@ -39,7 +40,8 @@ public class Suggestion {
         if (character.getCurrentRoom() != null) {
             character.getCurrentRoom().removeCharacterFromRoom(character);
         }
-
+        System.out.println(room.toString());
+        System.out.println(character.toString());
         //add the character to the room where the suggestion occurred in
         room.addCharacterToRoom(character);
         character.setCurrentRoom(room);
