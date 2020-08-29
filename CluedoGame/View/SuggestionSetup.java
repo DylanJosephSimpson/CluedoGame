@@ -18,6 +18,7 @@ public class SuggestionSetup {
     private JComboBox<String> CharacterSelection  = new JComboBox<>(Character);
 
     public SuggestionSetup(Player player){
+
         MakeSuggestionWindow = new JPanel();
         GridLayout layout = new GridLayout(3, 2);
         MakeSuggestionWindow.setLayout(layout);
@@ -35,7 +36,9 @@ public class SuggestionSetup {
                     Board.getWeaponFromString( (String) WeaponSelection.getSelectedItem()),
                     Player.findPlayerRoom(player.getAssignedCharacter().getX(), player.getAssignedCharacter().getY())
             );
+
             currentSuggetion.moveItems();
+
             System.out.println(WeaponSelection.getSelectedItem() + "\n" + CharacterSelection.getSelectedItem() + "\n" + player.findPlayerRoom(player.getAssignedCharacter().getX(), player.getAssignedCharacter().getY() ) + "\n");
         }
     }
