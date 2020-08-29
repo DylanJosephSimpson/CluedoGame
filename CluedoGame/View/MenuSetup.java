@@ -3,39 +3,16 @@ package View;
 import Model.*;
 
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import javax.swing.*;
 
 public class MenuSetup {
-    
-    public static JFrame getMenuWindow() {
-        return MenuWindow;
-    }
 
     private static JFrame MenuWindow;
-
-    public static Container getMenuContainer() {
-        return MenuContainer;
-    }
 
     /**
      * Grouping of Components : Menu
      */
     private static Container MenuContainer;
-
-    public static JPanel getGameTitlePanel() {
-        return GameTitlePanel;
-    }
-
-    public static JLabel getGameTitleName() {
-        return GameTitleName;
-    }
-
-    public static JButton getStartButton() {
-        return StartButton;
-    }
-
     private static JPanel GameTitlePanel;
     private static JLabel GameTitleName;
     private static JButton StartButton;
@@ -76,7 +53,6 @@ public class MenuSetup {
 
     public void containerSetup(JFrame ParentFrame){
         MenuContainer = ParentFrame.getContentPane();
-
         MenuContainer.add(gameTitlePanelSetup(ParentFrame));
         MenuContainer.add(StartButtonSetup(ParentFrame));
     }
@@ -113,4 +89,25 @@ public class MenuSetup {
         new GameSetup(title);
         MenuWindow.dispose();
     }
+
+    public static JFrame getMenuWindow() {
+        return MenuWindow;
+    }
+
+    public static Container getMenuContainer() {
+        return MenuContainer;
+    }
+
+    public static JPanel getGameTitlePanel() {
+        return GameTitlePanel;
+    }
+
+    public static JLabel getGameTitleName() {
+        return GameTitleName;
+    }
+
+    public static JButton getStartButton() {
+        return StartButton;
+    }
+
 }
