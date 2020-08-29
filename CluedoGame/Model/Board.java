@@ -37,6 +37,17 @@ public class Board {
     private static Weapon Rope = new Weapon("Rope");
     private static Weapon Spanner = new Weapon("Spanner");
 
+    private static Room Kitchen = new Room("Kitchen");
+    private static Room Ballroom = new Room("Ballroom");
+    private static Room Conservatory = new Room("Conservatory");
+    private static Room DiningRoom = new Room("Dining Room");
+    private static Room Lounge = new Room("Lounge");
+    private static Room Hall = new Room("Hall");
+    private static Room Study = new Room("Study");
+    private static Room BilliardRoom = new Room("Billiard Room");
+    private static Room Library = new Room("Library");
+    private static Room Cellar = new Room("Cellar");
+
     // Initialization of Characters
     private static Character Scarlett = new Character("Miss. Scarlett", 210, 720);
     private static Character Mustard = new Character("Col. Mustard", 0, 510);
@@ -128,16 +139,16 @@ public class Board {
         allWeapons.add(Revolver);
         allWeapons.add(Rope);
         allWeapons.add(Spanner);
-        allRooms.add(new Room("Kitchen"));
-        allRooms.add(new Room("Ballroom"));
-        allRooms.add(new Room("Conservatory"));
-        allRooms.add(new Room("Dining Room"));
-        allRooms.add(new Room("Lounge"));
-        allRooms.add(new Room("Hall"));
-        allRooms.add(new Room("Study"));
-        allRooms.add(new Room("Billiard Room"));
-        allRooms.add(new Room("Library"));
-        allRooms.add(new Room("Cellar"));
+        allRooms.add(Kitchen);
+        allRooms.add(Ballroom);
+        allRooms.add(Conservatory);
+        allRooms.add(DiningRoom);
+        allRooms.add(Lounge);
+        allRooms.add(Hall);
+        allRooms.add(Study);
+        allRooms.add(BilliardRoom);
+        allRooms.add(Library);
+        allRooms.add(Cellar);
 
         ImageLoader.LoadImages();
 
@@ -270,6 +281,79 @@ public class Board {
             default:
                 return CardPlaceholderIcon;
         }
+    }
+
+    public static Character getCharacterFromString(String characterName){
+        switch (characterName) {
+            case "Miss. Scarlett":
+                return Scarlett;
+            case "Col. Mustard":
+                return Mustard;
+            case "Mrs. White":
+                return White;
+            case "Mr. Green":
+                return Green;
+            case "Mrs. Peacock":
+                return Peacock;
+            case "Prof. Plum":
+                return Plum;
+        }
+        return null;
+    }
+
+    public static Weapon getWeaponFromString(String weaponName){
+        switch (weaponName) {
+            case "Candlestick":
+                return Candlestick;
+            case "Dagger":
+                return Dagger;
+            case "LeadPipe":
+                return LeadPipe;
+            case "Revolver":
+                return Revolver;
+            case "Rope":
+                return Rope;
+            case "Spanner":
+                return Spanner;
+        }
+        return null;
+    }
+
+    public static Room getRoomFromString(String roomName){
+        System.out.println("PRAVEEN WAS HERE :" + roomName);
+        switch (roomName) {
+            case "Kitchen":
+            case "k":
+                return Kitchen;
+            case "Ballroom":
+            case "b":
+                return Ballroom;
+            case "Conservatory":
+            case "c":
+                return Conservatory;
+            case "Dining Room":
+            case "d":
+                return DiningRoom;
+            case "Lounge":
+            case "l":
+                return Lounge;
+            case "Hall":
+            case "h":
+                return Hall;
+            case "Study":
+            case "s":
+                return Study;
+            case "Billiard Room":
+            case "i":
+                return BilliardRoom;
+            case "Library":
+            case "y":
+                return Library;
+            case "Cellar":
+            case "e":
+                return Cellar;
+        }
+        return null;
     }
 
     public Board() {
