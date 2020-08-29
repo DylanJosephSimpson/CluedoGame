@@ -4,6 +4,7 @@ import Model.Board;
 import Model.Player;
 import View.AccusationSetup;
 import View.CluedoGUI;
+import View.SuggestionSetup;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -53,7 +54,7 @@ public class CluedoGUIController {
         });
         CluedoGUI.getMakeSuggestion().addActionListener(e -> {
             CluedoGUI.getGameControlPanel().requestFocus();
-            System.out.println("Add");
+            new SuggestionSetup(Board.getCurrentPlayer());
         });
         // Add A KeyListener to the GameControlPanel
         CluedoGUI.getGameControlPanel().addKeyListener(new KeyListener() {
@@ -150,8 +151,5 @@ public class CluedoGUIController {
             public void keyReleased(KeyEvent e) {
             }
         });
-
-
     }
 }
-
