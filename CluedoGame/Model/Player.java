@@ -242,13 +242,12 @@ public class Player {
      * @param dir
      */
     public void move(String dir){
-//        //First, let the player make a suggestion if they have just been transported into a room
-//        if (assignedCharacter.isTransportedIntoRoom()) {
-//            new SuggestionWindow(assignedCharacter + ", you have entered a room, make a suggestion?", assignedCharacter.getCurrentRoom());
-//
-//            //reset this
-//            assignedCharacter.setTransportedIntoRoom(false);
-//        }
+        if (assignedCharacter.isTransportedIntoRoom()) {
+            new SuggestionSetup(Board.getCurrentPlayer());
+
+            //reset this
+            assignedCharacter.setTransportedIntoRoom(false);
+        }
         //Second, check if the player is currently in a room, if so, give the player the option to exit
 
          if (isInARoom() && !justExitedRoom){
