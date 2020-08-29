@@ -1,12 +1,11 @@
 package View;
 
+import Controller.SuggestionWindowController;
 import Model.*;
 import Model.Board;
 import Model.Card;
 import Model.Character;
 import Model.Suggestion;
-import View.CluedoGUI;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -25,14 +24,19 @@ public class SuggestionWindow extends JDialog {
     private int WINDOW_HEIGHT = 300;
 
     // GUI fields
-    private CardLayout cl = new CardLayout();
-    private JPanel container = new JPanel();
+    private static CardLayout cl = new CardLayout();
+    private static JPanel container = new JPanel();
 
     // Game fields
-    private Suggestion createdSuggestion; //= new Model.Suggestion(new Model.Character("dummy", 0, 0), new Model.Weapon("dummy"), new Model.Room("dummy"));
-    private Character suggestedCharacter;
-    private Weapon suggestedWeapon;
-    private Room enteredRoom;
+    private static JComboBox<String> weaponsComboBox;
+    private static JComboBox<String> suspectsComboBox;
+
+    private static JButton cancelButton;
+    private static JButton nextButton;
+    private static JButton okButton;
+    private static Character suggestedCharacter;
+    private static Weapon suggestedWeapon;
+    private static Room enteredRoom;
 
     /**
      * @param title Title of the window
@@ -40,17 +44,15 @@ public class SuggestionWindow extends JDialog {
      */
     public SuggestionWindow(String title, Room enteredRoom){
         this.enteredRoom = enteredRoom;
-
         this.container.setLayout(cl);
-
         addFirstPanel(container);
-
         this.setTitle(title);
         this.add(container);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+        new SuggestionWindowController();
     }
 
     /**
@@ -61,26 +63,14 @@ public class SuggestionWindow extends JDialog {
         //Default values
         suggestedCharacter = Board.getCharacterArrayList().get(0); // Default is Miss Scarlett
         suggestedWeapon = Board.getAllWeapons().get(0); // Default is Candlestick
-
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-
         // --------- Suggesting a suspect ---------
         JLabel suspectLabel = new JLabel("I suggest the crime was committed in the " + enteredRoom.toString() + " by...");
-
         String[] listOfSuspects = {"Miss. Scarlett", "Col. Mustard", "Mrs. White", "Mr. Green", "Mrs. Peacock", "Prof. Plum"};
-        JComboBox<String> suspectsComboBox = new JComboBox<>(listOfSuspects);
-        suspectsComboBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                for (Character c : Board.getCharacterArrayList()){
-                    if (c.toString().equals(suspectsComboBox.getSelectedItem())){
-                        suggestedCharacter = c;
-                    }
-                }
-            }
-        });
+        suspectsComboBox = new JComboBox<>(listOfSuspects);
         suspectsComboBox.setMaximumSize(suspectsComboBox.getPreferredSize());
+
         JPanel suspectPanel = new JPanel();
         suspectPanel.setLayout(new BoxLayout(suspectPanel, BoxLayout.X_AXIS));
         suspectPanel.add(suspectLabel);
@@ -88,19 +78,8 @@ public class SuggestionWindow extends JDialog {
 
         // --------- Suggesting a weapon ---------
         JLabel weaponLabel = new JLabel("With the use of a...");
-
         String[] listOfWeapons = {"Candlestick", "Dagger", "LeadPipe", "Revolver", "Rope", "Spanner"};
-        JComboBox<String> weaponsComboBox = new JComboBox<>(listOfWeapons);
-        weaponsComboBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                for (Weapon w : Board.getAllWeapons()){
-                    if (w.toString().equals(weaponsComboBox.getSelectedItem())){
-                        suggestedWeapon = w;
-                    }
-                }
-            }
-        });
+        weaponsComboBox = new JComboBox<>(listOfWeapons);
         weaponsComboBox.setMaximumSize(weaponsComboBox.getPreferredSize());
         JPanel weaponPanel = new JPanel();
         weaponPanel.setLayout(new BoxLayout(weaponPanel, BoxLayout.X_AXIS));
@@ -108,23 +87,9 @@ public class SuggestionWindow extends JDialog {
         weaponPanel.add(weaponsComboBox);
 
         // Cancel and Next buttons
-        JButton cancelButton = new JButton("Cancel");
-        cancelButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose(); //close the window
-            }
-        });
+        cancelButton = new JButton("Cancel");
+
         JButton nextButton = new JButton("Submit Suggestion");
-        nextButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                createdSuggestion = new Suggestion(suggestedCharacter, suggestedWeapon, enteredRoom);
-                createdSuggestion.moveItems();
-                addSecondPanel(container, createdSuggestion);
-                cl.show(container, "2");
-            }
-        });
 
         // Add the buttons to their own panel to separate the line up
         JPanel buttonPanel = new JPanel();
@@ -147,18 +112,24 @@ public class SuggestionWindow extends JDialog {
      * Aftermath of the suggestion
      * @param container
      */
-    public void addSecondPanel(JPanel container, Suggestion suggestion){
+    public static void addSecondPanel(JPanel container, Suggestion suggestion){
+
         JPanel resultsPanel = new JPanel();
+
         resultsPanel.setLayout(new BoxLayout(resultsPanel, BoxLayout.Y_AXIS));
+
         List<JLabel> results = new ArrayList<>();
 
         Character currentPlayer;
+
         if (enteredRoom.getCharactersInRoom().size() == 1){
             currentPlayer = enteredRoom.getCharactersInRoom().get(enteredRoom.getCharactersInRoom().size() - 1);
         }
+
         else {
             currentPlayer = enteredRoom.getCharactersInRoom().get(enteredRoom.getCharactersInRoom().size() - 2);
         }
+
         for (Player player : Player.playerList) {
             List<Card> cardMatches = new ArrayList<>(); //list of cards that match the suggestion that was made
             //cycle through all players except for the player that made the suggestion
@@ -206,15 +177,58 @@ public class SuggestionWindow extends JDialog {
         for (JLabel label : results) {
             resultsPanel.add(label);
         }
-        JButton okButton = new JButton("Ok");
-        okButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        });
+        okButton = new JButton("Ok");
         resultsPanel.add(okButton);
         resultsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         container.add(resultsPanel, "2");
     }
+
+    public static JComboBox<String> getWeaponsComboBox() {
+        return weaponsComboBox;
+    }
+
+    public static void setSuggestedCharacter(Character suggestedCharacter) {
+        suggestedCharacter = suggestedCharacter;
+    }
+
+    public static void setSuggestedWeapon(Weapon suggestedWeapon) {
+        suggestedWeapon = suggestedWeapon;
+    }
+
+    public static JComboBox<String> getSuspectsComboBox() {
+        return suspectsComboBox;
+    }
+
+    public static JButton getCancelButton() {
+        return cancelButton;
+    }
+
+    public static JButton getNextButton() {
+        return nextButton;
+    }
+
+    public static Character getSuggestedCharacter() {
+        return suggestedCharacter;
+    }
+
+    public static Weapon getSuggestedWeapon() {
+        return suggestedWeapon;
+    }
+
+    public static Room getEnteredRoom() {
+        return enteredRoom;
+    }
+
+    public static CardLayout getCl() {
+        return cl;
+    }
+
+    public static JPanel getContainer() {
+        return container;
+    }
+
+    public static JButton getOkButton() {
+        return okButton;
+    }
+
 }
