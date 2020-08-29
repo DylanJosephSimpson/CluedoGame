@@ -33,5 +33,4 @@ public class Card {
     public Image getCardImage() {
         return cardImage;
     }
-
 }
