@@ -113,15 +113,6 @@ public class Player {
      **/
 
     public void makeAccusation(Card characterCard, Card weaponCard, Card roomCard) {
-        System.out.println("-----");
-        for(Card s : Board.envelope){
-            System.out.println(s.toString());
-        }
-        System.out.println(characterCard.toString());
-        System.out.println(weaponCard.toString());
-        System.out.println(roomCard.toString());
-        System.out.println("-----");
-
         if (!canMakeActions || !isInARoom()) {
             return; //If the player is not active due to making a false accusation or not in a room there is no
             // point in making an accusation, they can still move.
@@ -137,26 +128,26 @@ public class Player {
         else {
             System.out.println("Game is completed, a successful accusation has card ");
         }
-
     }
 
-    public void makeSuggestion(Card characterCard, Card weaponCard, Card roomCard) {
+    public void makeSuggestion(Character character, Card weaponCard, Card roomCard) {
         if (!canMakeActions || !isInARoom()) {
             return; //If the player is not active due to making a false accusation or not in a room there is no
             // point in making an accusation, they can still move.
         }
-        System.out.println("Accusation is being made");
+        System.out.println("Suggestion is being made");
+
+
 
         //False accusation as the envelope does not contain all three of the cards within the envelope
-        if (!Board.envelope.contains(characterCard) || !Board.envelope.contains(weaponCard) || !Board.envelope.contains(roomCard)) {
-            System.out.println("This is a false accusation ");
+        if (!Board.envelope.contains(character) || !Board.envelope.contains(weaponCard) || !Board.envelope.contains(roomCard)) {
+            System.out.println("This is an incorrect suggestion");
             canMakeActions = false;
         }
         //A successful accusation has been made and the game has been completed
         else {
             System.out.println("Game is completed, a successful accusation has card ");
         }
-
     }
 
     /**
@@ -174,6 +165,10 @@ public class Player {
         Matcher matcher = pattern.matcher(tileType);
 
         return matcher.find();
+    }
+
+    public static Room findPlayerRoom(int x, int y){
+        return Board.getRoomFromString(Board.getOriginalBoardLayoutArray()[y/30][x/30]);
     }
 
     /**
@@ -260,7 +255,7 @@ public class Player {
     public void move(String dir){
         //First, let the player make a suggestion if they have just been transported into a room
         if (assignedCharacter.isTransportedIntoRoom()) {
-            new SuggestionSetup(Board.getCurrentPlayer());
+            //new SuggestionSetup(Board.getCurrentPlayer());
 
             //reset this
             assignedCharacter.setTransportedIntoRoom(false);
