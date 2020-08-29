@@ -2,14 +2,15 @@ package Controller;
 
 import Model.Board;
 import Model.Character;
+import Model.Suggestion;
 import Model.Weapon;
-import View.CluedoGUI;
 import View.SuggestionWindow;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class SuggestionWindowController {
+
+    private Suggestion createdSuggestion; //= new Model.Suggestion(new Model.Character("dummy", 0, 0), new Model.Weapon("dummy"), new Model.Room("dummy"));
 
     public SuggestionWindowController(){
 
@@ -35,6 +36,30 @@ public class SuggestionWindowController {
             }
         });
 
-    }
+        SuggestionWindow.getCancelButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO : dispose();
+                //close the window
+            }
+        });
 
+        SuggestionWindow.getNextButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                createdSuggestion = new Suggestion( SuggestionWindow.getSuggestedCharacter() , SuggestionWindow.getSuggestedWeapon(), SuggestionWindow.getEnteredRoom() );
+                createdSuggestion.moveItems();
+                SuggestionWindow.addSecondPanel(SuggestionWindow.getContainer(), createdSuggestion);
+                SuggestionWindow.getCl().show(SuggestionWindow.getContainer(), "2");
+            }
+        });
+
+        SuggestionWindow.getOkButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               //dispose();
+            }
+        });
+
+    }
 }
