@@ -20,6 +20,7 @@ public class Board {
     private static Player currentPlayer;
     static ArrayList<Character> characterArrayList = new ArrayList<Character>();
     private static ArrayList<JLabel> allCards = new ArrayList<>();
+    static Tile [][] BoardTiles = new Tile[25][24];
 
     // Initialization of characters
     public static ArrayList<Weapon> allWeapons = new ArrayList<>();
@@ -80,6 +81,7 @@ public class Board {
     private static ImageIcon ConservatoryIcon;
 
     public static void setup() {
+
         System.out.println("Cyote");
         characterCards.add(new CharacterCard("Miss. Scarlett", ScarlettIcon, ImageLoader.GetImage("Miss. Scarlett")));
         characterCards.add(new CharacterCard("Col. Mustard", MustardIcon, ImageLoader.GetImage("Col. Mustard")));
@@ -199,6 +201,8 @@ public class Board {
         for (Card card : deckOfCards) {
             cardHashMap.put(card.toString(), card);
         }
+
+        populateBoard();
 
     }
 
@@ -359,7 +363,18 @@ public class Board {
     public Board() {
     }
 
-    private String[][] boardLayoutArray = new String[][]
+    /**
+     * Populates the 2d array board with tiles
+     */
+    private static void populateBoard() {
+        for (int row = 0; row < 25; row++) {
+            for (int col = 0; col < 24; col++) {
+                BoardTiles[row][col] = new Tile(boardLayoutArray[row][col], row, col);
+            }
+        }
+    }
+
+    private static String[][] boardLayoutArray = new String[][]
             {{
                     "-", "-", "-", "-", "-", "-", "-", "-", "-", "G", "-", "-", "-", "-", "W", "-", "-", "-", "-", "-", "-", "-", "-", "-"},
                     {"-", "-", "-", "-", "-", "-", "-", " ", " ", " ", "-", "-", "-", "-", " ", " ", " ", "-", "-", "-", "-", "-", "-", "-"},
@@ -421,7 +436,7 @@ public class Board {
      * Getter method which returns the BoardLayoutArray
      * @return - boardLayoutArray which is the array that is updated throughout the game
      */
-    public String[][] getBoardLayoutArray() {
+    public static String[][] getBoardLayoutArray() {
         return boardLayoutArray;
     }
 
