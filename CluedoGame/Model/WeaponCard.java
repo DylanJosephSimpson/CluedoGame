@@ -17,6 +17,7 @@ import java.awt.*;
 public class WeaponCard extends Card {
 
     private String weaponName;
+
     /**
      * Constructor for a single Model.WeaponCard
      * @param aWeaponName - the name of the card. For Model.WeaponCard this is the name of the associated weapon.
