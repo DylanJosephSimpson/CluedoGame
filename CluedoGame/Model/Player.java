@@ -164,7 +164,7 @@ public class Player {
      *
      * @return
      */
-    private boolean isInARoom() {
+    public boolean isInARoom() {
 
         int xTile = this.assignedCharacter.getX()/30;
         int yTile = this.assignedCharacter.getY()/30;
