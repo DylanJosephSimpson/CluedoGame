@@ -513,7 +513,8 @@ public class CluedoGUI extends JFrame {
             g2d.setStroke(new BasicStroke(1));
             drawBoard(graphics);
             for (Character c : Board.getCharacterArrayList()) {
-                c.draw(g2d, c.getX(), c.getY());
+                System.out.println( (c.currentTile.getX()) + "Y MY BOI : " + (c.currentTile.getY())  );
+                c.draw(g2d, c.currentTile.getX(), c.currentTile.getY());
             }
             // Draw all the weapons and characters in a room if it has any
             for (Room r : Board.getAllRooms()) {
@@ -527,8 +528,8 @@ public class CluedoGUI extends JFrame {
                     int x = r.getRoomTiles().get(count).getX();
                     int y = r.getRoomTiles().get(count).getY();
                     //move the player into the room
-                    r.getCharactersInRoom().get(i).setX(x);
-                    r.getCharactersInRoom().get(i).setY(y);
+                    r.getCharactersInRoom().get(i).currentTile.setX(x);
+                    r.getCharactersInRoom().get(i).currentTile.setY(y);
                     CluedoGame.repaint();
                     count--;
                 }
