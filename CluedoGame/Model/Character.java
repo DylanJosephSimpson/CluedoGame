@@ -16,7 +16,7 @@ public class Character implements Item {
     /**
      * Name of the character
      */
-    private String characterName;
+    public String characterName;
 
     /**
      * x-coordinate of where to draw on the board
@@ -43,6 +43,8 @@ public class Character implements Item {
      */
     private boolean transportedIntoRoom;
 
+    public Tile currentTile;
+
     /**
      * Constructor for character
      *
@@ -52,14 +54,13 @@ public class Character implements Item {
         this.characterName = characterName;
         this.x = x ;
         this.y = y;
-    } //todo add prams for starting pos
+        currentTile = new Tile("s",this.x,this.y);
+    } //todo if it's an s in character Name scarllett make it a s tile.
 
     @Override
     public void draw(Graphics g, int x, int y) {
 
         Graphics2D g2d = (Graphics2D) g;
-        this.x = x;
-        this.y = y;
 
         String path = "CharacterPieces/" + characterName + ".png";
         try {
@@ -120,39 +121,39 @@ public class Character implements Item {
         return characterName;
     }
 
-    /**
-     * Getter for x position
-     *
-     * @return
-     */
-    public int getX() {
+//    /**
+//     * Getter for x position
+//     *
+//     * @return
+//     */
+  public int getX() {
         return x;
-    }
-
-    /**
-     * Getter for y position
-     *
-     * @return
-     */
+   }
+//
+//    /**
+//     * Getter for y position
+//     *
+//     * @return
+//     */
     public int getY() {
         return y;
     }
-
-    /**
-     * Setter for x position
-     *
-     * @param x
-     */
-    public void setX(int x) {
+//
+//    /**
+//     * Setter for x position
+//     *
+//     * @param x
+//     */
+   public void setX(int x) {
         this.x = x;
     }
-
-    /**
-     * Setter for y position
-     *
-     * @param y
-     */
-    public void setY(int y) {
-        this.y = y;
+//
+//    /**
+//     * Setter for y position
+//     *
+//     * @param y
+//     */
+  public void setY(int y) {
+       this.y = y;
     }
 }
