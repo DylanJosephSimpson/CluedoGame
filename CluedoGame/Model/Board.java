@@ -11,50 +11,14 @@ import java.util.*;
  */
 public class Board {
 
-    public static ArrayList<Card> getDeckOfCards() {
-        return deckOfCards;
-    }
-
-    public static HashSet<Card> getEnvelope() {
-        return envelope;
-    }
-
     static ArrayList<Card> deckOfCards = new ArrayList<>();
     static HashSet<Card> envelope = new HashSet<>();
     static HashMap<String, Card> cardHashMap = new HashMap<>();
-
     private static Card murderer;
     private static Card murderRoom;
     private static Card murderWeapon;
-
-    public static void setCurrentPlayer(Player currentPlayer) {
-        Board.currentPlayer = currentPlayer;
-    }
-
     private static Player currentPlayer;
-
-    public static Player getCurrentPlayer() {
-        return currentPlayer;
-    }
-
-    public static HashMap<String, Card> getCardHashMap() {
-        return cardHashMap;
-    }
-
-    public static ArrayList<Character> getCharacterArrayList() {
-        return characterArrayList;
-    }
-
-    public static Character getCharacter(int index) {
-        return characterArrayList.get(index);
-    }
-
     static ArrayList<Character> characterArrayList = new ArrayList<Character>();
-
-    public static ArrayList<JLabel> getAllCards() {
-        return allCards;
-    }
-
     private static ArrayList<JLabel> allCards = new ArrayList<>();
 
     // Initialization of characters
@@ -72,30 +36,6 @@ public class Board {
     private static Weapon Revolver = new Weapon("Revolver");
     private static Weapon Rope = new Weapon("Rope");
     private static Weapon Spanner = new Weapon("Spanner");
-
-    public static ArrayList<Weapon> getAllWeapons() {
-        return allWeapons;
-    }
-
-    public static ArrayList<Room> getAllRooms() {
-        return allRooms;
-    }
-
-    public static ArrayList<RoomCard> getRoomCards() {
-        return roomCards;
-    }
-
-    public static ArrayList<WeaponCard> getWeaponCards() {
-        return weaponCards;
-    }
-
-    public static ArrayList<CharacterCard> getCharacterCards() {
-        return characterCards;
-    }
-
-    public static HashSet<String> getRoomNames() {
-        return roomNames;
-    }
 
     // Initialization of Characters
     private static Character Scarlett = new Character("Miss. Scarlett", 210, 720);
@@ -182,14 +122,12 @@ public class Board {
         roomNames.add("Billiard Room");
         roomNames.add("Library");
         roomNames.add("Cellar");
-
         allWeapons.add(Candlestick);
         allWeapons.add(Dagger);
         allWeapons.add(LeadPipe);
         allWeapons.add(Revolver);
         allWeapons.add(Rope);
         allWeapons.add(Spanner);
-
         allRooms.add(new Room("Kitchen"));
         allRooms.add(new Room("Ballroom"));
         allRooms.add(new Room("Conservatory"));
@@ -394,16 +332,135 @@ public class Board {
                     {"-", "l", "l", "l", "l", "l", "-", " ", " ", "-", "h", "h", "h", "h", "-", " ", " ", "-", "s", "s", "s", "s", "s", "-"},
                     {"-", "-", "-", "-", "-", "-", "-", " ", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"},
             };
-    
+
+    /**
+     * Getter method which returns the BoardLayoutArray
+     * @return - boardLayoutArray which is the array that is updated throughout the game
+     */
     public String[][] getBoardLayoutArray() {
         return boardLayoutArray;
     }
 
+    /**
+     * Setter method which updates the boardLayoutArray
+     *
+     */
     public void setBoardLayoutArray(String[][] boardLayoutArray) {
         this.boardLayoutArray = boardLayoutArray;
     }
 
+    /**
+     * Getter method which returns the originalBoardLayoutArray
+     * @return - originalBoardLayoutArray which is the array that is not updated throughout the game
+     */
     public static String[][] getOriginalBoardLayoutArray() {
         return originalBoardLayoutArray;
     }
+
+    /**
+     * Getter method to get a player's hand. 
+     * @return - deckOfCards which is an array that contains all the cards in a players hand. 
+     */
+    public static ArrayList<Card> getDeckOfCards() { return deckOfCards; }
+
+    /**
+     *
+     * @return
+     */
+    public static HashSet<Card> getEnvelope() { return envelope; }
+
+    /**
+     *
+     * @return
+     */
+    public static Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public static HashMap<String, Card> getCardHashMap() {
+        return cardHashMap;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public static ArrayList<Character> getCharacterArrayList() {
+        return characterArrayList;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public static Character getCharacter(int index) {
+        return characterArrayList.get(index);
+    }
+
+    /**
+     *
+     * @return
+     */
+    public static void setCurrentPlayer(Player currentPlayer) { Board.currentPlayer = currentPlayer; }
+
+    /**
+     *
+     * @return
+     */
+    public static ArrayList<JLabel> getAllCards() {
+        return allCards;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public static ArrayList<Weapon> getAllWeapons() {
+        return allWeapons;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public static ArrayList<Room> getAllRooms() {
+        return allRooms;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public static ArrayList<RoomCard> getRoomCards() {
+        return roomCards;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public static ArrayList<WeaponCard> getWeaponCards() {
+        return weaponCards;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public static ArrayList<CharacterCard> getCharacterCards() {
+        return characterCards;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public static HashSet<String> getRoomNames() {
+        return roomNames;
+    }
+
 }
