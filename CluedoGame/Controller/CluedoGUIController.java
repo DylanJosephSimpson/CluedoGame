@@ -51,12 +51,15 @@ public class CluedoGUIController {
             }
             CluedoGUI.endTurn();
         });
+        CluedoGUI.getMakeSuggestion().addActionListener(e -> {
+            CluedoGUI.getGameControlPanel().requestFocus();
+            System.out.println("Add");
+        });
         // Add A KeyListener to the GameControlPanel
         CluedoGUI.getGameControlPanel().addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
             }
-
             @Override
             public void keyPressed(KeyEvent e) {
                 //function keys
