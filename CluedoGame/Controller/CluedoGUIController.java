@@ -60,12 +60,19 @@ public class CluedoGUIController {
             else {
                 JOptionPane.showMessageDialog(null,
                         "Cannot make an accusation as the player has made a false accusation.",
-                        "Model.Player Error",
+                        "No accusation",
                         JOptionPane.ERROR_MESSAGE);
             }
 
         });
         CluedoGUI.getMakeSuggestion().addActionListener(e -> {
+            if (!Board.getCurrentPlayer().isInARoom()) {
+                JOptionPane.showMessageDialog(null,
+                        "Cannot make an Suggestion as you are not in a Room",
+                        "No suggestion!",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             CluedoGUI.getGameControlPanel().requestFocus();
             new SuggestionSetup(Board.getCurrentPlayer());
         });
@@ -98,14 +105,16 @@ public class CluedoGUIController {
                     Board.setCurrentPlayer(Player.getPlayerList().get(CluedoGUI.getCurrentPlayerPos()));
                     //if the current player has no moves left, prompt the player that their turn has ended and return the settings to their defult
                     //convert pixel pos to tile pos
-                    int tileX = Board.getCurrentPlayer().getAssignedCharacter().getX() / 30;
-                    int tileY = Board.getCurrentPlayer().getAssignedCharacter().getY() / 30;
+                    int tileX = Board.getCurrentPlayer().getAssignedCharacter().currentTile.getX() / 30;
+                    int tileY = Board.getCurrentPlayer().getAssignedCharacter().currentTile.getY() / 30;
                     CluedoGUI.getPreviouslyTraversedTiles().add(new int[]{tileX, tileY});
                     //Pattern pattern = Pattern.compile("(Scarlett|Mustard|Green|White|Plum|Peacock|Wall)",Pattern.CASE_INSENSITIVE); //todo update board each time player is moved and then uncomment this(Caleb)
                     Pattern pattern = Pattern.compile("(Wall)", Pattern.CASE_INSENSITIVE);
                     //ensures the player can move into the position that they want to, if they are not able to then do not decrese their moves left
                     if (e.getKeyCode() == KeyEvent.VK_UP) {
-                        if (Board.getCurrentPlayer().getAssignedCharacter().getY() > 0 && Player.validMove(CluedoGUI.getBoard()[tileY - 1][tileX])) {
+                        if (Board.getCurrentPlayer().getAssignedCharacter().currentTile.getY() > 0
+                                &&
+                                Player.validMove(CluedoGUI.getBoard()[tileY - 1][tileX])) {
                             Matcher matcher = pattern.matcher(CluedoGUI.getBoard()[tileY - 1][tileX].getTileType());
                             if (!matcher.find()) {
                                 Board.getCurrentPlayer().move("NORTH");
@@ -116,7 +125,7 @@ public class CluedoGUIController {
                         }
                     }
                     if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                        if (Board.getCurrentPlayer().getAssignedCharacter().getY() < 720 && Player.validMove(CluedoGUI.getBoard()[tileY + 1][tileX])) {
+                        if (Board.getCurrentPlayer().getAssignedCharacter().currentTile.getY() < 720 && Player.validMove(CluedoGUI.getBoard()[tileY + 1][tileX])) {
                             Matcher matcher = pattern.matcher(CluedoGUI.getBoard()[tileY + 1][tileX].getTileType());
                             if (!matcher.find()) {
                                 //previouslyTraversedTiles.add(new int[]{tileX, tileY});
@@ -127,7 +136,7 @@ public class CluedoGUIController {
                         }
                     }
                     if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                        if (Board.getCurrentPlayer().getAssignedCharacter().getX() > 0 && Player.validMove(CluedoGUI.getBoard()[tileY][tileX - 1])) {
+                        if (Board.getCurrentPlayer().getAssignedCharacter().currentTile.getX() > 0 && Player.validMove(CluedoGUI.getBoard()[tileY][tileX - 1])) {
                             Matcher matcher = pattern.matcher(CluedoGUI.getBoard()[tileY][tileX - 1].getTileType());
                             if (!matcher.find()) {
                                 // previouslyTraversedTiles.add(new int[]{tileX, tileY});
@@ -138,7 +147,7 @@ public class CluedoGUIController {
                         }
                     }
                     if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                        if (Board.getCurrentPlayer().getAssignedCharacter().getX() < 690 && Player.validMove(CluedoGUI.getBoard()[tileY][tileX + 1])) {
+                        if (Board.getCurrentPlayer().getAssignedCharacter().currentTile.getX() < 690 && Player.validMove(CluedoGUI.getBoard()[tileY][tileX + 1])) {
                             Matcher matcher = pattern.matcher(CluedoGUI.getBoard()[tileY][tileX + 1].getTileType());
                             if (!matcher.find()) {
                                 //previouslyTraversedTiles.add(new int[]{tileX, tileY});
