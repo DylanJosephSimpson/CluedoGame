@@ -4,6 +4,7 @@ import Model.Board;
 import Model.Player;
 import View.AccusationSetup;
 import View.CluedoGUI;
+import View.SuggestionSetup;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -37,7 +38,8 @@ public class CluedoGUIController {
         CluedoGUI.getRollDice().addActionListener(e -> {
             if (!CluedoGUI.isHasRolled()) {
                 CluedoGUI.GenerateRandomDice();
-            } else {
+            }
+            else {
                 JFrame frame = new JFrame();
                 JOptionPane.showMessageDialog(frame, "You have already rolled the dice for your turn", "You have already rolled", JOptionPane.WARNING_MESSAGE);
             }
@@ -46,7 +48,6 @@ public class CluedoGUIController {
         CluedoGUI.getMakeAccusation().addActionListener(e -> {
             CluedoGUI.getGameControlPanel().requestFocus();
             if (!Board.getCurrentPlayer().isInARoom()) {
-//                System.out.println(Board.getCurrentPlayer().RemainingMoves +"TEST");
                 JOptionPane.showMessageDialog(null,
                         "Cannot make an accusation as you are not in a Room",
                         "Model.Player Error",
@@ -54,9 +55,9 @@ public class CluedoGUIController {
                 return;
             }
             if (Board.getCurrentPlayer().canMakeActions() && Board.getCurrentPlayer().isInARoom()) {
-//                System.out.println("THIS SHOULD OCCUR");
                 new AccusationSetup(Board.getCurrentPlayer());
-            } else {
+            }
+            else {
                 JOptionPane.showMessageDialog(null,
                         "Cannot make an accusation as the player has made a false accusation.",
                         "Model.Player Error",
@@ -66,14 +67,13 @@ public class CluedoGUIController {
         });
         CluedoGUI.getMakeSuggestion().addActionListener(e -> {
             CluedoGUI.getGameControlPanel().requestFocus();
-//            System.out.println("Add");
+            new SuggestionSetup(Board.getCurrentPlayer());
         });
         // Add A KeyListener to the GameControlPanel
         CluedoGUI.getGameControlPanel().addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
             }
-
             @Override
             public void keyPressed(KeyEvent e) {
                 //function keys
@@ -169,4 +169,3 @@ public class CluedoGUIController {
 
     }
 }
-
