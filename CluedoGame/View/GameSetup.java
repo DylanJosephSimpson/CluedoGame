@@ -1,7 +1,7 @@
 package View;
 
+import Controller.*;
 import Model.*;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -90,8 +90,7 @@ public class GameSetup {
         returnToMenu.addActionListener(e -> ReturnToMainMenu() );
 
         characterInformation = new JLabel("Current Players : " + Player.customToStringForPlayerList());
-
-
+        
         gameCharacters.add(characterInformation, BorderLayout.PAGE_END);
 
         return gameCharacters;
@@ -132,39 +131,32 @@ public class GameSetup {
             Player tempPlayer;
             if(ScarlettButton.isSelected() && PlayerName.getText().length() > 0){
                 tempPlayer = new Player(PlayerName.getText(), Board.getCharacter(0) );
-
                 Player.addPlayerList(tempPlayer);
-                //Model.Player.removePlayerList(Model.Player.playerList.size()-1);
                 ScarlettButton.setEnabled(false);
             }
             else if(MustardButton.isSelected() && PlayerName.getText().length() > 0){
                 tempPlayer = new Player(PlayerName.getText(), Board.getCharacter(1));
                 Player.addPlayerList(tempPlayer);
-                //Model.Player.removePlayerList(Model.Player.playerList.size()-1);
                 MustardButton.setEnabled(false);
             }
             else if(WhiteButton.isSelected() && PlayerName.getText().length() > 0){
                 tempPlayer = new Player(PlayerName.getText(), Board.getCharacter(2));
                 Player.addPlayerList(tempPlayer);
-                //Model.Player.removePlayerList(Model.Player.playerList.size()-1);
                 WhiteButton.setEnabled(false);
             }
             else if(GreenButton.isSelected() && PlayerName.getText().length() > 0){
                 tempPlayer = new Player(PlayerName.getText(), Board.getCharacter(3));
                 Player.addPlayerList(tempPlayer);
-                //Model.Player.removePlayerList(Model.Player.playerList.size()-1);
                 GreenButton.setEnabled(false);
             }
             else if(PeacockButton.isSelected() && PlayerName.getText().length() > 0){
                 tempPlayer = new Player(PlayerName.getText(), Board.getCharacter(4));
                 Player.addPlayerList(tempPlayer);
-                //Model.Player.removePlayerList(Model.Player.playerList.size()-1);
                 PeacockButton.setEnabled(false);
             }
             else if(PlumButton.isSelected() && PlayerName.getText().length() > 0){
                 tempPlayer = new Player(PlayerName.getText(), Board.getCharacter(5));
                 Player.addPlayerList(tempPlayer);
-                //Model.Player.removePlayerList(Model.Player.playerList.size()-1);
                 PlumButton.setEnabled(false);
             }
             characterInformation.setText("Current Players : " + Player.customToStringForPlayerList());
@@ -225,5 +217,6 @@ public class GameSetup {
         GameSetupWindow.dispose();
         Board b = new Board();
         new CluedoGUI("Cluedo Game",b);
+        new CluedoGUIController();
     }
 }
