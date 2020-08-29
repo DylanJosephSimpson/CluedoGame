@@ -197,16 +197,13 @@ public class GameSetup {
                     break;
             }
         }
-
         else{
             JOptionPane.showMessageDialog(GameSetupWindow,
                     "You currently have " + (Player.getPlayerList().size()) + " players, but require 3 to play" ,
                     "More Players Required",
                     JOptionPane.ERROR_MESSAGE);
         }
-
     }
-
     public void ReturnToMainMenu(){
         Player.getPlayerList().removeAll(Player.getPlayerList());
         GameSetupWindow.dispose();
