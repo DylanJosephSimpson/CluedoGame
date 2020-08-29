@@ -285,7 +285,6 @@ public class Board {
         }
     }
 
-
     public static ImageIcon GetIcon(String imageToGrab) {
         switch (imageToGrab) {
             case "Candlestick":
@@ -339,7 +338,6 @@ public class Board {
     }
 
     private String[][] boardLayoutArray = new String[][]
-
             {{
                     "-", "-", "-", "-", "-", "-", "-", "-", "-", "G", "-", "-", "-", "-", "W", "-", "-", "-", "-", "-", "-", "-", "-", "-"},
                     {"-", "-", "-", "-", "-", "-", "-", " ", " ", " ", "-", "-", "-", "-", " ", " ", " ", "-", "-", "-", "-", "-", "-", "-"},
@@ -396,8 +394,7 @@ public class Board {
                     {"-", "l", "l", "l", "l", "l", "-", " ", " ", "-", "h", "h", "h", "h", "-", " ", " ", "-", "s", "s", "s", "s", "s", "-"},
                     {"-", "-", "-", "-", "-", "-", "-", " ", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"},
             };
-
-
+    
     public String[][] getBoardLayoutArray() {
         return boardLayoutArray;
     }
