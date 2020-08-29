@@ -358,8 +358,8 @@ public class Board {
     }
 
     /**
-     * Getter method to get a player's hand. 
-     * @return - deckOfCards which is an array that contains all the cards in a players hand. 
+     * Getter method to get a player's hand.
+     * @return - deckOfCards which is an array that contains all the cards in a players hand.
      */
     public static ArrayList<Card> getDeckOfCards() { return deckOfCards; }
 
