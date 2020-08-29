@@ -34,12 +34,12 @@ public class SuggestionSetup {
             Suggestion currentSuggetion = new Suggestion(
                     Board.getCharacterFromString((String) CharacterSelection.getSelectedItem()),
                     Board.getWeaponFromString( (String) WeaponSelection.getSelectedItem()),
-                    Player.findPlayerRoom(player.getAssignedCharacter().getX(), player.getAssignedCharacter().getY())
+                    Player.findPlayerRoom(player.getAssignedCharacter().currentTile.getX(), player.getAssignedCharacter().currentTile.getY())
             );
 
             currentSuggetion.moveItems();
 
-            System.out.println(WeaponSelection.getSelectedItem() + "\n" + CharacterSelection.getSelectedItem() + "\n" + player.findPlayerRoom(player.getAssignedCharacter().getX(), player.getAssignedCharacter().getY() ) + "\n");
+            System.out.println(WeaponSelection.getSelectedItem() + "\n" + CharacterSelection.getSelectedItem() + "\n" + player.findPlayerRoom(player.getAssignedCharacter().currentTile.getX(), player.getAssignedCharacter().currentTile.getY() ) + "\n");
         }
     }
 }
