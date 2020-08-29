@@ -380,18 +380,15 @@ public class CluedoGUI extends JFrame {
         InfoPanelLeft.add(displayName);
         // Todo : Make sure to init the hand before this point
         Board.dealCards();
-
         HandCard1 = new JLabel();
         HandCard2 = new JLabel();
         HandCard3 = new JLabel();
         HandCard4 = new JLabel();
         HandCard5 = new JLabel();
         HandCard6 = new JLabel();
-
         HandCard1.setIcon(Board.GetIcon(Board.getCurrentPlayer().getHand().get(0).toString()));
         HandCard2.setIcon(Board.GetIcon(Board.getCurrentPlayer().getHand().get(1).toString()));
         HandCard3.setIcon(Board.GetIcon(Board.getCurrentPlayer().getHand().get(2).toString()));
-
         if (Board.getCurrentPlayer().getHand().size() > 3) {
             HandCard4.setIcon(Board.GetIcon(Board.getCurrentPlayer().getHand().get(3).toString()));
         } else {
@@ -412,7 +409,6 @@ public class CluedoGUI extends JFrame {
         } else {
             HandCard7 = CardPlaceholderCard;
         }
-
         InfoPanelRight.add(HandCard1);
         InfoPanelRight.add(HandCard2);
         InfoPanelRight.add(HandCard3);
@@ -420,7 +416,6 @@ public class CluedoGUI extends JFrame {
         InfoPanelRight.add(HandCard5);
         InfoPanelRight.add(HandCard6);
         InfoPanelRight.add(HandCard7);
-
         // Add the InfoPanelRight and InfoPanelLeft to the
         InfoPanel.add(InfoPanelLeft, BorderLayout.LINE_START);
         InfoPanel.add(InfoPanelRight, BorderLayout.LINE_END);
@@ -430,15 +425,12 @@ public class CluedoGUI extends JFrame {
 
     public static void GenerateRandomDice() {
         hasRolled = true;
-
         int firstDieRoll = (int) (Math.random() * (6)) + 1;
         int secondDieRoll = (int) (Math.random() * (6)) + 1;
         Board.setCurrentPlayer(Player.getPlayerList().get(currentPlayerPos));
         Board.getCurrentPlayer().setRemainingMoves(firstDieRoll + secondDieRoll);
-
         DiceOne.setIcon(((new ImageIcon(ImageLoader.getDiceImages().get(firstDieRoll - 1).getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
         DiceTwo.setIcon(((new ImageIcon(ImageLoader.getDiceImages().get(secondDieRoll - 1).getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
-
     }
 
     public static void endTurn() {
