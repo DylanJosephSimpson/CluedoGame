@@ -6,7 +6,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class AccusationSetup {
-
     private JPanel MakeAccusationWindow;
 
     String[] Weapon = new String[]{"Candlestick", "Dagger", "Lead Pipe", "Revolver", "Rope", "Spanner"};
