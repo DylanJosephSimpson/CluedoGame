@@ -90,7 +90,7 @@ public class GameSetup {
         returnToMenu.addActionListener(e -> ReturnToMainMenu() );
 
         characterInformation = new JLabel("Current Players : " + Player.customToStringForPlayerList());
-        
+
         gameCharacters.add(characterInformation, BorderLayout.PAGE_END);
 
         return gameCharacters;
