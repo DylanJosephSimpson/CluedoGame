@@ -101,11 +101,9 @@ public class MenuSetup {
     public static JPanel getGameTitlePanel() {
         return GameTitlePanel;
     }
-
     public static JLabel getGameTitleName() {
         return GameTitleName;
     }
-
     public static JButton getStartButton() {
         return StartButton;
     }
