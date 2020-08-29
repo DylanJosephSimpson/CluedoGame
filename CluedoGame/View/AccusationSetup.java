@@ -18,11 +18,11 @@ public class AccusationSetup {
     private JComboBox<String> CharacterSelection  = new JComboBox<>(Character);
 
     String[] Room = new String[]{"Kitchen", "Ballroom", "Conservatory", "Billiard Room", "Library", "Study", "Hall", "Lounge", "Dining Room"};
-    private JLabel RoomBoxDesc = new JLabel("Room Choice");
+    private JLabel RoomBoxDesc = new JLabel("Weapon Choice");
     private JComboBox<String> RoomSelection  = new JComboBox<>(Room);
 
     public AccusationSetup(Player player){
-
+        System.out.println(Board.getCardHashMap());
         MakeAccusationWindow = new JPanel();
 
         GridLayout layout = new GridLayout(3, 2);
@@ -40,18 +40,10 @@ public class AccusationSetup {
                 "Make an Accusation", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION){
             //Making an accusation using the selected Cards from the window
-            System.out.println("THE SIZE OF THIS MAP IS " + Board.getCardHashMap().size());
-            System.out.println("Character" + CharacterSelection.getSelectedItem());
-            System.out.println("WEapon" + WeaponSelection.getSelectedItem());
-
-            System.out.println("Room" + RoomSelection.getSelectedItem());
-
-            player.makeAccusation((CharacterCard)Board.getCardHashMap().get(CharacterSelection.getSelectedItem())
-                    ,(WeaponCard)Board.getCardHashMap().get(WeaponSelection.getSelectedItem()), (RoomCard) Board.getCardHashMap().get(RoomSelection.getSelectedItem()));
-
+            player.makeAccusation( Board.getCardHashMap().get(CharacterSelection.getSelectedItem().toString())
+                    ,Board.getCardHashMap().get(WeaponSelection.getSelectedItem().toString()), Board.getCardHashMap().get(RoomSelection.getSelectedItem().toString()));
+            System.out.println(WeaponSelection.getSelectedItem() + "\n" + CharacterSelection.getSelectedItem() + "\n"
+            + RoomSelection.getSelectedItem() + "\n");
         }
     }
-
-
-
 }
