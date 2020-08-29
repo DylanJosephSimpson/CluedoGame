@@ -109,5 +109,4 @@ public class MenuSetup {
     public static JButton getStartButton() {
         return StartButton;
     }
-
 }
