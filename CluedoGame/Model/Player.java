@@ -157,8 +157,8 @@ public class Player {
      */
     public boolean isInARoom() {
 
-        int xTile = this.assignedCharacter.getX()/30;
-        int yTile = this.assignedCharacter.getY()/30;
+        int xTile = this.assignedCharacter.currentTile.x/30;
+        int yTile = this.assignedCharacter.currentTile.y/30;
 
         String tileType = Board.getOriginalBoardLayoutArray()[yTile][xTile];
         Pattern pattern = Pattern.compile("[kbcdlhsiy@]");
@@ -247,112 +247,45 @@ public class Player {
         throw new RuntimeException("findRoom: Room tile was not found");
     }
 
-    /**
-     * When a player moves in a certain direction the x or y position changes for their character and then board is redrawn
-     *
-     * @param dir
-     */
+
+
     public void move(String dir){
-        //First, let the player make a suggestion if they have just been transported into a room
-        if (assignedCharacter.isTransportedIntoRoom()) {
-            //new SuggestionSetup(Board.getCurrentPlayer());
 
-            //reset this
-            assignedCharacter.setTransportedIntoRoom(false);
+        System.out.println(dir);
+        //Move the playerY coordinate up one
+        switch (dir) {
+            case "NORTH":
+                Board.getBoardLayoutArray()[(this.assignedCharacter.currentTile.getY() - 30) / 30][this.assignedCharacter.currentTile.getX() / 30] = Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getY() / 30][this.assignedCharacter.currentTile.getX() / 30];
+                Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getY() / 30][this.assignedCharacter.currentTile.getX() / 30] = Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getY() / 30][this.assignedCharacter.currentTile.getX() / 30];
+                this.assignedCharacter.currentTile.setY((this.assignedCharacter.currentTile.getY() - 30));
+                this.assignedCharacter.setX(this.assignedCharacter.currentTile.getX());
+                this.assignedCharacter.setY(this.assignedCharacter.currentTile.getY());
+                break;
+            case "SOUTH":
+                Board.getBoardLayoutArray()[(this.assignedCharacter.currentTile.getY() + 30) / 30][this.assignedCharacter.currentTile.getX() / 30] = Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getY() / 30][this.assignedCharacter.currentTile.getX() / 30];
+                Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getY() / 30][this.assignedCharacter.currentTile.getX() / 30] = Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getY() / 30][this.assignedCharacter.currentTile.getX() / 30];
+                this.assignedCharacter.currentTile.setY((this.assignedCharacter.currentTile.getY() + 30) );
+                this.assignedCharacter.setX(this.assignedCharacter.currentTile.getX());
+                this.assignedCharacter.setY(this.assignedCharacter.currentTile.getY());
+                break;
+            case "EAST":
+                Board.getBoardLayoutArray()[(this.assignedCharacter.currentTile.getY()) / 30][(30 + this.assignedCharacter.currentTile.getX()) / 30] = Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getY() / 30][this.assignedCharacter.currentTile.getX() / 30];
+                Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getY() / 30][this.assignedCharacter.currentTile.getX() / 30] = Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getY() / 30][this.assignedCharacter.currentTile.getX() / 30];
+                this.assignedCharacter.currentTile.setX((this.assignedCharacter.currentTile.getX() + 30));
+                this.assignedCharacter.setX(this.assignedCharacter.currentTile.getX());
+                this.assignedCharacter.setY(this.assignedCharacter.currentTile.getY());
+                break;
+            case "WEST":
+                Board.getBoardLayoutArray()[(30 + this.assignedCharacter.currentTile.getY()) / 30][(this.assignedCharacter.currentTile.getX() - 30) / 30] = Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getY() / 30][this.assignedCharacter.currentTile.getX() / 30];
+                Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getY() / 30][this.assignedCharacter.currentTile.getX() / 30] = Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getY() / 30][this.assignedCharacter.currentTile.getX() / 30];
+                this.assignedCharacter.currentTile.setX((this.assignedCharacter.currentTile.getX() - 30));
+                this.assignedCharacter.setX(this.assignedCharacter.currentTile.getX());
+                this.assignedCharacter.setY(this.assignedCharacter.currentTile.getY());
+                break;
+            default: throw new RuntimeException("EPIC FAIL");
         }
-        //Second, check if the player is currently in a room, if so, give the player the option to exit
-        else if (isInARoom() && !justExitedRoom){
-            Object[] options = {"No",
-                    "Yes"};
-            int optionSelected = JOptionPane.showOptionDialog(new JFrame(),
-                    assignedCharacter.toString() + " would you like to exit the " + assignedCharacter.getCurrentRoom().toString() + "? You may only remain in this room if the doorways are blocked!",
-                    assignedCharacter.getCurrentRoom().toString(),
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.QUESTION_MESSAGE,
-                    null,
-                    options,
-                    null);
-            switch (optionSelected){
-                //option "no"
-                case 0:
-                    setRemainingMoves(0);
-                    break;
-                //option "yes"
-                case 1:
-                    //let the player choose which doorway to exit to
-                    int exitNo = 1;
 
-                    //GUI elements
-                    JPanel exitRoomPanel = new JPanel();
-                    ButtonGroup buttonGroup = new ButtonGroup();
-                    for (Tile doorway : assignedCharacter.getCurrentRoom().getDoorwayTiles()){
-                        JRadioButton exitButton = new JRadioButton("Doorway " + exitNo);
-                        exitButton.addActionListener(new ActionListener() {
-                            @Override
-                            public void actionPerformed(ActionEvent e) {
-                                newX = doorway.getX();
-                                newY = doorway.getY();
-                            }
-                        });
-                        buttonGroup.add(exitButton);
-                        exitRoomPanel.add(exitButton);
-                        exitNo++;
-                    }
-                    int result = JOptionPane.showConfirmDialog(null,
-                            exitRoomPanel,
-                            "Choose an exit",
-                            JOptionPane.DEFAULT_OPTION,
-                            JOptionPane.PLAIN_MESSAGE);
-                    //When they press OK:
-                    if (result == 0) {
-                        //Remove them from the room
-                        assignedCharacter.getCurrentRoom().removeCharacterFromRoom(assignedCharacter);
-                        assignedCharacter.setCurrentRoom(null);
-                        justExitedRoom = true;
 
-                        //Actually move them on the board
-                        assignedCharacter.setX(newX);
-                        assignedCharacter.setY(newY);
-                    }
-                    break;
-            }
-        }
-        //else let them move normally
-        else {
-            System.out.println(this.getRemainingMoves());
-            boolean tempTest = isInARoom();
-
-            if (dir.equals("NORTH")) {
-                assignedCharacter.setY(assignedCharacter.getY() - 30);
-            } else if (dir.equals("EAST")) {
-                assignedCharacter.setX(assignedCharacter.getX() + 30);
-            } else if (dir.equals("SOUTH")) {
-                assignedCharacter.setY(assignedCharacter.getY() + 30);
-            } else if (dir.equals("WEST")) {
-                assignedCharacter.setX(assignedCharacter.getX() - 30);
-            }
-
-            if (!justExitedRoom && (!tempTest && isInARoom() || tempTest && !isInARoom())) {
-                //current location
-                int xTile = this.assignedCharacter.getX() / 30;
-                int yTile = this.assignedCharacter.getY() / 30;
-
-                //find the room the player is stepping into
-                //add the character to the room and set the character's current room to be the room being entered
-                Room enteredRoom = findRoom(xTile, yTile);
-                enteredRoom.addCharacterToRoom(assignedCharacter);
-                assignedCharacter.setCurrentRoom(enteredRoom);
-
-                //player has entered a room. Give the player an option to make a suggestion.
-                new SuggestionSetup(Board.getCurrentPlayer());
-
-                //they should stop moving after entering a room
-                this.setRemainingMoves(0);
-            }
-
-            //reset this once they have moved out of a room and are traversing normally
-            justExitedRoom = false;
-        }
 
     }
 
@@ -361,14 +294,14 @@ public class Player {
             return false;
         }
 
-        //checks if the next tile is a character or not
-        for (Character c : Board.getCharacterArrayList()) {
-            if (c != Board.getCurrentPlayer().getAssignedCharacter()) {
-                if (c.getX() == tileInFrontOfPlayer.getX() && c.getY() == tileInFrontOfPlayer.getY()) {
-                    return false;
-                }
-            }
-        }
+//        //checks if the next tile is a character or not
+//        for (Character c : Board.getCharacterArrayList()) {
+//            if (c != Board.getCurrentPlayer().getAssignedCharacter()) {
+//                if (c.getX() == tileInFrontOfPlayer.getX() && c.getY() == tileInFrontOfPlayer.getY()) {
+//                    return false;
+//                }
+//            }
+//        }
 
         //checks if the next tile has been visited by checking the list of tiles that the character has visited in their turn
         for (int[] previousTile : CluedoGUI.getPreviouslyTraversedTiles() ) {
@@ -411,5 +344,103 @@ public class Player {
     @Override
     public String toString() {
         return "Player: " + name + " Character: " + assignedCharacter.toString();
+    }
+
+
+    public enum Movement {
+        NORTH("North", -1, 0, -2, 0),
+        EAST("East", 0, +1, 0, +2),
+        SOUTH("South", +1, 0, +2, 0),
+        WEST("West", 0, -1, 0, -2),
+        ;
+
+        String enumName;
+        int VerticalMovementValue;
+        int HorizontalMovementValue;
+        int DoorVerticalMovementValue;
+        int DoorHorizontalMovementValue;
+
+        /**
+         * Constructor for a Movement enum
+         * @param matcher this is what matches the direction that we are moving into
+         * @param vertValue this is the direction that the character moves vertically when moving in the specified direction
+         * @param horzValue this is the direction that the character moves horizontally when moving in the specified direction
+         * @param doorvertValue this is the direction that the character moves horizontally when moving through a door in the specified direction
+         * @param doorhorzValue this is the direction that the character moves vertically when moving through a door in the specified direction
+         */
+        Movement(String matcher, int vertValue, int horzValue, int doorvertValue, int doorhorzValue) {
+            this.enumName = matcher;
+            this.VerticalMovementValue = vertValue;
+            this.HorizontalMovementValue = horzValue;
+            this.DoorVerticalMovementValue = doorvertValue;
+            this.DoorHorizontalMovementValue = doorhorzValue;
+        }
+
+        /**
+         * getEnumName() method :
+         *
+         * @return getter method to return the enumName as a String
+         */
+        public String getEnumName() {
+            return enumName;
+        }
+
+        /**
+         * getVerticalMovementValue() method :
+         *
+         * @return getter method to return the VerticalMovementValue as an int
+         */
+        public int getVerticalMovementValue() {
+            return VerticalMovementValue;
+        }
+
+        /**
+         * getHorizontalMovementValue() method :
+         *
+         * @return getter method to return the HorizontalMovementValue as an int
+         */
+        public int getHorizontalMovementValue() {
+            return HorizontalMovementValue;
+        }
+
+        /**
+         * getDoorVerticalMovementValue() method :
+         *
+         * @return getter method to return the DoorVerticalMovementValue as an int
+         */
+        public int getDoorVerticalMovementValue() {
+            return DoorVerticalMovementValue;
+        }
+
+        /**
+         * getDoorHorizontalMovementValue() method :
+         *
+         * @return getter method to return the DoorHorizontalMovementValue as an int
+         */
+        public int getDoorHorizontalMovementValue() {
+            return DoorHorizontalMovementValue;
+        }
+
+    }
+
+    /**
+     * Checks if tile is in bounds of the board
+     *
+     * @param tile being checked
+     * @return if it is in bounds
+     */
+    private boolean tileInBounds(Tile tile) {
+        return tile.getY() > 0 && tile.getY() <25 && tile.getX() > 0 && tile.getX() < 24;
+    }
+
+    /**
+     * Helper method for checking if a tile's coordinates are in bounds of the board
+     *
+     * @param x the x coordinate
+     * @param y the y coordinate
+     * @return if its in bounds
+     */
+    private boolean coordinateInBounds(int x, int y) {
+        return y > 0 && y < 25 && x > 0 && x < 24;
     }
 }
