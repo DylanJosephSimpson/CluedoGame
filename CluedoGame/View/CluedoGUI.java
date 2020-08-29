@@ -2,16 +2,9 @@ package View;
 
 import Model.*;
 import Model.Character;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class CluedoGUI extends JFrame {
 
@@ -22,33 +15,33 @@ public class CluedoGUI extends JFrame {
 
     //Utility collections used for setup and quick checks
     public static HashMap<String, String> tileTypeToNameMap = new HashMap<>();
-    private final JFrame CluedoGame;
+
+    private static JFrame CluedoGame = new JFrame();
 
     // JButtons for the GameControlPanel
-    public JButton EndTurn;
-    public JButton OpenNotes;
-    public JButton RollDice;
-    public JButton MakeAccusation;
-    public JButton MakeSuggestion;
+    public static JButton EndTurn;
+    public static JButton OpenNotes;
+    public static JButton RollDice;
+    public static JButton MakeAccusation;
+    public static JButton MakeSuggestion;
 
     // JPanels and JLabels
-    private JPanel InfoPanel;
-    private JPanel GameControlPanel;
-    private JPanel BoardPanel;
-    private JLabel DiceOne;
-    private JLabel DiceTwo;
-    private JLabel HandCard1;
-    private JLabel HandCard2;
-    private JLabel HandCard3;
-    private JLabel HandCard4;
-    private JLabel HandCard5;
-    private JLabel HandCard6;
-    private JLabel HandCard7;
-    private JLabel displayName;
-    private JLabel CardPlaceholderCard;
+    private static JPanel InfoPanel;
+    private static JPanel GameControlPanel;
+    private static JPanel BoardPanel;
+    private static JLabel DiceOne;
+    private static JLabel DiceTwo;
+    private static JLabel HandCard1;
+    private static JLabel HandCard2;
+    private static JLabel HandCard3;
+    private static JLabel HandCard4;
+    private static JLabel HandCard5;
+    private static JLabel HandCard6;
+    private static JLabel HandCard7;
+    private static JLabel displayName;
+    private static JLabel CardPlaceholderCard;
 
     // Labels for each Model.Card in a Players Hand
-
     private JLabel CandlestickCard;
     private JLabel DaggerCard;
     private JLabel LeadPipeCard;
@@ -71,17 +64,65 @@ public class CluedoGUI extends JFrame {
     private JLabel BallRoomCard;
     private JLabel DiningRoomCard;
 
-    // Strings which are the File Locations for all the Model.Weapon Images.
+    public static JMenuItem getExitOption() {
+        return ExitOption;
+    }
 
-    private boolean hasRolled = false;
+    public static JMenuItem getRestartGame() {
+        return RestartGame;
+    }
+
+    public static JButton getEndTurn() {
+        return EndTurn;
+    }
+
+    public static JButton getOpenNotes() {
+        return OpenNotes;
+    }
+
+    public static JButton getRollDice() {
+        return RollDice;
+    }
+
+    public static JButton getMakeAccusation() {
+        return MakeAccusation;
+    }
+
+    public static JButton getMakeSuggestion() {
+        return MakeSuggestion;
+    }
+
+    public static JPanel getGameControlPanel() {
+        return GameControlPanel;
+    }
+
+    public static JFrame getCluedoGame() {
+        return CluedoGame;
+    }
+
+    public static JMenuItem ExitOption;
+    public static JMenuItem RestartGame;
+
+    public static boolean isHasRolled() {
+        return hasRolled;
+    }
+
+    private static boolean hasRolled = false;
 
     private static ArrayList<int[]> previouslyTraversedTiles = new ArrayList<>();
-    private Tile[][] board = new Tile[25][30];
+
+    public static Tile[][] getBoard() {
+        return board;
+    }
+
+    private static Tile[][] board = new Tile[25][30];
     private Board b;
 
-    private int currentPlayerPos;
+    public static int getCurrentPlayerPos() {
+        return currentPlayerPos;
+    }
 
-
+    private static int currentPlayerPos;
 
     public static ArrayList<int[]> getPreviouslyTraversedTiles() {
         return previouslyTraversedTiles;
@@ -272,21 +313,8 @@ public class CluedoGUI extends JFrame {
         // Create a new JMenu
         JMenu MenuImplementation = new JMenu(menuName);
         // Create the JMenuItems for the JMenu
-        JMenuItem ExitOption = new JMenuItem(optName);
-        JMenuItem RestartGame = new JMenuItem(optNameTwo);
-        // Create the ActionListener for the JMenuItems
-        ExitOption.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(1);
-            }
-        });
-        RestartGame.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //TODO Dylan do this later when less sleepy
-            }
-        });
+        ExitOption = new JMenuItem(optName);
+        RestartGame = new JMenuItem(optNameTwo);
         // Add the JMenuItems to the JMenu
         MenuImplementation.add(ExitOption);
         MenuImplementation.add(RestartGame);
@@ -309,7 +337,6 @@ public class CluedoGUI extends JFrame {
     /**
      * Method which iterates through the board array and
      */
-
     public void drawBoard(Graphics graphics) {
         for (int row = 0; row < 25; ++row) {
             for (int col = 0; col < 24; ++col) {
@@ -403,7 +430,7 @@ public class CluedoGUI extends JFrame {
         return InfoPanel;
     }
 
-    private void GenerateRandomDice() {
+    public static void GenerateRandomDice() {
         hasRolled = true;
 
         int firstDieRoll = (int) (Math.random() * (6)) + 1;
@@ -416,8 +443,7 @@ public class CluedoGUI extends JFrame {
 
     }
 
-    private void endTurn() {
-
+    public static void endTurn() {
         hasRolled = false;
         previouslyTraversedTiles.clear();
         currentPlayerPos++;
@@ -425,12 +451,9 @@ public class CluedoGUI extends JFrame {
             currentPlayerPos = 0;
         }
         Board.setCurrentPlayer(Player.getPlayerList().get(currentPlayerPos));
-
         JFrame frame = new JFrame();
         JOptionPane.showMessageDialog(frame, "Your turn is now over, it is now " + Board.getCurrentPlayer().getName() + "'s turn.", "End your turn", JOptionPane.PLAIN_MESSAGE);
-
         displayName.setText("\t\t\t\t\t" + Board.getCurrentPlayer().getName() + "'s Turn");
-
         HandCard1.setIcon(Board.GetIcon(Board.getCurrentPlayer().getHand().get(0).toString()));
         HandCard2.setIcon(Board.GetIcon(Board.getCurrentPlayer().getHand().get(1).toString()));
         HandCard3.setIcon(Board.GetIcon(Board.getCurrentPlayer().getHand().get(2).toString()));
@@ -476,145 +499,6 @@ public class CluedoGUI extends JFrame {
         MakeAccusation = new JButton("Make Accusation");
         // Add buttonListener to the GameControlPanel's JButtons.
         // TODO : ADD PROPER FUNCTIONALITY
-        EndTurn.addActionListener(e -> {
-            GameControlPanel.requestFocus();
-            endTurn();
-            Board.getCurrentPlayer().setRemainingMoves(0);
-        });
-//        OpenNotes.addActionListener(e -> {
-//            GameControlPanel.requestFocus();
-//        });
-        RollDice.addActionListener(e -> {
-            if (!hasRolled) {
-                GenerateRandomDice();
-            }
-            GameControlPanel.requestFocus();
-        });
-//        MakeSuggestion.addActionListener(e -> {
-//            GameControlPanel.requestFocus();
-//        });
-        MakeAccusation.addActionListener(e -> {
-            GameControlPanel.requestFocus();
-            if (Board.getCurrentPlayer().canMakeActions()) {
-                new AccusationSetup(Board.getCurrentPlayer());
-            } else {
-                JOptionPane.showMessageDialog(this,
-                        "Cannot make an accusation as the player has made a false accusation.",
-                        "Model.Player Error",
-                        JOptionPane.ERROR_MESSAGE);
-            }
-            endTurn();
-        });
-        // Add A KeyListener to the GameControlPanel
-        GameControlPanel.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-                //function keys
-                if (e.getKeyChar() == '1') {
-                    EndTurn.doClick();
-                    GameControlPanel.requestFocus();
-                }
-//                if (e.getKeyChar() == '2') {
-//                    OpenNotes.doClick();
-//                    GameControlPanel.requestFocus();
-//                }
-                if (e.getKeyChar() == '2') {
-                    if (!hasRolled) {
-                        RollDice.doClick();
-                        GameControlPanel.requestFocus();
-                    }
-                }
-                if (e.getKeyChar() == '3') {
-                    MakeAccusation.doClick();
-                    new AccusationSetup(Board.getCurrentPlayer());
-                    GameControlPanel.requestFocus();
-                }
-//                if (e.getKeyChar() == '5') {
-//                    MakeSuggestion.doClick();
-//                    GameControlPanel.requestFocus();
-//                }
-//                currentPlayer = Player.getPlayerList().get(currentPlayerPos);
-                //if the player has rolled then they can move
-                if (hasRolled) {
-                    Board.setCurrentPlayer(Player.getPlayerList().get(currentPlayerPos));
-                    //if the current player has no moves left, prompt the player that their turn has ended and return the settings to their defult
-                    //convert pixel pos to tile pos
-                    int tileX = Board.getCurrentPlayer().getAssignedCharacter().getX() / 30;
-                    int tileY = Board.getCurrentPlayer().getAssignedCharacter().getY() / 30;
-
-                    previouslyTraversedTiles.add(new int[]{tileX, tileY});
-
-                    //Pattern pattern = Pattern.compile("(Scarlett|Mustard|Green|White|Plum|Peacock|Wall)",Pattern.CASE_INSENSITIVE); //todo update board each time player is moved and then uncomment this(Caleb)
-                    Pattern pattern = Pattern.compile("(Wall)", Pattern.CASE_INSENSITIVE);
-                    //ensures the player can move into the position that they want to, if they are not able to then do not decrese their moves left
-                    if (e.getKeyCode() == KeyEvent.VK_UP) {
-                        if (Board.getCurrentPlayer().getAssignedCharacter().getY() > 0 && Player.validMove(board[tileY - 1][tileX])) {
-                            Matcher matcher = pattern.matcher(board[tileY - 1][tileX].getTileType());
-                            if (!matcher.find()) {
-                                Board.getCurrentPlayer().move("NORTH");
-                                Board.getCurrentPlayer().setRemainingMoves(Board.getCurrentPlayer().getRemainingMoves() - 1);
-                                CluedoGame.repaint();
-                                //previouslyTraversedTiles.add(new int[]{tileX, tileY});
-                            }
-                        }
-                    }
-                    if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                        if (Board.getCurrentPlayer().getAssignedCharacter().getY() < 720 && Player.validMove(board[tileY + 1][tileX])) {
-                            Matcher matcher = pattern.matcher(board[tileY + 1][tileX].getTileType());
-                            if (!matcher.find()) {
-                                //previouslyTraversedTiles.add(new int[]{tileX, tileY});
-                                Board.getCurrentPlayer().move("SOUTH");
-                                Board.getCurrentPlayer().setRemainingMoves(Board.getCurrentPlayer().getRemainingMoves() - 1);
-                                CluedoGame.repaint();
-                            }
-                        }
-                    }
-                    if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                        if (Board.getCurrentPlayer().getAssignedCharacter().getX() > 0 && Player.validMove(board[tileY][tileX - 1])) {
-                            Matcher matcher = pattern.matcher(board[tileY][tileX - 1].getTileType());
-                            if (!matcher.find()) {
-                                // previouslyTraversedTiles.add(new int[]{tileX, tileY});
-                                Board.getCurrentPlayer().move("WEST");
-                                Board.getCurrentPlayer().setRemainingMoves(Board.getCurrentPlayer().getRemainingMoves() - 1);
-                                CluedoGame.repaint();
-                            }
-                        }
-                    }
-                    if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                        if (Board.getCurrentPlayer().getAssignedCharacter().getX() < 690 && Player.validMove(board[tileY][tileX + 1])) {
-                            Matcher matcher = pattern.matcher(board[tileY][tileX + 1].getTileType());
-                            if (!matcher.find()) {
-                                //previouslyTraversedTiles.add(new int[]{tileX, tileY});
-                                Board.getCurrentPlayer().move("EAST");
-                                Board.getCurrentPlayer().setRemainingMoves(Board.getCurrentPlayer().getRemainingMoves() - 1);
-                                CluedoGame.repaint();
-                            }
-                        }
-                    }
-                    //redraw the frame
-                    //CluedoGame.repaint();
-                    if (Board.getCurrentPlayer().getRemainingMoves() <= 0) {
-                        JFrame frame = new JFrame();
-                        JOptionPane.showMessageDialog(frame, "You now have no more moves", "No more moves", JOptionPane.PLAIN_MESSAGE);
-                        endTurn();
-
-                    }
-
-                } else {
-                    //prompts the player to roll if they have not already
-                    JFrame frame = new JFrame();
-                    JOptionPane.showMessageDialog(frame, "You need to roll the dice before you can move", "You have not rolled", JOptionPane.WARNING_MESSAGE);
-                }
-            }
-            @Override
-            public void keyReleased(KeyEvent e) {
-            }
-        });
-
         // Add the JButtons to the GameControlPanel.
         GameControlPanel.add(EndTurn);
         //GameControlPanel.add(OpenNotes);
@@ -631,7 +515,6 @@ public class CluedoGUI extends JFrame {
     class DrawPane extends JPanel {
         public void paintComponent(Graphics graphics) {
             Graphics2D g2d = (Graphics2D) graphics;
-
             //draws the 24x25 grid, hline = horizontal line, vline = vertial line
             g2d.setColor(Color.WHITE);
             g2d.fillRect(0, 0, 720, 885);
@@ -652,11 +535,9 @@ public class CluedoGUI extends JFrame {
                 for (int i = 0; i < r.getCharactersInRoom().size(); i++) {
                     int x = r.getRoomTiles().get(count).getX();
                     int y = r.getRoomTiles().get(count).getY();
-
                     //move the player into the room
                     r.getCharactersInRoom().get(i).setX(x);
                     r.getCharactersInRoom().get(i).setY(y);
-
                     CluedoGame.repaint();
                     count--;
                 }
