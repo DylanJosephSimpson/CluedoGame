@@ -164,7 +164,9 @@ public class GameSetup {
             //indefinitely which would balloon the list to over 6 players
 
         }
-
+        for(Player player : Player.getPlayerList()) {
+            System.out.println(player);
+        }
         System.out.println("\n\n");
     }
 
