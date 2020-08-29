@@ -8,15 +8,37 @@ import java.awt.event.ComponentEvent;
 import javax.swing.*;
 
 public class MenuSetup {
-    private JFrame MenuWindow;
+    
+    public static JFrame getMenuWindow() {
+        return MenuWindow;
+    }
+
+    private static JFrame MenuWindow;
+
+    public static Container getMenuContainer() {
+        return MenuContainer;
+    }
 
     /**
      * Grouping of Components : Menu
      */
-    private Container MenuContainer;
-    private JPanel GameTitlePanel;
-    private JLabel GameTitleName;
-    private JButton StartButton;
+    private static Container MenuContainer;
+
+    public static JPanel getGameTitlePanel() {
+        return GameTitlePanel;
+    }
+
+    public static JLabel getGameTitleName() {
+        return GameTitleName;
+    }
+
+    public static JButton getStartButton() {
+        return StartButton;
+    }
+
+    private static JPanel GameTitlePanel;
+    private static JLabel GameTitleName;
+    private static JButton StartButton;
 
     /**
      * Constructor for a MenuJFrame Object.
@@ -54,15 +76,6 @@ public class MenuSetup {
 
     public void containerSetup(JFrame ParentFrame){
         MenuContainer = ParentFrame.getContentPane();
-        MenuContainer.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                GameTitlePanel.setBounds(ParentFrame.getSize().width / 4, ParentFrame.getSize().height / 4, ParentFrame.getSize().width / 2, ParentFrame.getSize().height / 4);
-                GameTitleName.setBounds(GameTitlePanel.getBounds().x / 3, GameTitlePanel.getBounds().y / 12, GameTitlePanel.getBounds().width, GameTitlePanel.getBounds().height);
-                GameTitleName.setFont(new Font("Times New Roman", Font.BOLD, (ParentFrame.getSize().width - ParentFrame.getSize().height) / 4));
-                StartButton.setBounds(ParentFrame.getSize().width / 4, ParentFrame.getSize().height / 2, ParentFrame.getSize().width / 2, ParentFrame.getSize().height / 8);
-            }
-        });
 
         MenuContainer.add(gameTitlePanelSetup(ParentFrame));
         MenuContainer.add(StartButtonSetup(ParentFrame));
