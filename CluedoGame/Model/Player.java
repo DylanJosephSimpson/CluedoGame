@@ -1,8 +1,7 @@
 package Model;
 
 import View.CluedoGUI;
-import View.SuggestionWindow;
-
+import View.SuggestionSetup;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -113,14 +112,15 @@ public class Player {
      *Method for making an accusation
      **/
 
-    public void makeAccusation(CharacterCard characterCard, WeaponCard weaponCard, RoomCard roomCard) {
+    public void makeAccusation(Card characterCard, Card weaponCard, Card roomCard) {
         System.out.println("-----");
-        if(!this.isInARoom()) {
-            System.out.println();
-            return;
+        for(Card s : Board.envelope){
+            System.out.println(s.toString());
         }
-
-
+        System.out.println(characterCard.toString());
+        System.out.println(weaponCard.toString());
+        System.out.println(roomCard.toString());
+        System.out.println("-----");
 
         if (!canMakeActions || !isInARoom()) {
             return; //If the player is not active due to making a false accusation or not in a room there is no
@@ -128,13 +128,29 @@ public class Player {
         }
         System.out.println("Accusation is being made");
 
+        //False accusation as the envelope does not contain all three of the cards within the envelope
+        if (!Board.envelope.contains(characterCard) || !Board.envelope.contains(weaponCard) || !Board.envelope.contains(roomCard)) {
+            System.out.println("This is a false accusation ");
+            canMakeActions = false;
+        }
+        //A successful accusation has been made and the game has been completed
+        else {
+            System.out.println("Game is completed, a successful accusation has card ");
+        }
+
+    }
+
+    public void makeSuggestion(Card characterCard, Card weaponCard, Card roomCard) {
+        if (!canMakeActions || !isInARoom()) {
+            return; //If the player is not active due to making a false accusation or not in a room there is no
+            // point in making an accusation, they can still move.
+        }
+        System.out.println("Accusation is being made");
 
         //False accusation as the envelope does not contain all three of the cards within the envelope
         if (!Board.envelope.contains(characterCard) || !Board.envelope.contains(weaponCard) || !Board.envelope.contains(roomCard)) {
             System.out.println("This is a false accusation ");
             canMakeActions = false;
-
-
         }
         //A successful accusation has been made and the game has been completed
         else {
@@ -148,7 +164,7 @@ public class Player {
      *
      * @return
      */
-    public boolean isInARoom() {
+    private boolean isInARoom() {
 
         int xTile = this.assignedCharacter.getX()/30;
         int yTile = this.assignedCharacter.getY()/30;
@@ -242,6 +258,7 @@ public class Player {
      * @param dir
      */
     public void move(String dir){
+        //First, let the player make a suggestion if they have just been transported into a room
         if (assignedCharacter.isTransportedIntoRoom()) {
             new SuggestionSetup(Board.getCurrentPlayer());
 
@@ -249,8 +266,7 @@ public class Player {
             assignedCharacter.setTransportedIntoRoom(false);
         }
         //Second, check if the player is currently in a room, if so, give the player the option to exit
-
-         if (isInARoom() && !justExitedRoom){
+        else if (isInARoom() && !justExitedRoom){
             Object[] options = {"No",
                     "Yes"};
             int optionSelected = JOptionPane.showOptionDialog(new JFrame(),
@@ -333,7 +349,7 @@ public class Player {
                 assignedCharacter.setCurrentRoom(enteredRoom);
 
                 //player has entered a room. Give the player an option to make a suggestion.
-//                new SuggestionWindow(assignedCharacter + ", you have entered a room, make a suggestion?", enteredRoom);
+                new SuggestionSetup(Board.getCurrentPlayer());
 
                 //they should stop moving after entering a room
                 this.setRemainingMoves(0);
