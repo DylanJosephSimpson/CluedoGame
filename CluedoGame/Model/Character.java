@@ -1,6 +1,7 @@
 package Model;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -113,7 +114,6 @@ public class Character implements Item {
     public void setTransportedIntoRoom(boolean transportedIntoRoom) {
         this.transportedIntoRoom = transportedIntoRoom;
     }
-
 
     @Override
     public String toString() {
