@@ -10,15 +10,15 @@ public class SuggestionSetup {
     private JPanel MakeSuggestionWindow;
 
     String[] Weapon = new String[]{"Candlestick", "Dagger", "Lead Pipe", "Revolver", "Rope", "Spanner"};
-    private JLabel WeaponBoxDesc = new JLabel("Model.Weapon Choice");
+    private JLabel WeaponBoxDesc = new JLabel("Weapon Choice");
     private JComboBox<String> WeaponSelection = new JComboBox<>(Weapon);
 
     String[] Character =  new String[]{"Miss Scarlett", "Colonel Mustard", "Mr. Green", "Ms. White", "Mrs. Peacock", "Professor Plum"};
-    private JLabel CharacterBoxDesc = new JLabel("Model.Character Choice");
+    private JLabel CharacterBoxDesc = new JLabel("Character Choice");
     private JComboBox<String> CharacterSelection  = new JComboBox<>(Character);
 
-    String[] Room = new String[]{"Kitchen", "Ball Model.Room", "Conservatory", "Billiard Model.Room", "Library", "Study", "Hall", "Lounge", "Dining Model.Room"};
-    private JLabel RoomBoxDesc = new JLabel("Model.Weapon Choice");
+    String[] Room = new String[]{"Kitchen", "Ballroom", "Conservatory", "Billiard Room", "Library", "Study", "Hall", "Lounge", "Dining Room"};
+    private JLabel RoomBoxDesc = new JLabel("Weapon Choice");
     private JComboBox<String> RoomSelection  = new JComboBox<>(Room);
 
     public SuggestionSetup(Player player){
@@ -45,7 +45,4 @@ public class SuggestionSetup {
             System.out.println(WeaponSelection.getSelectedItem() + "\n" + CharacterSelection.getSelectedItem() + "\n" + RoomSelection.getSelectedItem() + "\n");
         }
     }
-
-
-
 }
