@@ -1,7 +1,6 @@
 package Controller;
 
 import Model.Board;
-import Model.CluedoGUIModel;
 import Model.Player;
 import Model.Tile;
 import View.AccusationSetup;
@@ -9,52 +8,94 @@ import View.CluedoGUI;
 import View.SuggestionSetup;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CluedoGUIController {
 
     public CluedoGUIController() {
+        // Action Listner's for the CluedoGUI's menuOption's
+        CluedoGUI.getExitOption().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(1);
+            }
+        });
+        CluedoGUI.getRestartGame().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            }
+        });
 
-        CluedoGUI.getExitOption().addActionListener(e -> CluedoGUIModel.ExitOptionModel());
-
-        CluedoGUI.getRestartGame().addActionListener(e -> {  CluedoGUIModel.RestartOptionModel();  });
-
-        CluedoGUI.getEndTurn().addActionListener(e -> { CluedoGUIModel.EndTurnModel(); CluedoGUI.getGameControlPanel().requestFocus();});
-
+        CluedoGUI.getEndTurn().addActionListener(e -> {
+            CluedoGUI.getGameControlPanel().requestFocus();
+            Board.getCurrentPlayer().setRemainingMoves(0);
+            CluedoGUI.endTurn();
+        });
         CluedoGUI.getRollDice().addActionListener(e -> {
             if (!CluedoGUI.isHasRolled()) {
-                CluedoGUIModel.RollDiceValidModel();
+                CluedoGUI.GenerateRandomDice();
             }
             else {
-                CluedoGUIModel.RollDiceInvalidModel();
+                JFrame frame = new JFrame();
+                JOptionPane.showMessageDialog(frame, "You have already rolled the dice for your turn", "You have already rolled", JOptionPane.WARNING_MESSAGE);
             }
             CluedoGUI.getGameControlPanel().requestFocus();
         });
-
         CluedoGUI.getMakeAccusation().addActionListener(e -> {
+            CluedoGUI.getGameControlPanel().requestFocus();
+            if (!Board.getCurrentPlayer().isInARoom()) {
+                JOptionPane.showMessageDialog(null,
+                        "Cannot make an accusation as you are not in a Room",
+                        "Model.Player Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             if (Board.getCurrentPlayer().canMakeActions() && Board.getCurrentPlayer().isInARoom()) {
-                CluedoGUIModel.MakeAccusationValidModel();
+                new AccusationSetup(Board.getCurrentPlayer());
             }
             else {
-                CluedoGUIModel.MakeAccusationInvalidModel();
-
+                JOptionPane.showMessageDialog(null,
+                        "Cannot make an accusation as the player has made a false accusation.",
+                        "No accusation",
+                        JOptionPane.ERROR_MESSAGE);
             }
-            CluedoGUI.getGameControlPanel().requestFocus();
-        });
 
+        });
         CluedoGUI.getMakeSuggestion().addActionListener(e -> {
-            if (Board.getCurrentPlayer().canMakeActions() && Board.getCurrentPlayer().isInARoom()) {
-                CluedoGUIModel.MakeSuggestionValidModel();
-            }
-            else {
-                CluedoGUIModel.MakeSuggestionInvalidModel();
+            if (!Board.getCurrentPlayer().isInARoom()) {
+                JOptionPane.showMessageDialog(null,
+                        "Cannot make an Suggestion as you are not in a Room",
+                        "No suggestion!",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
             }
             CluedoGUI.getGameControlPanel().requestFocus();
+            try {
+                new SuggestionSetup(Board.getCurrentPlayer());
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
         });
-
+//        CluedoGUI.getLeaveRoom().addActionListener(e -> {
+//            if (!Board.getCurrentPlayer().isInARoom()) {
+//                JOptionPane.showMessageDialog(null,
+//                        "Cannot Leave a Room as you are not in a Room!",
+//                        "You are not leaving a room!",
+//                        JOptionPane.ERROR_MESSAGE);
+//                return;
+//            }
+//            Board.getCurrentPlayer().leaveRoom();
+//            Board.getCurrentPlayer().setRemainingMoves(Board.getCurrentPlayer().getRemainingMoves() - 1);
+//            CluedoGUI.getCluedoGame().repaint();
+//
+////            new SuggestionSetup(Board.getCurrentPlayer());
+//        });
         // Add A KeyListener to the GameControlPanel
         CluedoGUI.getGameControlPanel().addKeyListener(new KeyListener() {
             @Override
@@ -65,21 +106,28 @@ public class CluedoGUIController {
                 //function keys
                 if (e.getKeyChar() == '1') {
                     CluedoGUI.getEndTurn().doClick();
+                    CluedoGUI.getGameControlPanel().requestFocus();
                 }
-                else if (e.getKeyChar() == '2') {
+                if (e.getKeyChar() == '2') {
+                    if (!CluedoGUI.isHasRolled()) {
                         CluedoGUI.getRollDice().doClick();
+                        CluedoGUI.getGameControlPanel().requestFocus();
+                    }
                 }
-                else if (e.getKeyChar() == '3') {
+                if (e.getKeyChar() == '3') {
                     CluedoGUI.getMakeAccusation().doClick();
-                }
-                else if (e.getKeyChar() == '4') {
-                    CluedoGUI.getMakeSuggestion().doClick();
+                    if (Board.getCurrentPlayer().isInARoom()) {
+                        new AccusationSetup(Board.getCurrentPlayer());
+                        CluedoGUI.getGameControlPanel().requestFocus();
+                    }
                 }
                 if (CluedoGUI.isHasRolled()) {
+
                     Board.setCurrentPlayer(Player.getPlayerList().get(CluedoGUI.getCurrentPlayerPos()));
+//                    Board.getCurrentPlayer().endMovement();
                     //if the current player has no moves left, prompt the player that their turn has ended and return the settings to their defult
                     //convert pixel pos to tile pos
-                    int tileX = Board.getCurrentPlayer().getAssignedCharacter().currentTile.getX() / 30;
+                    int tileX = Board.getCurrentPlayer().getAssignedCharacter().currentTile.getCol() / 30;
                     int tileY = Board.getCurrentPlayer().getAssignedCharacter().currentTile.getRow() / 30;
                     CluedoGUI.getPreviouslyTraversedTiles().add(new Tile(Board.getBoardLayoutArray()[tileY][tileX],tileX*30,tileY*30));
 //                    Pattern pattern = Pattern.compile("(Scarlett|Mustard|Green|White|Plum|Peacock|Wall)",Pattern.CASE_INSENSITIVE); //todo update board each time player is moved and then uncomment this(Caleb)
@@ -108,7 +156,7 @@ public class CluedoGUIController {
                         }
                     }
                     if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                        if (Board.getCurrentPlayer().getAssignedCharacter().currentTile.getX() > 0 && Player.validMove(CluedoGUI.getBoard()[tileY][tileX - 1])) {
+                        if (Board.getCurrentPlayer().getAssignedCharacter().currentTile.getCol() > 0 && Player.validMove(CluedoGUI.getBoard()[tileY][tileX - 1])) {
                             Matcher matcher = pattern.matcher(CluedoGUI.getBoard()[tileY][tileX - 1].getTileType());
                             if (!matcher.find()) {
                                 // previouslyTraversedTiles.add(new int[]{tileX, tileY});
@@ -119,7 +167,7 @@ public class CluedoGUIController {
                         }
                     }
                     if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                        if (Board.getCurrentPlayer().getAssignedCharacter().currentTile.getX() < 690 && Player.validMove(CluedoGUI.getBoard()[tileY][tileX + 1])) {
+                        if (Board.getCurrentPlayer().getAssignedCharacter().currentTile.getCol() < 690 && Player.validMove(CluedoGUI.getBoard()[tileY][tileX + 1])) {
                             Matcher matcher = pattern.matcher(CluedoGUI.getBoard()[tileY][tileX + 1].getTileType());
                             if (!matcher.find()) {
                                 //previouslyTraversedTiles.add(new int[]{tileX, tileY});
@@ -136,8 +184,7 @@ public class CluedoGUIController {
                         JFrame frame = new JFrame();
                         JOptionPane.showMessageDialog(frame, "You now have no more moves", "No more moves", JOptionPane.PLAIN_MESSAGE);
                     }
-                }
-                else {
+                } else {
                     //prompts the player to roll if they have not already
                     JFrame frame = new JFrame();
                     JOptionPane.showMessageDialog(frame, "You need to roll the dice before you can move", "You have not rolled", JOptionPane.WARNING_MESSAGE);
