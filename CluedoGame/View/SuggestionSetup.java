@@ -42,8 +42,6 @@ public class SuggestionSetup {
                     ,Board.getCardHashMap().get(WeaponSelection.getSelectedItem().toString()));
 
             currentSuggetion.moveItems();
-
-            //System.out.println(WeaponSelection.getSelectedItem() + "\n" + CharacterSelection.getSelectedItem() + "\n" + player.findPlayerRoom(player.getAssignedCharacter().currentTile.getX(), player.getAssignedCharacter().currentTile.getRow() ) + "\n");
         }
     }
 }
