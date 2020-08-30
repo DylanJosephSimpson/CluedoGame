@@ -12,13 +12,13 @@ import java.util.*;
 public class Board {
 
     //Card related collections and important fields (such as the Murder related cards)
-    static ArrayList<Card> deckOfCards = new ArrayList<>(); 
+    static ArrayList<Card> deckOfCards = new ArrayList<>();
     static HashSet<Card> envelope = new HashSet<>();
     static HashMap<String, Card> cardHashMap = new HashMap<>();
     private static Card murderer;
     private static Card murderRoom;
     private static Card murderWeapon;
-    
+
     //Current player
     private static Player currentPlayer;
 
