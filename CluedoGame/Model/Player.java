@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static View.CluedoGUI.addRoomTiles;
+
 /**
  * The player class is responsible for allowing a user to interact with
  * the board and game.
@@ -341,6 +343,27 @@ public class Player {
         throw new RuntimeException("findRoom: Room tile was not found");
     }
 
+    public void leaveFromSuggestion() {
+        addRoomTiles();
+        String roomCard = findRoom(this.getAssignedCharacter().currentTile.getCol(), this.getAssignedCharacter().currentTile.getRow()).toString();
+        System.out.println(roomCard + " WE ARE IN THIS ROOM");
+        Room r = Board.getRoomFromString(roomCard);
+        System.out.println(r + "ROOM IS ");
+        assert r != null;
+        for(Tile t: r.getDoorwayTiles()){
+            System.out.println(Board.getBoardLayoutArray()[t.getRow()/30][t.getCol()/30] + "TILE TYPE");
+            if(Board.getBoardLayoutArray()[t.getRow()/30][t.getCol()/30].equals("@")){
+                System.out.println("WE CAN MOVE A PLAYER");
+                Board.getBoardLayoutArray()[(t.getRow()) / 30][t.getCol() / 30] = Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30];
+                Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30] = Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30];
+                this.assignedCharacter.currentTile.setY((t.getRow()));
+                this.assignedCharacter.currentTile.setX((t.getCol()));
+                this.assignedCharacter.setX(this.assignedCharacter.currentTile.getCol());
+                this.assignedCharacter.setY(this.assignedCharacter.currentTile.getRow());
+                r.removeCharacterFromRoom(this.assignedCharacter);
+            }
+        }
+    }
 
     public void move(String dir) {
 
@@ -487,6 +510,8 @@ public class Player {
             }
         }
     }*/
+
+
 
     /**
      * Checks if tile is in bounds of the board
