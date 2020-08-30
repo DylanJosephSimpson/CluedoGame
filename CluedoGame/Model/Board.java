@@ -95,7 +95,6 @@ public class Board {
         weaponCards.add(new WeaponCard("LeadPipe", LeadPipeIcon, ImageLoader.GetImage("LeadPipe")));
         weaponCards.add(new WeaponCard("Dagger", DaggerIcon, ImageLoader.GetImage("Dagger")));
         weaponCards.add(new WeaponCard("Spanner", SpannerIcon, ImageLoader.GetImage("Spanner")));
-        System.out.println("Aztec");
         // Generate room cards
         roomCards.add(new RoomCard("Library", LibraryIcon, ImageLoader.GetImage("Library")));
         roomCards.add(new RoomCard("Conservatory", ConservatoryIcon, ImageLoader.GetImage("Conservatory")));
@@ -322,7 +321,6 @@ public class Board {
     }
 
     public static Room getRoomFromString(String roomName){
-        System.out.println("PRAVEEN WAS HERE :" + roomName);
         switch (roomName) {
             case "Kitchen":
             case "k":
