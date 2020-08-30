@@ -5,6 +5,7 @@ import View.CluedoGUI;
 import View.SuggestionSetup;
 
 import javax.swing.*;
+import java.io.IOException;
 
 public class CluedoGUIModel {
 
@@ -58,7 +59,7 @@ public class CluedoGUIModel {
     public static void RollDiceInvalidModel(){
         JOptionPane.showMessageDialog(null,
                 Board.getCurrentPlayer().getName() + ", you have already rolled the dice for your turn\n and have " +
-                         Board.getCurrentPlayer().getRemainingMoves() + " move(s) remaining"
+                        Board.getCurrentPlayer().getRemainingMoves() + " move(s) remaining"
                 , "You have already rolled", JOptionPane.WARNING_MESSAGE);
     }
 
@@ -96,7 +97,7 @@ public class CluedoGUIModel {
      * Called when an action is preformed involving the EndTurn Action Listener.
      * Rolls the dice
      */
-    public static void MakeSuggestionValidModel(){
+    public static void MakeSuggestionValidModel() throws IOException {
         new SuggestionSetup(Board.getCurrentPlayer());
     }
 
