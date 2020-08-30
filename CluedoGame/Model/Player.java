@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.List;
 
 import static View.CluedoGUI.addRoomTiles;
 
@@ -30,11 +31,11 @@ public class Player {
         this.madeSuggestion = madeSuggestion;
     }
 
-    public static ArrayList<Player> playerList = new ArrayList<>();
+    public static List<Player> playerList = new ArrayList<>();
 
     private ArrayList<Card> hand = new ArrayList<>();
 
-    public static ArrayList<Player> getPlayerList() {
+    public static List<Player> getPlayerList() {
         return playerList;
     }
 
