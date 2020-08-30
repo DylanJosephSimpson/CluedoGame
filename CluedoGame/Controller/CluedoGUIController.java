@@ -49,7 +49,7 @@ public class CluedoGUIController {
         });
 
         CluedoGUI.getMakeSuggestion().addActionListener(e -> {
-            if (Board.getCurrentPlayer().canMakeActions() && Board.getCurrentPlayer().isInARoom()) {
+            if (!Board.getCurrentPlayer().isMadeSuggestion() && Board.getCurrentPlayer().canMakeActions() && Board.getCurrentPlayer().isInARoom()) {
                 try {
                     CluedoGUIModel.MakeSuggestionValidModel();
                 } catch (IOException ioException) {
@@ -130,8 +130,6 @@ public class CluedoGUIController {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.print(e.getX() + " COMPARED TO " + Board.getCurrentPlayer().getAssignedCharacter().getX() + " Y -> "  );
-                System.out.println(e.getY() + " COMPARED TO " + Board.getCurrentPlayer().getAssignedCharacter().getY() );
                 Board.setCurrentPlayer(Player.getPlayerList().get(CluedoGUI.getCurrentPlayerPos()));
 
                 int tileX = Board.getCurrentPlayer().getAssignedCharacter().currentTile.getCol() / 30;
@@ -141,36 +139,33 @@ public class CluedoGUIController {
                 CluedoGUI.getPreviouslyTraversedTiles().add(new Tile(Board.getBoardLayoutArray()[tileY][tileX],tileX*30,tileY*30));
 
                 Pattern pattern = Pattern.compile("(Wall)", Pattern.CASE_INSENSITIVE);
-
-                if ( (e.getX() > Board.getCurrentPlayer().getAssignedCharacter().getX() + 30
+                if (Board.getCurrentPlayer().getRemainingMoves() <= 0) {
+                    CluedoGUI.getPreviouslyTraversedTiles().clear();
+                    JOptionPane.showMessageDialog(null, "You now have no more moves", "No more moves", JOptionPane.PLAIN_MESSAGE);
+                }
+                else if ( (e.getX() > Board.getCurrentPlayer().getAssignedCharacter().getX() + 30
                       && e.getX() < Board.getCurrentPlayer().getAssignedCharacter().getX() + 60)
                       && (e.getY() < Board.getCurrentPlayer().getAssignedCharacter().getY() + 30) )
                 {
                     CluedoGUIModel.MoveEastModel(tileY, tileX, pattern);
                 }
-                if ( ( e.getX() < Board.getCurrentPlayer().getAssignedCharacter().getX()
+                else if ( ( e.getX() < Board.getCurrentPlayer().getAssignedCharacter().getX()
                         && e.getX() > Board.getCurrentPlayer().getAssignedCharacter().getX() - 30)
                         && (e.getY() < Board.getCurrentPlayer().getAssignedCharacter().getY() + 30))
                 {
                     CluedoGUIModel.MoveWestModel(tileY, tileX, pattern);
                 }
-                if (e.getY() < Board.getCurrentPlayer().getAssignedCharacter().getY()
+                else if (e.getY() < Board.getCurrentPlayer().getAssignedCharacter().getY()
                         && e.getY() > Board.getCurrentPlayer().getAssignedCharacter().getY() - 30)
                 {
                     CluedoGUIModel.MoveNorthModel(tileY, tileX, pattern);
                 }
-                if (e.getY() > Board.getCurrentPlayer().getAssignedCharacter().getY() + 30
+                else if (e.getY() > Board.getCurrentPlayer().getAssignedCharacter().getY() + 30
                         && e.getY() < Board.getCurrentPlayer().getAssignedCharacter().getY() + 60)
                 {
                     CluedoGUIModel.MoveSouthModel(tileY, tileX, pattern);
                 }
-
-                /*if (Board.getCurrentPlayer().getRemainingMoves() <= 0) {
-                    CluedoGUI.getPreviouslyTraversedTiles().clear();
-                    JOptionPane.showMessageDialog(null, "You now have no more moves", "No more moves", JOptionPane.PLAIN_MESSAGE);
-                }*/
                 CluedoGUI.getCluedoGame().repaint();
-
             }
             @Override
             public void mousePressed(MouseEvent e) {
