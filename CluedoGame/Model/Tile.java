@@ -3,6 +3,7 @@ package Model;
 import View.CluedoGUI;
 
 import java.awt.*;
+import java.util.regex.Pattern;
 
 /**
  * The tile class is responsible for keeping track of the individual
@@ -23,6 +24,7 @@ public class Tile implements Item {
 
     @Override
     public void draw(Graphics g, int x, int y) {
+        Pattern pattern = Pattern.compile("[SMWGPC]");
 
         Graphics2D g2 = (Graphics2D) g;
 
@@ -41,8 +43,11 @@ public class Tile implements Item {
         else if(tileType.equals("Wall")){
             g2.setColor(new Color(100,2,180));
         }
+        else if(Board.getOriginalBoardLayoutArray()[y/30][x/30].equals("@") && Board.getBoardLayoutArray()[y/30][x/30].matches(String.valueOf(pattern))){
+            g2.setColor(new Color(100,229,180));
+        }
         else {
-            g.setColor(Color.WHITE);
+            g2.setColor(Color.WHITE);
         }
         //Draw the tile Rectangle
         int TILE_SIZE = 30;
