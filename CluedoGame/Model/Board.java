@@ -554,5 +554,17 @@ public class Board {
     public static HashSet<String> getRoomNames() {
         return roomNames;
     }
+    
+    @Override
+    public String toString(){
+        String output = "";
+        for (int row = 0; row < boardLayoutArray.length; row++){
+            for (int col = 0; col < boardLayoutArray[row].length; col++){
+                output += boardLayoutArray[row][col];
+            }
+            output += "\n";
+        }
+        return output;
+    }
 
 }
