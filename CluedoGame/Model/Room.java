@@ -111,6 +111,7 @@ public class Room {
         return doorwayTiles;
     }
 
+
     public void setDoorwayTiles(Set<Tile> doorwayTiles) {
         this.doorwayTiles = doorwayTiles;
     }
