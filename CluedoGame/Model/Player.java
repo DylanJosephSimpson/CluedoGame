@@ -50,7 +50,7 @@ public class Player {
         playerList.remove(player);
     }
 
-    public static void setPlayerList(ArrayList<Player> playerList) {
+    public static void setPlayerList(List<Player> playerList) {
         Player.playerList = playerList;
     }
 
