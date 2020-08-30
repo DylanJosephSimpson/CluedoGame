@@ -1,10 +1,8 @@
 package Model;
 
 import View.CluedoGUI;
-import View.SuggestionSetup;
+
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -252,35 +250,45 @@ public class Player {
     public void move(String dir){
 
         System.out.println(dir);
+        //If the player is moving onto a player/wall/outof bounds
         //Move the playerY coordinate up one
         switch (dir) {
             case "NORTH":
-                Board.getBoardLayoutArray()[(this.assignedCharacter.currentTile.getY() - 30) / 30][this.assignedCharacter.currentTile.getX() / 30] = Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getY() / 30][this.assignedCharacter.currentTile.getX() / 30];
-                Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getY() / 30][this.assignedCharacter.currentTile.getX() / 30] = Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getY() / 30][this.assignedCharacter.currentTile.getX() / 30];
-                this.assignedCharacter.currentTile.setY((this.assignedCharacter.currentTile.getY() - 30));
+                System.out.println("NORTH"+this.assignedCharacter.characterName + "X POS " +this.assignedCharacter.getX() + "Y POS" + this.assignedCharacter.getY());
+                Board.getBoardLayoutArray()[(this.assignedCharacter.currentTile.getRow() - 30) / 30][this.assignedCharacter.currentTile.getX() / 30] = Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getX() / 30];
+                Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getX() / 30] = Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getX() / 30];
+                this.assignedCharacter.currentTile.setY((this.assignedCharacter.currentTile.getRow() - 30));
                 this.assignedCharacter.setX(this.assignedCharacter.currentTile.getX());
-                this.assignedCharacter.setY(this.assignedCharacter.currentTile.getY());
+                this.assignedCharacter.setY(this.assignedCharacter.currentTile.getRow());
+                System.out.println("NORTH"+this.assignedCharacter.characterName + "X POS " +this.assignedCharacter.getX() + "Y POS" + this.assignedCharacter.getY());
                 break;
             case "SOUTH":
-                Board.getBoardLayoutArray()[(this.assignedCharacter.currentTile.getY() + 30) / 30][this.assignedCharacter.currentTile.getX() / 30] = Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getY() / 30][this.assignedCharacter.currentTile.getX() / 30];
-                Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getY() / 30][this.assignedCharacter.currentTile.getX() / 30] = Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getY() / 30][this.assignedCharacter.currentTile.getX() / 30];
-                this.assignedCharacter.currentTile.setY((this.assignedCharacter.currentTile.getY() + 30) );
+                System.out.println("SOUTH"+this.assignedCharacter.characterName + "X POS " +this.assignedCharacter.getX() + "Y POS" + this.assignedCharacter.getY());
+                Board.getBoardLayoutArray()[(this.assignedCharacter.currentTile.getRow() + 30) / 30][this.assignedCharacter.currentTile.getX() / 30] = Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getX() / 30];
+                Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getX() / 30] = Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getX() / 30];
+                this.assignedCharacter.currentTile.setY((this.assignedCharacter.currentTile.getRow() + 30));
                 this.assignedCharacter.setX(this.assignedCharacter.currentTile.getX());
-                this.assignedCharacter.setY(this.assignedCharacter.currentTile.getY());
+                this.assignedCharacter.setY(this.assignedCharacter.currentTile.getRow());
+                System.out.println("SOUTH"+this.assignedCharacter.characterName + "X POS " +this.assignedCharacter.getX() + "Y POS" + this.assignedCharacter.getY());
                 break;
             case "EAST":
-                Board.getBoardLayoutArray()[(this.assignedCharacter.currentTile.getY()) / 30][(30 + this.assignedCharacter.currentTile.getX()) / 30] = Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getY() / 30][this.assignedCharacter.currentTile.getX() / 30];
-                Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getY() / 30][this.assignedCharacter.currentTile.getX() / 30] = Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getY() / 30][this.assignedCharacter.currentTile.getX() / 30];
+                System.out.println("EAST"+this.assignedCharacter.characterName + "X POS " +this.assignedCharacter.getX() + "Y POS" + this.assignedCharacter.getY());
+                Board.getBoardLayoutArray()[(this.assignedCharacter.currentTile.getRow()) / 30][(30 + this.assignedCharacter.currentTile.getX()) / 30] = Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getX() / 30];
+                Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getX() / 30] = Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getX() / 30];
                 this.assignedCharacter.currentTile.setX((this.assignedCharacter.currentTile.getX() + 30));
                 this.assignedCharacter.setX(this.assignedCharacter.currentTile.getX());
-                this.assignedCharacter.setY(this.assignedCharacter.currentTile.getY());
+                this.assignedCharacter.setY(this.assignedCharacter.currentTile.getRow());
+                System.out.println("EAST"+this.assignedCharacter.characterName + "X POS " +this.assignedCharacter.getX() + "Y POS" + this.assignedCharacter.getY());
+
                 break;
             case "WEST":
-                Board.getBoardLayoutArray()[(30 + this.assignedCharacter.currentTile.getY()) / 30][(this.assignedCharacter.currentTile.getX() - 30) / 30] = Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getY() / 30][this.assignedCharacter.currentTile.getX() / 30];
-                Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getY() / 30][this.assignedCharacter.currentTile.getX() / 30] = Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getY() / 30][this.assignedCharacter.currentTile.getX() / 30];
+                System.out.println("WEST"+this.assignedCharacter.characterName + "X POS " +this.assignedCharacter.getX() + "Y POS" + this.assignedCharacter.getY());
+                Board.getBoardLayoutArray()[(this.assignedCharacter.currentTile.getRow()) / 30][(this.assignedCharacter.currentTile.getX() - 30) / 30] = Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getX() / 30];
+                Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getX() / 30] = Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getX() / 30];
                 this.assignedCharacter.currentTile.setX((this.assignedCharacter.currentTile.getX() - 30));
                 this.assignedCharacter.setX(this.assignedCharacter.currentTile.getX());
-                this.assignedCharacter.setY(this.assignedCharacter.currentTile.getY());
+                this.assignedCharacter.setY(this.assignedCharacter.currentTile.getRow());
+                System.out.println("WEST"+this.assignedCharacter.characterName + "X POS " +this.assignedCharacter.getX() + "Y POS" + this.assignedCharacter.getY());
                 break;
             default: throw new RuntimeException("EPIC FAIL");
         }
@@ -294,18 +302,18 @@ public class Player {
             return false;
         }
 
-//        //checks if the next tile is a character or not
-//        for (Character c : Board.getCharacterArrayList()) {
-//            if (c != Board.getCurrentPlayer().getAssignedCharacter()) {
-//                if (c.getX() == tileInFrontOfPlayer.getX() && c.getY() == tileInFrontOfPlayer.getY()) {
-//                    return false;
-//                }
-//            }
-//        }
+        //checks if the next tile is a character or not
+        for (Character c : Board.getCharacterArrayList()) {
+            if (c != Board.getCurrentPlayer().getAssignedCharacter()) {
+                if (c.getX() == tileInFrontOfPlayer.getX() && c.getY() == tileInFrontOfPlayer.getRow()) {
+                    return false;
+                }
+            }
+        }
 
         //checks if the next tile has been visited by checking the list of tiles that the character has visited in their turn
-        for (int[] previousTile : CluedoGUI.getPreviouslyTraversedTiles() ) {
-            if (previousTile[0] == tileInFrontOfPlayer.getX() / 30 && previousTile[1] == tileInFrontOfPlayer.getY() / 30) {
+        for (Tile t: CluedoGUI.getPreviouslyTraversedTiles() ) {
+            if(t.getX()==tileInFrontOfPlayer.getX() && t.getRow()==tileInFrontOfPlayer.getRow()){
                 JFrame frame = new JFrame();
                 JOptionPane.showMessageDialog(frame, "You can not visit a space that you have already been in your turn.", "Keep Moving Forward", JOptionPane.WARNING_MESSAGE);
                 return false;
@@ -430,7 +438,7 @@ public class Player {
      * @return if it is in bounds
      */
     private boolean tileInBounds(Tile tile) {
-        return tile.getY() > 0 && tile.getY() <25 && tile.getX() > 0 && tile.getX() < 24;
+        return tile.getRow() > 0 && tile.getRow() <25 && tile.getX() > 0 && tile.getX() < 24;
     }
 
     /**
