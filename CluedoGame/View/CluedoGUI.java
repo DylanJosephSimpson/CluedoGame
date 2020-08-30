@@ -5,6 +5,7 @@ import Model.Character;
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class CluedoGUI extends JFrame {
 
@@ -25,8 +26,6 @@ public class CluedoGUI extends JFrame {
     public static JButton MakeAccusation;
     public static JButton MakeSuggestion;
     public static JButton LeaveRoom;
-
-
     // JPanels and JLabels
     private static JPanel InfoPanel;
     private static JPanel GameControlPanel;
@@ -196,6 +195,9 @@ public class CluedoGUI extends JFrame {
     /**
      * Adds the room tiles to their respective rooms. Also adds the room's doorways to the Room objects
      */
+    /**
+     * Adds the room tiles to their respective rooms. Also adds the room's doorways to the Room objects
+     */
     private void setupRooms() {
         for (int row = 0; row < b.getBoardLayoutArray().length; row++) {
             for (int col = 0; col < b.getBoardLayoutArray()[row].length; col++) {
@@ -205,14 +207,59 @@ public class CluedoGUI extends JFrame {
                     if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(tileKey))) {
                         r.addRoomTile(new Tile("n/a", col * 30, row * 30));
                     }
+
                 }
-                //Add the doorway tiles to the Room
-//                if (tileKey.equals("@")) {
-//                    Player.findRoom(col, row).addDoorWay(new Tile("n/a", col * 30, row * 30));
-//                }
             }
         }
 
+    }
+
+    public static void addRoomTiles() {
+        for (int row = 3; row < Board.getBoardLayoutArray().length; row++) {
+            for (int col = 3; col < Board.getBoardLayoutArray()[row].length; col++) {
+                String tileKey = Board.getBoardLayoutArray()[row][col];
+                if (tileKey.equals("@")) {
+                    utilityMethod(col, row).addDoorWay(new Tile("@", col * 30, row * 30));
+                }
+            }
+        }
+    }
+
+    public static Room utilityMethod(int col, int row) {
+        //Check the above tile
+        String topMiddleTile = Board.getOriginalBoardLayoutArray()[row - 1][col];
+        String midLeftTile = Board.getOriginalBoardLayoutArray()[row][col - 1];
+        String midRightTile = Board.getOriginalBoardLayoutArray()[row][col + 1];
+        String botMiddleTile = Board.getOriginalBoardLayoutArray()[row + 1][col];
+        Pattern pattern = Pattern.compile("[kbcdlhsiy]"); //room symbols
+
+        if (topMiddleTile.matches(String.valueOf(pattern))) {
+            for (Room r : Board.getAllRooms()) {
+                if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(topMiddleTile))) {
+                    return r;
+                }
+            }
+        } else if (midLeftTile.matches(String.valueOf(pattern))) {
+            for (Room r : Board.getAllRooms()) {
+                if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(midLeftTile))) {
+                    return r;
+                }
+            }
+        } else if (midRightTile.matches(String.valueOf(pattern))) {
+            for (Room r : Board.getAllRooms()) {
+                if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(midRightTile))) {
+                    return r;
+                }
+            }
+        } else if (botMiddleTile.matches(String.valueOf(pattern))) {
+            for (Room r : Board.getAllRooms()) {
+                if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(botMiddleTile))) {
+                    return r;
+                }
+
+            }
+        }
+        throw new RuntimeException("TEST");
     }
 
     /**
@@ -353,7 +400,6 @@ public class CluedoGUI extends JFrame {
         displayName.setForeground(Color.white);
         displayName.setHorizontalAlignment(SwingConstants.CENTER);
         InfoPanelLeft.add(displayName);
-        // Todo : Make sure to init the hand before this point
         Board.dealCards();
         HandCard1 = new JLabel();
         HandCard2 = new JLabel();
@@ -475,8 +521,7 @@ public class CluedoGUI extends JFrame {
         //MakeSuggestion = new JButton("Suggest");
         MakeAccusation = new JButton("Make Accusation");
         MakeSuggestion = new JButton("Make Suggestion");
-        LeaveRoom = new JButton("Leave Room");
-
+        LeaveRoom = new JButton("Change Entrance");
         // Add buttonListener to the GameControlPanel's JButtons.
         // TODO : ADD PROPER FUNCTIONALITY
         // Add the JButtons to the GameControlPanel.
