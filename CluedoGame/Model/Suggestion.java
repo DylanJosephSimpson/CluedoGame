@@ -1,7 +1,6 @@
 package Model;
 
 import Model.Character;
-import View.CluedoGUI;
 
 public class Suggestion {
 
@@ -41,8 +40,7 @@ public class Suggestion {
         if (character.getCurrentRoom() != null) {
             character.getCurrentRoom().removeCharacterFromRoom(character);
         }
-        System.out.println(room.toString());
-        System.out.println(character.toString());
+
         //add the character to the room where the suggestion occurred in
         room.addCharacterToRoom(character);
         character.setCurrentRoom(room);
@@ -55,7 +53,6 @@ public class Suggestion {
         //add the weapon to the room where the suggestion occurred in
         room.addWeaponToRoom(weapon);
         weapon.setCurrentRoom(room);
-        CluedoGUI.getCluedoGame().repaint();
     }
 
     /**
