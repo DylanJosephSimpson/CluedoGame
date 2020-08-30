@@ -1,7 +1,6 @@
 package Model;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -34,7 +33,7 @@ public class Character implements Item {
     private boolean isInvolvedInMurder;
 
     /**
-     * Model.Room that the player is currently in. By default it is null as it does not spawn in one.
+     * Room that the player is currently in. By default it is null as it does not spawn in one.
      */
     private Room currentRoom = null;
 
@@ -42,7 +41,9 @@ public class Character implements Item {
      * Checks if the player was previously transported into a room before prior to their turn
      */
     private boolean transportedIntoRoom;
-
+    /**
+     * The current tile
+     */
     public Tile currentTile;
 
     /**
@@ -55,13 +56,14 @@ public class Character implements Item {
         this.x = x ;
         this.y = y;
         currentTile = new Tile("s",this.x,this.y);
-    } //todo if it's an s in character Name scarllett make it a s tile.
+    }
 
     @Override
     public void draw(Graphics g, int x, int y) {
 
         Graphics2D g2d = (Graphics2D) g;
 
+        //Getting the card path and attempts to draw the image
         String path = "CharacterPieces/" + characterName + ".png";
         try {
             BufferedImage image = ImageIO.read(new File(path));
@@ -76,12 +78,11 @@ public class Character implements Item {
     public void erase(Graphics g) {
         g.setColor(Color.WHITE);
         g.fillRect(x+1,y+1,28,28);
-        //todo - Caleb - erase this properly
     }
 
     /**
      * Getter for currentRoom
-     * @return
+     * @return the current room
      */
     public Room getCurrentRoom() {
         return currentRoom;
@@ -89,23 +90,20 @@ public class Character implements Item {
 
     /**
      * Setter for currentRoom
-     * @param currentRoom
+     * @param currentRoom the current room
      */
     public void setCurrentRoom(Room currentRoom) {
         this.currentRoom = currentRoom;
     }
 
+    /**
+     * Check to see if the Character is involved in the murder
+     * @return a boolean based on this field
+     */
     public boolean isInvolvedInMurder() {
         return isInvolvedInMurder;
     }
 
-    public void setInvolvedInMurder(boolean involvedInMurder) {
-        isInvolvedInMurder = involvedInMurder;
-    }
-
-    public boolean isTransportedIntoRoom() {
-        return transportedIntoRoom;
-    }
 
     /**
      * This is used after a suggestion transports them into a room
@@ -123,7 +121,7 @@ public class Character implements Item {
     /**
      * Getter for x position
      *
-    * @return
+    * @return an int representing the x position
      */
   public int getX() {
         return x;
@@ -132,26 +130,28 @@ public class Character implements Item {
     /**
      * Getter for y position
      *
-     * @return
+     * @return an int Y position
      */
     public int getY() {
         return y;
     }
 
+
     /**
      * Setter for x position
      *
-     * @param x
+     * @return an int x position
      */
    public void setX(int x) {
         this.x = x;
     }
 
+
     /**
-    * Setter for y position
-    *
-    * @param y
-    */
+     * Setter for y position
+     *
+     * @return an int y position
+     */
   public void setY(int y) {
        this.y = y;
     }
