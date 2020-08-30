@@ -1,3 +1,4 @@
+
 package View;
 
 import Model.*;
@@ -24,8 +25,6 @@ public class CluedoGUI extends JFrame {
     public static JButton RollDice;
     public static JButton MakeAccusation;
     public static JButton MakeSuggestion;
-    public static JButton LeaveRoom;
-
 
     // JPanels and JLabels
     private static JPanel InfoPanel;
@@ -76,6 +75,10 @@ public class CluedoGUI extends JFrame {
     private static Tile[][] board = new Tile[25][24];
     private Board b;
 
+    public static void setHasRolled(boolean hasRolled) {
+        CluedoGUI.hasRolled = hasRolled;
+    }
+
     private static boolean hasRolled = false;
 
     private static int currentPlayerPos;
@@ -104,10 +107,6 @@ public class CluedoGUI extends JFrame {
 
     public static JButton getMakeSuggestion() {
         return MakeSuggestion;
-    }
-
-    public static JButton getLeaveRoom() {
-        return LeaveRoom;
     }
 
     public static JPanel getGameControlPanel() {
@@ -345,7 +344,7 @@ public class CluedoGUI extends JFrame {
         for (int row = 0; row < 25; ++row) {
             for (int col = 0; col < 24; ++col) {
                 board[row][col] = new Tile(tileTypeToNameMap.get(Board.getBoardLayoutArray()[row][col]), col * GRID_SIZE, row * GRID_SIZE);
-                board[row][col].draw(graphics, board[row][col].getCol(), board[row][col].getRow());
+                board[row][col].draw(graphics, board[row][col].getX(), board[row][col].getRow());
             }
         }
     }
@@ -430,7 +429,7 @@ public class CluedoGUI extends JFrame {
     }
 
     public static void GenerateRandomDice() {
-        hasRolled = true;
+
         int firstDieRoll = (int) (Math.random() * (6)) + 1;
         int secondDieRoll = (int) (Math.random() * (6)) + 1;
         Board.setCurrentPlayer(Player.getPlayerList().get(currentPlayerPos));
@@ -440,6 +439,8 @@ public class CluedoGUI extends JFrame {
     }
 
     public static void endTurn() {
+        //TODO TIDY THIS
+
         hasRolled = false;
         previouslyTraversedTiles.clear();
         currentPlayerPos++;
@@ -494,8 +495,6 @@ public class CluedoGUI extends JFrame {
         //MakeSuggestion = new JButton("Suggest");
         MakeAccusation = new JButton("Make Accusation");
         MakeSuggestion = new JButton("Make Suggestion");
-        LeaveRoom = new JButton("Leave Room");
-
         // Add buttonListener to the GameControlPanel's JButtons.
         // TODO : ADD PROPER FUNCTIONALITY
         // Add the JButtons to the GameControlPanel.
@@ -504,7 +503,6 @@ public class CluedoGUI extends JFrame {
         GameControlPanel.add(RollDice);
         GameControlPanel.add(MakeAccusation);
         GameControlPanel.add(MakeSuggestion);
-        GameControlPanel.add(LeaveRoom);
         // Return the GameControlPanel which should now be fully configured.
         return GameControlPanel;
     }
@@ -522,19 +520,19 @@ public class CluedoGUI extends JFrame {
             g2d.setStroke(new BasicStroke(1));
             drawBoard(graphics);
             for (Character c : Board.getCharacterArrayList()) {
-                System.out.println( (c.currentTile.getCol()) + "Y MY BOI : " + (c.currentTile.getRow())  );
-                c.draw(g2d, c.currentTile.getCol(), c.currentTile.getRow());
+                System.out.println( (c.currentTile.getX()) + "Y MY BOI : " + (c.currentTile.getRow())  );
+                c.draw(g2d, c.currentTile.getX(), c.currentTile.getRow());
             }
             // Draw all the weapons and characters in a room if it has any
             for (Room r : Board.getAllRooms()) {
                 for (int i = 0; i < r.getWeaponsInRoom().size(); i++) {
-                    int x = r.getRoomTiles().get(i).getCol();
+                    int x = r.getRoomTiles().get(i).getX();
                     int y = r.getRoomTiles().get(i).getRow();
                     r.getWeaponsInRoom().get(i).draw(g2d, x, y);
                 }
                 int count = r.getRoomTiles().size() - 1; //draw from the end of the room tiles
                 for (int i = 0; i < r.getCharactersInRoom().size(); i++) {
-                    int x = r.getRoomTiles().get(count).getCol();
+                    int x = r.getRoomTiles().get(count).getX();
                     int y = r.getRoomTiles().get(count).getRow();
                     //move the player into the room
                     r.getCharactersInRoom().get(i).currentTile.setX(x);
