@@ -26,6 +26,8 @@ public class Tile implements Item {
 
         Graphics2D g2 = (Graphics2D) g;
 
+//        System.out.println("X VALUE OF TILE BEING DRAWN " + x  + " Y VALUE OF TILE BEING DRAWN" + y);
+
         //Setting Roomtiles to pink
         if (Board.getRoomNames().contains(tileType)) {
             g2.setColor(new Color(255,192,203));
@@ -37,10 +39,12 @@ public class Tile implements Item {
 
         }
         //It is a wall so set it to purple!
+
         else if(tileType.equals("Wall")){
             g2.setColor(new Color(100,2,180));
         }
         else {
+            System.out.println("TILE TYPE " + tileType);
             g.setColor(Color.WHITE);
         }
         //Draw the tile Rectangle
@@ -78,7 +82,7 @@ public class Tile implements Item {
         this.x = x;
     }
 
-    public int getY() {
+    public int getRow() {
         return y;
     }
 
