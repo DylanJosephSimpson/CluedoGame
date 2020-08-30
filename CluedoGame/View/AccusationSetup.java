@@ -21,7 +21,6 @@ public class AccusationSetup {
     private JComboBox<String> RoomSelection  = new JComboBox<>(Room);
 
     public AccusationSetup(Player player){
-        System.out.println(Board.getCardHashMap());
         MakeAccusationWindow = new JPanel();
 
         GridLayout layout = new GridLayout(3, 2);
@@ -39,10 +38,8 @@ public class AccusationSetup {
                 "Make an Accusation", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION){
             //Making an accusation using the selected Cards from the window
-            player.makeAccusation( Board.getCardHashMap().get(CharacterSelection.getSelectedItem().toString())
-                    ,Board.getCardHashMap().get(WeaponSelection.getSelectedItem().toString()), Board.getCardHashMap().get(RoomSelection.getSelectedItem().toString()));
-            System.out.println(WeaponSelection.getSelectedItem() + "\n" + CharacterSelection.getSelectedItem() + "\n"
-            + RoomSelection.getSelectedItem() + "\n");
+            player.makeAccusation( Board.getCardHashMap().get(CharacterSelection.getSelectedItem())
+                    ,Board.getCardHashMap().get(WeaponSelection.getSelectedItem()), Board.getCardHashMap().get(RoomSelection.getSelectedItem()));
         }
     }
 }
