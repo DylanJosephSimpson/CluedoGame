@@ -4,16 +4,15 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * todo look into drawing the cards using a super method
- * Superclass for all Model.Card Classes. Cards are used for interactions *between players.
- * Card Superclass
- * The card Superclass is a class extended by all xCard classes. Cards are used to carry out
- * interaction between players during the suggestions faze of the game.
+ * Superclass for all Card Classes. Cards are used for interactions between players.
+ * The card Superclass is a class extended by all Card classes. Cards are used to carry out
+ * interaction between players during the suggestions phase of the game.
  */
 
 public class Card {
     protected ImageIcon cardIcon;
     protected Image cardImage;
+
     /**
      * ToString Method:
      * <p>
@@ -26,9 +25,20 @@ public class Card {
         return super.toString();
     }
 
+    /**
+     * Gets the image icon from the card
+     *
+     * @return the card's image Icon
+     */
     public ImageIcon getCardIcon() {
         return cardIcon;
     }
+
+    /**
+     * Gets the card Image from the card
+     *
+     * @return the card's image
+     */
     public Image getCardImage() {
         return cardImage;
     }
