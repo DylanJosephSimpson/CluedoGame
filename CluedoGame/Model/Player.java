@@ -147,8 +147,8 @@ public class Player {
         }
         System.out.println("Suggestion is being made");
 
-        System.out.println("FIND ROOM" + findRoom(this.getAssignedCharacter().currentTile.getCol(), this.getAssignedCharacter().currentTile.getRow()));
-        Card roomCard = Board.getCardHashMap().get(findPlayerRoom(this.getAssignedCharacter().currentTile.getCol(), this.getAssignedCharacter().currentTile.getRow()));
+
+        Card roomCard = Board.getCardHashMap().get(findRoom(this.getAssignedCharacter().currentTile.getCol(), this.getAssignedCharacter().currentTile.getRow()).toString());
 
         //cycles through all other players to see if they have a card that matches the suggestion
         for (Player otherPs : Player.getPlayerList()) {
@@ -249,9 +249,9 @@ public class Player {
         return matcher.find();
     }
 
-    public static Room findPlayerRoom(int x, int y) {
-        return Board.getRoomFromString(Board.getOriginalBoardLayoutArray()[y / 30][x / 30]);
-    }
+//    public static Room findPlayerRoom(int x, int y) {
+//        return Board.getRoomFromString(Board.getOriginalBoardLayoutArray()[y / 30][x / 30]);
+//    }
 //
 //    public static String findPlayerRoom2(int x, int y) {
 ////
@@ -300,14 +300,17 @@ public class Player {
      * @return
      */
     public static Room findRoom(int x, int y) {
-        String topLeftDiagonalTile = Board.getOriginalBoardLayoutArray()[y - 1][x - 1];
-        String topMiddleTile = Board.getOriginalBoardLayoutArray()[y - 1][x];
-        String topRightDiagonalTile = Board.getOriginalBoardLayoutArray()[y - 1][x + 1];
-        String midLeftTile = Board.getOriginalBoardLayoutArray()[y][x - 1];
-        String midRightTile = Board.getOriginalBoardLayoutArray()[y][x + 1];
-        String botLeftDiagonalTile = Board.getOriginalBoardLayoutArray()[y + 1][x - 1];
-        String botMiddleTile = Board.getOriginalBoardLayoutArray()[y + 1][x];
-        String botRightDiagonalTile = Board.getOriginalBoardLayoutArray()[y + 1][x + 1];
+        int col = x/30;
+        int row = y/30;
+        System.out.println(Board.getOriginalBoardLayoutArray()[row - 1][col - 1]);
+        String topLeftDiagonalTile = Board.getOriginalBoardLayoutArray()[row - 1][col - 1];
+        String topMiddleTile = Board.getOriginalBoardLayoutArray()[row - 1][col];
+        String topRightDiagonalTile = Board.getOriginalBoardLayoutArray()[row - 1][col + 1];
+        String midLeftTile = Board.getOriginalBoardLayoutArray()[row][col - 1];
+        String midRightTile = Board.getOriginalBoardLayoutArray()[row][col + 1];
+        String botLeftDiagonalTile = Board.getOriginalBoardLayoutArray()[row + 1][col - 1];
+        String botMiddleTile = Board.getOriginalBoardLayoutArray()[row + 1][col];
+        String botRightDiagonalTile = Board.getOriginalBoardLayoutArray()[row + 1][col + 1];
 
         Pattern pattern = Pattern.compile("[kbcdlhsiy]"); //room symbols
         if (topLeftDiagonalTile.matches(String.valueOf(pattern))) {
