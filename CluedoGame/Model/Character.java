@@ -79,7 +79,6 @@ public class Character implements Item {
         //todo - Caleb - erase this properly
     }
 
-
     /**
      * Getter for currentRoom
      * @return
@@ -121,38 +120,38 @@ public class Character implements Item {
         return characterName;
     }
 
-//    /**
-//     * Getter for x position
-//     *
-//     * @return
-//     */
+    /**
+     * Getter for x position
+     *
+    * @return
+     */
   public int getX() {
         return x;
    }
-//
-//    /**
-//     * Getter for y position
-//     *
-//     * @return
-//     */
+
+    /**
+     * Getter for y position
+     *
+     * @return
+     */
     public int getY() {
         return y;
     }
-//
-//    /**
-//     * Setter for x position
-//     *
-//     * @param x
-//     */
+
+    /**
+     * Setter for x position
+     *
+     * @param x
+     */
    public void setX(int x) {
         this.x = x;
     }
-//
-//    /**
-//     * Setter for y position
-//     *
-//     * @param y
-//     */
+
+    /**
+    * Setter for y position
+    *
+    * @param y
+    */
   public void setY(int y) {
        this.y = y;
     }
