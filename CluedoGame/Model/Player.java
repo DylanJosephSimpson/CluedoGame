@@ -343,26 +343,62 @@ public class Player {
         throw new RuntimeException("findRoom: Room tile was not found");
     }
 
+//    public void leaveFromSuggestion() {
+//        addRoomTiles();
+//        String roomCard = findRoom(this.getAssignedCharacter().currentTile.getCol(), this.getAssignedCharacter().currentTile.getRow()).toString();
+//        System.out.println(roomCard + " WE ARE IN THIS ROOM");
+//        Room r = Board.getRoomFromString(roomCard);
+//        System.out.println(r + "ROOM IS ");
+//        assert r != null;
+//        for(Tile t: r.getDoorwayTiles()){
+//            System.out.println(Board.getBoardLayoutArray()[t.getRow()/30][t.getCol()/30] + "TILE TYPE");
+//            if(Board.getBoardLayoutArray()[t.getRow()/30][t.getCol()/30].equals("@")){
+//                System.out.println("WE CAN MOVE A PLAYER");
+//
+//                Pattern pattern = Pattern.compile("[SMWGPC]");
+//                if(!t.getTileType().matches(String.valueOf(pattern))) {
+//
+//                    //Board.getBoardLayoutArray()[(t.getRow()) / 30][t.getCol() / 30] = Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30];
+//                    Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30] = Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30];
+//                    this.assignedCharacter.currentTile.setY((t.getRow()));
+//                    this.assignedCharacter.currentTile.setX((t.getCol()));
+//                    this.assignedCharacter.setX(t.getCol());
+//                    this.assignedCharacter.setY(t.getRow());
+//                    r.removeCharacterFromRoom(this.assignedCharacter);
+//                }
+//            }
+//        }
+//    }
+
+
+
+
     public void leaveFromSuggestion() {
         addRoomTiles();
         String roomCard = findRoom(this.getAssignedCharacter().currentTile.getCol(), this.getAssignedCharacter().currentTile.getRow()).toString();
         System.out.println(roomCard + " WE ARE IN THIS ROOM");
         Room r = Board.getRoomFromString(roomCard);
         System.out.println(r + "ROOM IS ");
+        int OGx = this.getAssignedCharacter().currentTile.getCol();
+        int OGy = this.getAssignedCharacter().currentTile.getRow();
         assert r != null;
         for(Tile t: r.getDoorwayTiles()){
             System.out.println(Board.getBoardLayoutArray()[t.getRow()/30][t.getCol()/30] + "TILE TYPE");
             if(Board.getBoardLayoutArray()[t.getRow()/30][t.getCol()/30].equals("@")){
                 System.out.println("WE CAN MOVE A PLAYER");
-                Board.getBoardLayoutArray()[(t.getRow()) / 30][t.getCol() / 30] = Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30];
-                Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30] = Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30];
+                //Set the old tile to what it previously was
+                Board.getBoardLayoutArray()[t.getRow() / 30][t.getCol() / 30] = "S";
+                Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30] = Board.getOriginalBoardLayoutArray()[t.getRow() / 30][t.getCol() / 30];
                 this.assignedCharacter.currentTile.setY((t.getRow()));
                 this.assignedCharacter.currentTile.setX((t.getCol()));
                 this.assignedCharacter.setX(this.assignedCharacter.currentTile.getCol());
                 this.assignedCharacter.setY(this.assignedCharacter.currentTile.getRow());
+                Board.getBoardLayoutArray()[OGy/30][OGx/30] = Board.getOriginalBoardLayoutArray()[OGy / 30][OGx / 30];
                 r.removeCharacterFromRoom(this.assignedCharacter);
             }
         }
+
+
     }
 
     public void move(String dir) {
