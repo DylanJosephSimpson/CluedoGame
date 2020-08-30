@@ -487,8 +487,6 @@ public class Player {
         }
     }*/
 
-
-
     /**
      * Checks if tile is in bounds of the board
      *
