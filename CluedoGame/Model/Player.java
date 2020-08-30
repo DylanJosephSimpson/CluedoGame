@@ -132,25 +132,102 @@ public class Player {
         }
     }
 
-    public void makeSuggestion(Character character, Card weaponCard, Card roomCard) {
+    public void makeSuggestion(Card characterCard, Card weaponCard) {
         if (!canMakeActions || !isInARoom()) {
             return; //If the player is not active due to making a false accusation or not in a room there is no
             // point in making an accusation, they can still move.
         }
         System.out.println("Suggestion is being made");
 
+        Card roomCard = Board.getCardHashMap().get(findPlayerRoom(this.getAssignedCharacter().currentTile.getX(), this.getAssignedCharacter().currentTile.getRow()).toString());
+
+        //cycles through all other players to see if they have a card that matches the suggestion
+        for (Player otherPs : Player.getPlayerList()) {
+            if (otherPs != this) {
+
+                System.out.println("The next player is " + otherPs.getName());
+                //adds all the cards of the current players hand that match the suggestion to a list
+
+                ArrayList<Card> hasSuggestedCards = new ArrayList<>();
+
+                if (otherPs.getHand().contains(characterCard)) {
+                    hasSuggestedCards.add(characterCard);
+                }if (otherPs.getHand().contains(weaponCard)) {
+                    hasSuggestedCards.add(weaponCard);
+                }if (otherPs.getHand().contains(roomCard)) {
+                    hasSuggestedCards.add(roomCard);
+                }
 
 
-        //False accusation as the envelope does not contain all three of the cards within the envelope
-        if (!Board.envelope.contains(character) || !Board.envelope.contains(weaponCard) || !Board.envelope.contains(roomCard)) {
-            System.out.println("This is an incorrect suggestion");
-            canMakeActions = false;
-        }
-        //A successful accusation has been made and the game has been completed
-        else {
-            System.out.println("Game is completed, a successful accusation has card ");
+
+                //if the next player has nothing to offer, continue to next turn
+                if (hasSuggestedCards.size() == 0) {
+                    JFrame frame = new JFrame();
+                    JOptionPane.showMessageDialog(frame, otherPs.getName()+" has nothing that matches your suggestion", "Suggestee", JOptionPane.PLAIN_MESSAGE);
+
+                } else {
+                    Card cardToShow;
+                    //if the next player has only one card to show, show this to current player
+                    if (hasSuggestedCards.size() == 1) {
+                        cardToShow = hasSuggestedCards.get(0);
+                    }
+                    //if the next player has more than one card to show, pass on to that player, show that player their hand and from this the player can select one of the cards
+                    else {
+                        JFrame frame = new JFrame();
+                        JOptionPane.showMessageDialog(frame, this.getName() + " look away and pass on to " + otherPs.getName(), "Look away", JOptionPane.PLAIN_MESSAGE);
+
+
+                        JPanel CardToShowWindow = new JPanel();
+                        String[] cards = new String[3];
+                        cards[0] = hasSuggestedCards.get(0).toString();
+                        cards[1] = hasSuggestedCards.get(1).toString();
+                        if(hasSuggestedCards.size()>2){
+                            cards[2] = hasSuggestedCards.get(2).toString();
+                        }
+                        JLabel CardBoxDesc = new JLabel("Chose card to Show");
+                        JComboBox<String> CardSelection = new JComboBox<>(cards);
+
+
+                        GridLayout layout = new GridLayout(1, 1);
+
+                        CardToShowWindow.setLayout(layout);
+
+                        CardToShowWindow.add(CardBoxDesc);
+                        CardToShowWindow.add(CardSelection);
+
+                        int result = JOptionPane.showConfirmDialog(null, CardToShowWindow,
+                                "Choose between the following to show to the suggester", JOptionPane.OK_CANCEL_OPTION);
+
+
+
+//                        boolean validCard = false;
+//                        String stringCard = "";
+//                        while (!validCard) {
+//                            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+//                            System.out.println("Select card for Suggester:");
+//                            stringCard = reader.readLine();
+//                            if (stringCard.matches("[1-3]")) {
+//                                validCard = true;
+//                            } else {
+//                                System.out.println("Invalid number");
+//                            }
+//                        }
+//                        int cardNo = Integer.parseInt(stringCard);
+//                        cardToShow = hasSuggestedCards.get(cardNo - 1);
+//                        System.out.println(otherPs.getPlayerName()+" look away and pass on to "+this.getPlayerName()+" (5 sec delay).");
+//
+//                        for (int i = 0; i < 15; ++i) System.out.println();
+//                    }
+//                    System.out.println(otherPs.getPlayerName()+" has the following card that matches your suggestion. Take note of this (5 sec delay)");
+//                    System.out.println(cardToShow.toString());
+//                    for (int i = 0; i < 15; ++i) System.out.println();
+//                    break;
+                    }
+                }
+            }
         }
     }
+
 
     /**
      * Method that checks if the player is in a room
