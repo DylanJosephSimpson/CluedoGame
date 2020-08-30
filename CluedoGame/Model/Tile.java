@@ -26,8 +26,6 @@ public class Tile implements Item {
 
         Graphics2D g2 = (Graphics2D) g;
 
-//        System.out.println("X VALUE OF TILE BEING DRAWN " + x  + " Y VALUE OF TILE BEING DRAWN" + y);
-
         //Setting Roomtiles to pink
         if (Board.getRoomNames().contains(tileType)) {
             g2.setColor(new Color(255,192,203));
@@ -58,7 +56,6 @@ public class Tile implements Item {
         }
 
     }
-
 
     @Override
     public void erase(Graphics g) {
