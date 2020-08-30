@@ -21,7 +21,6 @@ public class Room {
      */
     private boolean isInvolvedInMurder;
 
-
     /**
      * Originally allocated weapons and weapons that are suggested go into this room
      */
@@ -110,7 +109,6 @@ public class Room {
     public Set<Tile> getDoorwayTiles() {
         return doorwayTiles;
     }
-
 
     public void setDoorwayTiles(Set<Tile> doorwayTiles) {
         this.doorwayTiles = doorwayTiles;
