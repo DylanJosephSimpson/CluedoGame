@@ -199,9 +199,9 @@ public class CluedoGUI extends JFrame {
                     }
                 }
                 //Add the doorway tiles to the Room
-                if (tileKey.equals("@")) {
-                    Player.findRoom(col, row).addDoorWay(new Tile("n/a", col * 30, row * 30));
-                }
+//                if (tileKey.equals("@")) {
+//                    Player.findRoom(col, row).addDoorWay(new Tile("n/a", col * 30, row * 30));
+//                }
             }
         }
 
@@ -446,6 +446,7 @@ public class CluedoGUI extends JFrame {
     public static void endTurn() {
         hasRolled = false;
         previouslyTraversedTiles.clear();
+        Board.getCurrentPlayer().setMadeSuggestion(false);
         currentPlayerPos++;
         if (currentPlayerPos == Player.playerList.size()) {
             currentPlayerPos = 0;
@@ -526,7 +527,6 @@ public class CluedoGUI extends JFrame {
             g2d.setStroke(new BasicStroke(1));
             drawBoard(graphics);
             for (Character c : Board.getCharacterArrayList()) {
-                System.out.println( (c.currentTile.getCol()) + "Y MY BOI : " + (c.currentTile.getRow())  );
                 c.draw(g2d, c.currentTile.getCol(), c.currentTile.getRow());
             }
             // Draw all the weapons and characters in a room if it has any

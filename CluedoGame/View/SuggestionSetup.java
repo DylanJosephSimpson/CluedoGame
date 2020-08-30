@@ -4,6 +4,7 @@ import Model.*;
 import Model.Board;
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class SuggestionSetup {
 
@@ -17,7 +18,7 @@ public class SuggestionSetup {
     private JLabel CharacterBoxDesc = new JLabel("Character Choice");
     private JComboBox<String> CharacterSelection  = new JComboBox<>(Character);
 
-    public SuggestionSetup(Player player){
+    public SuggestionSetup(Player player) throws IOException {
 
         MakeSuggestionWindow = new JPanel();
         GridLayout layout = new GridLayout(3, 2);
@@ -34,7 +35,7 @@ public class SuggestionSetup {
             Suggestion currentSuggetion = new Suggestion(
                     Board.getCharacterFromString((String) CharacterSelection.getSelectedItem()),
                     Board.getWeaponFromString( (String) WeaponSelection.getSelectedItem()),
-                    Player.findPlayerRoom(player.getAssignedCharacter().currentTile.getX(), player.getAssignedCharacter().currentTile.getRow())
+                    Player.findRoom(player.getAssignedCharacter().currentTile.getCol(), player.getAssignedCharacter().currentTile.getRow())
             );
 
             player.makeSuggestion(Board.getCardHashMap().get(CharacterSelection.getSelectedItem().toString())
