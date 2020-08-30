@@ -6,7 +6,6 @@ import java.awt.*;
 import javax.swing.*;
 
 public class MenuSetup {
-
     private static JFrame MenuWindow;
 
     /**
