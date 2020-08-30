@@ -75,11 +75,20 @@ public class CluedoGUIController {
                         JOptionPane.ERROR_MESSAGE);
                 return;
             }
+            if (Board.getCurrentPlayer().isMadeSuggestion()) {
+                JOptionPane.showMessageDialog(null,
+                        "You have already made a suggestion this turn.",
+                        "No suggestion!",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            Board.getCurrentPlayer().setMadeSuggestion(true);
             CluedoGUI.getGameControlPanel().requestFocus();
             try {
                 new SuggestionSetup(Board.getCurrentPlayer());
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
+            } catch (IOException ex) {
+                ex.printStackTrace();
             }
         });
 //        CluedoGUI.getLeaveRoom().addActionListener(e -> {
@@ -118,6 +127,17 @@ public class CluedoGUIController {
                     CluedoGUI.getMakeAccusation().doClick();
                     if (Board.getCurrentPlayer().isInARoom()) {
                         new AccusationSetup(Board.getCurrentPlayer());
+                        CluedoGUI.getGameControlPanel().requestFocus();
+                    }
+                }
+                if (e.getKeyChar() == '4') {
+                    CluedoGUI.getMakeAccusation().doClick();
+                    if (Board.getCurrentPlayer().isInARoom()) {
+                        try {
+                            new SuggestionSetup(Board.getCurrentPlayer());
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
                         CluedoGUI.getGameControlPanel().requestFocus();
                     }
                 }
