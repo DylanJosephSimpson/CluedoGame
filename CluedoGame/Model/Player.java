@@ -18,6 +18,15 @@ import java.util.regex.Pattern;
  */
 public class Player {
 
+    public boolean madeSuggestion = false;
+
+    public boolean isMadeSuggestion() {
+        return madeSuggestion;
+    }
+
+    public void setMadeSuggestion(boolean madeSuggestion) {
+        this.madeSuggestion = madeSuggestion;
+    }
 
     public static ArrayList<Player> playerList = new ArrayList<>();
 
@@ -112,6 +121,7 @@ public class Player {
     public Player(String name, Character assignedCharacter) {
         this.name = name;
         this.assignedCharacter = assignedCharacter;
+        this.madeSuggestion = false;
     }
 
     /**
@@ -249,48 +259,7 @@ public class Player {
         return matcher.find();
     }
 
-//    public static Room findPlayerRoom(int x, int y) {
-//        return Board.getRoomFromString(Board.getOriginalBoardLayoutArray()[y / 30][x / 30]);
-//    }
-//
-//    public static String findPlayerRoom2(int x, int y) {
-////
-////       if(){
-////
-////       }
-////       else if(){
-////
-////       }
-////       else if(){
-////
-////       }
-////
-////       else if(){
-////
-////       }
-////       else if(){
-////
-////       }
-////       else if(){
-////
-////       }
-////
-////       else if(){
-////
-////       }
-////
-////       else if(){
-////
-////       }
-////
-////       else if(){
-////
-////       }
-////
-////       else if(){
-////
-////       }
-//    }
+
 
     /**
      * Locates a room if a room tile is present surrounding it. This should only be used for an @ tile.
