@@ -77,6 +77,20 @@ public class CluedoGUIController {
             CluedoGUI.getGameControlPanel().requestFocus();
             new SuggestionSetup(Board.getCurrentPlayer());
         });
+        CluedoGUI.getLeaveRoom().addActionListener(e -> {
+            if (!Board.getCurrentPlayer().isInARoom()) {
+                JOptionPane.showMessageDialog(null,
+                        "Cannot Leave a Room as you are not in a Room!",
+                        "You are not leaving a room!",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            Board.getCurrentPlayer().leaveRoom();
+            Board.getCurrentPlayer().setRemainingMoves(Board.getCurrentPlayer().getRemainingMoves() - 1);
+            CluedoGUI.getCluedoGame().repaint();
+
+//            new SuggestionSetup(Board.getCurrentPlayer());
+        });
         // Add A KeyListener to the GameControlPanel
         CluedoGUI.getGameControlPanel().addKeyListener(new KeyListener() {
             @Override
@@ -103,10 +117,12 @@ public class CluedoGUIController {
                     }
                 }
                 if (CluedoGUI.isHasRolled()) {
+
                     Board.setCurrentPlayer(Player.getPlayerList().get(CluedoGUI.getCurrentPlayerPos()));
+//                    Board.getCurrentPlayer().endMovement();
                     //if the current player has no moves left, prompt the player that their turn has ended and return the settings to their defult
                     //convert pixel pos to tile pos
-                    int tileX = Board.getCurrentPlayer().getAssignedCharacter().currentTile.getX() / 30;
+                    int tileX = Board.getCurrentPlayer().getAssignedCharacter().currentTile.getCol() / 30;
                     int tileY = Board.getCurrentPlayer().getAssignedCharacter().currentTile.getRow() / 30;
                     CluedoGUI.getPreviouslyTraversedTiles().add(new Tile(Board.getBoardLayoutArray()[tileY][tileX],tileX*30,tileY*30));
 //                    Pattern pattern = Pattern.compile("(Scarlett|Mustard|Green|White|Plum|Peacock|Wall)",Pattern.CASE_INSENSITIVE); //todo update board each time player is moved and then uncomment this(Caleb)
@@ -135,7 +151,7 @@ public class CluedoGUIController {
                         }
                     }
                     if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                        if (Board.getCurrentPlayer().getAssignedCharacter().currentTile.getX() > 0 && Player.validMove(CluedoGUI.getBoard()[tileY][tileX - 1])) {
+                        if (Board.getCurrentPlayer().getAssignedCharacter().currentTile.getCol() > 0 && Player.validMove(CluedoGUI.getBoard()[tileY][tileX - 1])) {
                             Matcher matcher = pattern.matcher(CluedoGUI.getBoard()[tileY][tileX - 1].getTileType());
                             if (!matcher.find()) {
                                 // previouslyTraversedTiles.add(new int[]{tileX, tileY});
@@ -146,7 +162,7 @@ public class CluedoGUIController {
                         }
                     }
                     if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                        if (Board.getCurrentPlayer().getAssignedCharacter().currentTile.getX() < 690 && Player.validMove(CluedoGUI.getBoard()[tileY][tileX + 1])) {
+                        if (Board.getCurrentPlayer().getAssignedCharacter().currentTile.getCol() < 690 && Player.validMove(CluedoGUI.getBoard()[tileY][tileX + 1])) {
                             Matcher matcher = pattern.matcher(CluedoGUI.getBoard()[tileY][tileX + 1].getTileType());
                             if (!matcher.find()) {
                                 //previouslyTraversedTiles.add(new int[]{tileX, tileY});
