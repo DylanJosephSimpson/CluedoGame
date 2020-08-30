@@ -5,6 +5,7 @@ import View.CluedoGUI;
 import View.SuggestionSetup;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -98,7 +99,7 @@ public class CluedoGUIModel {
      * Called when an action is preformed involving the EndTurn Action Listener.
      * Rolls the dice
      */
-    public static void MakeSuggestionValidModel(){
+    public static void MakeSuggestionValidModel() throws IOException {
         new SuggestionSetup(Board.getCurrentPlayer());
     }
 
@@ -158,7 +159,7 @@ public class CluedoGUIModel {
      * Rolls the dice
      */
     public static void MoveWestModel(int tileY, int tileX, Pattern pattern){
-        if (Board.getCurrentPlayer().getAssignedCharacter().currentTile.getX() > 0 && Player.validMove(CluedoGUI.getBoard()[tileY][tileX - 1])) {
+        if (Board.getCurrentPlayer().getAssignedCharacter().currentTile.getCol() > 0 && Player.validMove(CluedoGUI.getBoard()[tileY][tileX - 1])) {
             Matcher matcher = pattern.matcher(CluedoGUI.getBoard()[tileY][tileX - 1].getTileType());
             if (!matcher.find()) {
                 Board.getCurrentPlayer().move("WEST");
@@ -173,7 +174,7 @@ public class CluedoGUIModel {
      * Rolls the dice
      */
     public static void MoveEastModel(int tileY, int tileX, Pattern pattern){
-        if (Board.getCurrentPlayer().getAssignedCharacter().currentTile.getX() < 690 && Player.validMove(CluedoGUI.getBoard()[tileY][tileX + 1])) {
+        if (Board.getCurrentPlayer().getAssignedCharacter().currentTile.getCol() < 690 && Player.validMove(CluedoGUI.getBoard()[tileY][tileX + 1])) {
             Matcher matcher = pattern.matcher(CluedoGUI.getBoard()[tileY][tileX + 1].getTileType());
             if (!matcher.find()) {
                 Board.getCurrentPlayer().move("EAST");
