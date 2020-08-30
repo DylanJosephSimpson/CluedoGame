@@ -1,6 +1,7 @@
 package Model;
 
 import Model.Character;
+import View.CluedoGUI;
 
 public class Suggestion {
 
@@ -54,6 +55,7 @@ public class Suggestion {
         //add the weapon to the room where the suggestion occurred in
         room.addWeaponToRoom(weapon);
         weapon.setCurrentRoom(room);
+        CluedoGUI.getCluedoGame().repaint();
     }
 
     /**
