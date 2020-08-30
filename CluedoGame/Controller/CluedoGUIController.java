@@ -2,6 +2,7 @@ package Controller;
 
 import Model.Board;
 import Model.Player;
+import Model.Tile;
 import View.AccusationSetup;
 import View.CluedoGUI;
 import View.SuggestionSetup;
@@ -106,15 +107,13 @@ public class CluedoGUIController {
                     //if the current player has no moves left, prompt the player that their turn has ended and return the settings to their defult
                     //convert pixel pos to tile pos
                     int tileX = Board.getCurrentPlayer().getAssignedCharacter().currentTile.getX() / 30;
-                    int tileY = Board.getCurrentPlayer().getAssignedCharacter().currentTile.getY() / 30;
-                    CluedoGUI.getPreviouslyTraversedTiles().add(new int[]{tileX, tileY});
-                    //Pattern pattern = Pattern.compile("(Scarlett|Mustard|Green|White|Plum|Peacock|Wall)",Pattern.CASE_INSENSITIVE); //todo update board each time player is moved and then uncomment this(Caleb)
+                    int tileY = Board.getCurrentPlayer().getAssignedCharacter().currentTile.getRow() / 30;
+                    CluedoGUI.getPreviouslyTraversedTiles().add(new Tile(Board.getBoardLayoutArray()[tileY][tileX],tileX*30,tileY*30));
+//                    Pattern pattern = Pattern.compile("(Scarlett|Mustard|Green|White|Plum|Peacock|Wall)",Pattern.CASE_INSENSITIVE); //todo update board each time player is moved and then uncomment this(Caleb)
                     Pattern pattern = Pattern.compile("(Wall)", Pattern.CASE_INSENSITIVE);
                     //ensures the player can move into the position that they want to, if they are not able to then do not decrese their moves left
                     if (e.getKeyCode() == KeyEvent.VK_UP) {
-                        if (Board.getCurrentPlayer().getAssignedCharacter().currentTile.getY() > 0
-                                &&
-                                Player.validMove(CluedoGUI.getBoard()[tileY - 1][tileX])) {
+                        if (Board.getCurrentPlayer().getAssignedCharacter().currentTile.getRow() > 0 && Player.validMove(CluedoGUI.getBoard()[tileY - 1][tileX])) {
                             Matcher matcher = pattern.matcher(CluedoGUI.getBoard()[tileY - 1][tileX].getTileType());
                             if (!matcher.find()) {
                                 Board.getCurrentPlayer().move("NORTH");
@@ -125,7 +124,7 @@ public class CluedoGUIController {
                         }
                     }
                     if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                        if (Board.getCurrentPlayer().getAssignedCharacter().currentTile.getY() < 720 && Player.validMove(CluedoGUI.getBoard()[tileY + 1][tileX])) {
+                        if (Board.getCurrentPlayer().getAssignedCharacter().currentTile.getRow() < 720 && Player.validMove(CluedoGUI.getBoard()[tileY + 1][tileX])) {
                             Matcher matcher = pattern.matcher(CluedoGUI.getBoard()[tileY + 1][tileX].getTileType());
                             if (!matcher.find()) {
                                 //previouslyTraversedTiles.add(new int[]{tileX, tileY});
@@ -160,6 +159,7 @@ public class CluedoGUIController {
                     //redraw the frame
                     //CluedoGame.repaint();
                     if (Board.getCurrentPlayer().getRemainingMoves() <= 0) {
+                        CluedoGUI.getPreviouslyTraversedTiles().clear();
                         JFrame frame = new JFrame();
                         JOptionPane.showMessageDialog(frame, "You now have no more moves", "No more moves", JOptionPane.PLAIN_MESSAGE);
                     }
