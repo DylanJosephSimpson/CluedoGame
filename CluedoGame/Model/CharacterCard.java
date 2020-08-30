@@ -1,23 +1,21 @@
 package Model;
 
-import Model.Card;
-
 import javax.swing.*;
 import java.awt.*;
 
 /**
  * Class which is necessary for interactions. Describes the character *in question.
- * Model.CharacterCard subclass:
+ * CharacterCard subclass:
  *
- * The Model.CharacterCard subclass is a class which extends the Model.Card Superclass. CharacterCards are used to carry out
- * interaction between players during the suggestions faze of the game.
+ * The CharacterCard subclass is a class which extends the Card Superclass. CharacterCards are used to carry out
+ * interaction between players during the suggestions phase of the game.
  */
 
 public class CharacterCard extends Card {
 
     private String characterName;
 
-    /**Constructor for a single Model.CharacterCard
+    /**Constructor for a single CharacterCard
      * @param aCharacterName - the name of the card. For CharacterCards this is the character names.
      */
     public CharacterCard(String aCharacterName, ImageIcon cardIcon, Image cardImage) {
@@ -39,7 +37,7 @@ public class CharacterCard extends Card {
     /**
      * toString method:
      *
-     * basic toString method for a Model.CharacterCard
+     * basic toString method for a CharacterCard
      *
      * @return - returns the name of the character as a String
      */
