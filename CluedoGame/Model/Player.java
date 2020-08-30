@@ -232,6 +232,7 @@ public class Player {
                     }else{
                         output = cardToShow;
                     }
+                    System.out.println(output);
                     BufferedImage image = ImageIO.read(new File("Cards/"+output+".png"));
                     JLabel picLabel = new JLabel(new ImageIcon(image));
                     JOptionPane.showMessageDialog(null, picLabel, "Card from Suggestion: "+ cardToShow, JOptionPane.PLAIN_MESSAGE, null);
