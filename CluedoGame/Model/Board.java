@@ -82,14 +82,12 @@ public class Board {
 
     public static void setup() {
 
-        System.out.println("Cyote");
         characterCards.add(new CharacterCard("Miss. Scarlett", ScarlettIcon, ImageLoader.GetImage("Miss. Scarlett")));
         characterCards.add(new CharacterCard("Col. Mustard", MustardIcon, ImageLoader.GetImage("Col. Mustard")));
         characterCards.add(new CharacterCard("Mrs. White", WhiteIcon, ImageLoader.GetImage("Mrs. White")));
         characterCards.add(new CharacterCard("Mr. Green", GreenIcon, ImageLoader.GetImage("Mr. Green")));
         characterCards.add(new CharacterCard("Mrs. Peacock", PeacockIcon, ImageLoader.GetImage("Mrs. Peacock")));
         characterCards.add(new CharacterCard("Prof. Plum", PlumIcon, ImageLoader.GetImage("Prof. Plum")));
-        System.out.println("Navajo");
         // Generate weapon cards
         weaponCards.add(new WeaponCard("Candlestick", CandlestickIcon, ImageLoader.GetImage("Candlestick")));
         weaponCards.add(new WeaponCard("Rope", RopeIcon, ImageLoader.GetImage("Rope")));
@@ -108,7 +106,7 @@ public class Board {
         roomCards.add(new RoomCard("Dining Room", DiningRoomIcon, ImageLoader.GetImage("DiningRoom")));
         roomCards.add(new RoomCard("Lounge", LoungeIcon, ImageLoader.GetImage("Lounge")));
         roomCards.add(new RoomCard("Billiard Room", BilliardRoomIcon, ImageLoader.GetImage("Billiard")));
-        System.out.println("AMERICAN BABY");
+
         characterArrayList.add(Scarlett);
         characterArrayList.add(Mustard);
         characterArrayList.add(White);
