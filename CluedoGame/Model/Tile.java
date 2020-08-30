@@ -44,7 +44,6 @@ public class Tile implements Item {
             g2.setColor(new Color(100,2,180));
         }
         else {
-            System.out.println("TILE TYPE " + tileType);
             g.setColor(Color.WHITE);
         }
         //Draw the tile Rectangle
@@ -74,7 +73,7 @@ public class Tile implements Item {
         this.tileType = tileType;
     }
 
-    public int getX() {
+    public int getCol() {
         return x;
     }
 
