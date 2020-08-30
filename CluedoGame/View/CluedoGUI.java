@@ -71,7 +71,7 @@ public class CluedoGUI extends JFrame {
         return board;
     }
 
-    private static Tile[][] board = new Tile[25][30];
+    private static Tile[][] board = new Tile[25][24];
     private Board b;
 
     private static boolean hasRolled = false;
@@ -116,13 +116,13 @@ public class CluedoGUI extends JFrame {
         return hasRolled;
     }
 
-    private static ArrayList<int[]> previouslyTraversedTiles = new ArrayList<>();
+    private static ArrayList<Tile> previouslyTraversedTiles = new ArrayList<>();
 
     public static int getCurrentPlayerPos() {
         return currentPlayerPos;
     }
 
-    public static ArrayList<int[]> getPreviouslyTraversedTiles() {
+    public static ArrayList<Tile> getPreviouslyTraversedTiles() {
         return previouslyTraversedTiles;
     }
 
@@ -338,8 +338,8 @@ public class CluedoGUI extends JFrame {
     public void drawBoard(Graphics graphics) {
         for (int row = 0; row < 25; ++row) {
             for (int col = 0; col < 24; ++col) {
-                board[row][col] = new Tile(tileTypeToNameMap.get(b.getBoardLayoutArray()[row][col]), col * GRID_SIZE, row * GRID_SIZE);
-                board[row][col].draw(graphics, board[row][col].getX(), board[row][col].getY());
+                board[row][col] = new Tile(tileTypeToNameMap.get(Board.getBoardLayoutArray()[row][col]), col * GRID_SIZE, row * GRID_SIZE);
+                board[row][col].draw(graphics, board[row][col].getX(), board[row][col].getRow());
             }
         }
     }
@@ -513,20 +513,20 @@ public class CluedoGUI extends JFrame {
             g2d.setStroke(new BasicStroke(1));
             drawBoard(graphics);
             for (Character c : Board.getCharacterArrayList()) {
-                System.out.println( (c.currentTile.getX()) + "Y MY BOI : " + (c.currentTile.getY())  );
-                c.draw(g2d, c.currentTile.getX(), c.currentTile.getY());
+                System.out.println( (c.currentTile.getX()) + "Y MY BOI : " + (c.currentTile.getRow())  );
+                c.draw(g2d, c.currentTile.getX(), c.currentTile.getRow());
             }
             // Draw all the weapons and characters in a room if it has any
             for (Room r : Board.getAllRooms()) {
                 for (int i = 0; i < r.getWeaponsInRoom().size(); i++) {
                     int x = r.getRoomTiles().get(i).getX();
-                    int y = r.getRoomTiles().get(i).getY();
+                    int y = r.getRoomTiles().get(i).getRow();
                     r.getWeaponsInRoom().get(i).draw(g2d, x, y);
                 }
                 int count = r.getRoomTiles().size() - 1; //draw from the end of the room tiles
                 for (int i = 0; i < r.getCharactersInRoom().size(); i++) {
                     int x = r.getRoomTiles().get(count).getX();
-                    int y = r.getRoomTiles().get(count).getY();
+                    int y = r.getRoomTiles().get(count).getRow();
                     //move the player into the room
                     r.getCharactersInRoom().get(i).currentTile.setX(x);
                     r.getCharactersInRoom().get(i).currentTile.setY(y);
