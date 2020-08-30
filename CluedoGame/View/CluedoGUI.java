@@ -236,91 +236,48 @@ public class CluedoGUI extends JFrame {
     private void generateCards() {
         // Generate character cards
         CardPlaceholderCard = new JLabel(Board.GetIcon("Placeholder"));
-        CardPlaceholderCard.setToolTipText("No card in this slot");
         // Set the HandCardI label to the CandlestickImage Scaled Image.
         CandlestickCard = new JLabel(Board.GetIcon("Candlestick"));
-        CandlestickCard.setToolTipText("Candlestick Card");
-        Board.getAllCards().add(CandlestickCard);
         // Set the HandCardII label to the DaggerImage Scaled Image.
         DaggerCard = new JLabel(Board.GetIcon("Dagger"));
-        DaggerCard.setToolTipText("Dagger Card");
-        Board.getAllCards().add(DaggerCard);
         // Set the HandCardIII label to the LeadPipeImage Scaled Image.
         LeadPipeCard = new JLabel(Board.GetIcon("LeadPipe"));
-        LeadPipeCard.setToolTipText("LeadPipe Card");
-        Board.getAllCards().add(LeadPipeCard);
         // Set the HandCardIV label to the RevolverImage Scaled Image.
         RevolverCard = new JLabel(Board.GetIcon("Revolver"));
-        RevolverCard.setToolTipText("Revolver Card");
-        Board.getAllCards().add(RevolverCard);
         // Set the HandCardV label to the RopeImage Scaled Image.
         RopeCard = new JLabel(Board.GetIcon("Rope"));
-        RopeCard.setToolTipText("Rope Card");
-        Board.getAllCards().add(RopeCard);
         // Set the HandCardV label to the SpannerImage Scaled Image.
         SpannerCard = new JLabel(Board.GetIcon("Spanner"));
-        SpannerCard.setToolTipText("Spanner Card");
-        Board.getAllCards().add(SpannerCard);
         // Add the Hand of Cards to the JPanel
         ScarlettCard = new JLabel(Board.GetIcon("Scarlett"));
-        ScarlettCard.setToolTipText("Scarlett Card");
-        Board.getAllCards().add(ScarlettCard);
         // Set the HandCardII label to the DaggerImage Scaled Image.
         MustardCard = new JLabel(Board.GetIcon("Mustard"));
-        MustardCard.setToolTipText("Mustard Card");
-        Board.getAllCards().add(MustardCard);
         // Set the HandCardIII label to the LeadPipeImage Scaled Image.
         GreenCard = new JLabel(Board.GetIcon("Green"));
-        GreenCard.setToolTipText("Green Card");
-        Board.getAllCards().add(GreenCard);
         // Set the HandCardIV label to the RevolverImage Scaled Image.
         WhiteCard = new JLabel(Board.GetIcon("White"));
-        WhiteCard.setToolTipText("White Card");
-        Board.getAllCards().add(WhiteCard);
         // Set the HandCardV label to the RopeImage Scaled Image.
         PlumCard = new JLabel(Board.GetIcon("Plum"));
-        PlumCard.setToolTipText("Plum Card");
-        Board.getAllCards().add(PlumCard);
         // Set the HandCardV label to the SpannerImage Scaled Image.
         PeacockCard = new JLabel(Board.GetIcon("Peacock"));
-        PeacockCard.setToolTipText("Peacock Card");
-        Board.getAllCards().add(PeacockCard);
         // Add the Hand of Cards to the JPanel
         LibraryCard = new JLabel(Board.GetIcon("Library"));
-        LibraryCard.setToolTipText("Library Card");
-        Board.getAllCards().add(LibraryCard);
         // Set the HandCardII label to the DaggerImage Scaled Image.
         BallRoomCard = new JLabel(Board.GetIcon("BallRoom"));
-        BallRoomCard.setToolTipText("BallRoom Card");
-        Board.getAllCards().add(BallRoomCard);
         // Set the HandCardIII label to the LeadPipeImage Scaled Image.
         KitchenCard = new JLabel(Board.GetIcon("Kitchen"));
-        KitchenCard.setToolTipText("Kitchen Card");
-        Board.getAllCards().add(KitchenCard);
         // Set the HandCardIV label to the RevolverImage Scaled Image.
         DiningRoomCard = new JLabel(Board.GetIcon("DiningRoom"));
-        DiningRoomCard.setToolTipText("DiningRoom Card");
-        Board.getAllCards().add(DiningRoomCard);
         // Set the HandCardV label to the RopeImage Scaled Image.
         LoungeCard = new JLabel(Board.GetIcon("Lounge"));
-        LoungeCard.setToolTipText("Lounge Card");
-        Board.getAllCards().add(LoungeCard);
         // Set the HandCardV label to the SpannerImage Scaled Image.
         HallCard = new JLabel(Board.GetIcon("Hall"));
-        HallCard.setToolTipText("Hall Card");
-        Board.getAllCards().add(HallCard);
-        // Add the Hand of Cards to the JPanel
+        // Add the Hand of Cards to the JPanel.
         StudyCard = new JLabel(Board.GetIcon("Study"));
-        StudyCard.setToolTipText("Study Card");
-        Board.getAllCards().add(StudyCard);
         // Set the HandCardII label to the DaggerImage Scaled Image.
         BilliardRoomCard = new JLabel(Board.GetIcon("BilliardRoom"));
-        BilliardRoomCard.setToolTipText("BillardRoom Card");
-        Board.getAllCards().add(BilliardRoomCard);
         // Set the HandCardIII label to the LeadPipeImage Scaled Image.
         ConservatoryCard = new JLabel(Board.GetIcon("Conservatory"));
-        ConservatoryCard.setToolTipText("Conservatory Card");
-        Board.getAllCards().add(ConservatoryCard);
     }
 
     private JMenuBar GenerateMenu(String menuName, String optName, String optNameTwo) {
@@ -405,27 +362,38 @@ public class CluedoGUI extends JFrame {
         HandCard5 = new JLabel();
         HandCard6 = new JLabel();
         HandCard1.setIcon(Board.GetIcon(Board.getCurrentPlayer().getHand().get(0).toString()));
+        HandCard1.setToolTipText(Board.getCurrentPlayer().getHand().get(0).toString());
         HandCard2.setIcon(Board.GetIcon(Board.getCurrentPlayer().getHand().get(1).toString()));
+        HandCard2.setToolTipText(Board.getCurrentPlayer().getHand().get(1).toString());
         HandCard3.setIcon(Board.GetIcon(Board.getCurrentPlayer().getHand().get(2).toString()));
+        HandCard3.setToolTipText(Board.getCurrentPlayer().getHand().get(2).toString());
         if (Board.getCurrentPlayer().getHand().size() > 3) {
             HandCard4.setIcon(Board.GetIcon(Board.getCurrentPlayer().getHand().get(3).toString()));
+            HandCard4.setToolTipText(Board.getCurrentPlayer().getHand().get(3).toString());
         } else {
             HandCard4 = CardPlaceholderCard;
+            HandCard4.setToolTipText("Placeholder");
         }
         if (Board.getCurrentPlayer().getHand().size() > 4) {
             HandCard5.setIcon(Board.GetIcon(Board.getCurrentPlayer().getHand().get(4).toString()));
+            HandCard5.setToolTipText(Board.getCurrentPlayer().getHand().get(4).toString());
         } else {
             HandCard5 = CardPlaceholderCard;
+            HandCard5.setToolTipText("Placeholder");
         }
         if (Board.getCurrentPlayer().getHand().size() > 5) {
             HandCard6.setIcon(Board.GetIcon(Board.getCurrentPlayer().getHand().get(5).toString()));
+            HandCard6.setToolTipText(Board.getCurrentPlayer().getHand().get(5).toString());
         } else {
             HandCard6 = CardPlaceholderCard;
+            HandCard6.setToolTipText("Placeholder");
         }
         if (Board.getCurrentPlayer().getHand().size() > 6) {
             HandCard7.setIcon(Board.GetIcon(Board.getCurrentPlayer().getHand().get(6).toString()));
+            HandCard7.setToolTipText(Board.getCurrentPlayer().getHand().get(6).toString());
         } else {
             HandCard7 = CardPlaceholderCard;
+            HandCard7.setToolTipText("Placeholder");
         }
         InfoPanelRight.add(HandCard1);
         InfoPanelRight.add(HandCard2);
