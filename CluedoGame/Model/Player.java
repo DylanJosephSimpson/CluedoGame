@@ -13,6 +13,8 @@ import java.util.regex.Pattern;
  */
 public class Player {
 
+
+
     public static ArrayList<Player> playerList = new ArrayList<>();
 
     private ArrayList<Card> hand = new ArrayList<>();
@@ -20,6 +22,8 @@ public class Player {
     public static ArrayList<Player> getPlayerList() {
         return playerList;
     }
+
+    public static boolean enteredARoomOnThisTurn = false;
 
     public static void addPlayerList(Player player) {
         System.out.println(player.toString() + "NEW PLAYER");
@@ -250,52 +254,74 @@ public class Player {
     public void move(String dir){
 
         System.out.println(dir);
+//        if(isInARoom()){
+//            System.out.println("WE ARE IN A ROOM");
+//            return;
+//        }
         //If the player is moving onto a player/wall/outof bounds
         //Move the playerY coordinate up one
         switch (dir) {
             case "NORTH":
                 System.out.println("NORTH"+this.assignedCharacter.characterName + "X POS " +this.assignedCharacter.getX() + "Y POS" + this.assignedCharacter.getY());
-                Board.getBoardLayoutArray()[(this.assignedCharacter.currentTile.getRow() - 30) / 30][this.assignedCharacter.currentTile.getX() / 30] = Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getX() / 30];
-                Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getX() / 30] = Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getX() / 30];
+                Board.getBoardLayoutArray()[(this.assignedCharacter.currentTile.getRow() - 30) / 30][this.assignedCharacter.currentTile.getCol() / 30] = Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30];
+                Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30] = Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30];
                 this.assignedCharacter.currentTile.setY((this.assignedCharacter.currentTile.getRow() - 30));
-                this.assignedCharacter.setX(this.assignedCharacter.currentTile.getX());
+                this.assignedCharacter.setX(this.assignedCharacter.currentTile.getCol());
                 this.assignedCharacter.setY(this.assignedCharacter.currentTile.getRow());
+                if(Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getRow()/30][this.assignedCharacter.currentTile.getCol()/30].equals("@")){
+                enteredARoomOnThisTurn = true;
+                Board.getCurrentPlayer().setRemainingMoves(0);
+                 }
+//                endMovement();
                 System.out.println("NORTH"+this.assignedCharacter.characterName + "X POS " +this.assignedCharacter.getX() + "Y POS" + this.assignedCharacter.getY());
                 break;
             case "SOUTH":
                 System.out.println("SOUTH"+this.assignedCharacter.characterName + "X POS " +this.assignedCharacter.getX() + "Y POS" + this.assignedCharacter.getY());
-                Board.getBoardLayoutArray()[(this.assignedCharacter.currentTile.getRow() + 30) / 30][this.assignedCharacter.currentTile.getX() / 30] = Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getX() / 30];
-                Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getX() / 30] = Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getX() / 30];
+                Board.getBoardLayoutArray()[(this.assignedCharacter.currentTile.getRow() + 30) / 30][this.assignedCharacter.currentTile.getCol() / 30] = Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30];
+                Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30] = Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30];
                 this.assignedCharacter.currentTile.setY((this.assignedCharacter.currentTile.getRow() + 30));
-                this.assignedCharacter.setX(this.assignedCharacter.currentTile.getX());
+                this.assignedCharacter.setX(this.assignedCharacter.currentTile.getCol());
                 this.assignedCharacter.setY(this.assignedCharacter.currentTile.getRow());
-                System.out.println("SOUTH"+this.assignedCharacter.characterName + "X POS " +this.assignedCharacter.getX() + "Y POS" + this.assignedCharacter.getY());
-                break;
+                if(Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getRow()/30][this.assignedCharacter.currentTile.getCol()/30].equals("@")){
+                    enteredARoomOnThisTurn = true;
+                    Board.getCurrentPlayer().setRemainingMoves(0);
+                }                break;
             case "EAST":
                 System.out.println("EAST"+this.assignedCharacter.characterName + "X POS " +this.assignedCharacter.getX() + "Y POS" + this.assignedCharacter.getY());
-                Board.getBoardLayoutArray()[(this.assignedCharacter.currentTile.getRow()) / 30][(30 + this.assignedCharacter.currentTile.getX()) / 30] = Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getX() / 30];
-                Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getX() / 30] = Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getX() / 30];
-                this.assignedCharacter.currentTile.setX((this.assignedCharacter.currentTile.getX() + 30));
-                this.assignedCharacter.setX(this.assignedCharacter.currentTile.getX());
+                Board.getBoardLayoutArray()[(this.assignedCharacter.currentTile.getRow()) / 30][(30 + this.assignedCharacter.currentTile.getCol()) / 30] = Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30];
+                Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30] = Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30];
+                this.assignedCharacter.currentTile.setX((this.assignedCharacter.currentTile.getCol() + 30));
+                this.assignedCharacter.setX(this.assignedCharacter.currentTile.getCol());
                 this.assignedCharacter.setY(this.assignedCharacter.currentTile.getRow());
-                System.out.println("EAST"+this.assignedCharacter.characterName + "X POS " +this.assignedCharacter.getX() + "Y POS" + this.assignedCharacter.getY());
-
+                if(Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getRow()/30][this.assignedCharacter.currentTile.getCol()/30].equals("@")){
+                    enteredARoomOnThisTurn = true;
+                    Board.getCurrentPlayer().setRemainingMoves(0);
+                }
                 break;
             case "WEST":
                 System.out.println("WEST"+this.assignedCharacter.characterName + "X POS " +this.assignedCharacter.getX() + "Y POS" + this.assignedCharacter.getY());
-                Board.getBoardLayoutArray()[(this.assignedCharacter.currentTile.getRow()) / 30][(this.assignedCharacter.currentTile.getX() - 30) / 30] = Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getX() / 30];
-                Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getX() / 30] = Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getX() / 30];
-                this.assignedCharacter.currentTile.setX((this.assignedCharacter.currentTile.getX() - 30));
-                this.assignedCharacter.setX(this.assignedCharacter.currentTile.getX());
+                Board.getBoardLayoutArray()[(this.assignedCharacter.currentTile.getRow()) / 30][(this.assignedCharacter.currentTile.getCol() - 30) / 30] = Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30];
+                Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30] = Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30];
+                this.assignedCharacter.currentTile.setX((this.assignedCharacter.currentTile.getCol() - 30));
+                this.assignedCharacter.setX(this.assignedCharacter.currentTile.getCol());
                 this.assignedCharacter.setY(this.assignedCharacter.currentTile.getRow());
-                System.out.println("WEST"+this.assignedCharacter.characterName + "X POS " +this.assignedCharacter.getX() + "Y POS" + this.assignedCharacter.getY());
-                break;
+                if(Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getRow()/30][this.assignedCharacter.currentTile.getCol()/30].equals("@")){
+                    enteredARoomOnThisTurn = true;
+                    Board.getCurrentPlayer().setRemainingMoves(0);
+                }                break;
             default: throw new RuntimeException("EPIC FAIL");
         }
 
 
 
     }
+
+//    public void endMovement() {
+//        if(isInARoom() && enteredARoomOnThisTurn){
+//        Board.getCurrentPlayer().setRemainingMoves(0);
+//            System.out.println("DONE");
+//        }
+//    }
 
     public static boolean validMove(Tile tileInFrontOfPlayer) {
         if (Board.getCurrentPlayer().getRemainingMoves() <= 0) {
@@ -305,7 +331,7 @@ public class Player {
         //checks if the next tile is a character or not
         for (Character c : Board.getCharacterArrayList()) {
             if (c != Board.getCurrentPlayer().getAssignedCharacter()) {
-                if (c.getX() == tileInFrontOfPlayer.getX() && c.getY() == tileInFrontOfPlayer.getRow()) {
+                if (c.getX() == tileInFrontOfPlayer.getCol() && c.getY() == tileInFrontOfPlayer.getRow()) {
                     return false;
                 }
             }
@@ -313,7 +339,7 @@ public class Player {
 
         //checks if the next tile has been visited by checking the list of tiles that the character has visited in their turn
         for (Tile t: CluedoGUI.getPreviouslyTraversedTiles() ) {
-            if(t.getX()==tileInFrontOfPlayer.getX() && t.getRow()==tileInFrontOfPlayer.getRow()){
+            if(t.getCol()==tileInFrontOfPlayer.getCol() && t.getRow()==tileInFrontOfPlayer.getRow()){
                 JFrame frame = new JFrame();
                 JOptionPane.showMessageDialog(frame, "You can not visit a space that you have already been in your turn.", "Keep Moving Forward", JOptionPane.WARNING_MESSAGE);
                 return false;
@@ -352,6 +378,24 @@ public class Player {
     @Override
     public String toString() {
         return "Player: " + name + " Character: " + assignedCharacter.toString();
+    }
+
+    public void leaveRoom() {
+        System.out.println(Board.getCurrentPlayer().RemainingMoves + "REMAINING MOVES");
+        if(Board.getCurrentPlayer().RemainingMoves>=0) {
+            System.out.println("WE ARE HERE");
+            if (Board.getBoardLayoutArray()[(this.assignedCharacter.currentTile.getRow() / 30) - 1][this.assignedCharacter.getX() / 30].equals(" ")) {
+                move("NORTH");
+                System.out.println("WE ARE NORTH");
+
+            } else if (Board.getBoardLayoutArray()[(this.assignedCharacter.currentTile.getRow() / 30) + 1][this.assignedCharacter.getX() / 30].equals(" ")) {
+                move("SOUTH");
+            } else if (Board.getBoardLayoutArray()[(this.assignedCharacter.currentTile.getRow() / 30)][this.assignedCharacter.getX() / 30 + 1].equals(" ")) {
+                move("EAST");
+            } else if (Board.getBoardLayoutArray()[(this.assignedCharacter.currentTile.getRow() / 30)][this.assignedCharacter.getX() / 30 - 1].equals(" ")) {
+                move("WEST");
+            }
+        }
     }
 
 
@@ -438,7 +482,7 @@ public class Player {
      * @return if it is in bounds
      */
     private boolean tileInBounds(Tile tile) {
-        return tile.getRow() > 0 && tile.getRow() <25 && tile.getX() > 0 && tile.getX() < 24;
+        return tile.getRow() > 0 && tile.getRow() <25 && tile.getCol() > 0 && tile.getCol() < 24;
     }
 
     /**
