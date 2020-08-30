@@ -5,7 +5,8 @@ import View.CluedoGUI;
 import View.SuggestionSetup;
 
 import javax.swing.*;
-import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CluedoGUIModel {
 
@@ -59,7 +60,7 @@ public class CluedoGUIModel {
     public static void RollDiceInvalidModel(){
         JOptionPane.showMessageDialog(null,
                 Board.getCurrentPlayer().getName() + ", you have already rolled the dice for your turn\n and have " +
-                        Board.getCurrentPlayer().getRemainingMoves() + " move(s) remaining"
+                         Board.getCurrentPlayer().getRemainingMoves() + " move(s) remaining"
                 , "You have already rolled", JOptionPane.WARNING_MESSAGE);
     }
 
@@ -97,7 +98,7 @@ public class CluedoGUIModel {
      * Called when an action is preformed involving the EndTurn Action Listener.
      * Rolls the dice
      */
-    public static void MakeSuggestionValidModel() throws IOException {
+    public static void MakeSuggestionValidModel(){
         new SuggestionSetup(Board.getCurrentPlayer());
     }
 
@@ -121,4 +122,63 @@ public class CluedoGUIModel {
         }
     }
 
+    /**
+     * Model for the  RollDiceModel.
+     * Called when an action is preformed involving the EndTurn Action Listener.
+     * Rolls the dice
+     */
+    public static void MoveNorthModel(int tileY, int tileX, Pattern pattern){
+        if (Board.getCurrentPlayer().getAssignedCharacter().currentTile.getRow() > 0 && Player.validMove(CluedoGUI.getBoard()[tileY - 1][tileX])) {
+            Matcher matcher = pattern.matcher(CluedoGUI.getBoard()[tileY - 1][tileX].getTileType());
+            if (!matcher.find()) {
+                Board.getCurrentPlayer().move("NORTH");
+                Board.getCurrentPlayer().setRemainingMoves(Board.getCurrentPlayer().getRemainingMoves() - 1);
+            }
+        }
+    }
+
+    /**
+     * Model for the  RollDiceModel.
+     * Called when an action is preformed involving the EndTurn Action Listener.
+     * Rolls the dice
+     */
+    public static void MoveSouthModel(int tileY, int tileX, Pattern pattern){
+        if (Board.getCurrentPlayer().getAssignedCharacter().currentTile.getRow() < 720 && Player.validMove(CluedoGUI.getBoard()[tileY + 1][tileX])) {
+            Matcher matcher = pattern.matcher(CluedoGUI.getBoard()[tileY + 1][tileX].getTileType());
+            if (!matcher.find()) {
+                Board.getCurrentPlayer().move("SOUTH");
+                Board.getCurrentPlayer().setRemainingMoves(Board.getCurrentPlayer().getRemainingMoves() - 1);
+            }
+        }
+    }
+
+    /**
+     * Model for the  RollDiceModel.
+     * Called when an action is preformed involving the EndTurn Action Listener.
+     * Rolls the dice
+     */
+    public static void MoveWestModel(int tileY, int tileX, Pattern pattern){
+        if (Board.getCurrentPlayer().getAssignedCharacter().currentTile.getX() > 0 && Player.validMove(CluedoGUI.getBoard()[tileY][tileX - 1])) {
+            Matcher matcher = pattern.matcher(CluedoGUI.getBoard()[tileY][tileX - 1].getTileType());
+            if (!matcher.find()) {
+                Board.getCurrentPlayer().move("WEST");
+                Board.getCurrentPlayer().setRemainingMoves(Board.getCurrentPlayer().getRemainingMoves() - 1);
+            }
+        }
+    }
+
+    /**
+     * Model for the  RollDiceModel.
+     * Called when an action is preformed involving the EndTurn Action Listener.
+     * Rolls the dice
+     */
+    public static void MoveEastModel(int tileY, int tileX, Pattern pattern){
+        if (Board.getCurrentPlayer().getAssignedCharacter().currentTile.getX() < 690 && Player.validMove(CluedoGUI.getBoard()[tileY][tileX + 1])) {
+            Matcher matcher = pattern.matcher(CluedoGUI.getBoard()[tileY][tileX + 1].getTileType());
+            if (!matcher.find()) {
+                Board.getCurrentPlayer().move("EAST");
+                Board.getCurrentPlayer().setRemainingMoves(Board.getCurrentPlayer().getRemainingMoves() - 1);
+            }
+        }
+    }
 }
