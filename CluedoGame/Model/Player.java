@@ -129,20 +129,26 @@ public class Player {
      **/
 
     public void makeAccusation(Card characterCard, Card weaponCard, Card roomCard) {
+        System.out.println(Board.envelope);
         if (!canMakeActions || !isInARoom()) {
             return; //If the player is not active due to making a false accusation or not in a room there is no
             // point in making an accusation, they can still move.
         }
-        System.out.println("Accusation is being made");
 
         //False accusation as the envelope does not contain all three of the cards within the envelope
         if (!Board.envelope.contains(characterCard) || !Board.envelope.contains(weaponCard) || !Board.envelope.contains(roomCard)) {
-            System.out.println("This is a false accusation ");
+            JOptionPane.showMessageDialog(null,
+                    "Your Accusation is WRONG!",
+                    "Incorrect Accusation",
+                    JOptionPane.PLAIN_MESSAGE);
             canMakeActions = false;
         }
         //A successful accusation has been made and the game has been completed
         else {
-            System.out.println("Game is completed, a successful accusation has card ");
+            JOptionPane.showMessageDialog(null,
+                    "Your Accusation is CORRECT!",
+                    "Correct Accusation",
+                    JOptionPane.PLAIN_MESSAGE);
         }
     }
 
@@ -233,6 +239,7 @@ public class Player {
                         output = cardToShow;
                     }
                     System.out.println(output);
+                    output.replaceAll(" ", "" );
                     BufferedImage image = ImageIO.read(new File("Cards/"+output+".png"));
                     JLabel picLabel = new JLabel(new ImageIcon(image));
                     JOptionPane.showMessageDialog(null, picLabel, "Card from Suggestion: "+ cardToShow, JOptionPane.PLAIN_MESSAGE, null);
@@ -272,7 +279,6 @@ public class Player {
     public static Room findRoom(int x, int y) {
         int col = x/30;
         int row = y/30;
-        System.out.println(Board.getOriginalBoardLayoutArray()[row - 1][col - 1]);
         String topLeftDiagonalTile = Board.getOriginalBoardLayoutArray()[row - 1][col - 1];
         String topMiddleTile = Board.getOriginalBoardLayoutArray()[row - 1][col];
         String topRightDiagonalTile = Board.getOriginalBoardLayoutArray()[row - 1][col + 1];
@@ -338,7 +344,6 @@ public class Player {
 
     public void move(String dir) {
 
-        System.out.println(dir);
         switch (dir) {
             case "NORTH":
                 Board.getBoardLayoutArray()[(this.assignedCharacter.currentTile.getRow() - 30) / 30][this.assignedCharacter.currentTile.getCol() / 30] = Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30];
@@ -351,10 +356,8 @@ public class Player {
                     Board.getCurrentPlayer().setRemainingMoves(0);
                 }
 //                endMovement();
-//                System.out.println("NORTH" + this.assignedCharacter.characterName + "X POS " + this.assignedCharacter.getX() + "Y POS" + this.assignedCharacter.getY());
                 break;
             case "SOUTH":
-//                System.out.println("SOUTH" + this.assignedCharacter.characterName + "X POS " + this.assignedCharacter.getX() + "Y POS" + this.assignedCharacter.getY());
                 Board.getBoardLayoutArray()[(this.assignedCharacter.currentTile.getRow() + 30) / 30][this.assignedCharacter.currentTile.getCol() / 30] = Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30];
                 Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30] = Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30];
                 this.assignedCharacter.currentTile.setY((this.assignedCharacter.currentTile.getRow() + 30));
@@ -366,7 +369,6 @@ public class Player {
                 }
                 break;
             case "EAST":
-//                System.out.println("EAST" + this.assignedCharacter.characterName + "X POS " + this.assignedCharacter.getX() + "Y POS" + this.assignedCharacter.getY());
                 Board.getBoardLayoutArray()[(this.assignedCharacter.currentTile.getRow()) / 30][(30 + this.assignedCharacter.currentTile.getCol()) / 30] = Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30];
                 Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30] = Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30];
                 this.assignedCharacter.currentTile.setX((this.assignedCharacter.currentTile.getCol() + 30));
@@ -378,7 +380,6 @@ public class Player {
                 }
                 break;
             case "WEST":
-//                System.out.println("WEST" + this.assignedCharacter.characterName + "X POS " + this.assignedCharacter.getX() + "Y POS" + this.assignedCharacter.getY());
                 Board.getBoardLayoutArray()[(this.assignedCharacter.currentTile.getRow()) / 30][(this.assignedCharacter.currentTile.getCol() - 30) / 30] = Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30];
                 Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30] = Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30];
                 this.assignedCharacter.currentTile.setX((this.assignedCharacter.currentTile.getCol() - 30));
