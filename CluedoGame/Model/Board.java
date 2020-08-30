@@ -206,22 +206,19 @@ public class Board {
     private static void generateMurderer() {
         int index = new Random().nextInt(Board.getCharacterCards().size());
         murderer = Board.getCharacterCards().get(index);
-        Board.getEnvelope().add(murderer);
-        Board.getDeckOfCards().remove(murderer);
+        Board.getEnvelope().add((Card) murderer);
     }
 
     private static void generateMurderWeapon() {
         int index = new Random().nextInt(Board.getWeaponCards().size());
         murderWeapon = Board.getWeaponCards().get(index);
-        Board.getEnvelope().add(murderWeapon);
-        Board.getDeckOfCards().remove(murderWeapon);
+        Board.getEnvelope().add((Card)murderWeapon);
     }
 
     private static void generateMurderRoom() {
         int index = new Random().nextInt(Board.getRoomCards().size());
         murderRoom = Board.getRoomCards().get(index);
-        Board.getEnvelope().add(murderRoom);
-        Board.getDeckOfCards().remove(murderRoom);
+        Board.getEnvelope().add((Card)murderRoom);
     }
 
     public static void dealCards() {
