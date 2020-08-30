@@ -1,110 +1,219 @@
 package View;
 
+import Controller.*;
 import Model.*;
-
-import java.awt.*;
 import javax.swing.*;
+import java.awt.*;
 
-public class MenuSetup {
+public class GameSetup {
 
-    private static JFrame MenuWindow;
+    private final JFrame GameSetupWindow;
 
-    /**
-     * Grouping of Components : Menu
-     */
-    private static Container MenuContainer;
-    private static JPanel GameTitlePanel;
-    private static JLabel GameTitleName;
-    private static JButton StartButton;
+    private final JRadioButton ScarlettButton = new JRadioButton("Scarlett");
+    private final JRadioButton MustardButton = new JRadioButton("Mustard");
+    private final JRadioButton WhiteButton = new JRadioButton("White");
+    private final JRadioButton GreenButton = new JRadioButton("Green");
+    private final JRadioButton PeacockButton = new JRadioButton("Peacock");
+    private final JRadioButton PlumButton = new JRadioButton("Plum");
+    private  JLabel characterInformation;
 
-    /**
-     * Constructor for a MenuJFrame Object.
-     * The MenuJFrame is the first part of the GUI that the player gets to see, it allows them to press the
-     * start button to initialise the game.
-     *
-     * As of now the MenuJFrame is resizeable, and the content inside of the JFrame
-     *
-     * //TODO : Anyone better then me at math, change the resizeable math, as it works kinda, but not perfectly.
-     *
-     * @param title
-     */
-    public MenuSetup(String title) {
-        Board.setup();
-        // Creates a new JFrame with a given title, which is displayed at the top left hand corner of the application.
-        MenuWindow = new JFrame(title);
-        // Set the MenuWindow to be disposed when exited, this will result in the JFrame closing, if there is any other JFrames still running the program will not stop.
-        MenuWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        // Set the initial size of the Application to be 740 pixels wide and 500 pixels tall
-        MenuWindow.setSize(new Dimension(740, 500));
-        // Set the minimum size the minimum size to 720 pixels wide and 480 pixels tall. Anything smaller than this and the game becomes unplayable.
-        MenuWindow.setMinimumSize(new Dimension(720, 480));
-        // Set the minimum size the minimum size to 1920 pixels wide and 1080 pixels tall. This allows you to fit the Application to the size of modern screens when using the Maximise button.
-        MenuWindow.setMaximumSize(new Dimension(1920, 1080));
-        // Set's the Background colour to this nifty lavender / blue color. // TODO : Can be changed if anyone wants, we should have a color scheme, but that can be done later.
-        MenuWindow.getContentPane().setBackground(new Color(84, 101, 215));
-        // Set the layout to be null so that anything added to this JFrame can be placed exactly where it should be // TODO : If someone wants to play with the Layouts and get the resizing working that way, feel free to.
-        MenuWindow.setLayout(null);
-        // Set the JFrame to be visible
-        MenuWindow.setVisible(true);
-        // Run through the container setup, which is a container that is drawn in the contentPane, and holds all of the content inside of it.
-        containerSetup(MenuWindow);
-        MenuWindow.pack();
+    public GameSetup(String title){
+
+        GameSetupWindow = new JFrame(title);
+
+        GameSetupWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        GameSetupWindow.setSize(new Dimension(740, 500));
+
+        GameSetupWindow.setMinimumSize(new Dimension(720, 480));
+
+        GameSetupWindow.setMaximumSize(new Dimension(1920, 1080));
+
+        GameSetupWindow.getContentPane().setBackground(new Color(84, 101, 215));
+
+        GameSetupWindow.setLayout(new GridLayout(3, 0));
+
+        GameSetupWindow.setVisible(true);
+        GameSetupWindow.add(GameInputAreaSetup());
+        GameSetupWindow.add(GameOptionAreaSetup());
+        GameSetupWindow.add(GameCharactersSetup());
+
+        GameSetupWindow.pack();
+
     }
 
-    public void containerSetup(JFrame ParentFrame){
-        MenuContainer = ParentFrame.getContentPane();
-        MenuContainer.add(gameTitlePanelSetup(ParentFrame));
-        MenuContainer.add(StartButtonSetup(ParentFrame));
+    public Container GameInputAreaSetup(){
+        Container gameInputArea = new JPanel();
+        gameInputArea.setBackground(Color.red);
+
+        BorderLayout GameInputAreaLayout = new BorderLayout();
+
+        gameInputArea.setLayout(GameInputAreaLayout);
+
+        JButton addPlayer = new JButton("Add Player");
+
+        addPlayer.addActionListener(e -> RunAddCharacter() );
+
+        gameInputArea.add(addPlayer, BorderLayout.CENTER);
+
+        return gameInputArea;
     }
 
-    public JPanel gameTitlePanelSetup(JFrame ParentFrame){
-        GameTitlePanel = new JPanel();
-        GameTitlePanel.setBounds(ParentFrame.getSize().width / 4, ParentFrame.getSize().height / 4, ParentFrame.getSize().width / 2, ParentFrame.getSize().height / 4);
-        GameTitlePanel.setBackground(new Color(84, 101, 215));
-        GameTitlePanel.add(gameTitleNameSetup(ParentFrame, GameTitlePanel));
-        return GameTitlePanel;
+    public Container GameOptionAreaSetup(){
+        Container gameOptionArea = new JPanel();
+        gameOptionArea.setBackground(Color.green);
+
+        BorderLayout GameInputAreaLayout = new BorderLayout();
+
+        gameOptionArea.setLayout(GameInputAreaLayout);
+
+        JButton startGame = new JButton("Start Game");
+
+        startGame.addActionListener(e -> RunGameStart() );
+
+        gameOptionArea.add(startGame, BorderLayout.CENTER);
+
+        return gameOptionArea;
     }
 
-    public JLabel gameTitleNameSetup(JFrame ParentFrame, JPanel ParentPanel){
-        GameTitleName = new JLabel("CLUEDO");
-        GameTitleName.setBounds(ParentPanel.getBounds().x, ParentPanel.getBounds().y, ParentPanel.getBounds().x, ParentPanel.getBounds().y);
-        GameTitleName.setForeground(new Color(240, 128, 8));
-        GameTitleName.setFont(new Font("Times New Roman", Font.BOLD, (ParentFrame.getSize().width - ParentFrame.getSize().height) / 4));
-        return GameTitleName;
+    public Container GameCharactersSetup(){
+        Container gameCharacters = new JPanel();
+
+        BorderLayout GameInputAreaLayout = new BorderLayout();
+
+        gameCharacters.setLayout(GameInputAreaLayout);
+
+        JButton returnToMenu = new JButton("Back To Menu");
+
+        gameCharacters.add(returnToMenu, BorderLayout.CENTER);
+
+        returnToMenu.addActionListener(e -> ReturnToMainMenu() );
+
+        characterInformation = new JLabel("Current Players : " + Player.customToStringForPlayerList());
+
+        gameCharacters.add(characterInformation, BorderLayout.PAGE_END);
+
+        return gameCharacters;
     }
 
-    public JButton StartButtonSetup(JFrame ParentFrame){
-        StartButton = new JButton("Start");
-        StartButton.setBackground(new Color(240, 128, 8));
-        StartButton.setBorderPainted(true);
-        StartButton.setContentAreaFilled(false);
-        StartButton.setForeground(new Color(240, 128, 8));
-        StartButton.setFont(new Font("Times New Roman", Font.PLAIN, (ParentFrame.getSize().width - ParentFrame.getSize().height) / 4));
-        StartButton.setBounds(MenuWindow.getSize().width / 4, ParentFrame.getSize().height / 2, ParentFrame.getSize().width / 2, ParentFrame.getSize().height / 8);
-        StartButton.addActionListener(e-> ChangeScreen("Options") );
-        return StartButton;
+    private void RunAddCharacter(){
+
+        JTextField PlayerName = new JTextField(10);
+
+        ButtonGroup characterGroup = new ButtonGroup();
+        characterGroup.add(ScarlettButton);
+        characterGroup.add(MustardButton);
+        characterGroup.add(WhiteButton);
+        characterGroup.add(GreenButton);
+        characterGroup.add(PeacockButton);
+        characterGroup.add(PlumButton);
+
+        JPanel myPanel = new JPanel();
+
+        myPanel.add(new JLabel("Model.Player Name : "));
+
+        myPanel.add(PlayerName);
+
+        myPanel.add(Box.createHorizontalStrut(15));
+
+        myPanel.add(new JLabel("Model.Character : "));
+
+        myPanel.add(ScarlettButton);
+        myPanel.add(MustardButton);
+        myPanel.add(WhiteButton);
+        myPanel.add(GreenButton);
+        myPanel.add(PeacockButton);
+        myPanel.add(PlumButton);
+
+        int result = JOptionPane.showConfirmDialog(null, myPanel,
+                "Please Enter your name and preferred character", JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
+            Player tempPlayer;
+            if(ScarlettButton.isSelected() && PlayerName.getText().length() > 0){
+                tempPlayer = new Player(PlayerName.getText(), Board.getCharacter(0) );
+                Player.addPlayerList(tempPlayer);
+                ScarlettButton.setEnabled(false);
+            }
+            else if(MustardButton.isSelected() && PlayerName.getText().length() > 0){
+                tempPlayer = new Player(PlayerName.getText(), Board.getCharacter(1));
+                Player.addPlayerList(tempPlayer);
+                MustardButton.setEnabled(false);
+            }
+            else if(WhiteButton.isSelected() && PlayerName.getText().length() > 0){
+                tempPlayer = new Player(PlayerName.getText(), Board.getCharacter(2));
+                Player.addPlayerList(tempPlayer);
+                WhiteButton.setEnabled(false);
+            }
+            else if(GreenButton.isSelected() && PlayerName.getText().length() > 0){
+                tempPlayer = new Player(PlayerName.getText(), Board.getCharacter(3));
+                Player.addPlayerList(tempPlayer);
+                GreenButton.setEnabled(false);
+            }
+            else if(PeacockButton.isSelected() && PlayerName.getText().length() > 0){
+                tempPlayer = new Player(PlayerName.getText(), Board.getCharacter(4));
+                Player.addPlayerList(tempPlayer);
+                PeacockButton.setEnabled(false);
+            }
+            else if(PlumButton.isSelected() && PlayerName.getText().length() > 0){
+                tempPlayer = new Player(PlayerName.getText(), Board.getCharacter(5));
+                Player.addPlayerList(tempPlayer);
+                PlumButton.setEnabled(false);
+            }
+            characterInformation.setText("Current Players : " + Player.customToStringForPlayerList());
+            characterGroup.clearSelection(); //Clears all selected players to avoid error where you can add Professor Plum
+            //indefinitely which would balloon the list to over 6 players
+
+        }
+        for(Player player : Player.getPlayerList()) {
+            System.out.println(player);
+        }
+        System.out.println("\n");
     }
 
-    public void ChangeScreen(String title){
-        new GameSetup(title);
-        MenuWindow.dispose();
+    public void RunGameStart(){
+
+        if (Player.getPlayerList().size() >= 3) {
+            Object[] options = {"Yes",
+                    "No",
+                    "Return To Menu"};
+            // optionSelected = 0 (yes), = 1 (no), = 2 (return to menu)
+            int optionSelected = JOptionPane.showOptionDialog(GameSetupWindow,
+                    "Are you sure you want to start the game with " + Player.playerList.size() +" players? ",
+                    "Confirm",
+                    JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[2]);
+            switch (optionSelected){
+                case 0:
+                    StartGame();
+                    break;
+                case 1 :
+                    // Close Window - > Do nothing
+                    break;
+                case 2 :
+                    ReturnToMainMenu();
+                    break;
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(GameSetupWindow,
+                    "You currently have " + (Player.getPlayerList().size()) + " players, but require 3 to play" ,
+                    "More Players Required",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    public void ReturnToMainMenu(){
+        Player.getPlayerList().removeAll(Player.getPlayerList());
+        GameSetupWindow.dispose();
+        new MenuSetup("Cluedo");
     }
 
-    public static JFrame getMenuWindow() {
-        return MenuWindow;
-    }
-
-    public static Container getMenuContainer() {
-        return MenuContainer;
-    }
-
-    public static JPanel getGameTitlePanel() {
-        return GameTitlePanel;
-    }
-    public static JLabel getGameTitleName() {
-        return GameTitleName;
-    }
-    public static JButton getStartButton() {
-        return StartButton;
+    public void StartGame(){
+        GameSetupWindow.dispose();
+        Board b = new Board();
+        new CluedoGUI("Cluedo Game",b);
+        new CluedoGUIController();
     }
 }
