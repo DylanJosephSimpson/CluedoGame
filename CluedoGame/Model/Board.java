@@ -11,16 +11,20 @@ import java.util.*;
  */
 public class Board {
 
+
     static ArrayList<Card> deckOfCards = new ArrayList<>();
     static HashSet<Card> envelope = new HashSet<>();
     static HashMap<String, Card> cardHashMap = new HashMap<>();
     private static Card murderer;
     private static Card murderRoom;
     private static Card murderWeapon;
-    private static Player currentPlayer;
-    static ArrayList<Character> characterArrayList = new ArrayList<Character>();
     private static ArrayList<JLabel> allCards = new ArrayList<>();
-    static Tile [][] BoardTiles = new Tile[25][24];
+
+    private static Player currentPlayer;
+
+
+    static ArrayList<Character> characterArrayList = new ArrayList<Character>();
+    static Tile[][] BoardTiles = new Tile[25][24];
 
     // Initialization of characters
     public static ArrayList<Weapon> allWeapons = new ArrayList<>();
@@ -80,36 +84,41 @@ public class Board {
     private static ImageIcon BilliardRoomIcon;
     private static ImageIcon ConservatoryIcon;
 
+    /**
+     * Method for initialising the board for functionality
+     */
     public static void setup() {
-        //Start of resetting statics
         characterArrayList.clear();
-        for (int row = 0; row < boardLayoutArray.length; row++){
-            for (int col = 0; col < boardLayoutArray[row].length; col++){
-                boardLayoutArray[row][col] = originalBoardLayoutArrayPlayers[row][col];
+        //Initialising the board based on the setup of the original board
+        for (int row = 0; row < boardLayoutArray.length; row++) {
+            for (int col = 0; col < boardLayoutArray[row].length; col++) {
+                boardLayoutArray[row][col] = boardLayoutArray[row][col];
             }
         }
+        //Initialising the characters
         Scarlett = new Character("Miss. Scarlett", 210, 720);
         Mustard = new Character("Col. Mustard", 0, 510);
         White = new Character("Mrs. White", 270, 0);
         Green = new Character("Mr. Green", 420, 0);
         Peacock = new Character("Mrs. Peacock", 690, 180);
         Plum = new Character("Prof. Plum", 690, 570);
-        //End of resetting statics
 
+        //Initialising characters
         characterCards.add(new CharacterCard("Miss. Scarlett", ScarlettIcon, ImageLoader.GetImage("Miss. Scarlett")));
         characterCards.add(new CharacterCard("Col. Mustard", MustardIcon, ImageLoader.GetImage("Col. Mustard")));
         characterCards.add(new CharacterCard("Mrs. White", WhiteIcon, ImageLoader.GetImage("Mrs. White")));
         characterCards.add(new CharacterCard("Mr. Green", GreenIcon, ImageLoader.GetImage("Mr. Green")));
         characterCards.add(new CharacterCard("Mrs. Peacock", PeacockIcon, ImageLoader.GetImage("Mrs. Peacock")));
         characterCards.add(new CharacterCard("Prof. Plum", PlumIcon, ImageLoader.GetImage("Prof. Plum")));
-        // Generate weapon cards
+
+        //Initialising weapon cards
         weaponCards.add(new WeaponCard("Candlestick", CandlestickIcon, ImageLoader.GetImage("Candlestick")));
         weaponCards.add(new WeaponCard("Rope", RopeIcon, ImageLoader.GetImage("Rope")));
         weaponCards.add(new WeaponCard("Revolver", RevolverIcon, ImageLoader.GetImage("Revolver")));
         weaponCards.add(new WeaponCard("LeadPipe", LeadPipeIcon, ImageLoader.GetImage("LeadPipe")));
         weaponCards.add(new WeaponCard("Dagger", DaggerIcon, ImageLoader.GetImage("Dagger")));
         weaponCards.add(new WeaponCard("Spanner", SpannerIcon, ImageLoader.GetImage("Spanner")));
-        // Generate room cards
+        // Initialising room cards
         roomCards.add(new RoomCard("Library", LibraryIcon, ImageLoader.GetImage("Library")));
         roomCards.add(new RoomCard("Conservatory", ConservatoryIcon, ImageLoader.GetImage("Conservatory")));
         roomCards.add(new RoomCard("Kitchen", KitchenIcon, ImageLoader.GetImage("Kitchen")));
@@ -120,6 +129,7 @@ public class Board {
         roomCards.add(new RoomCard("Lounge", LoungeIcon, ImageLoader.GetImage("Lounge")));
         roomCards.add(new RoomCard("Billiard Room", BilliardRoomIcon, ImageLoader.GetImage("Billiard")));
 
+        //Initialising arraylist of characters
         characterArrayList.add(Scarlett);
         characterArrayList.add(Mustard);
         characterArrayList.add(White);
@@ -127,15 +137,17 @@ public class Board {
         characterArrayList.add(Peacock);
         characterArrayList.add(Plum);
 
+       // Setting up deck of cards
         Board.getDeckOfCards().addAll(characterCards);
         Board.getDeckOfCards().addAll(weaponCards);
         Board.getDeckOfCards().addAll(roomCards);
 
+        //generating Murder, Murderweapon and Murder room
         generateMurderer();
         generateMurderWeapon();
         generateMurderRoom();
 
-        //Model.Room names being added to arraylist
+        //Room names being added to arraylist
         roomNames.add("Kitchen");
         roomNames.add("Ballroom");
         roomNames.add("Conservatory");
@@ -146,12 +158,16 @@ public class Board {
         roomNames.add("Billiard Room");
         roomNames.add("Library");
         roomNames.add("Cellar");
+
+        //Adding all weapons to the list
         allWeapons.add(Candlestick);
         allWeapons.add(Dagger);
         allWeapons.add(LeadPipe);
         allWeapons.add(Revolver);
         allWeapons.add(Rope);
         allWeapons.add(Spanner);
+
+        //Adding all rooms to the list
         allRooms.add(Kitchen);
         allRooms.add(Ballroom);
         allRooms.add(Conservatory);
@@ -163,89 +179,90 @@ public class Board {
         allRooms.add(Library);
         allRooms.add(Cellar);
 
+        //Setting up the loading of images
         ImageLoader.LoadImages();
 
+        //Initialising the icons
         CardPlaceholderIcon = new ImageIcon(ImageLoader.GetImage("Placeholder").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
-        // Set the HandCardI label to the CandlestickImage Scaled Image.
         CandlestickIcon = new ImageIcon(ImageLoader.GetImage("Candlestick").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
-        // Set the HandCardII label to the DaggerImage Scaled Image.
         DaggerIcon = new ImageIcon(ImageLoader.GetImage("Dagger").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
-        // Set the HandCardIII label to the LeadPipeImage Scaled Image.
         LeadPipeIcon = new ImageIcon(ImageLoader.GetImage("LeadPipe").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
-        // Set the HandCardIV label to the RevolverImage Scaled Image.
         RevolverIcon = new ImageIcon(ImageLoader.GetImage("Revolver").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
-        // Set the HandCardV label to the RopeImage Scaled Image.
         RopeIcon = new ImageIcon(ImageLoader.GetImage("Rope").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
-        // Set the HandCardV label to the SpannerImage Scaled Image.
         SpannerIcon = new ImageIcon(ImageLoader.GetImage("Spanner").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
-        // Add the Hand of Cards to the JPanel
         ScarlettIcon = new ImageIcon(ImageLoader.GetImage("Miss. Scarlett").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
-        // Set the HandCardII label to the DaggerImage Scaled Image.
         MustardIcon = new ImageIcon(ImageLoader.GetImage("Col. Mustard").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
-        // Set the HandCardIII label to the LeadPipeImage Scaled Image.
         GreenIcon = new ImageIcon(ImageLoader.GetImage("Mr. Green").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
-        // Set the HandCardIV label to the RevolverImage Scaled Image.
         WhiteIcon = new ImageIcon(ImageLoader.GetImage("Mrs. White").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
-        // Set the HandCardV label to the RopeImage Scaled Image.
         PlumIcon = new ImageIcon(ImageLoader.GetImage("Prof. Plum").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
-        // Set the HandCardV label to the SpannerImage Scaled Image.
         PeacockIcon = new ImageIcon(ImageLoader.GetImage("Mrs. Peacock").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
-        // Add the Hand of Cards to the JPanel
         LibraryIcon = new ImageIcon(ImageLoader.GetImage("Library").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
-        // Set the HandCardII label to the DaggerImage Scaled Image.
         BallRoomIcon = new ImageIcon(ImageLoader.GetImage("BallRoom").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
-        // Set the HandCardIII label to the LeadPipeImage Scaled Image.
         KitchenIcon = new ImageIcon(ImageLoader.GetImage("Kitchen").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
-        // Set the HandCardIV label to the RevolverImage Scaled Image.
         DiningRoomIcon = new ImageIcon(ImageLoader.GetImage("DiningRoom").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
-        // Set the HandCardV label to the RopeImage Scaled Image.
         LoungeIcon = new ImageIcon(ImageLoader.GetImage("Lounge").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
-        // Set the HandCardV label to the SpannerImage Scaled Image.
         HallIcon = new ImageIcon(ImageLoader.GetImage("Hall").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
-        // Add the Hand of Cards to the JPanel
         StudyIcon = new ImageIcon(ImageLoader.GetImage("Study").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
-        // Set the HandCardII label to the DaggerImage Scaled Image.
         BilliardRoomIcon = new ImageIcon(ImageLoader.GetImage("Billiard").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
-        // Set the HandCardIII label to the LeadPipeImage Scaled Image.
         ConservatoryIcon = new ImageIcon(ImageLoader.GetImage("Conservatory").getScaledInstance(40, 40, Image.SCALE_SMOOTH));
 
+        //Putting Cards into a hashmap used for quick access
         for (Card card : deckOfCards) {
             cardHashMap.put(card.toString(), card);
         }
-
+        //Adding tiles to the board
         populateBoard();
-
     }
 
+    /**
+     * Generate the Murder Character Card
+     */
     private static void generateMurderer() {
         int index = new Random().nextInt(Board.getCharacterCards().size());
         murderer = Board.getCharacterCards().get(index);
         Board.getEnvelope().add((Card) murderer);
     }
 
+    /**
+     * Generate the murder weapon
+     */
     private static void generateMurderWeapon() {
         int index = new Random().nextInt(Board.getWeaponCards().size());
         murderWeapon = Board.getWeaponCards().get(index);
-        Board.getEnvelope().add((Card)murderWeapon);
+        Board.getEnvelope().add((Card) murderWeapon);
     }
 
+    /**
+     * Generate the MurderRoom
+     */
     private static void generateMurderRoom() {
         int index = new Random().nextInt(Board.getRoomCards().size());
         murderRoom = Board.getRoomCards().get(index);
-        Board.getEnvelope().add((Card)murderRoom);
+        Board.getEnvelope().add((Card) murderRoom);
     }
 
+    /**
+     * Dealing the cards to players
+     */
     public static void dealCards() {
         ArrayList<Card> dealableCards = Board.getDeckOfCards();
         Collections.shuffle(dealableCards);
+        //Removing murder related cards
         dealableCards.remove(murderRoom);
         dealableCards.remove(murderWeapon);
         dealableCards.remove(murderer);
+
+        //Adding cards to every player
         for (int i = 0; i < Board.getDeckOfCards().size(); i++) {
             Player.playerList.get(i % Player.playerList.size()).addHand(dealableCards.get(i));
         }
     }
 
+    /**
+     * Getter method for returning image icons
+     * @param imageToGrab the String representing the Icon to grab
+     * @return an Image icon
+     */
     public static ImageIcon GetIcon(String imageToGrab) {
         switch (imageToGrab) {
             case "Candlestick":
@@ -295,7 +312,12 @@ public class Board {
         }
     }
 
-    public static Character getCharacterFromString(String characterName){
+    /**
+     * Getting a character object from a provided String
+     * @param characterName the character being accessed
+     * @return the Character
+     */
+    public static Character getCharacterFromString(String characterName) {
         switch (characterName) {
             case "Miss. Scarlett":
                 return Scarlett;
@@ -313,7 +335,12 @@ public class Board {
         return null;
     }
 
-    public static Weapon getWeaponFromString(String weaponName){
+    /**
+     *Getting a Weapon object from a provided String
+     * @param weaponName the weapon name from the provided String
+     * @return the Weapon
+     */
+    public static Weapon getWeaponFromString(String weaponName) {
         switch (weaponName) {
             case "Candlestick":
                 return Candlestick;
@@ -331,7 +358,12 @@ public class Board {
         return null;
     }
 
-    public static Room getRoomFromString(String roomName){
+    /**
+     * Get the Room from a String provided
+     * @param roomName the provided Room name
+     * @return the Room object
+     */
+    public static Room getRoomFromString(String roomName) {
         switch (roomName) {
             case "Kitchen":
             case "k":
@@ -367,8 +399,10 @@ public class Board {
         return null;
     }
 
-    public Board() {
-    }
+    /**
+     * Constructor for board
+     */
+    public Board() {}
 
     /**
      * Populates the 2d array board with tiles
@@ -381,6 +415,9 @@ public class Board {
         }
     }
 
+    /**
+     * The board layout array represented as String, like Assignment 1 used for updating movements and tile logic
+     */
     private static String[][] boardLayoutArray = new String[][]
             {{
                     "-", "-", "-", "-", "-", "-", "-", "-", "-", "G", "-", "-", "-", "-", "W", "-", "-", "-", "-", "-", "-", "-", "-", "-"},
@@ -410,35 +447,10 @@ public class Board {
                     {"-", "-", "-", "-", "-", "-", "-", "S", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"},
 
             };
-    private static String[][] originalBoardLayoutArrayPlayers = new String[][]
-            {{
-                    "-", "-", "-", "-", "-", "-", "-", "-", "-", "G", "-", "-", "-", "-", "W", "-", "-", "-", "-", "-", "-", "-", "-", "-"},
-                    {"-", "-", "-", "-", "-", "-", "-", " ", " ", " ", "-", "-", "-", "-", " ", " ", " ", "-", "-", "-", "-", "-", "-", "-"},
-                    {"-", "k", "k", "k", "k", "-", " ", " ", "-", "-", "-", "b", "b", "-", "-", "-", " ", " ", "-", "c", "c", "c", "c", "-"},
-                    {"-", "k", "k", "k", "k", "-", " ", " ", "-", "b", "b", "b", "b", "b", "b", "-", " ", " ", "-", "c", "c", "c", "c", "-"},
-                    {"-", "k", "k", "k", "k", "-", " ", " ", "-", "b", "b", "b", "b", "b", "b", "-", " ", " ", "@", "c", "c", "c", "c", "-"},
-                    {"-", "k", "k", "k", "k", "-", " ", " ", "@", "b", "b", "b", "b", "b", "b", "@", " ", " ", "-", "-", "-", "-", "-", "-"},
-                    {"-", "-", "-", "-", "@", "-", " ", " ", "-", "b", "b", "b", "b", "b", "b", "-", " ", " ", " ", " ", " ", " ", " ", "C"},
-                    {"-", " ", " ", " ", " ", " ", " ", " ", "-", "@", "-", "-", "-", "-", "@", "-", " ", " ", " ", " ", " ", " ", " ", "-"},
-                    {"-", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "-", "-", "-", "-", "-", "-"},
-                    {"-", "-", "-", "-", "-", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "@", "i", "i", "i", "i", "-"},
-                    {"-", "d", "d", "d", "-", "-", "-", "-", " ", " ", "-", "-", "-", "-", "-", " ", " ", " ", "-", "i", "i", "i", "i", "-"},
-                    {"-", "d", "d", "d", "d", "d", "d", "-", " ", " ", "-", "e", "e", "e", "-", " ", " ", " ", "-", "i", "i", "i", "i", "-"},
-                    {"-", "d", "d", "d", "d", "d", "d", "@", " ", " ", "-", "e", "e", "e", "-", " ", " ", " ", "-", "-", "-", "-", "@", "-"},
-                    {"-", "d", "d", "d", "d", "d", "d", "-", " ", " ", "-", "e", "e", "e", "-", " ", " ", " ", " ", " ", " ", " ", " ", "-"},
-                    {"-", "d", "d", "d", "d", "d", "d", "-", " ", " ", "-", "e", "e", "e", "-", " ", " ", " ", "-", "-", "@", "-", "-", "-"},
-                    {"-", "-", "-", "-", "-", "-", "@", "-", " ", " ", "-", "e", "e", "e", "-", " ", " ", "-", "-", "y", "y", "y", "y", "-"},
-                    {"-", " ", " ", " ", " ", " ", " ", " ", " ", " ", "-", "-", "-", "-", "-", " ", " ", "@", "y", "y", "y", "y", "y", "-"},
-                    {"M", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "-", "-", "y", "y", "y", "y", "-"},
-                    {"-", " ", " ", " ", " ", " ", " ", " ", " ", "-", "-", "@", "@", "-", "-", " ", " ", " ", "-", "-", "-", "-", "-", "-"},
-                    {"-", "-", "-", "-", "-", "@", "-", " ", " ", "-", "h", "h", "h", "h", "-", " ", " ", " ", " ", " ", " ", " ", " ", "P"},
-                    {"-", "l", "l", "l", "l", "l", "-", " ", " ", "-", "h", "h", "h", "h", "@", " ", " ", " ", " ", " ", " ", " ", " ", "-"},
-                    {"-", "l", "l", "l", "l", "l", "-", " ", " ", "-", "h", "h", "h", "h", "-", " ", " ", "-", "@", "-", "-", "-", "-", "-"},
-                    {"-", "l", "l", "l", "l", "l", "-", " ", " ", "-", "h", "h", "h", "h", "-", " ", " ", "-", "s", "s", "s", "s", "s", "-"},
-                    {"-", "l", "l", "l", "l", "l", "-", " ", " ", "-", "h", "h", "h", "h", "-", " ", " ", "-", "s", "s", "s", "s", "s", "-"},
-                    {"-", "-", "-", "-", "-", "-", "-", "S", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"},
-
-            };
+    /**
+     * The original board layout array represented as String, like Assignment 1 used for updating movements and referring to original tile logic
+     * for game logic
+     */
     private static String[][] originalBoardLayoutArray = new String[][]
             {
                     {"-", "-", "-", "-", "-", "-", "-", "-", "-", " ", "-", "-", "-", "-", " ", "-", "-", "-", "-", "-", "-", "-", "-", "-"},
@@ -470,6 +482,7 @@ public class Board {
 
     /**
      * Getter method which returns the BoardLayoutArray
+     *
      * @return - boardLayoutArray which is the array that is updated throughout the game
      */
     public static String[][] getBoardLayoutArray() {
@@ -478,7 +491,6 @@ public class Board {
 
     /**
      * Setter method which updates the boardLayoutArray
-     *
      */
     public void setBoardLayoutArray(String[][] boardLayoutArray) {
         this.boardLayoutArray = boardLayoutArray;
@@ -486,6 +498,7 @@ public class Board {
 
     /**
      * Getter method which returns the originalBoardLayoutArray
+     *
      * @return - originalBoardLayoutArray which is the array that is not updated throughout the game
      */
     public static String[][] getOriginalBoardLayoutArray() {
@@ -494,115 +507,115 @@ public class Board {
 
     /**
      * Getter method to get a player's hand.
+     *
      * @return - deckOfCards which is an array that contains all the cards in a players hand.
      */
-    public static ArrayList<Card> getDeckOfCards() { return deckOfCards; }
+    public static ArrayList<Card> getDeckOfCards() {
+        return deckOfCards;
+    }
 
     /**
-     *
-     * @return
+     * Returns the envelope with all of the murder cards in it
+     * @return the set of cards
      */
-    public static HashSet<Card> getEnvelope() { return envelope; }
+    public static HashSet<Card> getEnvelope() {
+        return envelope;
+    }
 
     /**
-     *
-     * @return
+     * The player who is currently being accessed and moved
+     * @return the current player
      */
     public static Player getCurrentPlayer() {
         return currentPlayer;
     }
 
     /**
-     *
-     * @return
+     * The hashmap which stores the Cards for ease of access
+     * @return the cardHashMap collection
      */
     public static HashMap<String, Card> getCardHashMap() {
         return cardHashMap;
     }
 
     /**
-     *
-     * @return
+     * Getter for the arraylist of characters
+     * @return the arraylist of characters
      */
     public static ArrayList<Character> getCharacterArrayList() {
         return characterArrayList;
     }
 
     /**
-     *
-     * @return
+     * Getter for the current character
+     * @return the character
      */
     public static Character getCharacter(int index) {
         return characterArrayList.get(index);
     }
 
     /**
-     *
-     * @return
+     * Sets the current player to the next players
      */
-    public static void setCurrentPlayer(Player currentPlayer) { Board.currentPlayer = currentPlayer; }
-
-    /**
-     *
-     * @return
-     */
-    public static ArrayList<JLabel> getAllCards() {
-        return allCards;
+    public static void setCurrentPlayer(Player currentPlayer) {
+        Board.currentPlayer = currentPlayer;
     }
 
+
+
     /**
-     *
-     * @return
+     * Getter for returning all weapons
+     * @return all of the weapons
      */
     public static ArrayList<Weapon> getAllWeapons() {
         return allWeapons;
     }
 
     /**
-     *
-     * @return
+     * Getter for returning all Rooms
+     * @return all of the rooms
      */
     public static ArrayList<Room> getAllRooms() {
         return allRooms;
     }
 
     /**
-     *
-     * @return
+     * Getter for returning all Room cards
+     * @return all of the room cards
      */
     public static ArrayList<RoomCard> getRoomCards() {
         return roomCards;
     }
 
     /**
-     *
-     * @return
+     * Method for getting all weapon cards
+     * @return the weapon cards
      */
     public static ArrayList<WeaponCard> getWeaponCards() {
         return weaponCards;
     }
 
     /**
-     *
-     * @return
+     * Method for returning all the character cards
+     * @return the character cards
      */
     public static ArrayList<CharacterCard> getCharacterCards() {
         return characterCards;
     }
 
     /**
-     *
-     * @return
+     * Getting all the roomnames
+     * @return the String
      */
     public static HashSet<String> getRoomNames() {
         return roomNames;
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         String output = "";
-        for (int row = 0; row < boardLayoutArray.length; row++){
-            for (int col = 0; col < boardLayoutArray[row].length; col++){
+        for (int row = 0; row < boardLayoutArray.length; row++) {
+            for (int col = 0; col < boardLayoutArray[row].length; col++) {
                 output += boardLayoutArray[row][col];
             }
             output += "\n";
