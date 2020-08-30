@@ -2,7 +2,12 @@ package Model;
 
 import View.CluedoGUI;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,7 +19,6 @@ import java.util.regex.Pattern;
 public class Player {
 
 
-
     public static ArrayList<Player> playerList = new ArrayList<>();
 
     private ArrayList<Card> hand = new ArrayList<>();
@@ -23,7 +27,7 @@ public class Player {
         return playerList;
     }
 
-    public static boolean enteredARoomOnThisTurn = false;
+//    public boolean canLeaveRoom = false;
 
     public static void addPlayerList(Player player) {
         System.out.println(player.toString() + "NEW PLAYER");
@@ -111,7 +115,7 @@ public class Player {
     }
 
     /**
-     *Method for making an accusation
+     * Method for making an accusation
      **/
 
     public void makeAccusation(Card characterCard, Card weaponCard, Card roomCard) {
@@ -132,14 +136,19 @@ public class Player {
         }
     }
 
-    public void makeSuggestion(Card characterCard, Card weaponCard) {
+    public void doorSymbolToRoomName(){
+
+    }
+
+    public void makeSuggestion(Card characterCard, Card weaponCard) throws IOException {
         if (!canMakeActions || !isInARoom()) {
             return; //If the player is not active due to making a false accusation or not in a room there is no
             // point in making an accusation, they can still move.
         }
         System.out.println("Suggestion is being made");
 
-        Card roomCard = Board.getCardHashMap().get(findPlayerRoom(this.getAssignedCharacter().currentTile.getX(), this.getAssignedCharacter().currentTile.getRow()).toString());
+        System.out.println("FIND ROOM" + findRoom(this.getAssignedCharacter().currentTile.getCol(), this.getAssignedCharacter().currentTile.getRow()));
+        Card roomCard = Board.getCardHashMap().get(findPlayerRoom(this.getAssignedCharacter().currentTile.getCol(), this.getAssignedCharacter().currentTile.getRow()));
 
         //cycles through all other players to see if they have a card that matches the suggestion
         for (Player otherPs : Player.getPlayerList()) {
@@ -166,10 +175,10 @@ public class Player {
                     JOptionPane.showMessageDialog(frame, otherPs.getName()+" has nothing that matches your suggestion", "Suggestee", JOptionPane.PLAIN_MESSAGE);
 
                 } else {
-                    Card cardToShow;
+                    String cardToShow;
                     //if the next player has only one card to show, show this to current player
                     if (hasSuggestedCards.size() == 1) {
-                        cardToShow = hasSuggestedCards.get(0);
+                        cardToShow = hasSuggestedCards.get(0).toString();
                     }
                     //if the next player has more than one card to show, pass on to that player, show that player their hand and from this the player can select one of the cards
                     else {
@@ -178,7 +187,12 @@ public class Player {
 
 
                         JPanel CardToShowWindow = new JPanel();
-                        String[] cards = new String[3];
+                        String[] cards;
+                        if (hasSuggestedCards.size() > 2){
+                            cards = new String[3];
+                        }else{
+                            cards = new String[2];
+                        }
                         cards[0] = hasSuggestedCards.get(0).toString();
                         cards[1] = hasSuggestedCards.get(1).toString();
                         if(hasSuggestedCards.size()>2){
@@ -195,34 +209,23 @@ public class Player {
                         CardToShowWindow.add(CardBoxDesc);
                         CardToShowWindow.add(CardSelection);
 
-                        int result = JOptionPane.showConfirmDialog(null, CardToShowWindow,
-                                "Choose between the following to show to the suggester", JOptionPane.OK_CANCEL_OPTION);
-
-
-
-//                        boolean validCard = false;
-//                        String stringCard = "";
-//                        while (!validCard) {
-//                            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-//                            System.out.println("Select card for Suggester:");
-//                            stringCard = reader.readLine();
-//                            if (stringCard.matches("[1-3]")) {
-//                                validCard = true;
-//                            } else {
-//                                System.out.println("Invalid number");
-//                            }
-//                        }
-//                        int cardNo = Integer.parseInt(stringCard);
-//                        cardToShow = hasSuggestedCards.get(cardNo - 1);
-//                        System.out.println(otherPs.getPlayerName()+" look away and pass on to "+this.getPlayerName()+" (5 sec delay).");
-//
-//                        for (int i = 0; i < 15; ++i) System.out.println();
-//                    }
-//                    System.out.println(otherPs.getPlayerName()+" has the following card that matches your suggestion. Take note of this (5 sec delay)");
-//                    System.out.println(cardToShow.toString());
-//                    for (int i = 0; i < 15; ++i) System.out.println();
-//                    break;
+                        JOptionPane.showConfirmDialog(null, CardToShowWindow, "Choose between the following to show to the suggester", JOptionPane.OK_CANCEL_OPTION);
+                        cardToShow = (String) CardSelection.getSelectedItem();
                     }
+                    JFrame frame = new JFrame();
+                    JOptionPane.showMessageDialog(frame, "Pass back to "+this.getName(), "Pass Back to Suggester", JOptionPane.PLAIN_MESSAGE);
+
+                    String[] parts = cardToShow.split(" ");
+                    String output;
+                    if(parts.length>1){
+                        output = parts[1];
+                    }else{
+                        output = cardToShow;
+                    }
+                    BufferedImage image = ImageIO.read(new File("Cards/"+output+".png"));
+                    JLabel picLabel = new JLabel(new ImageIcon(image));
+                    JOptionPane.showMessageDialog(null, picLabel, "Card from Suggestion: "+ cardToShow, JOptionPane.PLAIN_MESSAGE, null);
+                    return;
                 }
             }
         }
@@ -236,8 +239,8 @@ public class Player {
      */
     public boolean isInARoom() {
 
-        int xTile = this.assignedCharacter.currentTile.x/30;
-        int yTile = this.assignedCharacter.currentTile.y/30;
+        int xTile = this.assignedCharacter.currentTile.x / 30;
+        int yTile = this.assignedCharacter.currentTile.y / 30;
 
         String tileType = Board.getOriginalBoardLayoutArray()[yTile][xTile];
         Pattern pattern = Pattern.compile("[kbcdlhsiy@]");
@@ -246,79 +249,112 @@ public class Player {
         return matcher.find();
     }
 
-    public static Room findPlayerRoom(int x, int y){
-        return Board.getRoomFromString(Board.getOriginalBoardLayoutArray()[y/30][x/30]);
+    public static Room findPlayerRoom(int x, int y) {
+        return Board.getRoomFromString(Board.getOriginalBoardLayoutArray()[y / 30][x / 30]);
     }
+//
+//    public static String findPlayerRoom2(int x, int y) {
+////
+////       if(){
+////
+////       }
+////       else if(){
+////
+////       }
+////       else if(){
+////
+////       }
+////
+////       else if(){
+////
+////       }
+////       else if(){
+////
+////       }
+////       else if(){
+////
+////       }
+////
+////       else if(){
+////
+////       }
+////
+////       else if(){
+////
+////       }
+////
+////       else if(){
+////
+////       }
+////
+////       else if(){
+////
+////       }
+//    }
 
     /**
      * Locates a room if a room tile is present surrounding it. This should only be used for an @ tile.
+     *
      * @param x x-coordinate of the tile (from the board array)
      * @param y y-coordinate of the tile (from the board array)
      * @return
      */
-    public static Room findRoom(int x, int y){
-        String topLeftDiagonalTile =  Board.getOriginalBoardLayoutArray()[y-1][x-1];
-        String topMiddleTile = Board.getOriginalBoardLayoutArray()[y-1][x];
-        String topRightDiagonalTile = Board.getOriginalBoardLayoutArray()[y-1][x+1];
-        String midLeftTile = Board.getOriginalBoardLayoutArray()[y][x-1];
-        String midRightTile = Board.getOriginalBoardLayoutArray()[y][x+1];
-        String botLeftDiagonalTile = Board.getOriginalBoardLayoutArray()[y+1][x-1];
-        String botMiddleTile = Board.getOriginalBoardLayoutArray()[y+1][x];
-        String botRightDiagonalTile = Board.getOriginalBoardLayoutArray()[y+1][x+1];
+    public static Room findRoom(int x, int y) {
+        String topLeftDiagonalTile = Board.getOriginalBoardLayoutArray()[y - 1][x - 1];
+        String topMiddleTile = Board.getOriginalBoardLayoutArray()[y - 1][x];
+        String topRightDiagonalTile = Board.getOriginalBoardLayoutArray()[y - 1][x + 1];
+        String midLeftTile = Board.getOriginalBoardLayoutArray()[y][x - 1];
+        String midRightTile = Board.getOriginalBoardLayoutArray()[y][x + 1];
+        String botLeftDiagonalTile = Board.getOriginalBoardLayoutArray()[y + 1][x - 1];
+        String botMiddleTile = Board.getOriginalBoardLayoutArray()[y + 1][x];
+        String botRightDiagonalTile = Board.getOriginalBoardLayoutArray()[y + 1][x + 1];
 
         Pattern pattern = Pattern.compile("[kbcdlhsiy]"); //room symbols
-        if (topLeftDiagonalTile.matches(String.valueOf(pattern))){
-            for (Room r : Board.getAllRooms()){
-                if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(topLeftDiagonalTile))){
+        if (topLeftDiagonalTile.matches(String.valueOf(pattern))) {
+            for (Room r : Board.getAllRooms()) {
+                if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(topLeftDiagonalTile))) {
                     return r;
                 }
             }
-        }
-        else if (topMiddleTile.matches(String.valueOf(pattern))){
-            for (Room r : Board.getAllRooms()){
-                if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(topMiddleTile))){
+        } else if (topMiddleTile.matches(String.valueOf(pattern))) {
+            for (Room r : Board.getAllRooms()) {
+                if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(topMiddleTile))) {
                     return r;
                 }
             }
-        }
-        else if (topRightDiagonalTile.matches(String.valueOf(pattern))){
-            for (Room r : Board.getAllRooms()){
-                if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(topRightDiagonalTile))){
+        } else if (topRightDiagonalTile.matches(String.valueOf(pattern))) {
+            for (Room r : Board.getAllRooms()) {
+                if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(topRightDiagonalTile))) {
                     return r;
                 }
             }
-        }
-        else if (midLeftTile.matches(String.valueOf(pattern))){
-            for (Room r : Board.getAllRooms()){
-                if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(midLeftTile))){
+        } else if (midLeftTile.matches(String.valueOf(pattern))) {
+            for (Room r : Board.getAllRooms()) {
+                if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(midLeftTile))) {
                     return r;
                 }
             }
-        }
-        else if (midRightTile.matches(String.valueOf(pattern))){
-            for (Room r : Board.getAllRooms()){
-                if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(midRightTile))){
+        } else if (midRightTile.matches(String.valueOf(pattern))) {
+            for (Room r : Board.getAllRooms()) {
+                if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(midRightTile))) {
                     return r;
                 }
             }
-        }
-        else if (botLeftDiagonalTile.matches(String.valueOf(pattern))){
-            for (Room r : Board.getAllRooms()){
-                if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(botLeftDiagonalTile))){
+        } else if (botLeftDiagonalTile.matches(String.valueOf(pattern))) {
+            for (Room r : Board.getAllRooms()) {
+                if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(botLeftDiagonalTile))) {
                     return r;
                 }
             }
-        }
-        else if (botMiddleTile.matches(String.valueOf(pattern))){
-            for (Room r : Board.getAllRooms()){
-                if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(botMiddleTile))){
+        } else if (botMiddleTile.matches(String.valueOf(pattern))) {
+            for (Room r : Board.getAllRooms()) {
+                if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(botMiddleTile))) {
                     return r;
                 }
             }
-        }
-        else if (botRightDiagonalTile.matches(String.valueOf(pattern))){
-            for (Room r : Board.getAllRooms()){
-                if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(botRightDiagonalTile))){
+        } else if (botRightDiagonalTile.matches(String.valueOf(pattern))) {
+            for (Room r : Board.getAllRooms()) {
+                if (r.getRoomName().equals(CluedoGUI.tileTypeToNameMap.get(botRightDiagonalTile))) {
                     return r;
                 }
             }
@@ -327,68 +363,62 @@ public class Player {
     }
 
 
-
-    public void move(String dir){
+    public void move(String dir) {
 
         System.out.println(dir);
-//        if(isInARoom()){
-//            System.out.println("WE ARE IN A ROOM");
-//            return;
-//        }
-        //If the player is moving onto a player/wall/outof bounds
-        //Move the playerY coordinate up one
         switch (dir) {
             case "NORTH":
-                System.out.println("NORTH"+this.assignedCharacter.characterName + "X POS " +this.assignedCharacter.getX() + "Y POS" + this.assignedCharacter.getY());
                 Board.getBoardLayoutArray()[(this.assignedCharacter.currentTile.getRow() - 30) / 30][this.assignedCharacter.currentTile.getCol() / 30] = Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30];
                 Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30] = Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30];
                 this.assignedCharacter.currentTile.setY((this.assignedCharacter.currentTile.getRow() - 30));
                 this.assignedCharacter.setX(this.assignedCharacter.currentTile.getCol());
                 this.assignedCharacter.setY(this.assignedCharacter.currentTile.getRow());
-                if(Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getRow()/30][this.assignedCharacter.currentTile.getCol()/30].equals("@")){
-                enteredARoomOnThisTurn = true;
-                Board.getCurrentPlayer().setRemainingMoves(0);
-                 }
+                if (Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30].equals("@")) {
+//                    canLeaveRoom = false;
+                    Board.getCurrentPlayer().setRemainingMoves(0);
+                }
 //                endMovement();
-                System.out.println("NORTH"+this.assignedCharacter.characterName + "X POS " +this.assignedCharacter.getX() + "Y POS" + this.assignedCharacter.getY());
+//                System.out.println("NORTH" + this.assignedCharacter.characterName + "X POS " + this.assignedCharacter.getX() + "Y POS" + this.assignedCharacter.getY());
                 break;
             case "SOUTH":
-                System.out.println("SOUTH"+this.assignedCharacter.characterName + "X POS " +this.assignedCharacter.getX() + "Y POS" + this.assignedCharacter.getY());
+//                System.out.println("SOUTH" + this.assignedCharacter.characterName + "X POS " + this.assignedCharacter.getX() + "Y POS" + this.assignedCharacter.getY());
                 Board.getBoardLayoutArray()[(this.assignedCharacter.currentTile.getRow() + 30) / 30][this.assignedCharacter.currentTile.getCol() / 30] = Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30];
                 Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30] = Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30];
                 this.assignedCharacter.currentTile.setY((this.assignedCharacter.currentTile.getRow() + 30));
                 this.assignedCharacter.setX(this.assignedCharacter.currentTile.getCol());
                 this.assignedCharacter.setY(this.assignedCharacter.currentTile.getRow());
-                if(Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getRow()/30][this.assignedCharacter.currentTile.getCol()/30].equals("@")){
-                    enteredARoomOnThisTurn = true;
+                if (Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30].equals("@")) {
+//                    canLeaveRoom = false;
                     Board.getCurrentPlayer().setRemainingMoves(0);
-                }                break;
+                }
+                break;
             case "EAST":
-                System.out.println("EAST"+this.assignedCharacter.characterName + "X POS " +this.assignedCharacter.getX() + "Y POS" + this.assignedCharacter.getY());
+//                System.out.println("EAST" + this.assignedCharacter.characterName + "X POS " + this.assignedCharacter.getX() + "Y POS" + this.assignedCharacter.getY());
                 Board.getBoardLayoutArray()[(this.assignedCharacter.currentTile.getRow()) / 30][(30 + this.assignedCharacter.currentTile.getCol()) / 30] = Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30];
                 Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30] = Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30];
                 this.assignedCharacter.currentTile.setX((this.assignedCharacter.currentTile.getCol() + 30));
                 this.assignedCharacter.setX(this.assignedCharacter.currentTile.getCol());
                 this.assignedCharacter.setY(this.assignedCharacter.currentTile.getRow());
-                if(Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getRow()/30][this.assignedCharacter.currentTile.getCol()/30].equals("@")){
-                    enteredARoomOnThisTurn = true;
+                if (Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30].equals("@")) {
+//                    canLeaveRoom = false;
                     Board.getCurrentPlayer().setRemainingMoves(0);
                 }
                 break;
             case "WEST":
-                System.out.println("WEST"+this.assignedCharacter.characterName + "X POS " +this.assignedCharacter.getX() + "Y POS" + this.assignedCharacter.getY());
+//                System.out.println("WEST" + this.assignedCharacter.characterName + "X POS " + this.assignedCharacter.getX() + "Y POS" + this.assignedCharacter.getY());
                 Board.getBoardLayoutArray()[(this.assignedCharacter.currentTile.getRow()) / 30][(this.assignedCharacter.currentTile.getCol() - 30) / 30] = Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30];
                 Board.getBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30] = Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30];
                 this.assignedCharacter.currentTile.setX((this.assignedCharacter.currentTile.getCol() - 30));
                 this.assignedCharacter.setX(this.assignedCharacter.currentTile.getCol());
                 this.assignedCharacter.setY(this.assignedCharacter.currentTile.getRow());
-                if(Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getRow()/30][this.assignedCharacter.currentTile.getCol()/30].equals("@")){
-                    enteredARoomOnThisTurn = true;
+                if (Board.getOriginalBoardLayoutArray()[this.assignedCharacter.currentTile.getRow() / 30][this.assignedCharacter.currentTile.getCol() / 30].equals("@")) {
+//                    canLeaveRoom = false;
                     Board.getCurrentPlayer().setRemainingMoves(0);
-                }                break;
-            default: throw new RuntimeException("EPIC FAIL");
+                }
+                break;
+            default:
+                throw new RuntimeException("EPIC FAIL");
         }
-
 
 
     }
@@ -404,6 +434,13 @@ public class Player {
         if (Board.getCurrentPlayer().getRemainingMoves() <= 0) {
             return false;
         }
+        String tileType = Board.getOriginalBoardLayoutArray()[tileInFrontOfPlayer.getRow()/30][tileInFrontOfPlayer.getCol()/30];
+        Pattern pattern = Pattern.compile("[kbcdlhsiy]");
+        Matcher matcher = pattern.matcher(tileType);
+        if(matcher.find()){
+
+            return false;
+        }
 
         //checks if the next tile is a character or not
         for (Character c : Board.getCharacterArrayList()) {
@@ -414,9 +451,10 @@ public class Player {
             }
         }
 
+
         //checks if the next tile has been visited by checking the list of tiles that the character has visited in their turn
-        for (Tile t: CluedoGUI.getPreviouslyTraversedTiles() ) {
-            if(t.getCol()==tileInFrontOfPlayer.getCol() && t.getRow()==tileInFrontOfPlayer.getRow()){
+        for (Tile t : CluedoGUI.getPreviouslyTraversedTiles()) {
+            if (t.getCol() == tileInFrontOfPlayer.getCol() && t.getRow() == tileInFrontOfPlayer.getRow()) {
                 JFrame frame = new JFrame();
                 JOptionPane.showMessageDialog(frame, "You can not visit a space that you have already been in your turn.", "Keep Moving Forward", JOptionPane.WARNING_MESSAGE);
                 return false;
@@ -426,29 +464,30 @@ public class Player {
     }
 
     public void addHand(Card card) {
-        System.out.println(hand);
+//        System.out.println(hand);
         this.hand.add(card);
     }
 
     public ArrayList<Card> getHand() {
-        System.out.println(hand.size());
+//        System.out.println(hand.size());
         return hand;
     }
 
     /**
      * Custom string of all the players who have been created
+     *
      * @return a formatted String for the Menu GUI
      */
-    public static String customToStringForPlayerList(){
-        if(playerList.size()==0){
+    public static String customToStringForPlayerList() {
+        if (playerList.size() == 0) {
             return "No players have been added to the game yet!";
         }
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Current Players:");
-        for(Player player : playerList){
+        for (Player player : playerList) {
             stringBuilder.append(player.getName()).append(",");
         }
-        stringBuilder.deleteCharAt(stringBuilder.length()-1);
+        stringBuilder.deleteCharAt(stringBuilder.length() - 1);
         return stringBuilder.toString();
     }
 
@@ -457,13 +496,13 @@ public class Player {
         return "Player: " + name + " Character: " + assignedCharacter.toString();
     }
 
-    public void leaveRoom() {
+   /* public void leaveRoom() {
         System.out.println(Board.getCurrentPlayer().RemainingMoves + "REMAINING MOVES");
-        if(Board.getCurrentPlayer().RemainingMoves>=0) {
-            System.out.println("WE ARE HERE");
+        if (Board.getCurrentPlayer().RemainingMoves >= 0) {
+//            System.out.println("WE ARE HERE");
             if (Board.getBoardLayoutArray()[(this.assignedCharacter.currentTile.getRow() / 30) - 1][this.assignedCharacter.getX() / 30].equals(" ")) {
                 move("NORTH");
-                System.out.println("WE ARE NORTH");
+//                System.out.println("WE ARE NORTH");
 
             } else if (Board.getBoardLayoutArray()[(this.assignedCharacter.currentTile.getRow() / 30) + 1][this.assignedCharacter.getX() / 30].equals(" ")) {
                 move("SOUTH");
@@ -473,84 +512,9 @@ public class Player {
                 move("WEST");
             }
         }
-    }
+    }*/
 
 
-    public enum Movement {
-        NORTH("North", -1, 0, -2, 0),
-        EAST("East", 0, +1, 0, +2),
-        SOUTH("South", +1, 0, +2, 0),
-        WEST("West", 0, -1, 0, -2),
-        ;
-
-        String enumName;
-        int VerticalMovementValue;
-        int HorizontalMovementValue;
-        int DoorVerticalMovementValue;
-        int DoorHorizontalMovementValue;
-
-        /**
-         * Constructor for a Movement enum
-         * @param matcher this is what matches the direction that we are moving into
-         * @param vertValue this is the direction that the character moves vertically when moving in the specified direction
-         * @param horzValue this is the direction that the character moves horizontally when moving in the specified direction
-         * @param doorvertValue this is the direction that the character moves horizontally when moving through a door in the specified direction
-         * @param doorhorzValue this is the direction that the character moves vertically when moving through a door in the specified direction
-         */
-        Movement(String matcher, int vertValue, int horzValue, int doorvertValue, int doorhorzValue) {
-            this.enumName = matcher;
-            this.VerticalMovementValue = vertValue;
-            this.HorizontalMovementValue = horzValue;
-            this.DoorVerticalMovementValue = doorvertValue;
-            this.DoorHorizontalMovementValue = doorhorzValue;
-        }
-
-        /**
-         * getEnumName() method :
-         *
-         * @return getter method to return the enumName as a String
-         */
-        public String getEnumName() {
-            return enumName;
-        }
-
-        /**
-         * getVerticalMovementValue() method :
-         *
-         * @return getter method to return the VerticalMovementValue as an int
-         */
-        public int getVerticalMovementValue() {
-            return VerticalMovementValue;
-        }
-
-        /**
-         * getHorizontalMovementValue() method :
-         *
-         * @return getter method to return the HorizontalMovementValue as an int
-         */
-        public int getHorizontalMovementValue() {
-            return HorizontalMovementValue;
-        }
-
-        /**
-         * getDoorVerticalMovementValue() method :
-         *
-         * @return getter method to return the DoorVerticalMovementValue as an int
-         */
-        public int getDoorVerticalMovementValue() {
-            return DoorVerticalMovementValue;
-        }
-
-        /**
-         * getDoorHorizontalMovementValue() method :
-         *
-         * @return getter method to return the DoorHorizontalMovementValue as an int
-         */
-        public int getDoorHorizontalMovementValue() {
-            return DoorHorizontalMovementValue;
-        }
-
-    }
 
     /**
      * Checks if tile is in bounds of the board
@@ -559,7 +523,7 @@ public class Player {
      * @return if it is in bounds
      */
     private boolean tileInBounds(Tile tile) {
-        return tile.getRow() > 0 && tile.getRow() <25 && tile.getCol() > 0 && tile.getCol() < 24;
+        return tile.getRow() > 0 && tile.getRow() < 25 && tile.getCol() > 0 && tile.getCol() < 24;
     }
 
     /**
