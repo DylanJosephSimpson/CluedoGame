@@ -72,6 +72,7 @@ public class CluedoGUIModel {
      */
     public static void MakeAccusationValidModel(){
         new AccusationSetup(Board.getCurrentPlayer());
+
     }
 
     /**
@@ -101,6 +102,7 @@ public class CluedoGUIModel {
      */
     public static void MakeSuggestionValidModel() throws IOException {
         new SuggestionSetup(Board.getCurrentPlayer());
+        Board.getCurrentPlayer().setMadeSuggestion(true);
     }
 
     /**
@@ -109,7 +111,13 @@ public class CluedoGUIModel {
      * Rolls the dice
      */
     public static void MakeSuggestionInvalidModel(){
-        if (!Board.getCurrentPlayer().isInARoom()) {
+        if (Board.getCurrentPlayer().isMadeSuggestion()) {
+            JOptionPane.showMessageDialog(null,
+                    "Cannot make an Suggestion as you have already made one this turn",
+                    "Player Error!",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+        else if (!Board.getCurrentPlayer().isInARoom()) {
             JOptionPane.showMessageDialog(null,
                     "Cannot make an Suggestion as you are not in a Room",
                     "Player Error!",
