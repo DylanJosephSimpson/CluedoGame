@@ -235,13 +235,21 @@ public class Player {
 
                     String[] parts = cardToShow.split(" ");
                     String output;
-                    if(parts.length>1){
-                        output = parts[1];
-                    }else{
-                        output = cardToShow;
+                    System.out.println(cardToShow);
+                    if(cardToShow.equals("Ball Room")){
+                        output = "BallRoom";
+                    } else if(cardToShow.equals("Billiard Room")){
+                        output = "BilliardRoom";
+                    }else if(cardToShow.equals("Dining Room")){
+                        output = "DiningRoom";
+                    }else {
+                        if (parts.length > 1) {
+                            output = parts[1];
+                        } else {
+                            output = cardToShow;
+                        }
                     }
                     System.out.println(output);
-                    output.replaceAll(" ", "" );
                     BufferedImage image = ImageIO.read(new File("Cards/"+output+".png"));
                     JLabel picLabel = new JLabel(new ImageIcon(image));
                     JOptionPane.showMessageDialog(null, picLabel, "Card from Suggestion: "+ cardToShow, JOptionPane.PLAIN_MESSAGE, null);
