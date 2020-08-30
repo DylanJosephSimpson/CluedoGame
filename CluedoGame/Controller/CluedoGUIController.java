@@ -187,5 +187,20 @@ public class CluedoGUIController {
 
             }
         });
+
+        CluedoGUI.getLeaveRoom().addActionListener(e -> {
+            if (!Board.getCurrentPlayer().isInARoom()) {
+                JOptionPane.showMessageDialog(null,
+                        "Cannot do this right now",
+                        "You are not leaving a room!",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            Board.getCurrentPlayer().leaveFromSuggestion();
+            Board.getCurrentPlayer().setRemainingMoves(Board.getCurrentPlayer().getRemainingMoves() - 1);
+            CluedoGUI.getCluedoGame().repaint();
+        });
+
     }
+
 }
