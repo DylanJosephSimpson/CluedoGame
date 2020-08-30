@@ -28,7 +28,7 @@ public class SuggestionSetup {
         MakeSuggestionWindow.add(CharacterSelection);
 
         int result = JOptionPane.showConfirmDialog(null, MakeSuggestionWindow,
-                "Make an Accusation", JOptionPane.OK_CANCEL_OPTION);
+                "Make a Suggestion", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION){
             //Making an accusation using the selected Cards from the window
             Suggestion currentSuggetion = new Suggestion(
@@ -37,9 +37,12 @@ public class SuggestionSetup {
                     Player.findPlayerRoom(player.getAssignedCharacter().currentTile.getX(), player.getAssignedCharacter().currentTile.getRow())
             );
 
+            player.makeSuggestion(Board.getCardHashMap().get(CharacterSelection.getSelectedItem().toString())
+                    ,Board.getCardHashMap().get(WeaponSelection.getSelectedItem().toString()));
+
             currentSuggetion.moveItems();
 
-            System.out.println(WeaponSelection.getSelectedItem() + "\n" + CharacterSelection.getSelectedItem() + "\n" + player.findPlayerRoom(player.getAssignedCharacter().currentTile.getX(), player.getAssignedCharacter().currentTile.getRow() ) + "\n");
+            //System.out.println(WeaponSelection.getSelectedItem() + "\n" + CharacterSelection.getSelectedItem() + "\n" + player.findPlayerRoom(player.getAssignedCharacter().currentTile.getX(), player.getAssignedCharacter().currentTile.getRow() ) + "\n");
         }
     }
 }
