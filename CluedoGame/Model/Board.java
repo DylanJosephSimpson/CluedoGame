@@ -11,15 +11,15 @@ import java.util.*;
  */
 public class Board {
 
-
-    static ArrayList<Card> deckOfCards = new ArrayList<>();
+    //Card related collections and important fields (such as the Murder related cards)
+    static ArrayList<Card> deckOfCards = new ArrayList<>(); 
     static HashSet<Card> envelope = new HashSet<>();
     static HashMap<String, Card> cardHashMap = new HashMap<>();
     private static Card murderer;
     private static Card murderRoom;
     private static Card murderWeapon;
-    private static ArrayList<JLabel> allCards = new ArrayList<>();
-
+    
+    //Current player
     private static Player currentPlayer;
 
 
@@ -61,6 +61,7 @@ public class Board {
     private static Character Peacock = new Character("Mrs. Peacock", 690, 180);
     private static Character Plum = new Character("Prof. Plum", 690, 570);
 
+    //Image icons used to represent players
     private static ImageIcon CardPlaceholderIcon;
     private static ImageIcon CandlestickIcon;
     private static ImageIcon DaggerIcon;
