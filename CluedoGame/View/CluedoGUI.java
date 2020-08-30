@@ -30,6 +30,8 @@ public class CluedoGUI extends JFrame {
     // JPanels and JLabels
     private static JPanel InfoPanel;
     private static JPanel GameControlPanel;
+
+
     private static JPanel BoardPanel;
     private static JLabel DiceOne;
     private static JLabel DiceTwo;
@@ -77,6 +79,10 @@ public class CluedoGUI extends JFrame {
     private Board b;
 
     private static boolean hasRolled = false;
+
+    public static JPanel getBoardPanel() {
+        return BoardPanel;
+    }
 
     private static int currentPlayerPos;
 
@@ -131,6 +137,8 @@ public class CluedoGUI extends JFrame {
     public static ArrayList<Tile> getPreviouslyTraversedTiles() {
         return previouslyTraversedTiles;
     }
+
+
 
     public CluedoGUI(String title, Board board) {
         CluedoGame = new JFrame(title);
