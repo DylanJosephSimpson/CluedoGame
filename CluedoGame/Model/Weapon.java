@@ -36,7 +36,7 @@ public class Weapon implements Item {
 
 
     /**
-     * Model.Room that the weapon is currently in
+     * Room that the weapon is currently in
      */
     private Room currentRoom;
 
@@ -85,14 +85,16 @@ public class Weapon implements Item {
         this.currentRoom = room;
     }
 
+    /**
+     * Boolean to check if it is involved with the murder
+     * @return a boolean which is based on the instance variable
+     */
+
     public boolean isInvolvedInMurder() {
         return isInvolvedInMurder;
     }
 
-    public void setInvolvedInMurder(boolean involvedInMurder) {
-        isInvolvedInMurder = involvedInMurder;
-    }
-
+    
     @Override
     public String toString() {
         return weaponName;
