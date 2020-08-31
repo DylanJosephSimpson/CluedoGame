@@ -29,7 +29,6 @@ public class CluedoGUIModel {
      * Called when an action is preformed involving the RestartOption Action Listener.
      */
     public static void RestartOptionModel(){
-        //TODO : SETUP RESTART OF GAME
         System.exit(1);
     }
 
@@ -111,7 +110,7 @@ public class CluedoGUIModel {
      * Rolls the dice
      */
     public static void MakeSuggestionInvalidModel(){
-        if (Board.getCurrentPlayer().isMadeSuggestion()) {
+        if (Board.getCurrentPlayer().hasMadeSuggestion()) {
             JOptionPane.showMessageDialog(null,
                     "Cannot make an Suggestion as you have already made one this turn",
                     "Player Error!",
