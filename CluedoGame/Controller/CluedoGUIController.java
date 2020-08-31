@@ -198,7 +198,17 @@ public class CluedoGUIController {
             Board.getCurrentPlayer().setRemainingMoves(Board.getCurrentPlayer().getRemainingMoves() - 1);
             CluedoGUI.getCluedoGame().repaint();
         });
-
+        
+        CluedoGUI.getCluedoGame().addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent we) {
+                int result = JOptionPane.showConfirmDialog(CluedoGUI.getCluedoGame(),
+                        "Do you want to Exit ?", "Exit Confirmation : ",
+                        JOptionPane.YES_NO_OPTION);
+                if (result == JOptionPane.YES_OPTION)
+                    CluedoGUI.getCluedoGame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                else if (result == JOptionPane.NO_OPTION)
+                    CluedoGUI.getCluedoGame().setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            }
+        });
     }
-
 }
