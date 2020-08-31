@@ -22,9 +22,7 @@ public class MenuSetup {
      * start button to initialise the game.
      *
      * As of now the MenuJFrame is resizeable, and the content inside of the JFrame
-     *
-     * //TODO : Anyone better then me at math, change the resizeable math, as it works kinda, but not perfectly.
-     *
+     **
      * @param title
      */
     public MenuSetup(String title) {
@@ -50,12 +48,21 @@ public class MenuSetup {
         MenuWindow.pack();
     }
 
+    /**
+     * Setting up the menu container
+     * @param ParentFrame
+     */
     public void containerSetup(JFrame ParentFrame){
         MenuContainer = ParentFrame.getContentPane();
         MenuContainer.add(gameTitlePanelSetup(ParentFrame));
         MenuContainer.add(StartButtonSetup(ParentFrame));
     }
 
+    /**
+     * Setting up the Game title  Panel
+     * @param ParentFrame the overarching frame
+     * @return the setup Game title panel
+     */
     public JPanel gameTitlePanelSetup(JFrame ParentFrame){
         GameTitlePanel = new JPanel();
         GameTitlePanel.setBounds(ParentFrame.getSize().width / 4, ParentFrame.getSize().height / 4, ParentFrame.getSize().width / 2, ParentFrame.getSize().height / 4);
@@ -64,6 +71,12 @@ public class MenuSetup {
         return GameTitlePanel;
     }
 
+    /**
+     * Setting up the Game Title Name
+     * @param ParentFrame the overarching frame
+     * @param ParentPanel the gameTitle setup panel
+     * @return the setup JLabel
+     */
     public JLabel gameTitleNameSetup(JFrame ParentFrame, JPanel ParentPanel){
         GameTitleName = new JLabel("CLUEDO");
         GameTitleName.setBounds(ParentPanel.getBounds().x, ParentPanel.getBounds().y, ParentPanel.getBounds().x, ParentPanel.getBounds().y);
@@ -72,6 +85,11 @@ public class MenuSetup {
         return GameTitleName;
     }
 
+    /**
+     * Setting up the Start button
+     * @param ParentFrame the overarching frame
+     * @return the setup start button
+     */
     public JButton StartButtonSetup(JFrame ParentFrame){
         StartButton = new JButton("Start");
         StartButton.setBackground(new Color(240, 128, 8));
@@ -84,26 +102,28 @@ public class MenuSetup {
         return StartButton;
     }
 
+    /**
+     *  Method for chaning the screen back to game setup
+     * @param title the title of the screen
+     */
     public void ChangeScreen(String title){
         new GameSetup(title);
         MenuWindow.dispose();
     }
 
-    public static JFrame getMenuWindow() {
-        return MenuWindow;
-    }
-
+    /**
+     * Getter for the menu container
+     * @return the menu container
+     */
     public static Container getMenuContainer() {
         return MenuContainer;
     }
 
-    public static JPanel getGameTitlePanel() {
-        return GameTitlePanel;
-    }
+    /**
+     * The getter for the JLabel relating to the game title frame
+     * @return the associated JLabel
+     */
     public static JLabel getGameTitleName() {
         return GameTitleName;
-    }
-    public static JButton getStartButton() {
-        return StartButton;
     }
 }
