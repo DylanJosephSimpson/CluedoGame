@@ -217,6 +217,212 @@ public class MovementTests {
         assertEquals(expected, actual);
     }
 
+    // ===========================================
+    // Invalid movements
+    // ===========================================
+
+    //Scarlett walking into a wall
+    @Test public void test06(){
+
+        PlayerMovement scarlett = new PlayerMovement("scarlett", Arrays.asList("NORTH", "NORTH", "NORTH", "NORTH", "EAST"));
+
+        List<PlayerMovement> input = Arrays.asList(scarlett);
+
+        String expected =
+                "---------G----W---------\n" +
+                        "-------   ----   -------\n" +
+                        "-kkkk-  ---bb---  -cccc-\n" +
+                        "-kkkk-  -bbbbbb-  -cccc-\n" +
+                        "-kkkk-  -bbbbbb-  @cccc-\n" +
+                        "-kkkk-  @bbbbbb@  ------\n" +
+                        "----@-  -bbbbbb-       C\n" +
+                        "-       -@----@-       -\n" +
+                        "-                 ------\n" +
+                        "-----             @iiii-\n" +
+                        "-ddd----  -----   -iiii-\n" +
+                        "-dddddd-  -eee-   -iiii-\n" +
+                        "-dddddd@  -eee-   ----@-\n" +
+                        "-dddddd-  -eee-        -\n" +
+                        "-dddddd-  -eee-   --@---\n" +
+                        "------@-  -eee-  --yyyy-\n" +
+                        "-         -----  @yyyyy-\n" +
+                        "M                --yyyy-\n" +
+                        "-        --@@--   ------\n" +
+                        "-----@-  -hhhh-        P\n" +
+                        "-lllll- S-hhhh@        -\n" +
+                        "-lllll-  -hhhh-  -@-----\n" +
+                        "-lllll-  -hhhh-  -sssss-\n" +
+                        "-lllll-  -hhhh-  -sssss-\n" +
+                        "------- ----------------\n";
+
+
+        String actual = simulateMove(input);
+        assertEquals(expected, actual);
+    }
+
+    //Scarlett walking into a previously traversed space
+    @Test public void test07(){
+
+        PlayerMovement scarlett = new PlayerMovement("scarlett", Arrays.asList("NORTH", "NORTH", "NORTH", "SOUTH"));
+
+        List<PlayerMovement> input = Arrays.asList(scarlett);
+
+        String expected =
+                "---------G----W---------\n" +
+                        "-------   ----   -------\n" +
+                        "-kkkk-  ---bb---  -cccc-\n" +
+                        "-kkkk-  -bbbbbb-  -cccc-\n" +
+                        "-kkkk-  -bbbbbb-  @cccc-\n" +
+                        "-kkkk-  @bbbbbb@  ------\n" +
+                        "----@-  -bbbbbb-       C\n" +
+                        "-       -@----@-       -\n" +
+                        "-                 ------\n" +
+                        "-----             @iiii-\n" +
+                        "-ddd----  -----   -iiii-\n" +
+                        "-dddddd-  -eee-   -iiii-\n" +
+                        "-dddddd@  -eee-   ----@-\n" +
+                        "-dddddd-  -eee-        -\n" +
+                        "-dddddd-  -eee-   --@---\n" +
+                        "------@-  -eee-  --yyyy-\n" +
+                        "-         -----  @yyyyy-\n" +
+                        "M                --yyyy-\n" +
+                        "-        --@@--   ------\n" +
+                        "-----@-  -hhhh-        P\n" +
+                        "-lllll-  -hhhh@        -\n" +
+                        "-lllll-  -hhhh-  -@-----\n" +
+                        "-lllll-S -hhhh-  -sssss-\n" +
+                        "-lllll-  -hhhh-  -sssss-\n" +
+                        "------- ----------------\n";
+
+
+        String actual = simulateMove(input);
+        assertEquals(expected, actual);
+    }
+
+    //Scarlett walking into a previously traversed space and mustard moving off the board
+    @Test public void test08(){
+
+        PlayerMovement scarlett = new PlayerMovement("scarlett", Arrays.asList("NORTH", "NORTH", "NORTH", "SOUTH"));
+        PlayerMovement mustard = new PlayerMovement("mustard", Arrays.asList("EAST", "EAST", "NORTH", "SOUTH"));
+
+        List<PlayerMovement> input = Arrays.asList(scarlett, mustard);
+
+        String expected =
+                "---------G----W---------\n" +
+                        "-------   ----   -------\n" +
+                        "-kkkk-  ---bb---  -cccc-\n" +
+                        "-kkkk-  -bbbbbb-  -cccc-\n" +
+                        "-kkkk-  -bbbbbb-  @cccc-\n" +
+                        "-kkkk-  @bbbbbb@  ------\n" +
+                        "----@-  -bbbbbb-       C\n" +
+                        "-       -@----@-       -\n" +
+                        "-                 ------\n" +
+                        "-----             @iiii-\n" +
+                        "-ddd----  -----   -iiii-\n" +
+                        "-dddddd-  -eee-   -iiii-\n" +
+                        "-dddddd@  -eee-   ----@-\n" +
+                        "-dddddd-  -eee-        -\n" +
+                        "-dddddd-  -eee-   --@---\n" +
+                        "------@-  -eee-  --yyyy-\n" +
+                        "-         -----  @yyyyy-\n" +
+                        "  M              --yyyy-\n" +
+                        "-        --@@--   ------\n" +
+                        "-----@-  -hhhh-        P\n" +
+                        "-lllll-  -hhhh@        -\n" +
+                        "-lllll-  -hhhh-  -@-----\n" +
+                        "-lllll-S -hhhh-  -sssss-\n" +
+                        "-lllll-  -hhhh-  -sssss-\n" +
+                        "------- ----------------\n";
+
+
+        String actual = simulateMove(input);
+        assertEquals(expected, actual);
+    }
+
+    //Scarlett walking into mustard
+    @Test public void test09(){
+
+        PlayerMovement scarlett = new PlayerMovement("scarlett", Arrays.asList("NORTH", "NORTH", "NORTH", "SOUTH"));
+        PlayerMovement mustard = new PlayerMovement("mustard", Arrays.asList("EAST", "EAST", "NORTH", "SOUTH"));
+        PlayerMovement scarlett2 = new PlayerMovement("scarlett", Arrays.asList("NORTH", "NORTH", "NORTH", "NORTH", "NORTH" , "WEST", "WEST", "WEST"));
+
+        List<PlayerMovement> input = Arrays.asList(scarlett, mustard, scarlett2);
+
+        String expected =
+                "---------G----W---------\n" +
+                        "-------   ----   -------\n" +
+                        "-kkkk-  ---bb---  -cccc-\n" +
+                        "-kkkk-  -bbbbbb-  -cccc-\n" +
+                        "-kkkk-  -bbbbbb-  @cccc-\n" +
+                        "-kkkk-  @bbbbbb@  ------\n" +
+                        "----@-  -bbbbbb-       C\n" +
+                        "-       -@----@-       -\n" +
+                        "-                 ------\n" +
+                        "-----             @iiii-\n" +
+                        "-ddd----  -----   -iiii-\n" +
+                        "-dddddd-  -eee-   -iiii-\n" +
+                        "-dddddd@  -eee-   ----@-\n" +
+                        "-dddddd-  -eee-        -\n" +
+                        "-dddddd-  -eee-   --@---\n" +
+                        "------@-  -eee-  --yyyy-\n" +
+                        "-         -----  @yyyyy-\n" +
+                        "  M S            --yyyy-\n" +
+                        "-        --@@--   ------\n" +
+                        "-----@-  -hhhh-        P\n" +
+                        "-lllll-  -hhhh@        -\n" +
+                        "-lllll-  -hhhh-  -@-----\n" +
+                        "-lllll-  -hhhh-  -sssss-\n" +
+                        "-lllll-  -hhhh-  -sssss-\n" +
+                        "------- ----------------\n";
+
+
+        String actual = simulateMove(input);
+        assertEquals(expected, actual);
+    }
+
+    //Scarlett walking into mustard, then mustard walking into scarlett
+    @Test public void test10(){
+
+        PlayerMovement scarlett = new PlayerMovement("scarlett", Arrays.asList("NORTH", "NORTH", "NORTH", "SOUTH"));
+        PlayerMovement mustard = new PlayerMovement("mustard", Arrays.asList("EAST", "EAST", "NORTH", "SOUTH"));
+        PlayerMovement scarlett2 = new PlayerMovement("scarlett", Arrays.asList("NORTH", "NORTH", "NORTH", "NORTH", "NORTH" , "WEST", "WEST", "WEST"));
+        PlayerMovement mustard2 = new PlayerMovement("mustard", Arrays.asList("SOUTH", "NORTH"));
+
+
+        List<PlayerMovement> input = Arrays.asList(scarlett, mustard, scarlett2, mustard2);
+
+        String expected =
+                "---------G----W---------\n" +
+                        "-------   ----   -------\n" +
+                        "-kkkk-  ---bb---  -cccc-\n" +
+                        "-kkkk-  -bbbbbb-  -cccc-\n" +
+                        "-kkkk-  -bbbbbb-  @cccc-\n" +
+                        "-kkkk-  @bbbbbb@  ------\n" +
+                        "----@-  -bbbbbb-       C\n" +
+                        "-       -@----@-       -\n" +
+                        "-                 ------\n" +
+                        "-----             @iiii-\n" +
+                        "-ddd----  -----   -iiii-\n" +
+                        "-dddddd-  -eee-   -iiii-\n" +
+                        "-dddddd@  -eee-   ----@-\n" +
+                        "-dddddd-  -eee-        -\n" +
+                        "-dddddd-  -eee-   --@---\n" +
+                        "------@-  -eee-  --yyyy-\n" +
+                        "-         -----  @yyyyy-\n" +
+                        "  M S            --yyyy-\n" +
+                        "-        --@@--   ------\n" +
+                        "-----@-  -hhhh-        P\n" +
+                        "-lllll-  -hhhh@        -\n" +
+                        "-lllll-  -hhhh-  -@-----\n" +
+                        "-lllll-  -hhhh-  -sssss-\n" +
+                        "-lllll-  -hhhh-  -sssss-\n" +
+                        "------- ----------------\n";
+
+
+        String actual = simulateMove(input);
+        assertEquals(expected, actual);
+    }
+
     /**
      * Creates a simulation of the game board applying the movements supplied
      * @param moves List of player movements
@@ -230,7 +436,7 @@ public class MovementTests {
         Player scarlett = new Player("flatbench", Board.getCharacter(0));
         Player mustard = new Player("comp102god", Board.getCharacter(1));
         Player white = new Player("shoulderpain", Board.getCharacter(2));
-        Player green = new Player("johngreen", Board.getCharacter(3));
+        Player green = new Player("iqballin", Board.getCharacter(3));
         Player peacock = new Player("mvp", Board.getCharacter(4));
         Player plum = new Player("10plates", Board.getCharacter(5));
 
