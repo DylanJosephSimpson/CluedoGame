@@ -45,6 +45,17 @@ public class MenuSetup {
         MenuWindow.setVisible(true);
         // Run through the container setup, which is a container that is drawn in the contentPane, and holds all of the content inside of it.
         containerSetup(MenuWindow);
+        MenuWindow.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent we) {
+                int result = JOptionPane.showConfirmDialog(MenuWindow,
+                        "Do you want to Exit ?", "Exit Confirmation : ",
+                        JOptionPane.YES_NO_OPTION);
+                if (result == JOptionPane.YES_OPTION)
+                    MenuWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                else if (result == JOptionPane.NO_OPTION)
+                    MenuWindow.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            }
+        });
         MenuWindow.pack();
     }
 
