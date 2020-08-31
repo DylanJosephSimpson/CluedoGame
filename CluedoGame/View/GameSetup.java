@@ -44,7 +44,17 @@ public class GameSetup {
         GameSetupWindow.add(GameInputAreaSetup());
         GameSetupWindow.add(GameOptionAreaSetup());
         GameSetupWindow.add(GameCharactersSetup());
-
+        GameSetupWindow.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent we) {
+                int result = JOptionPane.showConfirmDialog(GameSetupWindow,
+                        "Do you want to Exit ?", "Exit Confirmation : ",
+                        JOptionPane.YES_NO_OPTION);
+                if (result == JOptionPane.YES_OPTION)
+                    GameSetupWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                else if (result == JOptionPane.NO_OPTION)
+                    GameSetupWindow.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            }
+        });
         GameSetupWindow.pack();
 
     }
