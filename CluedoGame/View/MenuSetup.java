@@ -61,6 +61,7 @@ public class MenuSetup {
                     MenuWindow.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             }
         });
+        new MenuSetupController(); 
         MenuWindow.pack();
     }
 
@@ -142,4 +143,17 @@ public class MenuSetup {
     public static JLabel getGameTitleName() {
         return GameTitleName;
     }
+
+    public static JFrame getMenuWindow() {
+        return MenuWindow;
+    }
+
+    public static JPanel getGameTitlePanel() {
+        return GameTitlePanel;
+    }
+
+    public static JButton getStartButton() {
+        return StartButton;
+    }
+
 }
