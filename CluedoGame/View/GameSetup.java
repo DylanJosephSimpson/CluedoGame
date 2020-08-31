@@ -6,6 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 
 public class GameSetup {
 
@@ -197,12 +199,7 @@ public class GameSetup {
             characterInformation.setText("Current Players : " + Player.customToStringForPlayerList());
             characterGroup.clearSelection(); //Clears all selected players to avoid error where you can add Professor Plum
             //indefinitely which would balloon the list to over 6 players
-
         }
-        for(Player player : Player.getPlayerList()) {
-            System.out.println(player);
-        }
-        System.out.println("\n");
     }
 
     /**
@@ -248,6 +245,10 @@ public class GameSetup {
      */
     public void ReturnToMainMenu(){
         Player.getPlayerList().removeAll(Player.getPlayerList());
+        Board.getWeaponCards().removeAll(Board.getWeaponCards());
+        Board.getCharacterCards().removeAll(Board.getCharacterCards());
+        Board.getRoomCards().removeAll(Board.getRoomCards());
+        Board.getAllWeapons().removeAll(Board.getAllWeapons());
         GameSetupWindow.dispose();
         new MenuSetup("Cluedo");
     }
