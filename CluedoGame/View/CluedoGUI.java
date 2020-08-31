@@ -348,20 +348,17 @@ public class CluedoGUI extends JFrame {
         InfoPanel = new JPanel();
         // Set the background of the InfoPanel to blue.
         InfoPanel.setBackground(Color.blue);
-        // TODO COMMENT
         InfoPanel.setLayout(new BorderLayout(10, 10));
         // Call the LoadImages method to ensure that all the Dice and Weapon Images have been loaded.
         // Set the InfoPanelLeft to be a new JPanel.
         JPanel InfoPanelLeft = new JPanel();
         // Set the background of the InfoPanelLeft to white.
         InfoPanelLeft.setBackground(Color.blue);
-        // TODO COMMENT
         InfoPanelLeft.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
         // Set the InfoPanelRight to be a new JPanel.
         JPanel InfoPanelRight = new JPanel();
         // Set the background of the InfoPanelRight to white.
         InfoPanelRight.setBackground(Color.blue);
-        // TODO COMMENT
         InfoPanelRight.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 10));
         // Set the Dice One label to the FaceOne Scaled Image.
         DiceOne = new JLabel(new ImageIcon(ImageLoader.getDiceImages().get(0).getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
@@ -385,6 +382,7 @@ public class CluedoGUI extends JFrame {
         HandCard4 = new JLabel();
         HandCard5 = new JLabel();
         HandCard6 = new JLabel();
+
         HandCard1.setIcon(Board.GetIcon(Board.getCurrentPlayer().getHand().get(0).toString()));
         HandCard1.setToolTipText(Board.getCurrentPlayer().getHand().get(0).toString());
         HandCard2.setIcon(Board.GetIcon(Board.getCurrentPlayer().getHand().get(1).toString()));
@@ -680,7 +678,4 @@ public class CluedoGUI extends JFrame {
     public static int getCurrentPlayerPos() {
         return currentPlayerPos;
     }
-
-
-
 }
