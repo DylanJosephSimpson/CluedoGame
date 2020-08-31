@@ -10,6 +10,7 @@ public class SuggestionSetup {
 
     private JPanel MakeSuggestionWindow;
 
+    //The two Combo Boxes needed for suggestions
     String[] Weapon = new String[]{"Candlestick", "Dagger", "LeadPipe", "Revolver", "Rope", "Spanner"};
     private JLabel WeaponBoxDesc = new JLabel("Weapon Choice");
     private JComboBox<String> WeaponSelection = new JComboBox<>(Weapon);
@@ -18,6 +19,11 @@ public class SuggestionSetup {
     private JLabel CharacterBoxDesc = new JLabel("Character Choice");
     private JComboBox<String> CharacterSelection  = new JComboBox<>(Character);
 
+    /**
+     * Constructor for the Suggestion setup
+     * @param player the player who is making the suggestion
+     * @throws IOException if there are errors pertaining to input or output
+     */
     public SuggestionSetup(Player player) throws IOException {
 
         MakeSuggestionWindow = new JPanel();
@@ -28,6 +34,7 @@ public class SuggestionSetup {
         MakeSuggestionWindow.add(CharacterBoxDesc);
         MakeSuggestionWindow.add(CharacterSelection);
 
+        //Getting the input from the player
         int result = JOptionPane.showConfirmDialog(null, MakeSuggestionWindow,
                 "Make a Suggestion", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION){
