@@ -94,7 +94,7 @@ public class Weapon implements Item {
         return isInvolvedInMurder;
     }
 
-    
+
     @Override
     public String toString() {
         return weaponName;
