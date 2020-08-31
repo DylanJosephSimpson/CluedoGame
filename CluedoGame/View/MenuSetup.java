@@ -1,11 +1,15 @@
 package View;
 
+import Controller.MenuSetupController;
 import Model.*;
-
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.*;
 
 public class MenuSetup {
+
     private static JFrame MenuWindow;
 
     /**
@@ -22,7 +26,9 @@ public class MenuSetup {
      * start button to initialise the game.
      *
      * As of now the MenuJFrame is resizeable, and the content inside of the JFrame
-     **
+     *
+     * //TODO : Anyone better then me at math, change the resizeable math, as it works kinda, but not perfectly.
+     *
      * @param title
      */
     public MenuSetup(String title) {
@@ -45,24 +51,27 @@ public class MenuSetup {
         MenuWindow.setVisible(true);
         // Run through the container setup, which is a container that is drawn in the contentPane, and holds all of the content inside of it.
         containerSetup(MenuWindow);
+        MenuWindow.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent we) {
+                int result = JOptionPane.showConfirmDialog(MenuWindow,
+                        "Do you want to Exit ?", "Exit Confirmation : ",
+                        JOptionPane.YES_NO_OPTION);
+                if (result == JOptionPane.YES_OPTION)
+                    MenuWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                else if (result == JOptionPane.NO_OPTION)
+                    MenuWindow.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            }
+        });
         MenuWindow.pack();
+        new MenuSetupController();
     }
 
-    /**
-     * Setting up the menu container
-     * @param ParentFrame
-     */
     public void containerSetup(JFrame ParentFrame){
         MenuContainer = ParentFrame.getContentPane();
         MenuContainer.add(gameTitlePanelSetup(ParentFrame));
         MenuContainer.add(StartButtonSetup(ParentFrame));
     }
 
-    /**
-     * Setting up the Game title  Panel
-     * @param ParentFrame the overarching frame
-     * @return the setup Game title panel
-     */
     public JPanel gameTitlePanelSetup(JFrame ParentFrame){
         GameTitlePanel = new JPanel();
         GameTitlePanel.setBounds(ParentFrame.getSize().width / 4, ParentFrame.getSize().height / 4, ParentFrame.getSize().width / 2, ParentFrame.getSize().height / 4);
@@ -71,12 +80,6 @@ public class MenuSetup {
         return GameTitlePanel;
     }
 
-    /**
-     * Setting up the Game Title Name
-     * @param ParentFrame the overarching frame
-     * @param ParentPanel the gameTitle setup panel
-     * @return the setup JLabel
-     */
     public JLabel gameTitleNameSetup(JFrame ParentFrame, JPanel ParentPanel){
         GameTitleName = new JLabel("CLUEDO");
         GameTitleName.setBounds(ParentPanel.getBounds().x, ParentPanel.getBounds().y, ParentPanel.getBounds().x, ParentPanel.getBounds().y);
@@ -85,11 +88,6 @@ public class MenuSetup {
         return GameTitleName;
     }
 
-    /**
-     * Setting up the Start button
-     * @param ParentFrame the overarching frame
-     * @return the setup start button
-     */
     public JButton StartButtonSetup(JFrame ParentFrame){
         StartButton = new JButton("Start");
         StartButton.setBackground(new Color(240, 128, 8));
@@ -102,28 +100,26 @@ public class MenuSetup {
         return StartButton;
     }
 
-    /**
-     *  Method for chaning the screen back to game setup
-     * @param title the title of the screen
-     */
     public void ChangeScreen(String title){
         new GameSetup(title);
         MenuWindow.dispose();
     }
 
-    /**
-     * Getter for the menu container
-     * @return the menu container
-     */
+    public static JFrame getMenuWindow() {
+        return MenuWindow;
+    }
+
     public static Container getMenuContainer() {
         return MenuContainer;
     }
 
-    /**
-     * The getter for the JLabel relating to the game title frame
-     * @return the associated JLabel
-     */
+    public static JPanel getGameTitlePanel() {
+        return GameTitlePanel;
+    }
     public static JLabel getGameTitleName() {
         return GameTitleName;
+    }
+    public static JButton getStartButton() {
+        return StartButton;
     }
 }
