@@ -20,12 +20,12 @@ public class Character implements Item {
     /**
      * x-coordinate of where to draw on the board
      */
-    private int x;
+    private int col;
 
     /**
      * y-coordinate of where to draw on the board
      */
-    private int y;
+    private int row;
 
     /**
      * Was the murder committed by this character? (false by default)
@@ -51,11 +51,11 @@ public class Character implements Item {
      *
      * @param characterName Name of the weapon
      */
-    public Character(String characterName , int x, int y) {
+    public Character(String characterName , int row, int y) {
         this.characterName = characterName;
-        this.x = x ;
-        this.y = y;
-        currentTile = new Tile("s",this.x,this.y);
+        this.col = row;
+        this.row = y;
+        currentTile = new Tile("s",this.col,this.row);
     }
 
     @Override
@@ -77,7 +77,7 @@ public class Character implements Item {
     @Override
     public void erase(Graphics g) {
         g.setColor(Color.WHITE);
-        g.fillRect(x+1,y+1,28,28);
+        g.fillRect(col +1, row +1,28,28);
     }
 
     /**
@@ -123,8 +123,8 @@ public class Character implements Item {
      *
     * @return an int representing the x position
      */
-  public int getX() {
-        return x;
+  public int getCol() {
+        return col;
    }
 
     /**
@@ -132,8 +132,8 @@ public class Character implements Item {
      *
      * @return an int Y position
      */
-    public int getY() {
-        return y;
+    public int getRow() {
+        return row;
     }
 
 
@@ -142,8 +142,8 @@ public class Character implements Item {
      *
      * @return an int x position
      */
-   public void setX(int x) {
-        this.x = x;
+   public void setCol(int col) {
+        this.col = col;
     }
 
 
@@ -152,7 +152,7 @@ public class Character implements Item {
      *
      * @return an int y position
      */
-  public void setY(int y) {
-       this.y = y;
+  public void setRow(int row) {
+       this.row = row;
     }
 }
