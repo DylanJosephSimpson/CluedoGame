@@ -2,6 +2,7 @@ package View;
 
 import Model.*;
 import Model.Character;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
@@ -16,6 +17,8 @@ public class CluedoGUI extends JFrame {
 
     //Utility collections used for setup and quick checks
     public static HashMap<String, String> tileTypeToNameMap = new HashMap<>();
+    private static ArrayList<Tile> previouslyTraversedTiles = new ArrayList<>();
+
 
     private static JFrame CluedoGame = new JFrame();
 
@@ -44,7 +47,7 @@ public class CluedoGUI extends JFrame {
     private static JLabel displayName;
     private static JLabel CardPlaceholderCard;
 
-    // Labels for each Model.Card in a Players Hand
+    // Labels for each Card in a Players Hand
     private JLabel CandlestickCard;
     private JLabel DaggerCard;
     private JLabel LeadPipeCard;
@@ -67,78 +70,21 @@ public class CluedoGUI extends JFrame {
     private JLabel BallRoomCard;
     private JLabel DiningRoomCard;
 
+
     public static JMenuItem ExitOption;
     public static JMenuItem RestartGame;
 
-    public static Tile[][] getBoard() {
-        return board;
-    }
-
+    //Board and members associated with the CluedoGUI
     private static Tile[][] board = new Tile[25][24];
     private Board b;
-
+    private static int currentPlayerPos;
     private static boolean hasRolled = false;
 
-    public static JPanel getBoardPanel() {
-        return BoardPanel;
-    }
-
-    private static int currentPlayerPos;
-
-    public static JMenuItem getExitOption() {
-        return ExitOption;
-    }
-
-    public static JMenuItem getRestartGame() {
-        return RestartGame;
-    }
-
-    public static JButton getEndTurn() { return EndTurn; }
-
-    public static JButton getOpenNotes() {
-        return OpenNotes;
-    }
-
-    public static JButton getRollDice() {
-        return RollDice;
-    }
-
-    public static JButton getMakeAccusation() {
-        return MakeAccusation;
-    }
-
-    public static JButton getMakeSuggestion() {
-        return MakeSuggestion;
-    }
-
-    public static JButton getLeaveRoom() {
-        return LeaveRoom;
-    }
-
-    public static JPanel getGameControlPanel() {
-        return GameControlPanel;
-    }
-
-    public static JFrame getCluedoGame() {
-        return CluedoGame;
-    }
-
-    public static boolean isHasRolled() {
-        return hasRolled;
-    }
-
-    private static ArrayList<Tile> previouslyTraversedTiles = new ArrayList<>();
-
-    public static int getCurrentPlayerPos() {
-        return currentPlayerPos;
-    }
-
-    public static ArrayList<Tile> getPreviouslyTraversedTiles() {
-        return previouslyTraversedTiles;
-    }
-
-
-
+    /**
+     * Constructor for the CluedoGUI
+     * @param title the title of the screen
+     * @param board the Board taken
+     */
     public CluedoGUI(String title, Board board) {
         CluedoGame = new JFrame(title);
         this.b = board;
@@ -157,17 +103,24 @@ public class CluedoGUI extends JFrame {
         // Add the InfoPanel to the JFrame.
         CluedoGame.add(GenerateInfoPanel(), BorderLayout.SOUTH);
         // Pack the JFrame so that all its contents are at or above their preferred sizes
-        CluedoGame.setSize(740, 920);
+        CluedoGame.setSize(720, 885);
         CluedoGame.setVisible(true);
         //Implementing a setup method which initialises required variables
     }
 
+    /**
+     * Method for setting the boolean has rolled
+     * @param hasRolled
+     */
     public static void setHasRolled(boolean hasRolled) {
         CluedoGUI.hasRolled = hasRolled;
     }
 
+    /**
+     * Setting up Collections which are useful to the CluedoGUI
+     */
     private void setup() {
-        //Adding all of mappings to a Hashmap
+        //Adding all of the GUI mappings to a Hashmap
         tileTypeToNameMap.put("k", "Kitchen");
         tileTypeToNameMap.put("b", "Ballroom");
         tileTypeToNameMap.put("c", "Conservatory");
@@ -187,6 +140,8 @@ public class CluedoGUI extends JFrame {
         tileTypeToNameMap.put("S", "Scarlett");
         tileTypeToNameMap.put("M", "Mustard");
         tileTypeToNameMap.put("e", "Cellar");
+
+        //Setup the rooms for drawing, generate the cards for drawings and allocate the weapons
         setupRooms();
         generateCards();
         allocateWeapons();
@@ -194,8 +149,6 @@ public class CluedoGUI extends JFrame {
 
     /**
      * Adds the room tiles to their respective rooms. Also adds the room's doorways to the Room objects
-     */
-    /**
      * Adds the room tiles to their respective rooms. Also adds the room's doorways to the Room objects
      */
     private void setupRooms() {
@@ -214,24 +167,35 @@ public class CluedoGUI extends JFrame {
 
     }
 
-    public static void addRoomTiles() {
+    /**
+     * Checks the current layout of the CluedoGUI to assess where the doorway tiles are and which are free
+     */
+    public static void checkDoorwayTiles() {
         for (int row = 3; row < Board.getBoardLayoutArray().length; row++) {
             for (int col = 3; col < Board.getBoardLayoutArray()[row].length; col++) {
                 String tileKey = Board.getBoardLayoutArray()[row][col];
                 if (tileKey.equals("@")) {
-                    utilityMethod(col, row).addDoorWay(new Tile("@", col * 30, row * 30));
+                    doorWayCheckerHelperMethod(col, row).addDoorWay(new Tile("@", col * 30, row * 30));
                 }
             }
         }
     }
 
-    public static Room utilityMethod(int col, int row) {
-        //Check the above tile
+    /**
+     * A helper method for checking for doorways in the current CLUEDOgui
+     * @param col the column to check
+     * @param row the row to check
+     * @return a room associated with the tile
+     */
+    public static Room doorWayCheckerHelperMethod(int col, int row) {
+        //Check the 4 possible places a doorway could be, as this only triggers when a players is North,South,West or East of a tile
         String topMiddleTile = Board.getOriginalBoardLayoutArray()[row - 1][col];
         String midLeftTile = Board.getOriginalBoardLayoutArray()[row][col - 1];
         String midRightTile = Board.getOriginalBoardLayoutArray()[row][col + 1];
         String botMiddleTile = Board.getOriginalBoardLayoutArray()[row + 1][col];
         Pattern pattern = Pattern.compile("[kbcdlhsiy]"); //room symbols
+
+        //If any of the tiles is close to a room return the associated room
 
         if (topMiddleTile.matches(String.valueOf(pattern))) {
             for (Room r : Board.getAllRooms()) {
@@ -259,7 +223,7 @@ public class CluedoGUI extends JFrame {
 
             }
         }
-        throw new RuntimeException("TEST");
+        throw new RuntimeException("Error during tile checking should never occur");
     }
 
     /**
@@ -280,6 +244,9 @@ public class CluedoGUI extends JFrame {
         }
     }
 
+    /**
+     * Generating the cards for the GUI to display
+     */
     private void generateCards() {
         // Generate character cards
         CardPlaceholderCard = new JLabel(Board.GetIcon("Placeholder"));
@@ -327,6 +294,13 @@ public class CluedoGUI extends JFrame {
         ConservatoryCard = new JLabel(Board.GetIcon("Conservatory"));
     }
 
+    /**
+     * Generating the Menu bar
+     * @param menuName the name of the menu
+     * @param optName the optional name one
+     * @param optNameTwo the optional name two
+     * @return the initialised menu bar
+     */
     private JMenuBar GenerateMenu(String menuName, String optName, String optNameTwo) {
         // Create a new JMenuBar
         JMenuBar mainMenu = new JMenuBar();
@@ -344,9 +318,8 @@ public class CluedoGUI extends JFrame {
     }
 
     /**
-     * Draws the board of the game
-     *
-     * @return
+     * Draws the board panel for the game
+     * @return the created panel
      */
     private JPanel GenerateBoardPanel() {
         //calls drawPane and this draws the main section of the board
@@ -355,7 +328,7 @@ public class CluedoGUI extends JFrame {
     }
 
     /**
-     * Method which iterates through the board array and
+     * Method which iterates through the board array and draws the board
      */
     public void drawBoard(Graphics graphics) {
         for (int row = 0; row < 25; ++row) {
@@ -366,6 +339,10 @@ public class CluedoGUI extends JFrame {
         }
     }
 
+    /**
+     * Method for generating the information Panel
+     * @return the initialised Panel
+     */
     private JPanel GenerateInfoPanel() {
         // Set the GameControlPanel to be a new JPanel.
         InfoPanel = new JPanel();
@@ -373,7 +350,7 @@ public class CluedoGUI extends JFrame {
         InfoPanel.setBackground(Color.blue);
         // TODO COMMENT
         InfoPanel.setLayout(new BorderLayout(10, 10));
-        // Call the LoadImages method to ensure that all the Dice and Model.Weapon Images have been loaded.
+        // Call the LoadImages method to ensure that all the Dice and Weapon Images have been loaded.
         // Set the InfoPanelLeft to be a new JPanel.
         JPanel InfoPanelLeft = new JPanel();
         // Set the background of the InfoPanelLeft to white.
@@ -401,6 +378,7 @@ public class CluedoGUI extends JFrame {
         displayName.setHorizontalAlignment(SwingConstants.CENTER);
         InfoPanelLeft.add(displayName);
         Board.dealCards();
+        //Setting the nads to the JLabels and then assigning appropriate values
         HandCard1 = new JLabel();
         HandCard2 = new JLabel();
         HandCard3 = new JLabel();
@@ -413,6 +391,7 @@ public class CluedoGUI extends JFrame {
         HandCard2.setToolTipText(Board.getCurrentPlayer().getHand().get(1).toString());
         HandCard3.setIcon(Board.GetIcon(Board.getCurrentPlayer().getHand().get(2).toString()));
         HandCard3.setToolTipText(Board.getCurrentPlayer().getHand().get(2).toString());
+        //Checks for additional cards e.g when the game is being played by 3,4,5 hence more cards for each player
         if (Board.getCurrentPlayer().getHand().size() > 3) {
             HandCard4.setIcon(Board.GetIcon(Board.getCurrentPlayer().getHand().get(3).toString()));
             HandCard4.setToolTipText(Board.getCurrentPlayer().getHand().get(3).toString());
@@ -441,6 +420,7 @@ public class CluedoGUI extends JFrame {
             HandCard7 = CardPlaceholderCard;
             HandCard7.setToolTipText("Placeholder");
         }
+        //Adding to the Information Panel
         InfoPanelRight.add(HandCard1);
         InfoPanelRight.add(HandCard2);
         InfoPanelRight.add(HandCard3);
@@ -455,6 +435,9 @@ public class CluedoGUI extends JFrame {
         return InfoPanel;
     }
 
+    /**
+     * Generating the random dice roll and image
+     */
     public static void GenerateRandomDice() {
         hasRolled = true;
         int firstDieRoll = (int) (Math.random() * (6)) + 1;
@@ -464,15 +447,20 @@ public class CluedoGUI extends JFrame {
         DiceOne.setIcon(((new ImageIcon(ImageLoader.getDiceImages().get(firstDieRoll - 1).getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
         DiceTwo.setIcon(((new ImageIcon(ImageLoader.getDiceImages().get(secondDieRoll - 1).getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
     }
-
+    /**
+     * Ending the turn for the CluedoGUI for updates
+     */
     public static void endTurn() {
+        //clearing for a new return
         hasRolled = false;
         previouslyTraversedTiles.clear();
         Board.getCurrentPlayer().setMadeSuggestion(false);
+        //Setting the next player in the GUI to the next available player
         currentPlayerPos++;
         if (currentPlayerPos == Player.playerList.size()) {
             currentPlayerPos = 0;
         }
+        //Updating the frames and display visually for the player
         Board.setCurrentPlayer(Player.getPlayerList().get(currentPlayerPos));
         JFrame frame = new JFrame();
         JOptionPane.showMessageDialog(frame, "Your turn is now over, it is now " + Board.getCurrentPlayer().getName() + "'s turn.", "End your turn", JOptionPane.PLAIN_MESSAGE);
@@ -503,6 +491,10 @@ public class CluedoGUI extends JFrame {
         InfoPanel.repaint();
     }
 
+    /**
+     * Method which generates the game control panel
+     * @return the JPanel associated wit the Game panel
+     */
     private JPanel GenerateGameControlPanel() {
         // Set the GameControlPanel to be a new JPanel.
         GameControlPanel = new JPanel();
@@ -523,7 +515,6 @@ public class CluedoGUI extends JFrame {
         MakeSuggestion = new JButton("Make Suggestion");
         LeaveRoom = new JButton("Change Entrance");
         // Add buttonListener to the GameControlPanel's JButtons.
-        // TODO : ADD PROPER FUNCTIONALITY
         // Add the JButtons to the GameControlPanel.
         GameControlPanel.add(EndTurn);
         //GameControlPanel.add(OpenNotes);
@@ -570,4 +561,126 @@ public class CluedoGUI extends JFrame {
             }
         }
     }
+
+    /**
+     * Getting the board as represented by tiles
+     * @return the 2d array of tiles
+     */
+    public static Tile[][] getBoard() {
+        return board;
+    }
+
+    /**
+     * Getting the board panel from the Cluedo GUI
+     * @return the board panel
+     */
+    public static JPanel getBoardPanel() {
+        return BoardPanel;
+    }
+
+    /**
+     * Getting the Exit Option menu item from the Cluedo GUI
+     * @return exit option
+     */
+    public static JMenuItem getExitOption() {
+        return ExitOption;
+    }
+
+    /**
+     * Getting the restart button from the Cluedo GUI
+     * @return the restart game
+     */
+    public static JMenuItem getRestartGame() {
+        return RestartGame;
+    }
+
+    /**
+     * Getting the end turn button from the Cluedo GUI
+     * @return the end turn button
+     */
+    public static JButton getEndTurn() {
+        return EndTurn;
+    }
+
+    /**
+     * Getting the open notes button from the Cluedo GUI
+     * @return the open notes button
+     */
+    public static JButton getOpenNotes() {
+        return OpenNotes;
+    }
+
+    /**
+     * Getting the get Roll dice button from the Cluedo GUI
+     * @return the dice rolled
+     */
+    public static JButton getRollDice() {
+        return RollDice;
+    }
+
+    /**
+     * Getting the make accusation button from the Cluedo GUI
+     * @return accusation button
+     */
+    public static JButton getMakeAccusation() {
+        return MakeAccusation;
+    }
+
+    /**
+     * Getting the make suggestion button from the Cluedo GUI
+     * @return suggestion button
+     */
+    public static JButton getMakeSuggestion() {
+        return MakeSuggestion;
+    }
+    /**
+     * Getting the leave from room button from the Cluedo GUI
+     * @return leave room button button
+     */
+
+    public static JButton getLeaveRoom() {
+        return LeaveRoom;
+    }
+    /**
+     * Getting the Game control button from the Cluedo GUI
+     * @return the game control Panel
+     */
+    public static JPanel getGameControlPanel() {
+        return GameControlPanel;
+    }
+    /**
+     * Getting the frame of the Cluedo game from the Cluedo GUI
+     * @return get Cluedo Game panel
+     */
+
+    public static JFrame getCluedoGame() {
+        return CluedoGame;
+    }
+
+    /**
+     * Getting the previously traversed tiles from the Cluedo GUI
+     * @return previously traversed tiles
+     */
+    public static ArrayList<Tile> getPreviouslyTraversedTiles() {
+        return previouslyTraversedTiles;
+    }
+
+    /**
+     * Getting the boolean which checks if the player has rolled from the Cluedo GUI
+     * @return the has rolled boolean
+     */
+    public static boolean isHasRolled() {
+        return hasRolled;
+    }
+
+    /**
+     * Getting the current player's position based on the Cluedo GUI
+     * @return current player position int
+     */
+    public static int getCurrentPlayerPos() {
+        return currentPlayerPos;
+    }
+
+
+
 }
