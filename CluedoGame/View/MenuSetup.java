@@ -2,7 +2,12 @@ package View;
 
 import Model.*;
 
+import Controller.MenuSetupController;
+import Model.*;
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.*;
 
 public class MenuSetup {
