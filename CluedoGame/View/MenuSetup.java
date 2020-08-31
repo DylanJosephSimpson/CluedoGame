@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.HashSet;
 import javax.swing.*;
 
 public class MenuSetup {
@@ -143,15 +145,27 @@ public class MenuSetup {
     public static JLabel getGameTitleName() {
         return GameTitleName;
     }
-
+    
+    /**
+     * The getter for the JFrame which holds everything
+     * @return the associated JLabel
+     */
     public static JFrame getMenuWindow() {
         return MenuWindow;
     }
-
+    
+    /**
+     * The getter for the JLabel relating to the game title frame
+     * @return the associated JLabel
+     */
     public static JPanel getGameTitlePanel() {
         return GameTitlePanel;
     }
-
+    
+   /**
+     * The getter for the JButton relating to the game title frame
+     * @return the associated JLabel
+     */
     public static JButton getStartButton() {
         return StartButton;
     }
