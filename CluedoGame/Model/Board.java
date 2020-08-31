@@ -89,6 +89,8 @@ public class Board {
      * Method for initialising the board for functionality
      */
     public static void setup() {
+
+
         characterArrayList.clear();
         //Initialising the board based on the setup of the original board
         for (int row = 0; row < boardLayoutArray.length; row++) {
@@ -137,6 +139,8 @@ public class Board {
         characterArrayList.add(Green);
         characterArrayList.add(Peacock);
         characterArrayList.add(Plum);
+
+        Board.getDeckOfCards().clear();
 
        // Setting up deck of cards
         Board.getDeckOfCards().addAll(characterCards);
@@ -252,6 +256,10 @@ public class Board {
         dealableCards.remove(murderRoom);
         dealableCards.remove(murderWeapon);
         dealableCards.remove(murderer);
+
+        for (Player player : Player.getPlayerList()){
+            player.getHand().clear();
+        }
 
         //Adding cards to every player
         for (int i = 0; i < Board.getDeckOfCards().size(); i++) {
@@ -656,5 +664,4 @@ public class Board {
         }
         return output;
     }
-
 }
