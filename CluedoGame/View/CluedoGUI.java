@@ -103,7 +103,7 @@ public class CluedoGUI extends JFrame {
         // Add the InfoPanel to the JFrame.
         CluedoGame.add(GenerateInfoPanel(), BorderLayout.SOUTH);
         // Pack the JFrame so that all its contents are at or above their preferred sizes
-        CluedoGame.setSize(720, 885);
+        CluedoGame.setSize(740, 920);
         CluedoGame.setVisible(true);
         //Implementing a setup method which initialises required variables
     }
