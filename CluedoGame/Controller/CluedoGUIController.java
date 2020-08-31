@@ -4,20 +4,19 @@ import Model.Board;
 import Model.CluedoGUIModel;
 import Model.Player;
 import Model.Tile;
+import View.AccusationSetup;
 import View.CluedoGUI;
+import View.SuggestionSetup;
 
 import javax.swing.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.io.IOException;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CluedoGUIController {
 
     public CluedoGUIController() {
-        
 
         CluedoGUI.getExitOption().addActionListener(e -> CluedoGUIModel.ExitOptionModel());
 
@@ -47,7 +46,7 @@ public class CluedoGUIController {
         });
 
         CluedoGUI.getMakeSuggestion().addActionListener(e -> {
-            if (!Board.getCurrentPlayer().hasMadeSuggestion() && Board.getCurrentPlayer().canMakeActions() && Board.getCurrentPlayer().isInARoom()) {
+            if (!Board.getCurrentPlayer().isMadeSuggestion() && Board.getCurrentPlayer().canMakeActions() && Board.getCurrentPlayer().isInARoom()) {
                 try {
                     CluedoGUIModel.MakeSuggestionValidModel();
                 } catch (IOException ioException) {
@@ -141,25 +140,25 @@ public class CluedoGUIController {
                     CluedoGUI.getPreviouslyTraversedTiles().clear();
                     JOptionPane.showMessageDialog(null, "You now have no more moves", "No more moves", JOptionPane.PLAIN_MESSAGE);
                 }
-                else if ( (e.getX() > Board.getCurrentPlayer().getAssignedCharacter().getCol() + 30
-                      && e.getX() < Board.getCurrentPlayer().getAssignedCharacter().getCol() + 60)
-                      && (e.getY() < Board.getCurrentPlayer().getAssignedCharacter().getRow() + 30) )
+                else if ( (e.getX() > Board.getCurrentPlayer().getAssignedCharacter().getX() + 30
+                      && e.getX() < Board.getCurrentPlayer().getAssignedCharacter().getX() + 60)
+                      && (e.getY() < Board.getCurrentPlayer().getAssignedCharacter().getY() + 30) )
                 {
                     CluedoGUIModel.MoveEastModel(tileY, tileX, pattern);
                 }
-                else if ( ( e.getX() < Board.getCurrentPlayer().getAssignedCharacter().getCol()
-                        && e.getX() > Board.getCurrentPlayer().getAssignedCharacter().getCol() - 30)
-                        && (e.getY() < Board.getCurrentPlayer().getAssignedCharacter().getRow() + 30))
+                else if ( ( e.getX() < Board.getCurrentPlayer().getAssignedCharacter().getX()
+                        && e.getX() > Board.getCurrentPlayer().getAssignedCharacter().getX() - 30)
+                        && (e.getY() < Board.getCurrentPlayer().getAssignedCharacter().getY() + 30))
                 {
                     CluedoGUIModel.MoveWestModel(tileY, tileX, pattern);
                 }
-                else if (e.getY() < Board.getCurrentPlayer().getAssignedCharacter().getRow()
-                        && e.getY() > Board.getCurrentPlayer().getAssignedCharacter().getRow() - 30)
+                else if (e.getY() < Board.getCurrentPlayer().getAssignedCharacter().getY()
+                        && e.getY() > Board.getCurrentPlayer().getAssignedCharacter().getY() - 30)
                 {
                     CluedoGUIModel.MoveNorthModel(tileY, tileX, pattern);
                 }
-                else if (e.getY() > Board.getCurrentPlayer().getAssignedCharacter().getRow() + 30
-                        && e.getY() < Board.getCurrentPlayer().getAssignedCharacter().getRow() + 60)
+                else if (e.getY() > Board.getCurrentPlayer().getAssignedCharacter().getY() + 30
+                        && e.getY() < Board.getCurrentPlayer().getAssignedCharacter().getY() + 60)
                 {
                     CluedoGUIModel.MoveSouthModel(tileY, tileX, pattern);
                 }
@@ -194,9 +193,21 @@ public class CluedoGUIController {
                         JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            Board.getCurrentPlayer().changeEntranceOfPlayer();
+            Board.getCurrentPlayer().leaveFromSuggestion();
             Board.getCurrentPlayer().setRemainingMoves(Board.getCurrentPlayer().getRemainingMoves() - 1);
             CluedoGUI.getCluedoGame().repaint();
+        });
+
+        CluedoGUI.getCluedoGame().addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent we) {
+                int result = JOptionPane.showConfirmDialog(CluedoGUI.getCluedoGame(),
+                        "Do you want to Exit ?", "Exit Confirmation : ",
+                        JOptionPane.YES_NO_OPTION);
+                if (result == JOptionPane.YES_OPTION)
+                    CluedoGUI.getCluedoGame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                else if (result == JOptionPane.NO_OPTION)
+                    CluedoGUI.getCluedoGame().setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            }
         });
 
     }
