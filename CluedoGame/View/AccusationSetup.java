@@ -6,8 +6,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class AccusationSetup {
+
     private JPanel MakeAccusationWindow;
 
+    //The three combo boxes needed for accusations
     String[] Weapon = new String[]{"Candlestick", "Dagger", "Lead Pipe", "Revolver", "Rope", "Spanner"};
     private JLabel WeaponBoxDesc = new JLabel("Weapon Choice");
     private JComboBox<String> WeaponSelection = new JComboBox<>(Weapon);
@@ -20,6 +22,10 @@ public class AccusationSetup {
     private JLabel RoomBoxDesc = new JLabel("Room Choice");
     private JComboBox<String> RoomSelection  = new JComboBox<>(Room);
 
+    /**
+     * Constructor for accusation setup
+     * @param player the player making the accusation
+     */
     public AccusationSetup(Player player){
         MakeAccusationWindow = new JPanel();
 
@@ -34,6 +40,7 @@ public class AccusationSetup {
         MakeAccusationWindow.add(RoomBoxDesc);
         MakeAccusationWindow.add(RoomSelection);
 
+        //MVC implementation to shift control
         int result = JOptionPane.showConfirmDialog(null, MakeAccusationWindow,
                 "Make an Accusation", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION){
