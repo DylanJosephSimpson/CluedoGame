@@ -58,7 +58,7 @@ public class ImageLoader {
     // Strings which are the File Locations for all the Dice Images.
     private static String DiceFaceStart = "DiceFace/DiceFace";
 
-    //List of image objects that are dice related! 
+    //List of image objects that are dice related!
     private static ArrayList<Image> DiceImages = new ArrayList<>();
 
     /**
@@ -105,7 +105,7 @@ public class ImageLoader {
     /**
      * Method for getting a Buffered Image object for the GUI
      * @param imageToGrab the image wanted
-     * @return the Buffered Image 
+     * @return the Buffered Image
      */
     public static BufferedImage GetImage(String imageToGrab){
         switch (imageToGrab){
