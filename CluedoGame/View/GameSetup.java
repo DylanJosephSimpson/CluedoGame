@@ -9,6 +9,9 @@ public class GameSetup {
 
     private final JFrame GameSetupWindow;
 
+    /**
+     * The buttons used for selection during the game setup
+     */
     private final JRadioButton ScarlettButton = new JRadioButton("Scarlett");
     private final JRadioButton MustardButton = new JRadioButton("Mustard");
     private final JRadioButton WhiteButton = new JRadioButton("White");
@@ -17,6 +20,10 @@ public class GameSetup {
     private final JRadioButton PlumButton = new JRadioButton("Plum");
     private  JLabel characterInformation;
 
+    /**
+     * The game setup constructor
+     * @param title the title of the Game setup
+     */
     public GameSetup(String title){
 
         GameSetupWindow = new JFrame(title);
@@ -42,6 +49,10 @@ public class GameSetup {
 
     }
 
+    /**
+     * Method for setting up a Container used for the game setup
+     * @return the Container for the game input area
+     */
     public Container GameInputAreaSetup(){
         Container gameInputArea = new JPanel();
         gameInputArea.setBackground(Color.red);
@@ -59,6 +70,10 @@ public class GameSetup {
         return gameInputArea;
     }
 
+    /**
+     * Method for setting up a Container used for the game setup
+     * @return the Container for the game option area
+     */
     public Container GameOptionAreaSetup(){
         Container gameOptionArea = new JPanel();
         gameOptionArea.setBackground(Color.green);
@@ -75,6 +90,11 @@ public class GameSetup {
 
         return gameOptionArea;
     }
+
+    /**
+     * Method for setting up a Container used for the game setup
+     * @return the Container for the character game input area
+     */
 
     public Container GameCharactersSetup(){
         Container gameCharacters = new JPanel();
@@ -96,6 +116,9 @@ public class GameSetup {
         return gameCharacters;
     }
 
+    /**
+     * Implementation for the adding the characters to the game
+     */
     private void RunAddCharacter(){
 
         JTextField PlayerName = new JTextField(10);
@@ -110,13 +133,13 @@ public class GameSetup {
 
         JPanel myPanel = new JPanel();
 
-        myPanel.add(new JLabel("Model.Player Name : "));
+        myPanel.add(new JLabel("Player Name : "));
 
         myPanel.add(PlayerName);
 
         myPanel.add(Box.createHorizontalStrut(15));
 
-        myPanel.add(new JLabel("Model.Character : "));
+        myPanel.add(new JLabel("Character : "));
 
         myPanel.add(ScarlettButton);
         myPanel.add(MustardButton);
@@ -170,6 +193,9 @@ public class GameSetup {
         System.out.println("\n");
     }
 
+    /**
+     * Start the running of the game
+     */
     public void RunGameStart(){
 
         if (Player.getPlayerList().size() >= 3) {
@@ -204,12 +230,19 @@ public class GameSetup {
                     JOptionPane.ERROR_MESSAGE);
         }
     }
+
+    /**
+     * Returning to the main menu
+     */
     public void ReturnToMainMenu(){
         Player.getPlayerList().removeAll(Player.getPlayerList());
         GameSetupWindow.dispose();
         new MenuSetup("Cluedo");
     }
 
+    /**
+     * Starting the game
+     */
     public void StartGame(){
         GameSetupWindow.dispose();
         Board b = new Board();
