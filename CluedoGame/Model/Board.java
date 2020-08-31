@@ -143,7 +143,7 @@ public class Board {
         Board.getDeckOfCards().addAll(weaponCards);
         Board.getDeckOfCards().addAll(roomCards);
 
-        //generating Murder, Murderweapon and Murder room
+        //generating Murder, Murder weapon and Murder room
         generateMurderer();
         generateMurderWeapon();
         generateMurderRoom();
