@@ -12,6 +12,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * JUnit tests testing the player movement
+ */
 public class MovementTests {
 
     // ===========================================
