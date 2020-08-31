@@ -562,14 +562,12 @@ public class CluedoGUI extends JFrame {
                     int x = r.getRoomTiles().get(count).getCol();
                     int y = r.getRoomTiles().get(count).getRow();
                     //move the player into the room
-                    r.getCharactersInRoom().get(i).currentTile.setX(x);
-                    r.getCharactersInRoom().get(i).currentTile.setY(y);
+                    r.getCharactersInRoom().get(i).currentTile.setCol(x);
+                    r.getCharactersInRoom().get(i).currentTile.setRow(y);
                     CluedoGame.repaint();
                     count--;
                 }
             }
         }
     }
-
-
 }
